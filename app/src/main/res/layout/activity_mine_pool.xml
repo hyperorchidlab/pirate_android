@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/layout_title"
+        android:id="@+id/title"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/miningPoolRecyclerVeiw"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        android:layout_width="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="wrap_content"/>
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="16dp"
+    tools:ignore="ContentDescription"
+    android:paddingEnd="16dp">
+<ImageView
+    android:id="@+id/backIv"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    android:background="@drawable/back"
+    android:layout_marginTop="16dp"
+    android:onClick="onClick"
+    android:visibility="gone"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/createAccountTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="61dp"
+        android:text="@string/createAccount"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/color_4d4d4d"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/passwordTl"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/createAccountTv">
+
+        <EditText
+            android:id="@+id/passwordEt"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:inputType="textPassword"
+            android:lines="1"
+            android:background="@null"
+            android:drawableBottom="@drawable/bg_edittext_selector"
+            android:textColorHint="@color/color_dedee3"
+            android:hint="@string/enter_password"
+            android:importantForAutofill="no" />
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/confirmPasswordTl"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordTl">
+
+        <EditText
+            android:id="@+id/confirmPasswordEt"
+            android:layout_width="match_parent"
+            android:lines="1"
+            android:inputType="textPassword"
+            android:layout_height="56dp"
+            android:background="@null"
+            android:drawableBottom="@drawable/bg_edittext_selector"
+            android:hint="@string/enter_password_twice_here"
+            android:importantForAutofill="no" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/createBtn"
+        app:layout_constraintTop_toBottomOf="@+id/confirmPasswordTl"
+        android:layout_width="0dp"
+        style="?android:attr/borderlessButtonStyle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/bg_rectangle_round4_4d4d4d"
+        android:layout_marginTop="20dp"
+        android:textSize="18sp"
+        android:onClick="onClick"
+        android:textColor="@color/color_ffffff"
+        android:text="@string/create_account_create"
+        android:layout_height="44dp"/>
+    <TextView
+        android:id="@+id/orTv"
+        android:layout_width="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/create_account_or"
+        app:layout_constraintTop_toBottomOf="@+id/createBtn"
+        android:layout_marginTop="16dp"
+        android:textSize="16sp"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/importBtn"
+        app:layout_constraintTop_toBottomOf="@+id/orTv"
+        android:layout_width="0dp"
+        android:onClick="onClick"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:textSize="18sp"
+        android:background="@drawable/bg_rectangle_round4_ffffff_strock1_979797"
+        android:textColor="@color/color_4d4d4d"
+        android:text="@string/create_account_import_account"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_height="wrap_content"/>
+</android.support.constraint.ConstraintLayout>
