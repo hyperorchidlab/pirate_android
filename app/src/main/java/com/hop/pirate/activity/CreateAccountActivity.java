@@ -106,6 +106,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                 Utils.toastTips(getResources().getString(R.string.create_account_success));
                 Utils.clearSharedPref();
                 startActivity(MainActivity.class);
+                finish();
             }
         });
     }
