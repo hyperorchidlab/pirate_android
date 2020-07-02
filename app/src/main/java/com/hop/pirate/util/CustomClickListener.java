@@ -26,5 +26,6 @@ public abstract class CustomClickListener implements View.OnClickListener {
     }
 
     protected abstract void onSingleClick();
+
     protected abstract void onFastClick();
 }

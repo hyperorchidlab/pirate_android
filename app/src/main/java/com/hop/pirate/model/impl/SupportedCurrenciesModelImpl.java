@@ -43,7 +43,7 @@ public class SupportedCurrenciesModelImpl extends BaseModel implements Supported
             @Override
             public void subscribe(ObservableEmitter<List<ExtendToken>> emitter) throws Exception {
                 String jsonStr = AndroidLib.extendTokens(address);
-                if(TextUtils.isEmpty(jsonStr)){
+                if (TextUtils.isEmpty(jsonStr)) {
                     emitter.onError(new PError(context.getString(R.string.get_data_failed)));
                     return;
                 }
@@ -53,9 +53,9 @@ public class SupportedCurrenciesModelImpl extends BaseModel implements Supported
                 List<ExtendToken> extendTokens = new Gson().fromJson(jsonStr, type);
                 Iterator<ExtendToken> iterator = extendTokens.iterator();
 
-                while (iterator.hasNext()){
+                while (iterator.hasNext()) {
                     ExtendToken next = iterator.next();
-                    if(next.getPaymentContract().equals("0x0000000000000000000000000000000000000000")){
+                    if (next.getPaymentContract().equals("0x0000000000000000000000000000000000000000")) {
                         iterator.remove();
                     }
                 }
@@ -64,26 +64,26 @@ public class SupportedCurrenciesModelImpl extends BaseModel implements Supported
                 emitter.onComplete();
             }
         })).subscribe(new Observer<List<ExtendToken>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        addSubscribe(d);
-                    }
+            @Override
+            public void onSubscribe(Disposable d) {
+                addSubscribe(d);
+            }
 
-                    @Override
-                    public void onNext(List<ExtendToken> extendTokens) {
-                        resultCallBack.onSuccess(extendTokens);
-                    }
+            @Override
+            public void onNext(List<ExtendToken> extendTokens) {
+                resultCallBack.onSuccess(extendTokens);
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        resultCallBack.onError(e);
-                    }
+            @Override
+            public void onError(Throwable e) {
+                resultCallBack.onError(e);
+            }
 
-                    @Override
-                    public void onComplete() {
-                        resultCallBack.onComplete();
-                    }
-                });
+            @Override
+            public void onComplete() {
+                resultCallBack.onComplete();
+            }
+        });
     }
 
     @Override

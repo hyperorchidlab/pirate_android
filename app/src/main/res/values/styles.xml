@@ -4,7 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/coloraccent</item>
         <item name="colorAccent">@color/color_424242</item>
     </style>
 
@@ -38,13 +38,13 @@
         <attr name="password_size" format="dimension" />
         <attr name="bg_radius" format="dimension" />
     </declare-styleable>
+
     <style name="payPasswordDialog" parent="@android:style/Theme.Holo.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@style/MyDialogAnimation</item>
-
         <item name="android:windowCloseOnTouchOutside">true</item>
 
     </style>

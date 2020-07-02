@@ -16,9 +16,9 @@ public interface TabSettingModel {
 
     void exportAccount(ContentResolver cr, String data, String fileName, ResultCallBack<String> resultCallBack);
 
-    void getFreeEth(final String address,ResultCallBack<String> resultCallBack);
+    void getFreeEth(final String address, ResultCallBack<String> resultCallBack);
 
-    void getFreeHop(final String address,ResultCallBack<String> resultCallBack);
+    void getFreeHop(final String address, ResultCallBack<String> resultCallBack);
 
     void removeAllSubscribe();
 }

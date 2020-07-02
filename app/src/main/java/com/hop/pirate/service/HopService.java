@@ -65,7 +65,7 @@ public class HopService extends VpnService implements androidLib.VpnDelegate, Ha
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void createNotificationChannel(String channelId){
+    private void createNotificationChannel(String channelId) {
         NotificationChannel chan = new NotificationChannel(channelId,
                 "com.hop.pirate.service", NotificationManager.IMPORTANCE_NONE);
         chan.setLightColor(Color.BLUE);
@@ -74,17 +74,17 @@ public class HopService extends VpnService implements androidLib.VpnDelegate, Ha
         manager.createNotificationChannel(chan);
     }
 
-    void startNotification(){
+    void startNotification() {
         Notification.Builder builder = new Notification.Builder(this.getApplicationContext());
         builder.setContentIntent(mConfigureIntent)
-                .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),R.drawable.notification_icon))
+                .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.notification_icon))
                 .setContentTitle(getString(R.string.notification_title))
                 .setSmallIcon(R.drawable.notification_icon)
                 .setContentText(getString(R.string.notification_title))
                 .setWhen(System.currentTimeMillis());
 
         String channelId = "com.hop.pirate.hop.service.channel";
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotificationChannel(channelId);
             builder.setChannelId(channelId);
         }
@@ -94,7 +94,7 @@ public class HopService extends VpnService implements androidLib.VpnDelegate, Ha
         startForeground(110, notification);
     }
 
-    public void disconnectVPN(){
+    public void disconnectVPN() {
         try {
             mVpnOutputStream.close();
             mVpnOutputStream = null;
@@ -107,6 +107,7 @@ public class HopService extends VpnService implements androidLib.VpnDelegate, Ha
             e.printStackTrace();
         }
     }
+
 
     @Override
     public void onDestroy() {
@@ -125,6 +126,7 @@ public class HopService extends VpnService implements androidLib.VpnDelegate, Ha
 
             FileInputStream inputStream = new FileInputStream(mInterface.getFileDescriptor());
             mVpnOutputStream = new FileOutputStream(mInterface.getFileDescriptor());
+            Log.d("9870", "establishVPN: SysConf.CurPoolAddress=" + SysConf.CurPoolAddress + "    SysConf.CurMinerID" + SysConf.CurMinerID);
             AndroidLib.startVPN(LOCAL_IP + ":41080", SysConf.CurPoolAddress, SysConf.CurMinerID, this);
             IsRunning = true;
             new Thread(new PacketReader(inputStream)).start();
@@ -153,6 +155,7 @@ public class HopService extends VpnService implements androidLib.VpnDelegate, Ha
         IsRunning = false;
         disconnectVPN();
         EventBus.getDefault().post(new EventVPNClosed());
+        stopSelf();
     }
 
     @Override

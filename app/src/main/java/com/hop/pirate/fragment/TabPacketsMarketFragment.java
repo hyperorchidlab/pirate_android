@@ -58,7 +58,7 @@ public class TabPacketsMarketFragment extends BaseFragement implements SwipeRefr
         mEmptyIv = view.findViewById(R.id.emptyIv);
         mEmptyTv = view.findViewById(R.id.emptyTv);
         mRechargeAdapter = new RechargeAdapter(mActivity);
-        mRechargeRecycleView.setLayoutManager(new WrapContentLinearLayoutManager(mActivity,LinearLayoutManager.VERTICAL,false));
+        mRechargeRecycleView.setLayoutManager(new WrapContentLinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         mRechargeRecycleView.setAdapter(mRechargeAdapter);
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -68,11 +68,11 @@ public class TabPacketsMarketFragment extends BaseFragement implements SwipeRefr
     @Override
     public void onRefresh() {
 
-        mTabPacketsMarketModel.getPoolInfos(new ResultCallBack<List<MinePoolBean>>(){
+        mTabPacketsMarketModel.getPoolInfos(new ResultCallBack<List<MinePoolBean>>() {
             @Override
             public void onError(Throwable e) {
                 mSwipeRefreshLayout.setRefreshing(false);
-                Utils.toastException(mActivity,e, Constants.REQUEST_PACKETS_MARKET_ERROR);
+                Utils.toastException(mActivity, e, Constants.REQUEST_PACKETS_MARKET_ERROR);
 
             }
 
@@ -91,10 +91,10 @@ public class TabPacketsMarketFragment extends BaseFragement implements SwipeRefr
 
 
     private void setData() {
-        if(mMinePoolBeans.size()==0){
+        if (mMinePoolBeans.size() == 0) {
             mEmptyIv.setVisibility(View.VISIBLE);
             mEmptyTv.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             mEmptyIv.setVisibility(View.GONE);
             mEmptyTv.setVisibility(View.GONE);
         }
@@ -104,9 +104,10 @@ public class TabPacketsMarketFragment extends BaseFragement implements SwipeRefr
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void eventInitLibSuccess(EventInitLibSuccess eventInitLibSuccess){
+    public void eventInitLibSuccess(EventInitLibSuccess eventInitLibSuccess) {
         setData();
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

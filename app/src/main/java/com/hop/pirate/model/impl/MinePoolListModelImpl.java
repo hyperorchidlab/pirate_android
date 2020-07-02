@@ -63,26 +63,26 @@ public class MinePoolListModelImpl extends BaseModel implements MinePoolListMode
                 emitter.onComplete();
             }
         })).subscribe(new Observer<List<MinePoolBean>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        addSubscribe(d);
-                    }
+            @Override
+            public void onSubscribe(Disposable d) {
+                addSubscribe(d);
+            }
 
-                    @Override
-                    public void onNext(List<MinePoolBean> walletBean) {
-                        resultCallBack.onSuccess(walletBean);
-                    }
+            @Override
+            public void onNext(List<MinePoolBean> walletBean) {
+                resultCallBack.onSuccess(walletBean);
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        resultCallBack.onError(e);
-                    }
+            @Override
+            public void onError(Throwable e) {
+                resultCallBack.onError(e);
+            }
 
-                    @Override
-                    public void onComplete() {
-                        resultCallBack.onComplete();
-                    }
-                });
+            @Override
+            public void onComplete() {
+                resultCallBack.onComplete();
+            }
+        });
     }
 
     @Override

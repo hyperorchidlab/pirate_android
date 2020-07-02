@@ -14,6 +14,7 @@ public class MinerBean implements Serializable {
     private String IP;
 
     private boolean isSelected;
+
     public boolean isSelected() {
         return isSelected;
     }
@@ -43,31 +44,33 @@ public class MinerBean implements Serializable {
         this.time = time;
     }
 
-    public String getZone(){
+    public String getZone() {
         return this.zone;
     }
-    public void setZone(String z){
+
+    public void setZone(String z) {
         this.zone = z;
     }
 
-    public String getIP(){
+    public String getIP() {
         return this.IP;
     }
-    public void setIP(String ip){
+
+    public void setIP(String ip) {
         this.IP = ip;
     }
 
     @Override
     public String toString() {
-        return "[MinerBean]ZONE:"+zone+" time:"+time+" ip:"+IP+" mid:"+MID;
+        return "[MinerBean]ZONE:" + zone + " time:" + time + " ip:" + IP + " mid:" + MID;
     }
 
-    public void TestPing(){
+    public void TestPing() {
         String jsonStr = AndroidLib.testPing(this.MID);
-        if (jsonStr.equals("")){
+        if (jsonStr.equals("")) {
             this.setIP("None");
             this.setTime(-1);
-        }else{
+        } else {
             try {
                 JSONObject obj = new JSONObject(jsonStr);
                 this.setIP(obj.optString("ip"));

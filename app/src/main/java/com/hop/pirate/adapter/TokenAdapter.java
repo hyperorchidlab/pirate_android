@@ -23,11 +23,11 @@ public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.ViewHolder> 
     private List<ExtendToken> mTokenBeans;
     private BaseActivity mContext;
 
-    public interface TokenAdapterItemClick{
+    public interface TokenAdapterItemClick {
         void itemClick(ExtendToken extendToken);
     }
 
-    public TokenAdapter(BaseActivity context, List<ExtendToken> tokenBeans,TokenAdapterItemClick tokenAdapterItemClick) {
+    public TokenAdapter(BaseActivity context, List<ExtendToken> tokenBeans, TokenAdapterItemClick tokenAdapterItemClick) {
         this.mTokenBeans = tokenBeans;
         mContext = context;
         mTokenAdapterItemClick = tokenAdapterItemClick;
@@ -49,7 +49,7 @@ public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.ViewHolder> 
         String curSymbol = Utils.getString(Constants.CUR_TOKENI, ExtendToken.CurTokenI);
         if (tokenBean.getTokenI().equals(curSymbol)) {
             tokenBean.setChecked(true);
-        }else{
+        } else {
             tokenBean.setChecked(false);
         }
         viewHolder.tokenNameTv.setText(tokenBean.getSymbol());

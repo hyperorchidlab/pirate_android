@@ -36,6 +36,7 @@ import com.hop.pirate.model.impl.SupportedCurrenciesModelImpl;
 import com.hop.pirate.model.impl.TabSettingModelImpl;
 import com.hop.pirate.service.WalletWrapper;
 import com.hop.pirate.util.Utils;
+import com.kongzue.dialog.v3.TipDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -185,7 +186,7 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
                 break;
             case R.id.createAccountTv:
                 Intent createIntent = new Intent(mActivity, CreateAccountActivity.class);
-                createIntent.putExtra(IntentKey.SHOW_BACK_BUTTON,true);
+                createIntent.putExtra(IntentKey.SHOW_BACK_BUTTON, true);
                 startActivity(createIntent);
                 break;
             case R.id.transferTv:
@@ -299,6 +300,7 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
             public void onError(Throwable e) {
                 mActivity.dismissDialogFragment();
                 Utils.toastTips(e.getMessage());
+                TipDialog.show(mActivity, R.string.transfer_fail, TipDialog.TYPE.ERROR);
             }
 
             @Override
@@ -309,7 +311,7 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
             @Override
             public void onComplete() {
                 mActivity.dismissDialogFragment();
-                Utils.toastTips(getResources().getString(R.string.wallet_export_success));
+                TipDialog.show(mActivity, R.string.wallet_export_success, TipDialog.TYPE.SUCCESS);
             }
         });
     }

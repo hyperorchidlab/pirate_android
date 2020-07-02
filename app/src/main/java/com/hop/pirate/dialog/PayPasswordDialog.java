@@ -14,57 +14,58 @@ import com.hop.pirate.R;
 
 public class PayPasswordDialog extends Dialog {
 
-	Context mContext;
-	private EditText mPasswordEt;
-	private PasswordCallBack mRechargeFlowCallBack;
-	public interface PasswordCallBack{
-		void callBack(String password);
-	}
+    Context mContext;
+    private EditText mPasswordEt;
+    private PasswordCallBack mRechargeFlowCallBack;
 
-	public PayPasswordDialog(Context context,PasswordCallBack rechargeFlowCallBack) {
-		super(context, R.style.payPasswordDialog);
-		this.mContext=context;
-		this.mRechargeFlowCallBack=rechargeFlowCallBack;
-	}
+    public interface PasswordCallBack {
+        void callBack(String password);
+    }
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.dialog_pay_password);
-		mPasswordEt = findViewById(R.id.keyWordView);
-		findViewById(R.id.sureTv).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mRechargeFlowCallBack.callBack(mPasswordEt.getText().toString().trim());
-				dismiss();
-			}
-		});
+    public PayPasswordDialog(Context context, PasswordCallBack rechargeFlowCallBack) {
+        super(context, R.style.payPasswordDialog);
+        this.mContext = context;
+        this.mRechargeFlowCallBack = rechargeFlowCallBack;
+    }
 
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.dialog_pay_password);
+        mPasswordEt = findViewById(R.id.keyWordView);
+        findViewById(R.id.sureTv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mRechargeFlowCallBack.callBack(mPasswordEt.getText().toString().trim());
+                dismiss();
+            }
+        });
 
-	@Override
-	public void show() {
-		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-		super.show();
-		WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
-		layoutParams.gravity= Gravity.BOTTOM;
-		layoutParams.width= WindowManager.LayoutParams.MATCH_PARENT;
-		layoutParams.height= WindowManager.LayoutParams.WRAP_CONTENT;
+    }
 
-		getWindow().getDecorView().setPadding(0, 0, 0, 0);
+    @Override
+    public void show() {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        super.show();
+        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+        layoutParams.gravity = Gravity.BOTTOM;
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-		getWindow().setAttributes(layoutParams);
-		new Handler().postDelayed(new Runnable(){
-			@Override
-			public void run() {
-				mPasswordEt.setFocusable(true);
-				mPasswordEt.setFocusableInTouchMode(true);
-				mPasswordEt.requestFocus();
-				InputMethodManager inputManager = (InputMethodManager)     mPasswordEt.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-				inputManager.showSoftInput(mPasswordEt, 0);
-			}
-		}, 200);
+        getWindow().getDecorView().setPadding(0, 0, 0, 0);
 
-	}
+        getWindow().setAttributes(layoutParams);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mPasswordEt.setFocusable(true);
+                mPasswordEt.setFocusableInTouchMode(true);
+                mPasswordEt.requestFocus();
+                InputMethodManager inputManager = (InputMethodManager) mPasswordEt.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.showSoftInput(mPasswordEt, 0);
+            }
+        }, 200);
+
+    }
 
 }

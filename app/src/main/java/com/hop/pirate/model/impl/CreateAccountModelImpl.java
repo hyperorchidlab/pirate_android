@@ -34,26 +34,26 @@ public class CreateAccountModelImpl extends BaseModel implements CreateAccountMo
                 emitter.onComplete();
             }
         })).subscribe(new Observer<String>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        addSubscribe(d);
-                    }
+            @Override
+            public void onSubscribe(Disposable d) {
+                addSubscribe(d);
+            }
 
-                    @Override
-                    public void onNext(String tx) {
-                        resultCallBack.onSuccess(tx);
-                    }
+            @Override
+            public void onNext(String tx) {
+                resultCallBack.onSuccess(tx);
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        resultCallBack.onError(e);
-                    }
+            @Override
+            public void onError(Throwable e) {
+                resultCallBack.onError(e);
+            }
 
-                    @Override
-                    public void onComplete() {
-                        resultCallBack.onComplete();
-                    }
-                });
+            @Override
+            public void onComplete() {
+                resultCallBack.onComplete();
+            }
+        });
     }
 
     @Override
@@ -65,26 +65,26 @@ public class CreateAccountModelImpl extends BaseModel implements CreateAccountMo
                 emitter.onComplete();
             }
         })).subscribe(new Observer<String>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        addSubscribe(d);
-                    }
+            @Override
+            public void onSubscribe(Disposable d) {
+                addSubscribe(d);
+            }
 
-                    @Override
-                    public void onNext(String tx) {
-                        resultCallBack.onSuccess(tx);
-                    }
+            @Override
+            public void onNext(String tx) {
+                resultCallBack.onSuccess(tx);
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        resultCallBack.onError(e);
-                    }
+            @Override
+            public void onError(Throwable e) {
+                resultCallBack.onError(e);
+            }
 
-                    @Override
-                    public void onComplete() {
-                        resultCallBack.onComplete();
-                    }
-                });
+            @Override
+            public void onComplete() {
+                resultCallBack.onComplete();
+            }
+        });
     }
 
 

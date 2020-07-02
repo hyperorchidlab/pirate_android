@@ -59,11 +59,11 @@ public class SupportedCurrenciesActivity extends BaseActivity implements Handler
 
     public void refreshTokens() {
         showDialogFragment();
-        mSupportedCurrenciesModel.getSupportedCurrencies(this,WalletWrapper.MainAddress, new ResultCallBack<List<ExtendToken>>() {
+        mSupportedCurrenciesModel.getSupportedCurrencies(this, WalletWrapper.MainAddress, new ResultCallBack<List<ExtendToken>>() {
             @Override
             public void onError(Throwable e) {
                 dismissDialogFragment();
-                Utils.toastException(SupportedCurrenciesActivity.this,e,Constants.REQUEST_SUPPORT_COINS_ERROR);
+                Utils.toastException(SupportedCurrenciesActivity.this, e, Constants.REQUEST_SUPPORT_COINS_ERROR);
             }
 
             @Override
@@ -96,11 +96,11 @@ public class SupportedCurrenciesActivity extends BaseActivity implements Handler
 
     @Override
     public void itemClick(final ExtendToken extendToken) {
-        Utils.ShowOkOrCancelAlert(SupportedCurrenciesActivity.this, getString(R.string.tips),
-                getString(R.string.settting_change_token), new AlertDialogOkCallBack() {
+        Utils.showOkOrCancelAlert(SupportedCurrenciesActivity.this, R.string.tips,
+                R.string.settting_change_token, new AlertDialogOkCallBack() {
 
                     @Override
-                    public void OkClicked(String parameter) {
+                    public void onClickOkButton(String parameter) {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {

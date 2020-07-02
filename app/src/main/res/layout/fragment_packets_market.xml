@@ -2,7 +2,9 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:background="@color/color_ffffff"
     android:layout_height="match_parent">
+
     <TextView
         android:id="@+id/titleTv"
         android:layout_width="wrap_content"
@@ -20,10 +22,11 @@
         android:id="@+id/splitLine"
         android:layout_width="0dp"
         android:layout_height="0.5dp"
-        android:background="@color/menu_split_line"
+        android:background="@color/split_line"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleTv" />
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="0dp"
@@ -32,12 +35,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/splitLine"
         android:layout_height="0dp">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rechargeRecycleView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rechargeRecycleView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </android.support.v4.widget.SwipeRefreshLayout>
+
     <ImageView
         android:id="@+id/emptyIv"
         android:layout_width="240dp"
@@ -47,7 +51,8 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="92dp"
         android:visibility="gone"
-        android:layout_height="200dp"/>
+        android:layout_height="200dp" />
+
     <TextView
         android:id="@+id/emptyTv"
         app:layout_constraintTop_toBottomOf="@+id/emptyIv"
@@ -60,6 +65,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="@string/empty_data"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
 </android.support.constraint.ConstraintLayout>

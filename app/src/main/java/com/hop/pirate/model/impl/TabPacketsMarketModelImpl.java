@@ -33,15 +33,14 @@ public class TabPacketsMarketModelImpl extends BaseModel implements TabPacketsMa
         schedulers(Observable.create(new ObservableOnSubscribe<List<MinePoolBean>>() {
             @Override
             public void subscribe(ObservableEmitter<List<MinePoolBean>> emitter) throws Exception {
-                AndroidLib.syncAllPoolsData();
                 String jsonStr = AndroidLib.poolInfosInMarket();
                 List<MinePoolBean> minePoolBeans = new ArrayList<>();
                 JSONObject pools = new JSONObject(jsonStr);
                 Iterator it = pools.keys();
-                while (it.hasNext()){
+                while (it.hasNext()) {
                     String key = (String) it.next();
                     JSONObject p = pools.optJSONObject(key);
-                    if(p==null){
+                    if (p == null) {
                         continue;
                     }
                     MinePoolBean bean = new MinePoolBean();
@@ -58,26 +57,26 @@ public class TabPacketsMarketModelImpl extends BaseModel implements TabPacketsMa
                 emitter.onComplete();
             }
         })).subscribe(new Observer<List<MinePoolBean>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        addSubscribe(d);
-                    }
+            @Override
+            public void onSubscribe(Disposable d) {
+                addSubscribe(d);
+            }
 
-                    @Override
-                    public void onNext(List<MinePoolBean> minePoolBeans) {
-                        resultCallBack.onSuccess(minePoolBeans);
-                    }
+            @Override
+            public void onNext(List<MinePoolBean> minePoolBeans) {
+                resultCallBack.onSuccess(minePoolBeans);
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        resultCallBack.onError(e);
-                    }
+            @Override
+            public void onError(Throwable e) {
+                resultCallBack.onError(e);
+            }
 
-                    @Override
-                    public void onComplete() {
-                        resultCallBack.onComplete();
-                    }
-                });
+            @Override
+            public void onComplete() {
+                resultCallBack.onComplete();
+            }
+        });
     }
 
     @Override

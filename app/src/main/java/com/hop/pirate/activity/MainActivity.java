@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import com.hop.pirate.Constants;
 import com.hop.pirate.R;
 import com.hop.pirate.base.BaseActivity;
 import com.hop.pirate.callback.ResultCallBack;
+import com.hop.pirate.event.EventClearAllRequest;
 import com.hop.pirate.event.EventCounterDataRead;
 import com.hop.pirate.event.EventInitLibSuccess;
 import com.hop.pirate.event.EventLoadWalletSuccess;
@@ -73,6 +75,7 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
 
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -84,7 +87,7 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
         if (HopService.IsRunning) {
             HopService.Stop();
             AndroidLib.stopProtocol();
-        }else{
+        } else {
             AndroidLib.stopProtocol();
         }
         new Handler().postDelayed(new Runnable() {
@@ -92,14 +95,13 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
             public void run() {
                 initService();
             }
-        },1000);
+        }, 1000);
 
 
     }
 
     void initService() {
         if (HopService.IsRunning) {
-            loadWallet();
             return;
         }
         showDialogFragment(R.string.synchronization_block, false);
@@ -108,6 +110,7 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
             public void onError(Throwable e) {
                 dismissDialogFragment();
                 Utils.toastTips(getString(R.string.init_service_fail));
+                finish();
             }
 
             @Override
@@ -117,18 +120,20 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
 
             @Override
             public void onComplete() {
-                initSysSetting();
-
+                loadWallet();
+                EventBus.getDefault().post(new EventInitLibSuccess());
             }
         });
 
     }
 
-    public void initSysSetting(){
+    public void initSysSetting() {
         mMainModel.initSysSeting(new ResultCallBack<String>() {
             @Override
             public void onError(Throwable e) {
-
+                dismissDialogFragment();
+                Utils.toastException(MainActivity.this, e, 0);
+                finish();
             }
 
             @Override
@@ -292,6 +297,7 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
     public void cancelWaitDialog() {
         super.cancelWaitDialog();
         mMainModel.removeAllSubscribe();
+        EventBus.getDefault().post(new EventClearAllRequest());
     }
 
     @Override
@@ -328,6 +334,18 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
         loadWallet();
     }
 
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            startActivity(intent);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     @Override
     protected void onDestroy() {

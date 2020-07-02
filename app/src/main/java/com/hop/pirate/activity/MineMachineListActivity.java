@@ -115,8 +115,7 @@ public class MineMachineListActivity extends BaseActivity implements View.OnClic
         mMineMachineListModel.getMinemachine(this, SysConf.CurPoolAddress, 16, new ResultCallBack<List<MinerBean>>() {
             @Override
             public void onError(Throwable e) {
-                dismissDialogFragment();
-                Utils.toastException(MineMachineListActivity.this, e, Constants.REQUEST_MINE_MACHINE_ERROR);
+                showErrorDialog(R.string.get_data_failed);
             }
 
             @Override
@@ -128,7 +127,7 @@ public class MineMachineListActivity extends BaseActivity implements View.OnClic
 
             @Override
             public void onComplete() {
-                dismissDialogFragment();
+                showSuccessDialog(R.string.loading_success);
             }
         });
 

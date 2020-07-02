@@ -20,9 +20,9 @@ public class WrapContentLinearLayoutManager extends LinearLayoutManager {
 
     @Override
     public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
-        try{
+        try {
             super.onLayoutChildren(recycler, state);
-        }catch (IndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
         }
     }

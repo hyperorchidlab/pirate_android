@@ -22,6 +22,8 @@ import com.hop.pirate.model.TransferModel;
 import com.hop.pirate.model.impl.TransferModelImpl;
 import com.hop.pirate.service.WalletWrapper;
 import com.hop.pirate.util.Utils;
+import com.kongzue.dialog.interfaces.OnDismissListener;
+import com.kongzue.dialog.v3.TipDialog;
 
 public class TransferOutActivity extends BaseActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
 
@@ -105,8 +107,8 @@ public class TransferOutActivity extends BaseActivity implements View.OnClickLis
 
                 Utils.showPassWord(this, new AlertDialogOkCallBack() {
                     @Override
-                    public void OkClicked(String password) {
-                        showDialogFragment(R.string.transferring,false);
+                    public void onClickOkButton(String password) {
+                        showDialogFragment(R.string.transferring, false);
                         if (checkedEth) {
                             transferEth(password, toAddress, transferNumber);
                         } else {
@@ -124,28 +126,31 @@ public class TransferOutActivity extends BaseActivity implements View.OnClickLis
         mTransferModel.transferToken(password, toAddress, transferNumber, new ResultCallBack<String>() {
             @Override
             public void onError(Throwable e) {
-                dismissDialogFragment();
-                if(e.getMessage().equals("password error")){
+                if (e.getMessage().equals("password error")) {
+                    dismissDialogFragment();
                     Utils.toastTips(getString(R.string.password_eror));
-                }else{
-                    Utils.toastException(TransferOutActivity.this,e, Constants.REQUEST_TRANSFER_ERROR);
+                } else {
+                    showErrorDialog(R.string.transfer_fail);
                 }
 
             }
 
             @Override
             public void onSuccess(String s) {
-                boolean transferStatus = TextUtils.isEmpty(s);
-                new TransferStateDialog(TransferOutActivity.this, !transferStatus).show();
+                boolean transferStatus = !TextUtils.isEmpty(s);
+                if (transferStatus) {
+                    showSuccessDialog(R.string.transfer_success);
+                } else {
+                    showErrorDialog(R.string.transfer_fail);
+                }
             }
 
             @Override
             public void onComplete() {
-                double tokenBalance = WalletWrapper.HopBalance - Double.parseDouble(transferNumber)*Utils.CoinDecimal;
+                double tokenBalance = WalletWrapper.HopBalance - Double.parseDouble(transferNumber) * Utils.CoinDecimal;
                 WalletWrapper.HopBalance = tokenBalance;
-                mTokenCountTv.setText(String.format(getString(R.string.transfer_token_balance), Utils.ConvertCoin( WalletWrapper.HopBalance)));
+                mTokenCountTv.setText(String.format(getString(R.string.transfer_token_balance), Utils.ConvertCoin(WalletWrapper.HopBalance)));
 
-                dismissDialogFragment();
 
             }
         });
@@ -155,29 +160,34 @@ public class TransferOutActivity extends BaseActivity implements View.OnClickLis
         mTransferModel.transferEth(password, toAddress, num, new ResultCallBack<String>() {
             @Override
             public void onError(Throwable e) {
-                dismissDialogFragment();
-                if(e.getMessage().equals("password error")){
+                if (e.getMessage().equals("password error")) {
+                    dismissDialogFragment();
                     Utils.toastTips(getString(R.string.password_eror));
-                }else{
-                    Utils.toastException(TransferOutActivity.this,e, Constants.REQUEST_TRANSFER_ERROR);
+                } else {
+                    showErrorDialog(R.string.transfer_fail);
                 }
             }
 
             @Override
             public void onSuccess(String s) {
-                boolean transferStatus = TextUtils.isEmpty(s);
-                new TransferStateDialog(TransferOutActivity.this, !transferStatus).show();
+                boolean transferStatus = !TextUtils.isEmpty(s);
+                if (transferStatus) {
+                    showSuccessDialog(R.string.transfer_success);
+                } else {
+                    showErrorDialog(R.string.transfer_fail);
+                }
+
             }
 
             @Override
             public void onComplete() {
-                double ethBalance = WalletWrapper.EthBalance - Double.parseDouble(num)*Utils.CoinDecimal;
+                double ethBalance = WalletWrapper.EthBalance - Double.parseDouble(num) * Utils.CoinDecimal;
                 WalletWrapper.EthBalance = ethBalance;
                 mEthCountTv.setText(String.format(getString(R.string.transfer_eth_balance), Utils.ConvertCoin(WalletWrapper.EthBalance)));
-                dismissDialogFragment();
             }
         });
     }
+
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {

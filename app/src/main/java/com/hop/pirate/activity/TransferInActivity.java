@@ -22,7 +22,7 @@ public class TransferInActivity extends BaseActivity {
     public void initViews() {
 
         mTitleTv = findViewById(R.id.titleTv);
-       mBackIv = findViewById(R.id.backIv);
+        mBackIv = findViewById(R.id.backIv);
         mBackIv.setBackgroundResource(R.drawable.back_white);
         mTitleTv.setTextColor(getResources().getColor(R.color.color_ffffff));
         mTitleTv.setText(getResources().getString(R.string.wallet_flow_unit_hop));

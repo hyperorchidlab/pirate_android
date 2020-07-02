@@ -21,8 +21,8 @@ import static java.lang.Thread.sleep;
 
 public class WalletWrapper {
 
-    public static String MainAddress="";
-    public static String SubAddress="";
+    public static String MainAddress = "";
+    public static String SubAddress = "";
     public static double EthBalance;
     public static double HopBalance;
     public static double Approved;
@@ -32,7 +32,7 @@ public class WalletWrapper {
     public static Map<String, String> PoolNameMap = new HashMap<>();
 
 
-    public static void ImportWallet(final String jsonStr,final String auth, final Handler handler){
+    public static void ImportWallet(final String jsonStr, final String auth, final Handler handler) {
 
         new Thread(new Runnable() {
             @Override
@@ -42,27 +42,27 @@ public class WalletWrapper {
                     AndroidLib.importWallet(jsonStr, auth);
                     resetProtocol();
                     message.what = Constants.IMPORT_ACCOUNT_SUCCESS_CODE;
-                }catch (Exception ex){
+                } catch (Exception ex) {
                     message.what = Constants.IMPORT_ACCOUNT_ERR_CODE;
                     message.obj = ex;
                 }
 
-                if (handler != null){
+                if (handler != null) {
                     handler.sendMessage(message);
                 }
             }
         }).start();
     }
 
-    public static String WalletJsonData(){
+    public static String WalletJsonData() {
         return AndroidLib.walletJson();
     }
 
-    public static void closeWallet(){
+    public static void closeWallet() {
         AndroidLib.closeWallet();
     }
 
-    public static void resetProtocol() throws  Exception{
+    public static void resetProtocol() throws Exception {
         AndroidLib.stopProtocol();
         sleep(1000);
         AndroidLib.initProtocol();
@@ -75,14 +75,14 @@ public class WalletWrapper {
     }
 
 
-    public static boolean IsOpen(){
+    public static boolean IsOpen() {
         return AndroidLib.isWalletOpen();
     }
 
     public static void showImportWalletDialog(final BaseActivity mActivity, final String walletStr, final Handler mHandler) {
         Utils.showPassWord(mActivity, new AlertDialogOkCallBack() {
             @Override
-            public void OkClicked(String parameter) {
+            public void onClickOkButton(String parameter) {
                 mActivity.showDialogFragment();
                 WalletWrapper.ImportWallet(walletStr, parameter, mHandler);
             }

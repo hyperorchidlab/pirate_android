@@ -46,7 +46,8 @@
     <string name="empty_account">Empty Account</string>
     <string name="pirate_account">pirate Account</string>
     <string name="create_account_success">Create an account successfully</string>
-    <string name="loading">loading&#8230;</string>
+    <string name="loading">Loading&#8230;</string>
+    <string name="loading_success">Load success</string>
     <string name="intelligentModelTips">Smart</string>
     <string name="waiting">Loading…</string>
     <string name="refresh_node">Refresh node</string>
@@ -180,4 +181,7 @@
     <string name="token_insufficient_balance">%s insufficient balance!</string>
     <string name="current_version_name">Current </string>
     <string name="new_version">View the latest version</string>
+    <string name="network_unavailable">The network is not available, please turn on the network</string>
+    <string name="network_set">Set</string>
+    <string name="close_other_vpn_app">Please close other VPN apps </string>
 </resources>

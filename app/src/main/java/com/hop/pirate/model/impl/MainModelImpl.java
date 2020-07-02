@@ -49,7 +49,9 @@ public class MainModelImpl extends BaseModel implements MainModel {
                 String bypassIPs = IOUtils.toString(ipInput);
                 AndroidLib.initSystem(bypassIPs, Utils.getBaseDir(context), ExtendToken.CurTokenI, ExtendToken.CurPaymentContract, Constants.ETH_API_URL, Constants.DNS, hopDelegate);
                 AndroidLib.initProtocol();
-
+                AndroidLib.syncAllPoolsData();
+                AndroidLib.initSysSeting();
+                AndroidLib.syncPoolsAndUserData();
                 Intent i = new Intent(context, MicroChainService.class);
                 context.startService(i);
                 emitter.onComplete();
@@ -99,26 +101,26 @@ public class MainModelImpl extends BaseModel implements MainModel {
                 emitter.onComplete();
             }
         })).subscribe(new Observer<WalletBean>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        addSubscribe(d);
-                    }
+            @Override
+            public void onSubscribe(Disposable d) {
+                addSubscribe(d);
+            }
 
-                    @Override
-                    public void onNext(WalletBean walletBean) {
-                        resultCallBack.onSuccess(walletBean);
-                    }
+            @Override
+            public void onNext(WalletBean walletBean) {
+                resultCallBack.onSuccess(walletBean);
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        resultCallBack.onError(e);
-                    }
+            @Override
+            public void onError(Throwable e) {
+                resultCallBack.onError(e);
+            }
 
-                    @Override
-                    public void onComplete() {
-                        resultCallBack.onComplete();
-                    }
-                });
+            @Override
+            public void onComplete() {
+                resultCallBack.onComplete();
+            }
+        });
     }
 
     @Override

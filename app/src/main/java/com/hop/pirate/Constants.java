@@ -1,28 +1,28 @@
 package com.hop.pirate;
 
 public class Constants {
-    public static final int SAVEQRCODE=101;
-    public static final int REQUEST_MINE_POOL_CODE =110;
-    public static final int REQUEST_MINE_MACHINE_CODE =111;
-    public static final int LOAD_WALLET_CODE =111;
-    public static final int CREATE_ACCOUNT_SUCCESS_CODE =112;
-    public static final int IMPORT_ACCOUNT_SUCCESS_CODE =113;
-    public static final int IMPORT_ACCOUNT_ERR_CODE =123;
-    public static final int APPLY_FREE_ETH_CODE =114;
-    public static final int APPLY_FREE_TOKEN_CODE =115;
-    public static final int INIT_SERVICE_ERR_CODE =117;
-    public static final int LOAD_ALL_EXTOKENS_CODE =118;
-    public static final int INIT_SERVICE_CODE =119;
-    public static final int INIT_SERVICE_LIB_SUCCESS_CODE =120;
-    public static final int QUERY_TXSTATUS_TIME_OUT_CODE =121;
-    public static final int QUERY_TXSTATUS_SUCCESS_CODE =122;
-    public static final int TRANSFER_ETH =1;
-    public static final int TRANSFER_TOKEN =2;
+    public static final int SAVEQRCODE = 101;
+    public static final int REQUEST_MINE_POOL_CODE = 110;
+    public static final int REQUEST_MINE_MACHINE_CODE = 111;
+    public static final int LOAD_WALLET_CODE = 111;
+    public static final int CREATE_ACCOUNT_SUCCESS_CODE = 112;
+    public static final int IMPORT_ACCOUNT_SUCCESS_CODE = 113;
+    public static final int IMPORT_ACCOUNT_ERR_CODE = 123;
+    public static final int APPLY_FREE_ETH_CODE = 114;
+    public static final int APPLY_FREE_TOKEN_CODE = 115;
+    public static final int INIT_SERVICE_ERR_CODE = 117;
+    public static final int LOAD_ALL_EXTOKENS_CODE = 118;
+    public static final int INIT_SERVICE_CODE = 119;
+    public static final int INIT_SERVICE_LIB_SUCCESS_CODE = 120;
+    public static final int QUERY_TXSTATUS_TIME_OUT_CODE = 121;
+    public static final int QUERY_TXSTATUS_SUCCESS_CODE = 122;
+    public static final int TRANSFER_ETH = 1;
+    public static final int TRANSFER_TOKEN = 2;
 
     public static final int TAB_HOME = 0;
     public static final int TAB_RECHARGE = 1;
 
-    public static final String EXPORT_IMTOKEN ="https://piratevpn.oss-us-west-1.aliyuncs.com/imToken.mp4";
+    public static final String EXPORT_IMTOKEN = "https://piratevpn.oss-us-west-1.aliyuncs.com/imToken.mp4";
     public static final String CUR_PAYMENT_CONTRACT = "cur_payment_contract";
     public static final String CUR_TOKENI = "cur_tokeni";
     public static final String CUR_SYMBOL = "cur_symbol";
@@ -33,7 +33,7 @@ public class Constants {
     public static final String MICROPAY_SYSADDRESS = "0x4291d9Ff189D90Ba875E0fc1Da4D602406DD7D6e";
     public static final String ETH_API_URL = "https://ropsten.infura.io/v3/fe5ffffba0bf46bb9dc27fd5e04cd6cb";
     public static final String DNS = "108.61.223.99";
-    public static final int TIME_OUT = 20;
+    public static final int TIME_OUT = 30;
     public static final int BLOCKCHAIN_TIME_OUT = 80;
 
     public static final int REQUEST_CREATE_ACCOUNT_ERROR = 401;

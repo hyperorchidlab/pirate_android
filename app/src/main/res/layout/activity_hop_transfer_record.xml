@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <include layout="@layout/layout_title"
-        android:id="@+id/title"/>
+
+    <include
+        layout="@layout/layout_title"
+        android:id="@+id/title" />
 
     <ImageView
         android:id="@+id/hopBgIv"
@@ -17,7 +19,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"
-        android:layout_height="140dp"/>
+        android:layout_height="140dp" />
+
     <TextView
         android:id="@+id/ownHopCoinTv"
         android:layout_width="wrap_content"
@@ -28,7 +31,8 @@
         app:layout_constraintStart_toStartOf="@+id/hopBgIv"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
+
     <TextView
         android:id="@+id/ownHopCoinCountTv"
         android:layout_width="wrap_content"
@@ -41,7 +45,8 @@
 
         app:layout_constraintTop_toBottomOf="@+id/ownHopCoinTv"
         app:layout_constraintStart_toStartOf="@+id/hopBgIv"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
+
     <TextView
         android:layout_width="wrap_content"
         android:text="@string/wallet_flow_unit_hop"
@@ -50,7 +55,8 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/ownHopCoinCountTv"
         app:layout_constraintBottom_toBottomOf="@+id/ownHopCoinCountTv"
         app:layout_constraintStart_toEndOf="@+id/ownHopCoinCountTv"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/transferRecordRecyclerView"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +66,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hopBgIv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/turnOutTv"
@@ -76,7 +82,7 @@
         android:text="@string/hop_turn_out"
         android:layout_marginBottom="60dp"
         android:background="@drawable/bg_hop_transfer_turn_out"
-        android:layout_height="40dp"/>
+        android:layout_height="40dp" />
 
     <TextView
         android:id="@+id/transferTv"
@@ -93,5 +99,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="60dp"
         android:background="@drawable/bg_hop_transfer_transfer"
-        android:layout_height="40dp"/>
+        android:layout_height="40dp" />
 </android.support.constraint.ConstraintLayout>

@@ -14,7 +14,7 @@ import java.util.List;
  * @date :   2020/5/26 6:16 PM
  */
 public interface SupportedCurrenciesModel {
-    void getSupportedCurrencies(Context context,String address, ResultCallBack<List<ExtendToken>> resultCallBack);
+    void getSupportedCurrencies(Context context, String address, ResultCallBack<List<ExtendToken>> resultCallBack);
 
     void removeAllSubscribe();
 }

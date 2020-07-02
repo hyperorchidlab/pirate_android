@@ -14,8 +14,10 @@ import androidLib.HopDelegate;
  */
 public interface MainModel {
     void initService(Context context, HopDelegate hopDelegate, ResultCallBack<String> resultCallBack);
+
     void getWalletInfo(Context context, ResultCallBack<WalletBean> resultCallBack);
-    void initSysSeting( ResultCallBack<String> resultCallBack);
+
+    void initSysSeting(ResultCallBack<String> resultCallBack);
 
     void removeAllSubscribe();
 }

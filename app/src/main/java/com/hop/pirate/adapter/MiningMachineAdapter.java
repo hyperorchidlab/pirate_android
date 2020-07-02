@@ -25,7 +25,8 @@ public class MiningMachineAdapter extends RecyclerView.Adapter<MiningMachineAdap
     private Context mContext;
     private int selectedIndex;
     private boolean showTime;
-    private DecimalFormat mDecimalFormat =new DecimalFormat("0.00");
+    private DecimalFormat mDecimalFormat = new DecimalFormat("0.00");
+
     public boolean isShowTime() {
         return showTime;
     }
@@ -58,9 +59,9 @@ public class MiningMachineAdapter extends RecyclerView.Adapter<MiningMachineAdap
         final MinerBean miningMachineBean = mMineMachineBeans.get(position);
         viewHolder.miningMachineTv.setText(miningMachineBean.getMID());
         viewHolder.miningZoneTv.setText(miningMachineBean.getZone());
-        if(miningMachineBean.getTime()==0){
+        if (miningMachineBean.getTime() == 0) {
             viewHolder.miningMachineTimesTv.setVisibility(View.INVISIBLE);
-        }else{
+        } else {
             viewHolder.miningMachineTimesTv.setVisibility(View.VISIBLE);
         }
         viewHolder.miningMachineTimesTv.setText(mDecimalFormat.format(miningMachineBean.getTime()) + ".ms");
@@ -76,7 +77,7 @@ public class MiningMachineAdapter extends RecyclerView.Adapter<MiningMachineAdap
         viewHolder.constraintlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(miningMachineBean.getMID().equals(SysConf.CurMinerID)){
+                if (miningMachineBean.getMID().equals(SysConf.CurMinerID)) {
                     ((Activity) mContext).finish();
                     return;
                 }

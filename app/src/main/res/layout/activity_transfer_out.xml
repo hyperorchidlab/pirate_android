@@ -4,8 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <include layout="@layout/layout_title"
-        android:id="@+id/title"/>
+
+    <include
+        layout="@layout/layout_title"
+        android:id="@+id/title" />
+
     <TextView
         android:id="@+id/toAddressLabTv"
         android:layout_width="wrap_content"
@@ -17,7 +20,8 @@
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
+
     <EditText
         android:id="@+id/toAddressEt"
         android:layout_width="0dp"
@@ -32,7 +36,7 @@
         android:drawableBottom="@drawable/split_line"
         android:background="@android:color/transparent"
         android:hint="@string/transfer_to_money_address"
-        android:layout_height="55dp"/>
+        android:layout_height="55dp" />
 
     <RadioGroup
         android:id="@+id/transferTypeRg"
@@ -41,18 +45,21 @@
         app:layout_constraintStart_toStartOf="@+id/toAddressLabTv"
         android:gravity="center_vertical"
         android:layout_height="90dp">
+
         <RadioButton
             android:id="@+id/ethRb"
             android:layout_width="wrap_content"
             android:text="@string/ethLabel"
             android:checked="true"
-            android:layout_height="45dp"/>
+            android:layout_height="45dp" />
+
         <RadioButton
             android:id="@+id/tokenRb"
             android:layout_width="wrap_content"
             android:text="@string/token"
-            android:layout_height="45dp"/>
+            android:layout_height="45dp" />
     </RadioGroup>
+
     <TextView
         android:id="@+id/ethCountTv"
         android:layout_width="0dp"
@@ -65,7 +72,8 @@
         android:background="@android:color/transparent"
         app:layout_constraintTop_toBottomOf="@+id/toAddressEt"
         android:text="@string/transfer_eth_balance"
-        android:layout_height="45dp"/>
+        android:layout_height="45dp" />
+
     <TextView
         android:id="@+id/tokenCountTv"
         android:layout_width="0dp"
@@ -78,20 +86,21 @@
         android:background="@android:color/transparent"
         app:layout_constraintTop_toBottomOf="@+id/ethCountTv"
         android:text="@string/transfer_token_balance"
-        android:layout_height="45dp"/>
-  <EditText
-      android:id="@+id/transferNumberEt"
-      android:layout_width="0dp"
-      app:layout_constraintStart_toStartOf="@+id/toAddressLabTv"
-      app:layout_constraintEnd_toEndOf="parent"
-      android:layout_marginEnd="16dp"
-      android:hint="@string/transfer_input_transfer_out_money"
-      android:inputType="numberDecimal"
-      android:importantForAutofill="no"
-      android:background="@android:color/transparent"
-      android:drawableBottom="@drawable/split_line"
-      app:layout_constraintTop_toBottomOf="@+id/transferTypeRg"
-      android:layout_height="45dp"/>
+        android:layout_height="45dp" />
+
+    <EditText
+        android:id="@+id/transferNumberEt"
+        android:layout_width="0dp"
+        app:layout_constraintStart_toStartOf="@+id/toAddressLabTv"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/transfer_input_transfer_out_money"
+        android:inputType="numberDecimal"
+        android:importantForAutofill="no"
+        android:background="@android:color/transparent"
+        android:drawableBottom="@drawable/split_line"
+        app:layout_constraintTop_toBottomOf="@+id/transferTypeRg"
+        android:layout_height="45dp" />
 
     <EditText
         android:id="@+id/remarksEt"
@@ -109,7 +118,8 @@
         app:layout_constraintTop_toBottomOf="@+id/transferNumberEt"
         android:layout_marginTop="1dp"
         android:hint="@string/transfer_remarks"
-        android:layout_height="45dp"/>
+        android:layout_height="45dp" />
+
     <View
         android:layout_width="0dp"
         app:layout_constraintTop_toBottomOf="@+id/remarksEt"
@@ -134,5 +144,5 @@
         android:text="@string/hop_turn_out"
         android:background="@drawable/bg_submit_order"
         android:layout_marginEnd="16dp"
-        android:layout_height="45dp"/>
+        android:layout_height="45dp" />
 </android.support.constraint.ConstraintLayout>

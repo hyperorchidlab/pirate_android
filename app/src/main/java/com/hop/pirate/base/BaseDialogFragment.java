@@ -19,128 +19,125 @@ import com.hop.pirate.R;
 
 
 /**
+ *
  */
 public abstract class BaseDialogFragment extends DialogFragment {
 
-	public void setDismissListener(DialogFragmentDismissListener dismissListener) {
-		this.dismissListener = dismissListener;
-	}
+    public void setDismissListener(DialogFragmentDismissListener dismissListener) {
+        this.dismissListener = dismissListener;
+    }
 
-	public DialogFragmentDismissListener dismissListener;
+    public DialogFragmentDismissListener dismissListener;
 
-	protected Activity mActivity;
+    protected Activity mActivity;
 
-	@Override
-	public void onAttach(Context context) {
-		super.onAttach(context);
-		if (context instanceof Activity) {
-			mActivity = (Activity) context;
-		}
-	}
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof Activity) {
+            mActivity = (Activity) context;
+        }
+    }
 
-	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		if (null == savedInstanceState) {
-			if (0 == getSelfTheme()) {
-				setStyle(DialogFragment.STYLE_NO_FRAME, R.style.Theme_BaseDialog);
-			} else {
-				setStyle(DialogFragment.STYLE_NO_FRAME, getSelfTheme());
-			}
-		}
-	}
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (null == savedInstanceState) {
+            if (0 == getSelfTheme()) {
+                setStyle(DialogFragment.STYLE_NO_FRAME, R.style.Theme_BaseDialog);
+            } else {
+                setStyle(DialogFragment.STYLE_NO_FRAME, getSelfTheme());
+            }
+        }
+    }
 
-	@NonNull
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		Dialog dialog = super.onCreateDialog(savedInstanceState);
-		reThemeWindow();
-		return dialog;
-	}
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        reThemeWindow();
+        return dialog;
+    }
 
-	@Override
-	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-	}
+    }
 
-	@Override
-	public void onDismiss(DialogInterface dialog) {
-		super.onDismiss(dialog);
-		if (null != dismissListener) {
-			dismissListener.onDismiss(getTag());
-		}
-	}
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (null != dismissListener) {
+            dismissListener.onDismiss(getTag());
+        }
+    }
 
-	@Override
-	public void onStart() {
-		super.onStart();
-		reSizeWindow();
-	}
+    @Override
+    public void onStart() {
+        super.onStart();
+        reSizeWindow();
+    }
 
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		mActivity = null;
-	}
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mActivity = null;
+    }
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		//		MengdongApp.getInstance().getRefWatcher().watch(this);
-	}
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //		MengdongApp.getInstance().getRefWatcher().watch(this);
+    }
 
-	protected abstract int getSelfTheme();
+    protected abstract int getSelfTheme();
 
-	/**
-	 * 重新设置windowSize,因为window WindowManager.LayoutParams默认是match_parent
-	 */
-	protected abstract void reThemeWindow();
+    /**
+     * 重新设置windowSize,因为window WindowManager.LayoutParams默认是match_parent
+     */
+    protected abstract void reThemeWindow();
 
-	protected abstract void reSizeWindow();
+    protected abstract void reSizeWindow();
 
-	public boolean isFragmentAdded(){
-		return null!=getActivity()&&!getActivity().isFinishing()&&isAdded();
-	}
-
-
+    public boolean isFragmentAdded() {
+        return null != getActivity() && !getActivity().isFinishing() && isAdded();
+    }
 
 
+    public void show(AppCompatActivity activity, String tag) {
+        show(activity, null, tag);
+    }
 
-	public void show(AppCompatActivity activity, String tag) {
-		show(activity, null, tag);
-	}
 
+    public void show(AppCompatActivity activity, Bundle bundle, @NonNull String tag) {
+        if (activity == null || isShowing() || TextUtils.isEmpty(tag))
+            return;
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
 
-	public void show(AppCompatActivity activity, Bundle bundle, @NonNull String tag) {
-		if (activity == null || isShowing() || TextUtils.isEmpty(tag))
-			return;
-		FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        FragmentTransaction mTransaction = fragmentManager.beginTransaction();
 
-		FragmentTransaction mTransaction = fragmentManager.beginTransaction();
-
-		Fragment mFragment = fragmentManager.findFragmentByTag(tag);
-		if (mFragment != null) {
+        Fragment mFragment = fragmentManager.findFragmentByTag(tag);
+        if (mFragment != null) {
 //			mTransaction.remove(mFragment);
-			if (mFragment instanceof DialogFragment && mFragment.isAdded()) {
-				((DialogFragment) mFragment).dismissAllowingStateLoss();
-			}
-		}
-		if (bundle != null) {
-			setArguments(bundle);
-		}
-		mTransaction.add(this, tag);
-		mTransaction.commitAllowingStateLoss();
-	}
+            if (mFragment instanceof DialogFragment && mFragment.isAdded()) {
+                ((DialogFragment) mFragment).dismissAllowingStateLoss();
+            }
+        }
+        if (bundle != null) {
+            setArguments(bundle);
+        }
+        mTransaction.add(this, tag);
+        mTransaction.commitAllowingStateLoss();
+    }
 
 
-
-	protected boolean isShowing() {
-		if (this.getDialog() != null) {
-			return this.getDialog().isShowing();
-		} else {
-			return false;
-		}
-	}
+    protected boolean isShowing() {
+        if (this.getDialog() != null) {
+            return this.getDialog().isShowing();
+        } else {
+            return false;
+        }
+    }
 
 }

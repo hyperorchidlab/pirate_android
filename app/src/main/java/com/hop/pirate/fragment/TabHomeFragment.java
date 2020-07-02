@@ -72,14 +72,10 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
         mHandler = new Handler(this);
         initViews(view);
         updateHomeData();
+        loadConf();
         return view;
     }
 
-    @Override
-    public void onShow() {
-        super.onShow();
-        loadConf();
-    }
 
     private void updateHomeData() {
 
@@ -196,10 +192,14 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
                 startActivityForResult(intent, Constants.REQUEST_MINE_MACHINE_CODE);
                 break;
             case R.id.serviceSwitchTv:
+
+                if (!Utils.isFastClick()) {
+                    return;
+                }
+
                 if (!checkMsgforStartVpnService()) {
                     return;
                 }
-                MinePoolBean.syncPoolsAndUserData();
                 if (HopService.IsRunning) {
                     HopService.Stop();
                 } else {
@@ -233,7 +233,7 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
 
             AlertDialogOkCallBack callBack = new AlertDialogOkCallBack() {
                 @Override
-                public void OkClicked(final String password) {
+                public void onClickOkButton(final String password) {
                     mActivity.showDialogFragment(R.string.open_walet);
                     startHopService(password);
                 }
@@ -282,6 +282,7 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
         if (requestCode == Constants.REQUEST_MINE_POOL_CODE || requestCode == Constants.REQUEST_MINE_MACHINE_CODE) {
             if (HopService.IsRunning) {
                 HopService.Stop();
+                mActivity.stopService(new Intent(mActivity, HopService.class));
             }
             updateHomeData();
         } else if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {
@@ -347,4 +348,5 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
         updateHomeData();
         return false;
     }
+
 }

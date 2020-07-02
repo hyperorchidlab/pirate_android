@@ -22,7 +22,8 @@ import java.util.List;
 public class RechargeAdapter extends RecyclerView.Adapter<RechargeAdapter.ViewHolder> {
     private Context mContext;
     private List<MinePoolBean> mMinePoolBeans;
-    private int[] colorIds={R.color.color_6d97ce,R.color.color_f7aa6e,R.color.color_4cc2d0};
+    private int[] colorIds = {R.color.color_6d97ce, R.color.color_f7aa6e, R.color.color_4cc2d0};
+
     public RechargeAdapter(Context context) {
         mContext = context;
     }
@@ -40,7 +41,7 @@ public class RechargeAdapter extends RecyclerView.Adapter<RechargeAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-        View view =  LayoutInflater.from(mContext).inflate(R.layout.item_recharge, viewGroup, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_recharge, viewGroup, false);
         return new ViewHolder(view);
     }
 
@@ -48,15 +49,15 @@ public class RechargeAdapter extends RecyclerView.Adapter<RechargeAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         final MinePoolBean minePoolBean = mMinePoolBeans.get(i);
         GradientDrawable mDrawable = (GradientDrawable) viewHolder.mConstraintLayout.getBackground();
-        mDrawable.setColor(ContextCompat.getColor(mContext,colorIds[i%3]));
+        mDrawable.setColor(ContextCompat.getColor(mContext, colorIds[i % 3]));
         mDrawable.setCornerRadius(16);
         viewHolder.mConstraintLayout.setBackground(mDrawable);
         viewHolder.minePoolNameTv.setText(minePoolBean.getName());
-        viewHolder.websiteAddressTv.setText(mContext.getString(R.string.websitAddress)+minePoolBean.getWebsiteAddress());
-        viewHolder.emailTv.setText(mContext.getString(R.string.email)+minePoolBean.getEmail());
+        viewHolder.websiteAddressTv.setText(mContext.getString(R.string.websitAddress) + minePoolBean.getWebsiteAddress());
+        viewHolder.emailTv.setText(mContext.getString(R.string.email) + minePoolBean.getEmail());
         viewHolder.minePoolAddressTv.setText(minePoolBean.getAddress());
-        viewHolder.mortgageNumberTv.setText(mContext.getString(R.string.gtn)+Utils.ConvertCoin(minePoolBean.getMortgageNumber()));
-        viewHolder.rechargeTv.setTextColor(ContextCompat.getColor(mContext,colorIds[i%3]));
+        viewHolder.mortgageNumberTv.setText(mContext.getString(R.string.gtn) + Utils.ConvertCoin(minePoolBean.getMortgageNumber()));
+        viewHolder.rechargeTv.setTextColor(ContextCompat.getColor(mContext, colorIds[i % 3]));
         viewHolder.rechargeTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,6 +81,7 @@ public class RechargeAdapter extends RecyclerView.Adapter<RechargeAdapter.ViewHo
         private TextView rechargeTv;
         private TextView minePoolAddressTv;
         private TextView mortgageNumberTv;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mConstraintLayout = itemView.findViewById(R.id.constraintLayout);

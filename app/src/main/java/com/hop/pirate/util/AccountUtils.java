@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
+import android.support.v7.app.AppCompatActivity;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.hop.pirate.R;
@@ -13,24 +14,24 @@ import com.hop.pirate.callback.AlertDialogOkCallBack;
 
 public class AccountUtils {
 
-    public static void importEthAddress(final Activity context,String ethAddress) {
+    public static void importEthAddress(final AppCompatActivity context, String ethAddress) {
         AlertDialogOkCallBack callBack = new AlertDialogOkCallBack() {
             @Override
-            public void OkClicked(String parameter) {
+            public void onClickOkButton(String parameter) {
                 showImportQRChoice(context);
             }
         };
 
         if (!ethAddress.equals("")) {
-            Utils.ShowOkOrCancelAlert(context, context.getString(R.string.sure_replace),
-                    context.getString(R.string.save_ethereum_account), callBack);
+            Utils.showOkOrCancelAlert(context, R.string.sure_replace,
+                    R.string.save_ethereum_account, callBack);
             return;
         }
         showImportQRChoice(context);
     }
 
-    public static void showImportQRChoice(final Activity context){
-        final String[] listItems = {context.getString(R.string.scanning_qr_code),context.getString(R.string.read_album), context.getString(R.string.cancel)};
+    public static void showImportQRChoice(final Activity context) {
+        final String[] listItems = {context.getString(R.string.scanning_qr_code), context.getString(R.string.read_album), context.getString(R.string.cancel)};
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
         mBuilder.setTitle(context.getString(R.string.select_import_mode));
 
@@ -38,8 +39,8 @@ public class AccountUtils {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                if (0 == i){
-                    if (!Utils.checkCamera(context)){
+                if (0 == i) {
+                    if (!Utils.checkCamera(context)) {
                         return;
                     }
 
@@ -51,8 +52,8 @@ public class AccountUtils {
                     ii.setBarcodeImageEnabled(true);
                     ii.initiateScan();
 
-                }else if (1 == i){
-                    if (!Utils.checkStorage(context)){
+                } else if (1 == i) {
+                    if (!Utils.checkStorage(context)) {
                         return;
                     }
 
@@ -65,6 +66,7 @@ public class AccountUtils {
         AlertDialog mDialog = mBuilder.create();
         mDialog.show();
     }
+
     public static void openAlbum(Activity activity) {
         Intent albumIntent = new Intent();
         albumIntent.addCategory(Intent.CATEGORY_OPENABLE);

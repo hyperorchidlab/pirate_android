@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface MineMachineListModel {
 
-    void getMinemachine(Context context,String address, int random, ResultCallBack<List<MinerBean>> resultCallBack);
+    void getMinemachine(Context context, String address, int random, ResultCallBack<List<MinerBean>> resultCallBack);
 
     void removeAllSubscribe();
 }

@@ -20,7 +20,6 @@ import com.hop.pirate.callback.AlertDialogOkCallBack;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.model.CreateAccountModel;
 import com.hop.pirate.model.impl.CreateAccountModelImpl;
-import com.hop.pirate.service.HopService;
 import com.hop.pirate.service.WalletWrapper;
 import com.hop.pirate.util.Utils;
 
@@ -114,14 +113,13 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
     void ImportAccount() {
         AlertDialogOkCallBack callBack = new AlertDialogOkCallBack() {
             @Override
-            public void OkClicked(String parameter) {
+            public void onClickOkButton(String parameter) {
                 showImportQRChoice();
             }
-
         };
         if (!WalletWrapper.IsEmpty()) {
-            Utils.ShowOkOrCancelAlert(this, getString(R.string.sure_replace),
-                    getString(R.string.save_pirate_account), callBack);
+            Utils.showOkOrCancelAlert(this, R.string.sure_replace,
+                    R.string.save_pirate_account, callBack);
             return;
         }
         showImportQRChoice();
@@ -205,7 +203,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
         Utils.showPassWord(this, new AlertDialogOkCallBack() {
 
             @Override
-            public void OkClicked(String password) {
+            public void onClickOkButton(String password) {
                 showDialogFragment();
                 importWallet(password, walletStr);
             }

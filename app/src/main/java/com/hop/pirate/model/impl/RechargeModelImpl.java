@@ -47,26 +47,26 @@ public class RechargeModelImpl extends BaseModel implements RechargeModel {
             }
         }).timeout(Constants.BLOCKCHAIN_TIME_OUT, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<String>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        addSubscribe(d);
-                    }
+            @Override
+            public void onSubscribe(Disposable d) {
+                addSubscribe(d);
+            }
 
-                    @Override
-                    public void onNext(String tx) {
-                        resultCallBack.onSuccess(tx);
-                    }
+            @Override
+            public void onNext(String tx) {
+                resultCallBack.onSuccess(tx);
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        resultCallBack.onError(e);
-                    }
+            @Override
+            public void onError(Throwable e) {
+                resultCallBack.onError(e);
+            }
 
-                    @Override
-                    public void onComplete() {
-                        resultCallBack.onComplete();
-                    }
-                });
+            @Override
+            public void onComplete() {
+                resultCallBack.onComplete();
+            }
+        });
     }
 
     @Override
@@ -86,26 +86,26 @@ public class RechargeModelImpl extends BaseModel implements RechargeModel {
             }
         }).timeout(Constants.BLOCKCHAIN_TIME_OUT, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<String>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        addSubscribe(d);
-                    }
+            @Override
+            public void onSubscribe(Disposable d) {
+                addSubscribe(d);
+            }
 
-                    @Override
-                    public void onNext(String tx) {
-                        resultCallBack.onSuccess(tx);
-                    }
+            @Override
+            public void onNext(String tx) {
+                resultCallBack.onSuccess(tx);
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        resultCallBack.onError(e);
-                    }
+            @Override
+            public void onError(Throwable e) {
+                resultCallBack.onError(e);
+            }
 
-                    @Override
-                    public void onComplete() {
-                        resultCallBack.onComplete();
-                    }
-                });
+            @Override
+            public void onComplete() {
+                resultCallBack.onComplete();
+            }
+        });
     }
 
     @Override
@@ -125,26 +125,26 @@ public class RechargeModelImpl extends BaseModel implements RechargeModel {
 
             }
         })).subscribe(new Observer<Double>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        addSubscribe(d);
-                    }
+            @Override
+            public void onSubscribe(Disposable d) {
+                addSubscribe(d);
+            }
 
-                    @Override
-                    public void onNext(Double mBytesPerToken) {
-                        resultCallBack.onSuccess(mBytesPerToken);
-                    }
+            @Override
+            public void onNext(Double mBytesPerToken) {
+                resultCallBack.onSuccess(mBytesPerToken);
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        resultCallBack.onError(e);
-                    }
+            @Override
+            public void onError(Throwable e) {
+                resultCallBack.onError(e);
+            }
 
-                    @Override
-                    public void onComplete() {
-                        resultCallBack.onComplete();
-                    }
-                });
+            @Override
+            public void onComplete() {
+                resultCallBack.onComplete();
+            }
+        });
     }
 
     @Override

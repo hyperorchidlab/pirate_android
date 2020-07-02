@@ -15,8 +15,12 @@ import java.util.List;
 public interface RechargeModel {
 
     void authorizeTokenSpend(Context context, double tokenNO, ResultCallBack<String> resultCallBack);
-    void buyPacket(Context context,String userAddress,String pollAddress,double tokenNO, ResultCallBack<String> resultCallBack);
-    void getBytesPerToken(Context context,ResultCallBack<Double> resultCallBack);
-    void openWallet(Context context,String password, ResultCallBack<Boolean> resultCallBack);
+
+    void buyPacket(Context context, String userAddress, String pollAddress, double tokenNO, ResultCallBack<String> resultCallBack);
+
+    void getBytesPerToken(Context context, ResultCallBack<Double> resultCallBack);
+
+    void openWallet(Context context, String password, ResultCallBack<Boolean> resultCallBack);
+
     void removeAllSubscribe();
 }

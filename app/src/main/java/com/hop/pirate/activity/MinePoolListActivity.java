@@ -26,6 +26,7 @@ public class MinePoolListActivity extends BaseActivity {
     private RecyclerView mMiningPoolRecyclerVeiw;
     private MinePoolBean mCurrentMinePoolBean;
     private MiningPoolAdapter mMiningPoolAdapter;
+    private static List<MinePoolBean> sMinePoolBeans;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,24 +50,26 @@ public class MinePoolListActivity extends BaseActivity {
             Utils.toastTips(getString(R.string.wallet_read_failed));
             return;
         }
+
         mCurrentMinePoolBean = (MinePoolBean) getIntent().getSerializableExtra(IntentKey.CURRENT_MINE_POOL);
         mMiningPoolRecyclerVeiw.setLayoutManager(new WrapContentLinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
         showDialogFragment();
         mMinePoolListModel.getPoolDataOfUser(MainActivity.sWalletBean.getMain(), new ResultCallBack<List<MinePoolBean>>() {
             @Override
             public void onError(Throwable e) {
-                dismissDialogFragment();
-                Utils.toastException(MinePoolListActivity.this, e, Constants.REQUEST_OWNE_MINE_POOL_ERROR);
+                showErrorDialog(R.string.get_data_failed);
             }
 
             @Override
             public void onSuccess(List<MinePoolBean> minePoolBeans) {
+                sMinePoolBeans = minePoolBeans;
                 mMiningPoolAdapter.setMinePoolBeans(minePoolBeans);
             }
 
             @Override
             public void onComplete() {
-                dismissDialogFragment();
+                showSuccessDialog(R.string.loading_success);
             }
         });
     }

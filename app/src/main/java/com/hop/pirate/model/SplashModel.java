@@ -11,7 +11,7 @@ import com.hop.pirate.callback.ResultCallBack;
  */
 public interface SplashModel {
 
-    void loadWallet(Context context,ResultCallBack<String> resultCallBack);
+    void loadWallet(Context context, ResultCallBack<String> resultCallBack);
 
     void removeAllSubscribe();
 }

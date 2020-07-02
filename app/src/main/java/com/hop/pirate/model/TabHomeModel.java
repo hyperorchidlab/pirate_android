@@ -13,7 +13,8 @@ import com.hop.pirate.model.bean.UserAccountData;
 public interface TabHomeModel {
 
     void getUserDataOfPool(String user, String pool, ResultCallBack<UserAccountData> resultCallBack);
-    void openWallet(Context context,String password, ResultCallBack<Boolean> resultCallBack);
+
+    void openWallet(Context context, String password, ResultCallBack<Boolean> resultCallBack);
 
     void removeAllSubscribe();
 }

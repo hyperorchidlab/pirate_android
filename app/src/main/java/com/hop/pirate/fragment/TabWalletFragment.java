@@ -1,10 +1,12 @@
 package com.hop.pirate.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +18,9 @@ import com.hop.pirate.R;
 import com.hop.pirate.activity.MainActivity;
 import com.hop.pirate.adapter.MinePoolForWalletAdapter;
 import com.hop.pirate.callback.ResultCallBack;
+import com.hop.pirate.event.EventClearAllRequest;
 import com.hop.pirate.event.EventLoadWalletSuccess;
+import com.hop.pirate.event.EventRechargeSuccess;
 import com.hop.pirate.event.EventSkipTabPacketsMarket;
 import com.hop.pirate.model.TabWalletModel;
 import com.hop.pirate.model.bean.ExtendToken;
@@ -89,24 +93,21 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
         mMinePoolRecyclerView.setAdapter(mMinePoolForWalletAdapter);
     }
 
+    @Override
+    public void onShow() {
+        super.onShow();
+        initData();
+    }
+
     private void initData() {
         if (MainActivity.sWalletBean == null) {
-         Utils.toastTips(getString(R.string.wallet_read_failed));
+            Utils.toastTips(getString(R.string.wallet_read_failed));
             return;
         }
         mHopNumberTv.setText(Utils.ConvertCoin(MainActivity.sWalletBean.getHop()));
         mEthNumberTv.setText(Utils.ConvertCoin(MainActivity.sWalletBean.getEth()));
         mHopTv.setText(ExtendToken.CurSymbol);
         mHopUintTv.setText(ExtendToken.CurSymbol);
-
-
-    }
-
-    @Override
-    public void onShow() {
-        super.onShow();
-        ((MainActivity) mActivity).loadWallet();
-        getPoolDataOfUser();
     }
 
     @Override
@@ -114,6 +115,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
         switch (v.getId()) {
             case R.id.refreshMinPoolTv:
                 mActivity.showDialogFragment();
+                ((MainActivity) mActivity).loadWallet();
                 getPoolDataOfUser();
                 break;
             case R.id.addMinePoolBgIv:
@@ -133,7 +135,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
             @Override
             public void onError(Throwable e) {
                 mActivity.dismissDialogFragment();
-                Utils.toastException(mActivity,e, Constants.REQUEST_OWNE_MINE_POOL_ERROR);
+                Utils.toastException(mActivity, e, Constants.REQUEST_OWNE_MINE_POOL_ERROR);
             }
 
             @Override
@@ -160,6 +162,17 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
     public void loadWalletSuccess(EventLoadWalletSuccess eventLoadWalletSuccess) {
         initData();
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void clearAllRequest(EventClearAllRequest eventClearAllRequest) {
+        mTabWalletModel.removeAllSubscribe();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void rechargeSuccess(EventRechargeSuccess eventRechargeSuccess) {
+        getPoolDataOfUser();
+    }
+
 
     @Override
     public void onDestroy() {

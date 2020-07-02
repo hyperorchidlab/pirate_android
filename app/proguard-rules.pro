@@ -137,3 +137,14 @@
 
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
+
+-keep class com.kongzue.dialog.** { *; }
+-dontwarn com.kongzue.dialog.**
+
+-keep class android.view.** { *; }
+
+-dontwarn android.support.v8.renderscript.**
+-keep public class android.support.v8.renderscript.** { *; }
+
+-dontwarn androidx.renderscript.**
+-keep public class androidx.renderscript.** { *; }

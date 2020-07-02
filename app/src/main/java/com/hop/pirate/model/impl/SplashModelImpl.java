@@ -29,10 +29,10 @@ public class SplashModelImpl extends BaseModel implements SplashModel {
         Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(ObservableEmitter<String> emitter) throws Exception {
-                 File file = new File(Utils.getBaseDir(context)+"/wallet.json");
-                if (file.exists()){
+                File file = new File(Utils.getBaseDir(context) + "/wallet.json");
+                if (file.exists()) {
                     emitter.onComplete();
-                }else{
+                } else {
                     emitter.onError(new PError("no wallet"));
                 }
             }

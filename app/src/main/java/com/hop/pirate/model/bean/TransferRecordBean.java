@@ -5,6 +5,7 @@ public class TransferRecordBean {
     private double hopCount;
     private String transfrom;
     private long time;
+
     public TransferRecordBean(double hopCount, String transfrom, long time) {
         this.hopCount = hopCount;
         this.transfrom = transfrom;

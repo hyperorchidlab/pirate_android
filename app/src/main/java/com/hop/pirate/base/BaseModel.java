@@ -13,7 +13,7 @@ import io.reactivex.schedulers.Schedulers;
 public class BaseModel {
     protected CompositeDisposable mCompositeDisposable;
 
-    protected   <T> Observable <T>schedulers(Observable<T> observable) {
+    protected <T> Observable<T> schedulers(Observable<T> observable) {
         return observable.timeout(Constants.TIME_OUT, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
 

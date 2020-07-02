@@ -1,7 +1,7 @@
 package com.hop.pirate;
 
 public class IntentKey {
-    public static final String OPERATION_TYPE="operation_type";
+    public static final String OPERATION_TYPE = "operation_type";
     public static final String WEB_URL = "web_url";
     public static final String FROM_ACCROUNT_MANAGER = "from_accrount_manager";
     public static final String FROM_CREATE_ACCOUNT = "from_create_account";

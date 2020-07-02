@@ -6,12 +6,10 @@ public class EventCounterDataRead {
     }
 
     private String CreditStr;
+
     public EventCounterDataRead(String CreditStr) {
         this.CreditStr = CreditStr;
     }
-
-
-
 
 
 }

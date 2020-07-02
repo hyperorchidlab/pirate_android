@@ -23,7 +23,7 @@ public class ShowQRImageActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void initViews() {
         mQRIV = findViewById(R.id.QRIV);
-       findViewById(R.id.constraintLayout).setOnClickListener(this);
+        findViewById(R.id.constraintLayout).setOnClickListener(this);
 
         mQRIV.setOnClickListener(this);
     }
@@ -35,6 +35,6 @@ public class ShowQRImageActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-     ActivityCompat.finishAfterTransition(this);
+        ActivityCompat.finishAfterTransition(this);
     }
 }

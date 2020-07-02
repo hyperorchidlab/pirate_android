@@ -1,5 +1,9 @@
 package com.hop.pirate.callback;
 
-public interface AlertDialogOkCallBack {
-    void OkClicked(String parameter);
+public abstract class AlertDialogOkCallBack {
+    public abstract void onClickOkButton(String parameter);
+
+    public void onClickCancelButton() {
+
+    }
 }

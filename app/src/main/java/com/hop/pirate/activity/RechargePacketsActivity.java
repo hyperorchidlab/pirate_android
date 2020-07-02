@@ -51,6 +51,7 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
     private TextView mHopAddressTitleTv;
     private TextView mHopCoinTv;
     String sysbol;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -152,12 +153,12 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
 
     @Override
     public void recharge(final double tokenNO) {
-        if (WalletWrapper.EthBalance/Utils.CoinDecimal <0.0001) {
+        if (WalletWrapper.EthBalance / Utils.CoinDecimal < 0.0001) {
             Utils.toastTips(getString(R.string.eth_insufficient_balance));
             return;
         }
         if (WalletWrapper.HopBalance < tokenNO) {
-            Utils.toastTips(String.format(getString(R.string.token_insufficient_balance),sysbol));
+            Utils.toastTips(String.format(getString(R.string.token_insufficient_balance), sysbol));
             return;
         }
         new PayPasswordDialog(this, new PayPasswordDialog.PasswordCallBack() {

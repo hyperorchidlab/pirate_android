@@ -13,7 +13,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@drawable/bg_minpool_top"
-        android:layout_height="64dp"/>
+        android:layout_height="64dp" />
+
     <TextView
         android:id="@+id/minePoolNameTv"
         android:layout_width="wrap_content"
@@ -36,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/minePoolNameTv"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="2dp"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/rechargeTv"
@@ -61,7 +62,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topbgIv"
         android:background="@drawable/bg_minpool_bottom"
-        android:layout_height="64dp"/>
+        android:layout_height="64dp" />
 
 
     <TextView
@@ -79,6 +80,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tokenTv"
         android:gravity="start" />
+
     <TextView
         android:id="@+id/tokenTv"
         android:layout_width="0dp"
@@ -94,6 +96,7 @@
         app:layout_constraintStart_toEndOf="@+id/packetsTv"
         app:layout_constraintEnd_toStartOf="@+id/creditTv"
         android:gravity="start" />
+
     <TextView
         android:id="@+id/creditTv"
         android:layout_width="0dp"
@@ -107,7 +110,7 @@
         android:textStyle="bold"
         tools:text="credit"
         android:textColor="@color/color_ffffff"
-        app:layout_constraintTop_toTopOf="@+id/bottomBgIv"/>
+        app:layout_constraintTop_toTopOf="@+id/bottomBgIv" />
 
 
     <View
@@ -116,6 +119,6 @@
         android:background="@drawable/split_line"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_height="0.5dp"/>
+        android:layout_height="0.5dp" />
 
 </android.support.constraint.ConstraintLayout>

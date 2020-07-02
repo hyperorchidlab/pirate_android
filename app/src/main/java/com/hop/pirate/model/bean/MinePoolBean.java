@@ -11,10 +11,10 @@ import java.util.List;
 
 import androidLib.AndroidLib;
 
-public class MinePoolBean  implements Serializable {
+public class MinePoolBean implements Serializable {
     public static String TAG = "Miner Pool Bean";
 
-    public static void syncPoolsAndUserData(){
+    public static void syncPoolsAndUserData() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -23,10 +23,11 @@ public class MinePoolBean  implements Serializable {
         }).start();
     }
 
-    public MinePoolBean(){
+    public MinePoolBean() {
 
     }
-    public MinePoolBean(String name, String websiteAddress,String email, int miningMachineNumber, int mortgage, int user) {
+
+    public MinePoolBean(String name, String websiteAddress, String email, int miningMachineNumber, int mortgage, int user) {
         this.name = name;
         this.websiteAddress = websiteAddress;
         mineMachineNumber = miningMachineNumber;

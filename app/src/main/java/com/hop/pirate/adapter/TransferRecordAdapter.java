@@ -25,7 +25,6 @@ public class TransferRecordAdapter extends RecyclerView.Adapter<TransferRecordAd
     }
 
 
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -36,26 +35,26 @@ public class TransferRecordAdapter extends RecyclerView.Adapter<TransferRecordAd
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         TransferRecordBean transferRecordBean = transferRecordBeans.get(i);
-        viewHolder.transferCountTv.setText(transferRecordBean.getHopCount()+" "+mContext.getString(R.string.wallet_flow_unit_hop));
+        viewHolder.transferCountTv.setText(transferRecordBean.getHopCount() + " " + mContext.getString(R.string.wallet_flow_unit_hop));
         viewHolder.transferTime.setText(TimeUtil.forTime(transferRecordBean.getTime()));
-        viewHolder.transferPerson.setText(transferRecordBean.getTransfrom()+mContext.getString(R.string.hop_transfer_to_me));
+        viewHolder.transferPerson.setText(transferRecordBean.getTransfrom() + mContext.getString(R.string.hop_transfer_to_me));
     }
 
     @Override
     public int getItemCount() {
-        return transferRecordBeans == null ? 0 :transferRecordBeans.size();
+        return transferRecordBeans == null ? 0 : transferRecordBeans.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
         private TextView transferCountTv;
         private TextView transferTime;
         private TextView transferPerson;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            transferCountTv=itemView.findViewById(R.id.transferCountTv);
-            transferTime=itemView.findViewById(R.id.transferTime);
-            transferPerson=itemView.findViewById(R.id.transferPerson);
+            transferCountTv = itemView.findViewById(R.id.transferCountTv);
+            transferTime = itemView.findViewById(R.id.transferTime);
+            transferPerson = itemView.findViewById(R.id.transferPerson);
         }
     }
 

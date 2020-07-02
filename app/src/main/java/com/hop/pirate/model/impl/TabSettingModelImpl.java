@@ -23,7 +23,7 @@ import io.reactivex.schedulers.Schedulers;
  * @author: mr.x
  * @date :   2020/5/27 9:09 AM
  */
-public class TabSettingModelImpl  extends BaseModel implements TabSettingModel {
+public class TabSettingModelImpl extends BaseModel implements TabSettingModel {
 
     @Override
     public void exportAccount(final ContentResolver cr, final String data, final String fileName, final ResultCallBack<String> resultCallBack) {

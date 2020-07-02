@@ -12,7 +12,7 @@ import androidLib.AndroidLib;
  * TODO: Customize class - update intent actions, extra parameters and static
  * helper methods.
  */
-public class MicroChainService extends IntentService{
+public class MicroChainService extends IntentService {
 
     public MicroChainService() {
         super("MicroChainService");

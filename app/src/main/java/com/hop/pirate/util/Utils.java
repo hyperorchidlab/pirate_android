@@ -2,27 +2,26 @@ package com.hop.pirate.util;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.app.ActivityManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Looper;
 import android.provider.MediaStore;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
+import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
@@ -35,17 +34,23 @@ import com.google.zxing.Result;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.HybridBinarizer;
 import com.hop.pirate.Constants;
-import com.hop.pirate.PError;
-import com.hop.pirate.model.bean.ExtendToken;
-import com.journeyapps.barcodescanner.BarcodeEncoder;
-import com.kongzue.dialog.v2.MessageDialog;
 import com.hop.pirate.HopApplication;
+import com.hop.pirate.PError;
 import com.hop.pirate.R;
 import com.hop.pirate.callback.AlertDialogOkCallBack;
 import com.hop.pirate.callback.SaveQRCodeCallBack;
+import com.hop.pirate.model.bean.ExtendToken;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
+import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
+import com.kongzue.dialog.interfaces.OnInputDialogButtonClickListener;
+import com.kongzue.dialog.util.BaseDialog;
+import com.kongzue.dialog.util.InputInfo;
+import com.kongzue.dialog.v3.InputDialog;
+import com.kongzue.dialog.v3.MessageDialog;
 
 import java.io.File;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeoutException;
 
@@ -112,29 +117,40 @@ public final class Utils {
     }
 
 
-    public static void ShowOkOrCancelAlert(Context context, String tittle, String message, final AlertDialogOkCallBack callBack) {
+    public static void showOkAlert(AppCompatActivity context, int tittleID, int messageId, final AlertDialogOkCallBack callBack) {
+        MessageDialog.show(context, context.getString(tittleID), context.getString(messageId), context.getString(R.string.sure)).setOnOkButtonClickListener(new OnDialogButtonClickListener() {
 
-        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
-        alertDialog.setTitle(tittle);
-        alertDialog.setMessage(message);
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, context.getString(R.string.sure),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        callBack.OkClicked("");
-                    }
-                });
-
-        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, context.getString(R.string.cancel),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
+            @Override
+            public boolean onClick(BaseDialog baseDialog, View v) {
+                if (callBack != null) {
+                    callBack.onClickOkButton("");
+                }
+                return false;
+            }
+        });
     }
+
+    public static void showOkOrCancelAlert(AppCompatActivity context, int tittleID, int messageId, final AlertDialogOkCallBack callBack) {
+        MessageDialog.show(context, context.getString(tittleID), context.getString(messageId), context.getString(R.string.sure), context.getString(R.string.cancel)).setOnOkButtonClickListener(new OnDialogButtonClickListener() {
+
+            @Override
+            public boolean onClick(BaseDialog baseDialog, View v) {
+                if (callBack != null) {
+                    callBack.onClickOkButton("");
+                }
+                return false;
+            }
+        }).setOnCancelButtonClickListener(new OnDialogButtonClickListener() {
+            @Override
+            public boolean onClick(BaseDialog baseDialog, View v) {
+                if (callBack != null) {
+                    callBack.onClickCancelButton();
+                }
+                return false;
+            }
+        });
+    }
+
 
     static Toast toast = null;
 
@@ -153,13 +169,15 @@ public final class Utils {
         }
     }
 
+
     public static void toastException(Context context, Throwable err, int errCode) {
-        int requestErrorId = 0;
+
         if (err instanceof TimeoutException) {
-            requestErrorId = R.string.request_time_out;
+            toastTips(context.getString(R.string.request_time_out));
         } else if (err instanceof PError) {
             toastTips(err.getMessage());
         } else {
+            int requestErrorId = 0;
             switch (errCode) {
                 case Constants.REQUEST_CREATE_ACCOUNT_ERROR:
                     requestErrorId = R.string.create_account_failed;
@@ -187,124 +205,46 @@ public final class Utils {
                 case Constants.REQUEST_RECHARGE_ERROR:
                     requestErrorId = R.string.recharge_failed;
                     break;
-                    case Constants.REQUEST_OPEN_WALLET_ERROR:
+                case Constants.REQUEST_OPEN_WALLET_ERROR:
                     requestErrorId = R.string.password_eror;
                     break;
-                default :
+                default:
                     requestErrorId = R.string.get_data_failed;
                     break;
             }
+            toastTips(context.getString(requestErrorId));
         }
 
-        toastTips(context.getString(requestErrorId));
+
     }
 
-    public static void showDoublePassWord(final Context context, final AlertDialogOkCallBack callBack) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View promptView = layoutInflater.inflate(R.layout.create_account, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        alertDialogBuilder.setView(promptView);
 
-        final EditText passwordET1 = (EditText) promptView.findViewById(R.id.accPassword1);
-        final EditText passwordET2 = (EditText) promptView.findViewById(R.id.accPassword2);
-        final String[] passwords = {""};
-
-        alertDialogBuilder.setCancelable(false)
-                .setPositiveButton(context.getString(R.string.sure), new DialogInterface.OnClickListener() {
+    public static void showPassWord(AppCompatActivity context, final AlertDialogOkCallBack callBack) {
+        InputDialog.build(context)
+                //.setButtonTextInfo(new TextInfo().setFontColor(Color.GREEN))
+                .setTitle(R.string.tips).setMessage(R.string.enter_password)
+                .setOkButton(R.string.sure, new OnInputDialogButtonClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        String pwd1 = passwordET1.getText().toString();
-                        String pwd2 = passwordET2.getText().toString();
-                        if (!pwd1.equals(pwd2)) {
-                            Utils.toastTips(context.getString(R.string.twice_password_not_same));
-                            return;
-                        }
-                        dialog.dismiss();
-                        callBack.OkClicked(pwd1);
+                    public boolean onClick(BaseDialog baseDialog, View v, String inputStr) {
+                        callBack.onClickOkButton(inputStr);
+                        return false;
                     }
-                }).setNegativeButton(context.getString(R.string.cancel),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
+                })
+                .setCancelButton(R.string.cancel)
+                .setHintText(context.getString(R.string.enter_ethereum_password))
+                .setInputInfo(new InputInfo().setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD)
+                )
+                .setCancelable(true)
+                .show();
 
-        AlertDialog alert = alertDialogBuilder.create();
-        alert.show();
     }
 
-    public static void showPassWord(Context context, final AlertDialogOkCallBack callBack) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View passwordView = layoutInflater.inflate(R.layout.layout_ethereum_password, null);
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        alertDialogBuilder.setView(passwordView);
-        final EditText passwordET = (EditText) passwordView.findViewById(R.id.passwordToUnlock);
-
-
-        alertDialogBuilder.setCancelable(false)
-                .setPositiveButton(context.getString(R.string.sure), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                        callBack.OkClicked(passwordET.getText().toString());
-                    }
-                }).setNegativeButton(context.getString(R.string.cancel),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        alertDialogBuilder.create().show();
-    }
-
-    public static void showpiratePassWord(Context context, final AlertDialogOkCallBack callBack) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View passwordView = layoutInflater.inflate(R.layout.layout_pirate_password, null);
-
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        alertDialogBuilder.setView(passwordView);
-        final EditText passwordET = (EditText) passwordView.findViewById(R.id.passwordToUnlock);
-        final CheckBox rememberPasswordCb = (CheckBox) passwordView.findViewById(R.id.rememberPasswordCb);
-
-        String password = Utils.getString(KEY_FOR_IMTOKEN_PASSWORD, "");
-        passwordET.setText(password);
-        passwordET.setSelection(password.length());
-        if (!TextUtils.isEmpty(password)) {
-            rememberPasswordCb.setChecked(true);
-        }
-        alertDialogBuilder.setCancelable(false)
-                .setPositiveButton(context.getString(R.string.sure), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                        if (rememberPasswordCb.isChecked()) {
-                            Utils.saveData(KEY_FOR_IMTOKEN_PASSWORD, passwordET.getText().toString());
-                        } else {
-                            Utils.saveData(KEY_FOR_IMTOKEN_PASSWORD, "");
-                        }
-
-                        callBack.OkClicked(passwordET.getText().toString());
-                    }
-                }).setNegativeButton(context.getString(R.string.cancel),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        alertDialogBuilder.create().show();
-    }
-
-    public static void CopyToMemory(Context context, String src) {
+    public static void CopyToMemory(AppCompatActivity context, String src) {
         ClipboardManager clipboard = (ClipboardManager) appContext.getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("pirate memory string", src);
         clipboard.setPrimaryClip(clip);
-        MessageDialog.show(context, "", appContext.getString(R.string.copy_success), appContext.getString(R.string.sure), null);
+        MessageDialog.show(context, appContext.getString(R.string.copy_success), src);
     }
 
     public static Bitmap QRStr2Bitmap(String data) {
@@ -436,10 +376,67 @@ public final class Utils {
         try {
             PackageInfo packageInfo = packageManager.getPackageInfo(
                     context.getPackageName(), 0);
-            return "V"+packageInfo.versionName;
+            return "V" + packageInfo.versionName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
         return "V0.0";
+    }
+
+
+    public static boolean isNetworkAvailable(AppCompatActivity activity) {
+        Context context = activity.getApplicationContext();
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (connectivityManager == null) {
+            return false;
+        } else {
+            NetworkInfo[] networkInfo = connectivityManager.getAllNetworkInfo();
+
+            if (networkInfo != null && networkInfo.length > 0) {
+                for (int i = 0; i < networkInfo.length; i++) {
+                    if (networkInfo[i].getState() == NetworkInfo.State.CONNECTED) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean isServiceWork(Context mContext, String serviceName) {
+        boolean isWork = false;
+        ActivityManager myAM = (ActivityManager) mContext
+                .getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> myList = myAM.getRunningServices(100);
+        if (myList.size() <= 0) {
+            return false;
+        }
+        for (int i = 0; i < myList.size(); i++) {
+            String mName = myList.get(i).service.getClassName().toString();
+            if (mName.equals(serviceName)) {
+                isWork = true;
+                break;
+            }
+        }
+        return isWork;
+    }
+
+    public static boolean checkVPN(Activity activity) {
+        ConnectivityManager cm = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getNetworkInfo(ConnectivityManager.TYPE_VPN).isConnectedOrConnecting();
+    }
+
+    private static final int MIN_CLICK_DELAY_TIME = 1000;
+    private static long lastClickTime;
+
+    public static boolean isFastClick() {
+        long curClickTime = System.currentTimeMillis();
+        if ((curClickTime - lastClickTime) >= MIN_CLICK_DELAY_TIME) {
+            lastClickTime = curClickTime;
+            return true;
+        }
+
+        return false;
     }
 }

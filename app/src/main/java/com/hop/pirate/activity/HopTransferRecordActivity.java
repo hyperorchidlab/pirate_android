@@ -42,7 +42,7 @@ public class HopTransferRecordActivity extends BaseActivity implements View.OnCl
         mTurnOutTv = findViewById(R.id.turnOutTv);
         mTransferTv = findViewById(R.id.transferTv);
         mBackIv = findViewById(R.id.backIv);
-        ((TextView)findViewById(R.id.titleTv)).setText(getResources().getString(R.string.wallet_flow_unit_hop));
+        ((TextView) findViewById(R.id.titleTv)).setText(getResources().getString(R.string.wallet_flow_unit_hop));
 
         mTurnOutTv.setOnClickListener(this);
         mTransferTv.setOnClickListener(this);

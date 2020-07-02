@@ -32,18 +32,20 @@ import java.util.List;
 public class MinePoolForWalletAdapter extends RecyclerView.Adapter<MinePoolForWalletAdapter.ViewHolder> {
     private Context mContext;
     private TabHomeModel mTabHomeModel;
-    private int[] topColors={R.color.color_6d97ce,R.color.color_ce6d8e};
-    private int[] bottomColors={R.color.color_5a84c2,R.color.color_c25a7b};
+    private int[] topColors = {R.color.color_6d97ce, R.color.color_ce6d8e};
+    private int[] bottomColors = {R.color.color_5a84c2, R.color.color_c25a7b};
+
     public MinePoolForWalletAdapter(Context context) {
         mContext = context;
     }
+
     private List<MinePoolBean> mMinePoolBeans;
 
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view= LayoutInflater.from(mContext).inflate(R.layout.item_mine_pool_for_wallet, viewGroup, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_mine_pool_for_wallet, viewGroup, false);
         mTabHomeModel = new TabHomeModelImpl();
         return new ViewHolder(view);
     }
@@ -71,14 +73,14 @@ public class MinePoolForWalletAdapter extends RecyclerView.Adapter<MinePoolForWa
             public void onSuccess(UserAccountData userAccountData) {
                 String packets = Utils.ConvertBandWidth(userAccountData.getPackets());
 
-                viewHolder.packetsTv.setText(formatText(packets,"\nPackets"));
+                viewHolder.packetsTv.setText(formatText(packets, "\nPackets"));
 
-                double token =userAccountData.getToken();
-                viewHolder.tokenTv.setText(formatText(Utils.ConvertCoin(token)," HOP\nToken"));
-                String c =Utils.ConvertBandWidth(userAccountData.getCredit());
-                viewHolder.creditTv.setText(formatText(c,"\nCredit"));
+                double token = userAccountData.getToken();
+                viewHolder.tokenTv.setText(formatText(Utils.ConvertCoin(token), " HOP\nToken"));
+                String c = Utils.ConvertBandWidth(userAccountData.getCredit());
+                viewHolder.creditTv.setText(formatText(c, "\nCredit"));
 
-                viewHolder.refundTimeTv.setText("Reund Time "+ TimeUtil.forMinePoolTime(userAccountData.getExpire()));
+                viewHolder.refundTimeTv.setText("Reund Time " + TimeUtil.forMinePoolTime(userAccountData.getExpire()));
             }
 
             @Override
@@ -88,16 +90,14 @@ public class MinePoolForWalletAdapter extends RecyclerView.Adapter<MinePoolForWa
         });
 
 
-
-
         GradientDrawable topDrawable = (GradientDrawable) viewHolder.topbgIv.getBackground();
         GradientDrawable bottomDrawable = (GradientDrawable) viewHolder.bottomBgIv.getBackground();
-        int topColor=i  % topColors.length;
-        int bottomColor=i  %bottomColors.length;
+        int topColor = i % topColors.length;
+        int bottomColor = i % bottomColors.length;
         topDrawable.setColor(mContext.getResources().getColor(topColors[topColor]));
-        topDrawable.setCornerRadii(new float[]{13,13,13,13,0,0,0,0});
+        topDrawable.setCornerRadii(new float[]{13, 13, 13, 13, 0, 0, 0, 0});
         bottomDrawable.setColor(mContext.getResources().getColor(bottomColors[bottomColor]));
-        bottomDrawable.setCornerRadii(new float[]{0,0,0,0,13,13,13,13});
+        bottomDrawable.setCornerRadii(new float[]{0, 0, 0, 0, 13, 13, 13, 13});
 
         viewHolder.rechargeTv.setTextColor(mContext.getResources().getColor(topColors[topColor]));
     }
@@ -119,17 +119,16 @@ public class MinePoolForWalletAdapter extends RecyclerView.Adapter<MinePoolForWa
 
         private ViewHolder(@NonNull View itemView) {
             super(itemView);
-            minePoolNameTv=itemView.findViewById(R.id.minePoolNameTv);
-            rechargeTv=itemView.findViewById(R.id.rechargeTv);
-            creditTv=itemView.findViewById(R.id.creditTv);
-            tokenTv =itemView.findViewById(R.id.tokenTv);
-            packetsTv =itemView.findViewById(R.id.packetsTv);
-            topbgIv =itemView.findViewById(R.id.topbgIv);
-            bottomBgIv =itemView.findViewById(R.id.bottomBgIv);
-            refundTimeTv =itemView.findViewById(R.id.refundTimeTv);
+            minePoolNameTv = itemView.findViewById(R.id.minePoolNameTv);
+            rechargeTv = itemView.findViewById(R.id.rechargeTv);
+            creditTv = itemView.findViewById(R.id.creditTv);
+            tokenTv = itemView.findViewById(R.id.tokenTv);
+            packetsTv = itemView.findViewById(R.id.packetsTv);
+            topbgIv = itemView.findViewById(R.id.topbgIv);
+            bottomBgIv = itemView.findViewById(R.id.bottomBgIv);
+            refundTimeTv = itemView.findViewById(R.id.refundTimeTv);
         }
     }
-
 
 
     public void setMinePoolBeans(List<MinePoolBean> minePoolBeans) {
@@ -137,12 +136,12 @@ public class MinePoolForWalletAdapter extends RecyclerView.Adapter<MinePoolForWa
         notifyDataSetChanged();
     }
 
-    private SpannableString formatText(String start,String end){
-        SpannableString spannableString = new SpannableString(start+end);
+    private SpannableString formatText(String start, String end) {
+        SpannableString spannableString = new SpannableString(start + end);
         ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#aaffffff"));
-        RelativeSizeSpan relativeSizeSpan =new RelativeSizeSpan(0.8f);
-        spannableString.setSpan(colorSpan, start.length()-1,(start+end).length() , Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(relativeSizeSpan, start.length()-1,(start+end).length() , Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        RelativeSizeSpan relativeSizeSpan = new RelativeSizeSpan(0.8f);
+        spannableString.setSpan(colorSpan, start.length() - 1, (start + end).length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(relativeSizeSpan, start.length() - 1, (start + end).length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         return spannableString;
     }
 }

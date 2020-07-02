@@ -45,6 +45,7 @@
     <string name="create_account_success">创建账号成功</string>
     <string name="loading">加载中&#8230;</string>
     <string name="waiting">加载中…</string>
+    <string name="loading_success">加载成功</string>
     <string name="refresh_node">手动刷新节点</string>
     <string name="connect">连接中…</string>
     <string name="ImportImtokenAccount">从imToken导入</string>
@@ -172,4 +173,7 @@
     <string name="token_insufficient_balance">%s 余额不足!</string>
     <string name="current_version_name">当前版本</string>
     <string name="new_version">查看最新版本</string>
+    <string name="network_unavailable">当前网络不可用,请开启网络</string>
+    <string name="network_set">设置</string>
+    <string name="close_other_vpn_app">请关闭其他VPN App</string>
 </resources>

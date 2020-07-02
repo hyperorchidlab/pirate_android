@@ -78,7 +78,7 @@ public class MiningPoolAdapter extends RecyclerView.Adapter<MiningPoolAdapter.Vi
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                SysConf.ChangeCurPool(minePoolBean.getAddress(),minePoolBean.getName());
+                                SysConf.ChangeCurPool(minePoolBean.getAddress(), minePoolBean.getName());
                                 EventBus.getDefault().post(new EventReloadPoolsMarket());
                                 mContext.dismissDialogFragment();
                                 ((Activity) mContext).setResult(Activity.RESULT_OK);

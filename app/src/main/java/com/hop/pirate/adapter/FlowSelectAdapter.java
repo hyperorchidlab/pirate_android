@@ -27,17 +27,19 @@ import java.util.Locale;
 
 import androidLib.AndroidLib;
 
-public class FlowSelectAdapter extends RecyclerView.Adapter<FlowSelectAdapter.ViewHolder>{
+public class FlowSelectAdapter extends RecyclerView.Adapter<FlowSelectAdapter.ViewHolder> {
 
     private List<FlowBean> flows = new ArrayList<>();
     private Context mContext;
     private int selectedIndex;
     private RechargeFlowState mRechargeFlowState;
     private double mMBytesPerToken;
-    public interface RechargeFlowState{
-        void recharge( double BytesInM);
+
+    public interface RechargeFlowState {
+        void recharge(double BytesInM);
     }
-    public FlowSelectAdapter(Context context, double mBytesPerToken,RechargeFlowState rechargeFlowState) {
+
+    public FlowSelectAdapter(Context context, double mBytesPerToken, RechargeFlowState rechargeFlowState) {
 
         mContext = context;
         mMBytesPerToken = mBytesPerToken;
@@ -47,7 +49,7 @@ public class FlowSelectAdapter extends RecyclerView.Adapter<FlowSelectAdapter.Vi
         flows.add(new FlowBean(5000, 5000 / mBytesPerToken, 0));
         flows.add(new FlowBean(8000, 8000 / mBytesPerToken, 0));
         flows.add(new FlowBean(0, 0, 1));
-        this.mRechargeFlowState=rechargeFlowState;
+        this.mRechargeFlowState = rechargeFlowState;
     }
 
 
@@ -77,7 +79,7 @@ public class FlowSelectAdapter extends RecyclerView.Adapter<FlowSelectAdapter.Vi
                 viewHolder.flowTv.setText(flowBean.getFlow() + "M");
             }
 
-            viewHolder.hopTv.setText(String.format(Locale.CHINA, "%.4f ",flowBean.getHop()) + ExtendToken.CurSymbol);
+            viewHolder.hopTv.setText(String.format(Locale.CHINA, "%.4f ", flowBean.getHop()) + ExtendToken.CurSymbol);
         }
         if (flowBean.isSelected()) {
             viewHolder.flowTv.setTextColor(mContext.getResources().getColor(R.color.color_ffffff));
@@ -97,8 +99,8 @@ public class FlowSelectAdapter extends RecyclerView.Adapter<FlowSelectAdapter.Vi
                 notifyDataSetChanged();
                 if (flowBean.getType() == 1) {
                     showCustomerBuyFlowDialog();
-                }else{
-                    showPasswordDialog(flowBean.getHop() );
+                } else {
+                    showPasswordDialog(flowBean.getHop());
                 }
             }
         });
@@ -135,10 +137,10 @@ public class FlowSelectAdapter extends RecyclerView.Adapter<FlowSelectAdapter.Vi
         final TextView flowNumberEt = (TextView) dialogView.findViewById(R.id.flowNumberTt);
         TextView submitOrderTv = (TextView) dialogView.findViewById(R.id.submitOrderTv);
         TextView exchangePriceTv = (TextView) dialogView.findViewById(R.id.exchangeTv);
-        String price = String.format(Locale.CHINA,"1HOP=%.2fM", mMBytesPerToken);
+        String price = String.format(Locale.CHINA, "1HOP=%.2fM", mMBytesPerToken);
         exchangePriceTv.setText(price);
         flowNumberEt.setKeyListener(null);
-        hopNumberEt.setHint(Utils.TokenNameFormat(mContext,R.string.recharge_hop_money));
+        hopNumberEt.setHint(Utils.TokenNameFormat(mContext, R.string.recharge_hop_money));
         hopNumberEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -151,7 +153,7 @@ public class FlowSelectAdapter extends RecyclerView.Adapter<FlowSelectAdapter.Vi
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(TextUtils.isEmpty(hopNumberEt.getText().toString())){
+                if (TextUtils.isEmpty(hopNumberEt.getText().toString())) {
                     return;
                 }
                 flowNumberEt.setText(String.valueOf(Double.parseDouble(hopNumberEt.getText().toString()) * mMBytesPerToken) + "M");
@@ -162,8 +164,8 @@ public class FlowSelectAdapter extends RecyclerView.Adapter<FlowSelectAdapter.Vi
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                if(TextUtils.isEmpty(hopNumberEt.getText().toString())){
-                    return ;
+                if (TextUtils.isEmpty(hopNumberEt.getText().toString())) {
+                    return;
                 }
                 showPasswordDialog(Double.parseDouble(hopNumberEt.getText().toString()));
             }
@@ -188,8 +190,8 @@ public class FlowSelectAdapter extends RecyclerView.Adapter<FlowSelectAdapter.Vi
     }
 
     private void showPasswordDialog(final double tokenNo) {
-        if(mRechargeFlowState!=null){
-            mRechargeFlowState.recharge( tokenNo);
+        if (mRechargeFlowState != null) {
+            mRechargeFlowState.recharge(tokenNo);
         }
 
     }

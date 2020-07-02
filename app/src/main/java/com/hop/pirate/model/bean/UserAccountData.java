@@ -20,21 +20,22 @@ public class UserAccountData {
     private double credit;
     private int microNonce;
 
-    public int getEpoch(){
+    public int getEpoch() {
         return epoch;
     }
 
-    public int getMiNonce(){
+    public int getMiNonce() {
         return microNonce;
     }
 
-    public double getCredit(){
+    public double getCredit() {
         return credit;
     }
 
-    public double getPackets(){
+    public double getPackets() {
         return packets;
     }
+
     public String getExpire() {
         return expire;
     }
@@ -42,6 +43,7 @@ public class UserAccountData {
     public double getToken() {
         return token;
     }
+
     public String getUser() {
         return user;
     }

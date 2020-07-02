@@ -1,8 +1,9 @@
 package com.hop.pirate.base;
 
 /**
+ *
  */
 public interface DialogFragmentDismissListener {
 
-	void onDismiss(String dialogTag);
+    void onDismiss(String dialogTag);
 }

@@ -54,8 +54,8 @@ public class FragmentNavigator {
     /**
      * Show fragment at given position
      *
-     * @param position fragment position
-     * @param reset true if fragment in given position need reset otherwise false
+     * @param position          fragment position
+     * @param reset             true if fragment in given position need reset otherwise false
      * @param allowingStateLoss true if allowing state loss otherwise false
      */
     public void showFragment(int position, boolean reset, boolean allowingStateLoss) {
@@ -100,7 +100,7 @@ public class FragmentNavigator {
     /**
      * reset all the fragment and show given position fragment
      *
-     * @param position fragment position
+     * @param position          fragment position
      * @param allowingStateLoss true if allowing state loss otherwise false
      */
     public void resetFragments(int position, boolean allowingStateLoss) {
