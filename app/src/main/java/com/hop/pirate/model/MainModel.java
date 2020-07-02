@@ -17,7 +17,5 @@ public interface MainModel {
 
     void getWalletInfo(Context context, ResultCallBack<WalletBean> resultCallBack);
 
-    void initSysSeting(ResultCallBack<String> resultCallBack);
-
     void removeAllSubscribe();
 }

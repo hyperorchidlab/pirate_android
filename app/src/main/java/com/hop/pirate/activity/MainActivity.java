@@ -127,27 +127,6 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
 
     }
 
-    public void initSysSetting() {
-        mMainModel.initSysSeting(new ResultCallBack<String>() {
-            @Override
-            public void onError(Throwable e) {
-                dismissDialogFragment();
-                Utils.toastException(MainActivity.this, e, 0);
-                finish();
-            }
-
-            @Override
-            public void onSuccess(String s) {
-
-            }
-
-            @Override
-            public void onComplete() {
-                loadWallet();
-                EventBus.getDefault().post(new EventInitLibSuccess());
-            }
-        });
-    }
 
     public void loadWallet() {
         mMainModel.getWalletInfo(this, new ResultCallBack<WalletBean>() {

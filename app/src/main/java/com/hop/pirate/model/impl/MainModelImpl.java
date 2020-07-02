@@ -123,37 +123,6 @@ public class MainModelImpl extends BaseModel implements MainModel {
         });
     }
 
-    @Override
-    public void initSysSeting(final ResultCallBack<String> resultCallBack) {
-        schedulers(Observable.create(new ObservableOnSubscribe<String>() {
-            @Override
-            public void subscribe(ObservableEmitter<String> emitter) throws Exception {
-                AndroidLib.initSysSeting();
-                emitter.onNext("");
-                emitter.onComplete();
-            }
-        })).subscribe(new Observer<String>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                addSubscribe(d);
-            }
-
-            @Override
-            public void onNext(String str) {
-                resultCallBack.onSuccess(str);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                resultCallBack.onError(e);
-            }
-
-            @Override
-            public void onComplete() {
-                resultCallBack.onComplete();
-            }
-        });
-    }
 
     @Override
     public void removeAllSubscribe() {
