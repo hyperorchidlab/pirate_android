@@ -176,4 +176,5 @@
     <string name="network_unavailable">当前网络不可用,请开启网络</string>
     <string name="network_set">设置</string>
     <string name="close_other_vpn_app">请关闭其他VPN App</string>
+    <string name="blockchain_sync_error">区块同步异常，请退出重新打开app</string>
 </resources>

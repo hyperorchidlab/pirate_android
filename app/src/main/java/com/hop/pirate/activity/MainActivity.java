@@ -14,6 +14,7 @@ import com.google.zxing.integration.android.IntentResult;
 import com.hop.pirate.Constants;
 import com.hop.pirate.R;
 import com.hop.pirate.base.BaseActivity;
+import com.hop.pirate.callback.AlertDialogOkCallBack;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.event.EventClearAllRequest;
 import com.hop.pirate.event.EventCounterDataRead;
@@ -109,8 +110,14 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
             @Override
             public void onError(Throwable e) {
                 dismissDialogFragment();
-                Utils.toastTips(getString(R.string.init_service_fail));
-                finish();
+                Utils.showOkAlert(MainActivity.this,R.string.tips,R.string.blockchain_sync_error,new AlertDialogOkCallBack(){
+
+                    @Override
+                    public void onClickOkButton(String parameter) {
+                        finish();
+                    }
+                });
+
             }
 
             @Override
