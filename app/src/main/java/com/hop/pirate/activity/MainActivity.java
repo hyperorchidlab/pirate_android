@@ -84,18 +84,7 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if (HopService.IsRunning) {
-            HopService.Stop();
-            AndroidLib.stopProtocol();
-        } else {
-            AndroidLib.stopProtocol();
-        }
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                initService();
-            }
-        }, 1000);
+        initService();
 
 
     }

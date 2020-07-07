@@ -30,6 +30,7 @@ import com.hop.pirate.event.EventLoadWalletSuccess;
 import com.hop.pirate.model.TabSettingModel;
 import com.hop.pirate.model.bean.ExtendToken;
 import com.hop.pirate.model.impl.TabSettingModelImpl;
+import com.hop.pirate.service.HopService;
 import com.hop.pirate.service.WalletWrapper;
 import com.hop.pirate.util.Utils;
 import com.kongzue.dialog.v3.MessageDialog;
@@ -38,6 +39,8 @@ import com.kongzue.dialog.v3.TipDialog;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import androidLib.AndroidLib;
 
 public class TabSettingFragment extends BaseFragement implements View.OnClickListener, Handler.Callback {
     private TabSettingModel mTabSettingModel;
@@ -176,6 +179,12 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
                 Utils.showOkOrCancelAlert(mActivity, R.string.tab_setting_replace_account_title, R.string.tab_setting_replace_msg, new AlertDialogOkCallBack() {
                     @Override
                     public void onClickOkButton(String parameter) {
+
+                        if (HopService.IsRunning) {
+                            HopService.Stop();
+                            AndroidLib.stopProtocol();
+                        }
+
                         Intent createIntent = new Intent(mActivity, CreateAccountActivity.class);
                         createIntent.putExtra(IntentKey.SHOW_BACK_BUTTON, true);
                         startActivity(createIntent);

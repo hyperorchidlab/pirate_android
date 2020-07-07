@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hop.pirate.R;
+import com.hop.pirate.activity.MineMachineListActivity;
 import com.hop.pirate.base.BaseActivity;
 import com.hop.pirate.event.EventReloadPoolsMarket;
 import com.hop.pirate.model.bean.MinePoolBean;
@@ -78,6 +79,7 @@ public class MiningPoolAdapter extends RecyclerView.Adapter<MiningPoolAdapter.Vi
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
+                                MineMachineListActivity.sMinerBeans = null;
                                 SysConf.ChangeCurPool(minePoolBean.getAddress(), minePoolBean.getName());
                                 EventBus.getDefault().post(new EventReloadPoolsMarket());
                                 mContext.dismissDialogFragment();

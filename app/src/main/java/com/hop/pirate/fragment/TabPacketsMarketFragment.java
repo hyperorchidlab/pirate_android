@@ -91,7 +91,7 @@ public class TabPacketsMarketFragment extends BaseFragement implements SwipeRefr
 
 
     private void setData() {
-        if (mMinePoolBeans.size() == 0) {
+        if (mMinePoolBeans==null||mMinePoolBeans.size() == 0) {
             mEmptyIv.setVisibility(View.VISIBLE);
             mEmptyTv.setVisibility(View.VISIBLE);
         } else {
