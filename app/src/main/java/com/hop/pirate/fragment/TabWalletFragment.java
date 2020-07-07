@@ -161,6 +161,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loadWalletSuccess(EventLoadWalletSuccess eventLoadWalletSuccess) {
         initData();
+        getPoolDataOfUser();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

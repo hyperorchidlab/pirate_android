@@ -8,6 +8,11 @@
     <string name="password">密码:</string>
     <string name="remembor_password">记住密码</string>
     <string name="createAccount">创建账号</string>
+    <string name="creating_tx">创建区块中...</string>
+    <string name="approving">区块链\n授权中...</string>
+
+
+    <string name="approve_error">授权失败</string>
     <string name="Import">导入</string>
     <string name="refresh">刷新</string>
     <string name="rationale_extra_write">需要申请读写内存权限</string>
@@ -88,6 +93,8 @@
     <string name="recharge_submit_order">提交订单</string>
     <string name="recharge_buy_flow_number">流量(M)</string>
     <string name="recharge_recharge">Buy</string>
+    <string name="recharge_buy_pacetsing">区块链\n购买流量中...</string>
+    <string name="recharge_buy_pacets_error">购买失败</string>
 
     <string name="wallet_flow_unit_eth">ETH</string>
     <string name="wallet_read_failed">钱包读取失败</string>
@@ -97,7 +104,7 @@
     <string name="hop_turn_out">转出</string>
     <string name="hop_turn_in">转入</string>
     <string name="current_use_flow">充值流量</string>
-    <string name="uncleared_flow">可用流量</string>
+    <string name="uncleared_flow">已用流量</string>
     <string name="main_network_address">主网地址</string>
     <string name="word_net_address">子网地址</string>
     <string name="refresh_mine">刷新矿机</string>
@@ -177,4 +184,6 @@
     <string name="network_set">设置</string>
     <string name="close_other_vpn_app">请关闭其他VPN App</string>
     <string name="blockchain_sync_error">区块同步异常，请退出重新打开app</string>
+    <string name="tab_setting_replace_account_title">您确定?</string>
+    <string name="tab_setting_replace_msg">替换当前账号?</string>
 </resources>

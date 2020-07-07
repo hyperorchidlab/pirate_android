@@ -30,13 +30,14 @@ public class SupportedCurrenciesActivity extends BaseActivity implements Handler
     public Handler mHandler = new Handler(this);
     private RecyclerView mTokenRecyclerView;
     public static List<ExtendToken> sExtendTokens;
+    private TokenAdapter mTokenAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_supported_currencies);
         mSupportedCurrenciesModel = new SupportedCurrenciesModelImpl();
-        refreshTokens();
+        refreshTokens(sExtendTokens == null || sExtendTokens.size() == 0);
     }
 
     @Override
@@ -48,7 +49,8 @@ public class SupportedCurrenciesActivity extends BaseActivity implements Handler
 
     @Override
     public void initData() {
-
+        mTokenAdapter = new TokenAdapter(SupportedCurrenciesActivity.this, SupportedCurrenciesActivity.this);
+        mTokenRecyclerView.setAdapter(mTokenAdapter);
     }
 
     @Override
@@ -57,24 +59,33 @@ public class SupportedCurrenciesActivity extends BaseActivity implements Handler
         mSupportedCurrenciesModel.removeAllSubscribe();
     }
 
-    public void refreshTokens() {
-        showDialogFragment();
+    public void refreshTokens(final boolean hasLoading) {
+        if (hasLoading) {
+            showDialogFragment();
+        } else {
+            mTokenAdapter.setTokenBeans(sExtendTokens);
+        }
         mSupportedCurrenciesModel.getSupportedCurrencies(this, WalletWrapper.MainAddress, new ResultCallBack<List<ExtendToken>>() {
             @Override
             public void onError(Throwable e) {
-                dismissDialogFragment();
-                Utils.toastException(SupportedCurrenciesActivity.this, e, Constants.REQUEST_SUPPORT_COINS_ERROR);
+                if (hasLoading) {
+                    dismissDialogFragment();
+                    Utils.toastException(SupportedCurrenciesActivity.this, e, Constants.REQUEST_SUPPORT_COINS_ERROR);
+                }
+
             }
 
             @Override
             public void onSuccess(List<ExtendToken> extendTokens) {
                 sExtendTokens = extendTokens;
-                mTokenRecyclerView.setAdapter(new TokenAdapter(SupportedCurrenciesActivity.this, extendTokens, SupportedCurrenciesActivity.this));
+                mTokenAdapter.setTokenBeans(sExtendTokens);
             }
 
             @Override
             public void onComplete() {
-                dismissDialogFragment();
+                if (hasLoading) {
+                    dismissDialogFragment();
+                }
             }
         });
     }

@@ -126,7 +126,6 @@ public class HopService extends VpnService implements androidLib.VpnDelegate, Ha
 
             FileInputStream inputStream = new FileInputStream(mInterface.getFileDescriptor());
             mVpnOutputStream = new FileOutputStream(mInterface.getFileDescriptor());
-            Log.d("9870", "establishVPN: SysConf.CurPoolAddress=" + SysConf.CurPoolAddress + "    SysConf.CurMinerID" + SysConf.CurMinerID);
             AndroidLib.startVPN(LOCAL_IP + ":41080", SysConf.CurPoolAddress, SysConf.CurMinerID, this);
             IsRunning = true;
             new Thread(new PacketReader(inputStream)).start();

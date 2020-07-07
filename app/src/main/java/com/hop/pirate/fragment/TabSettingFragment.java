@@ -1,9 +1,6 @@
 package com.hop.pirate.fragment;
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,26 +24,23 @@ import com.hop.pirate.activity.MainActivity;
 import com.hop.pirate.activity.ShowQRImageActivity;
 import com.hop.pirate.activity.SupportedCurrenciesActivity;
 import com.hop.pirate.activity.TransferOutActivity;
+import com.hop.pirate.callback.AlertDialogOkCallBack;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.event.EventLoadWalletSuccess;
-import com.hop.pirate.model.SupportedCurrenciesModel;
 import com.hop.pirate.model.TabSettingModel;
 import com.hop.pirate.model.bean.ExtendToken;
-import com.hop.pirate.model.impl.SupportedCurrenciesModelImpl;
 import com.hop.pirate.model.impl.TabSettingModelImpl;
 import com.hop.pirate.service.WalletWrapper;
 import com.hop.pirate.util.Utils;
+import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.List;
-
 public class TabSettingFragment extends BaseFragement implements View.OnClickListener, Handler.Callback {
     private TabSettingModel mTabSettingModel;
-    private SupportedCurrenciesModel mSupportedCurrenciesModel;
     private Button mApplyFreeEthBtn;
     private Button mApplyFreeTokenBtn;
     private Handler mHandler;
@@ -62,47 +56,40 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
         View view = inflater.inflate(R.layout.fragment_setting, null);
         mHandler = new Handler(this);
         mTabSettingModel = new TabSettingModelImpl();
-        mSupportedCurrenciesModel = new SupportedCurrenciesModelImpl();
         EventBus.getDefault().register(this);
+        hopBalance();
         initViews(view);
         return view;
     }
 
-    @Override
-    public void onShow() {
-        super.onShow();
-        initData();
-        loadAllTokens();
-    }
 
     @Override
     public void onResume() {
         super.onResume();
         initData();
-        loadAllTokens();
-
     }
 
-    private void loadAllTokens() {
+    private void hopBalance() {
 
-        mSupportedCurrenciesModel.getSupportedCurrencies(mActivity, WalletWrapper.MainAddress, new ResultCallBack<List<ExtendToken>>() {
+        mTabSettingModel.getHopBalance(WalletWrapper.MainAddress, new ResultCallBack<String>() {
             @Override
             public void onError(Throwable e) {
 
             }
 
             @Override
-            public void onSuccess(List<ExtendToken> extendTokens) {
-                for (int i = 0; i < extendTokens.size(); i++) {
-                    ExtendToken extendToken = extendTokens.get(i);
-                    if (extendToken.getSymbol().startsWith("HOP")) {
-                        if (Double.parseDouble(Utils.ConvertCoin(extendToken.getBalance())) > 500) {
-                            mApplyFreeTokenBtn.setEnabled(false);
-                        } else {
-                            mApplyFreeTokenBtn.setEnabled(true);
-                        }
-                    }
+            public void onSuccess(String balance) {
+                if (balance.equals("0")) {
+                    mApplyFreeTokenBtn.setEnabled(true);
+                    return;
                 }
+
+                if (Double.parseDouble(Utils.ConvertCoin(Integer.parseInt(balance))) > 500) {
+                    mApplyFreeTokenBtn.setEnabled(false);
+                } else {
+                    mApplyFreeTokenBtn.setEnabled(true);
+                }
+
             }
 
             @Override
@@ -156,6 +143,7 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
     }
 
     private void initData() {
+        hopBalance();
         currentCoinTypeTv.setText(ExtendToken.CurSymbol);
         mMainNetWorkAddressValueTv.setText(WalletWrapper.MainAddress);
         mSubNetAaddressValueTv.setText(WalletWrapper.SubAddress);
@@ -185,9 +173,14 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
                 applyFreeToken();
                 break;
             case R.id.createAccountTv:
-                Intent createIntent = new Intent(mActivity, CreateAccountActivity.class);
-                createIntent.putExtra(IntentKey.SHOW_BACK_BUTTON, true);
-                startActivity(createIntent);
+                Utils.showOkOrCancelAlert(mActivity, R.string.tab_setting_replace_account_title, R.string.tab_setting_replace_msg, new AlertDialogOkCallBack() {
+                    @Override
+                    public void onClickOkButton(String parameter) {
+                        Intent createIntent = new Intent(mActivity, CreateAccountActivity.class);
+                        createIntent.putExtra(IntentKey.SHOW_BACK_BUTTON, true);
+                        startActivity(createIntent);
+                    }
+                });
                 break;
             case R.id.transferTv:
                 startActivity(new Intent(mActivity, TransferOutActivity.class));
@@ -203,9 +196,12 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
             case R.id.updateAppTv:
                 openAppDownloadPage();
                 break;
+            default:
+                break;
 
         }
     }
+
 
     private void openAppDownloadPage() {
         Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse("http://d.7short.com/zy7s"));
@@ -223,7 +219,7 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
             return;
         }
 
-        mActivity.showDialogFragment(getResources().getString(R.string.applying), false);
+        mActivity.showDialogFragment(getString(R.string.creating_tx), false);
         mTabSettingModel.getFreeHop(WalletWrapper.MainAddress, new ResultCallBack<String>() {
             @Override
             public void onError(Throwable e) {
@@ -233,18 +229,54 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
 
             @Override
             public void onSuccess(String tx) {
-
+                String msg = "\nHop TX:[" + tx + "]";
+                mActivity.showDialogFragment(msg, false);
+                queryTxStatus(tx, true);
             }
 
             @Override
             public void onComplete() {
-                mApplyFreeTokenBtn.setEnabled(false);
-                mActivity.dismissDialogFragment();
-                Utils.toastTips(getResources().getString(R.string.apply_success));
-                ((MainActivity) mActivity).loadWallet();
+
             }
         });
 
+    }
+
+    private void queryTxStatus(final String tx, final boolean getFreeHop) {
+        mTabSettingModel.queryTxProcessStatus(tx, new ResultCallBack<Boolean>() {
+            @Override
+            public void onError(Throwable e) {
+                mActivity.dismissDialogFragment();
+                if (getFreeHop) {
+                    Utils.toastException(mActivity, e, Constants.REQUEST_FREE_HOP_ERROR);
+                } else {
+                    Utils.toastException(mActivity, e, Constants.REQUEST_FREE_ETH_ERROR);
+                }
+            }
+
+            @Override
+            public void onSuccess(Boolean isSuccess) {
+                if (isSuccess) {
+                    String content;
+                    if (getFreeHop) {
+                        content = "Hop Tx:[" + tx + "]";
+                        mApplyFreeTokenBtn.setEnabled(false);
+                    } else {
+                        content = "Eth Tx:[" + tx + "]";
+                        mApplyFreeEthBtn.setEnabled(false);
+                    }
+                    MessageDialog.show(mActivity, getString(R.string.tips), content, getString(R.string.sure));
+                    mActivity.dismissDialogFragment();
+
+                    ((MainActivity) mActivity).loadWallet();
+                }
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
     }
 
     private void applyFreeEth() {
@@ -256,7 +288,7 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
             Utils.toastTips(getResources().getString(R.string.apply_free_token_des));
             return;
         }
-        mActivity.showDialogFragment(getResources().getString(R.string.applying), false);
+        mActivity.showDialogFragment(getString(R.string.creating_tx), false);
         mTabSettingModel.getFreeEth(WalletWrapper.MainAddress, new ResultCallBack<String>() {
             @Override
             public void onError(Throwable e) {
@@ -267,14 +299,12 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
             @Override
             public void onSuccess(String tx) {
 
+                queryTxStatus(tx, true);
             }
 
             @Override
             public void onComplete() {
-                mApplyFreeEthBtn.setEnabled(false);
-                mActivity.dismissDialogFragment();
-                ((MainActivity) mActivity).loadWallet();
-                Utils.toastTips(getResources().getString(R.string.apply_success));
+
             }
         });
     }
@@ -343,5 +373,6 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
         }
         return false;
     }
+
 
 }

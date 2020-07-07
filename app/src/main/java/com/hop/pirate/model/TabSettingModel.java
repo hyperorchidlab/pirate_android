@@ -1,6 +1,7 @@
 package com.hop.pirate.model;
 
 import android.content.ContentResolver;
+import android.content.Context;
 
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.model.bean.MinePoolBean;
@@ -19,6 +20,10 @@ public interface TabSettingModel {
     void getFreeEth(final String address, ResultCallBack<String> resultCallBack);
 
     void getFreeHop(final String address, ResultCallBack<String> resultCallBack);
+
+    void getHopBalance(final String address, ResultCallBack<String> resultCallBack);
+
+    void queryTxProcessStatus(String tx, final ResultCallBack<Boolean> resultCallBack);
 
     void removeAllSubscribe();
 }

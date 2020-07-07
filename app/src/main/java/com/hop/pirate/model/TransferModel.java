@@ -13,5 +13,7 @@ public interface TransferModel {
 
     void transferToken(String password, String toAddress, String num, ResultCallBack<String> resultCallBack);
 
+    void queryTxProcessStatus(String tx, final ResultCallBack<Boolean> resultCallBack);
+
     void removeAllSubscribe();
 }

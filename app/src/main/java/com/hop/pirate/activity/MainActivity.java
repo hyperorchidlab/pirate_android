@@ -17,7 +17,6 @@ import com.hop.pirate.base.BaseActivity;
 import com.hop.pirate.callback.AlertDialogOkCallBack;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.event.EventClearAllRequest;
-import com.hop.pirate.event.EventCounterDataRead;
 import com.hop.pirate.event.EventInitLibSuccess;
 import com.hop.pirate.event.EventLoadWalletSuccess;
 import com.hop.pirate.event.EventRechargeSuccess;
@@ -110,7 +109,7 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
             @Override
             public void onError(Throwable e) {
                 dismissDialogFragment();
-                Utils.showOkAlert(MainActivity.this,R.string.tips,R.string.blockchain_sync_error,new AlertDialogOkCallBack(){
+                Utils.showOkAlert(MainActivity.this, R.string.tips, R.string.blockchain_sync_error, new AlertDialogOkCallBack() {
 
                     @Override
                     public void onClickOkButton(String parameter) {
@@ -240,19 +239,6 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
         Log.w(TAG, "actionNotify: type:[" + type + "] msg:=>" + msg);
         switch ((int) type) {
             case ATSysSettingChanged:
-                break;
-            case ATCounterDataRead:
-                long counter = Long.parseLong(msg);
-                double useful = SysConf.PacketsBalance - SysConf.PacketsCredit - counter;
-                if (useful < 0) {
-                    useful = 0;
-                }
-                if (oldCreditStr.equals(Utils.ConvertBandWidth(useful))) {
-                    return;
-                }
-                oldCreditStr = Utils.ConvertBandWidth(useful);
-                EventBus.getDefault().post(new EventCounterDataRead(oldCreditStr));
-
                 break;
             case ATPoolsInMarketChanged:
                 EventBus.getDefault().post(new EventReloadPoolsMarket());

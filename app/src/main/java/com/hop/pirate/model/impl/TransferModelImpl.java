@@ -14,6 +14,7 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -88,6 +89,56 @@ public class TransferModelImpl extends BaseModel implements TransferModel {
                 resultCallBack.onComplete();
             }
         });
+    }
+
+    private Disposable mDisposable;
+
+    @Override
+    public void queryTxProcessStatus(final String tx, final ResultCallBack<Boolean> resultCallBack) {
+        final Observable<Boolean> schedulers = schedulers(Observable.create(new ObservableOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
+                boolean isSuccess = AndroidLib.txProcessStatus(tx);
+                if (isSuccess) {
+                    mDisposable.dispose();
+                }
+                emitter.onNext(isSuccess);
+                emitter.onComplete();
+
+            }
+        }));
+
+        mDisposable = Observable.interval(2, TimeUnit.SECONDS).timeout(Constants.BLOCKCHAIN_TIME_OUT, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        schedulers.subscribe(new Observer<Boolean>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+                                addSubscribe(d);
+                            }
+
+                            @Override
+                            public void onNext(Boolean isOpen) {
+                                resultCallBack.onSuccess(isOpen);
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                resultCallBack.onError(e);
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                resultCallBack.onComplete();
+                            }
+                        });
+                    }
+
+                });
+
     }
 
     @Override

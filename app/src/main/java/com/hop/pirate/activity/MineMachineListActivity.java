@@ -37,8 +37,8 @@ public class MineMachineListActivity extends BaseActivity implements View.OnClic
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mine_machine);
-        mMineMachineListModel = new MineMachineListModelImpl();
-        loadMinerUnderPool();
+
+
     }
 
     @Override
@@ -94,14 +94,23 @@ public class MineMachineListActivity extends BaseActivity implements View.OnClic
 
     @Override
     public void initData() {
+        mMineMachineListModel = new MineMachineListModelImpl();
         mMiningMachineRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         miningMachineAdapter = new MiningMachineAdapter(this);
         mMiningMachineRecyclerView.setAdapter(miningMachineAdapter);
+
+        if (sMinerBeans == null || sMinerBeans.size() == 0) {
+            showDialogFragment();
+        } else {
+            miningMachineAdapter.setMineMachineBeans(sMinerBeans);
+        }
+        loadMinerUnderPool(sMinerBeans == null || sMinerBeans.size() == 0);
     }
 
     @Override
     public void onClick(View v) {
-        loadMinerUnderPool();
+        showDialogFragment();
+        loadMinerUnderPool(true);
     }
 
     @Override
@@ -110,24 +119,28 @@ public class MineMachineListActivity extends BaseActivity implements View.OnClic
         mMineMachineListModel.removeAllSubscribe();
     }
 
-    private void loadMinerUnderPool() {
-        showDialogFragment();
+    private void loadMinerUnderPool(final boolean hasLoading) {
         mMineMachineListModel.getMinemachine(this, SysConf.CurPoolAddress, 16, new ResultCallBack<List<MinerBean>>() {
             @Override
             public void onError(Throwable e) {
-                showErrorDialog(R.string.get_data_failed);
+                if (hasLoading) {
+                    dismissDialogFragment();
+                    Utils.toastTips(getString(R.string.get_data_failed));
+                }
             }
 
             @Override
             public void onSuccess(List<MinerBean> minerBeans) {
                 sMinerBeans = minerBeans;
                 miningMachineAdapter.setMineMachineBeans(sMinerBeans);
-                miningMachineAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onComplete() {
-                showSuccessDialog(R.string.loading_success);
+                if (hasLoading) {
+                    dismissDialogFragment();
+                    Utils.toastTips(getString(R.string.loading_success));
+                }
             }
         });
 

@@ -65,7 +65,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                 createAccount();
                 break;
             case R.id.importBtn:
-                ImportAccount();
+                showImportQRChoice();
                 break;
             case R.id.backIv:
                 finish();
@@ -110,20 +110,6 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
         });
     }
 
-    void ImportAccount() {
-        AlertDialogOkCallBack callBack = new AlertDialogOkCallBack() {
-            @Override
-            public void onClickOkButton(String parameter) {
-                showImportQRChoice();
-            }
-        };
-        if (!WalletWrapper.IsEmpty()) {
-            Utils.showOkOrCancelAlert(this, R.string.sure_replace,
-                    R.string.save_pirate_account, callBack);
-            return;
-        }
-        showImportQRChoice();
-    }
 
     void showImportQRChoice() {
         final String[] listItems = {getString(R.string.scanning_qr_code), getString(R.string.read_album), getString(R.string.cancel)};

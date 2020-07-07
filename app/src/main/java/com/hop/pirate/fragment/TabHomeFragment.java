@@ -21,7 +21,6 @@ import com.hop.pirate.activity.MineMachineListActivity;
 import com.hop.pirate.activity.MinePoolListActivity;
 import com.hop.pirate.callback.AlertDialogOkCallBack;
 import com.hop.pirate.callback.ResultCallBack;
-import com.hop.pirate.event.EventCounterDataRead;
 import com.hop.pirate.event.EventLoadWalletSuccess;
 import com.hop.pirate.event.EventRechargeSuccess;
 import com.hop.pirate.event.EventReloadPoolsMarket;
@@ -29,7 +28,6 @@ import com.hop.pirate.event.EventVPNClosed;
 import com.hop.pirate.event.EventVPNOpen;
 import com.hop.pirate.model.TabHomeModel;
 import com.hop.pirate.model.bean.ExtendToken;
-import com.hop.pirate.model.bean.MinePoolBean;
 import com.hop.pirate.model.impl.TabHomeModelImpl;
 import com.hop.pirate.service.HopService;
 import com.hop.pirate.service.SysConf;
@@ -90,11 +88,7 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
             mMiningMachine.setText(SysConf.CurMinerID);
         }
         mPackets.setText(Utils.ConvertBandWidth(SysConf.PacketsBalance));
-        double useful = SysConf.PacketsBalance - SysConf.PacketsCredit;
-        if (useful < 0) {
-            useful = 0;
-        }
-        mCredit.setText(Utils.ConvertBandWidth(useful));
+        mCredit.setText(Utils.ConvertBandWidth(SysConf.PacketsCredit));
     }
 
 
@@ -188,6 +182,10 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
                 break;
             case R.id.homeMiningMachinIv:
             case R.id.selectMiningMathinIv:
+                if (SysConf.CurPoolAddress.equals("")) {
+                    Utils.toastTips(getString(R.string.select_subscribed_mining_pool));
+                    return;
+                }
                 intent = new Intent(mActivity, MineMachineListActivity.class);
                 startActivityForResult(intent, Constants.REQUEST_MINE_MACHINE_CODE);
                 break;
@@ -211,6 +209,8 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
                         onActivityResult(RC_VPN_RIGHT, RESULT_OK, null);
                     }
                 }
+                break;
+            default:
                 break;
         }
     }
@@ -320,11 +320,6 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void eventReloadPoolsMarket(EventReloadPoolsMarket eventReloadPoolsMarket) {
         loadConf();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void eventCounterDataRead(EventCounterDataRead eventCounterDataRead) {
-        mCredit.setText(eventCounterDataRead.getCreditStr());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

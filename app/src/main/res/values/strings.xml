@@ -7,6 +7,9 @@
     <string name="enter_password_again">Confirm Your Password</string>
     <string name="password">Password:</string>
     <string name="remembor_password">Remember password</string>
+    <string name="creating_tx">Creating Blockchain Tx...</string>
+    <string name="approving">Blockchain \nApproving...</string>
+    <string name="approve_error">approve error!</string>
 
     <string name="createAccount">Create Account</string>
     <string name="Import">Import</string>
@@ -78,6 +81,9 @@
     <string name="tab_flow_market">Flow Market</string>
     <string name="tab_wallet">Wallet</string>
     <string name="tab_setting">Setting</string>
+    <string name="tab_setting_replace_account_title">Are you sure?</string>
+    <string name="tab_setting_replace_msg">Replace you current wallet?</string>
+
 
     <string name="wallet_own_mine_pool">Purchased mining pool</string>
     <string name="wallet_add_mine_pool">Add new mining pool</string>
@@ -93,6 +99,8 @@
     <string name="recharge_submit_order">Submit orders</string>
     <string name="recharge_buy_flow_number">flow(M)</string>
     <string name="recharge_recharge">Buy</string>
+    <string name="recharge_buy_pacetsing">BlockChain \nBuying packets...</string>
+    <string name="recharge_buy_pacets_error">Buy error</string>
 
     <string name="hop_address">%s address</string>
     <string name="gtn">GTN：</string>
@@ -105,7 +113,7 @@
     <string name="hop_turn_out">Transfer out</string>
     <string name="hop_turn_in">Transfer into</string>
     <string name="current_use_flow">Recharge flow</string>
-    <string name="uncleared_flow">Available flow</string>
+    <string name="uncleared_flow">Credit</string>
     <string name="main_network_address">Mainnet address</string>
     <string name="word_net_address">Subnet address</string>
     <string name="refresh_mine">Refresh the miner</string>
@@ -185,4 +193,5 @@
     <string name="network_set">Set</string>
     <string name="close_other_vpn_app">Please close other VPN apps </string>
     <string name="blockchain_sync_error">Block synchronization is abnormal, please exit and reopen the app</string>
+
 </resources>

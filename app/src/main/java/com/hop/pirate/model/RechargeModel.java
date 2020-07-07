@@ -22,5 +22,8 @@ public interface RechargeModel {
 
     void openWallet(Context context, String password, ResultCallBack<Boolean> resultCallBack);
 
+    void queryTxProcessStatus(String tx, final ResultCallBack<Boolean> resultCallBack);
+
+
     void removeAllSubscribe();
 }

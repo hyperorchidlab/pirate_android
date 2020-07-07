@@ -6,8 +6,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.hop.pirate.Constants;
@@ -23,25 +21,15 @@ import com.hop.pirate.model.bean.MinePoolBean;
 import com.hop.pirate.model.impl.RechargeModelImpl;
 import com.hop.pirate.service.WalletWrapper;
 import com.hop.pirate.util.Utils;
+import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
+import com.kongzue.dialog.util.BaseDialog;
+import com.kongzue.dialog.v3.MessageDialog;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.io.IOException;
-
-import androidLib.AndroidLib;
-import pl.droidsonroids.gif.GifDrawable;
-import pl.droidsonroids.gif.GifImageView;
 
 public class RechargePacketsActivity extends BaseActivity implements FlowSelectAdapter.RechargeFlowState {
     private RechargeModel mRechargeModel;
     private RecyclerView mFlowRecyclerview;
-    private ImageView mRechargeStateMaskIv;
-    private GifImageView mRechargeStateIv;
-    private GifImageView rechargeStateTopIv;
-    private TextView mRechargeStateTitleTv;
-    private TextView mRechargeStateDesTv;
-    private TextView mRechargeStateOperationTv;
-    private ProgressBar mRechargeProgress;
     private int rechargeState;
     private String PoolAddress;
     private EditText mHopAddressET;
@@ -51,6 +39,7 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
     private TextView mHopAddressTitleTv;
     private TextView mHopCoinTv;
     String sysbol;
+    private double tokenNO;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,13 +77,6 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
     @Override
     public void initViews() {
         mFlowRecyclerview = findViewById(R.id.flowRecyclerview);
-        mRechargeStateMaskIv = findViewById(R.id.rechargeStateMaskIv);
-        mRechargeStateIv = findViewById(R.id.rechargeStateBottomIv);
-        rechargeStateTopIv = findViewById(R.id.rechargeStateTopIv);
-        mRechargeStateTitleTv = findViewById(R.id.rechargeStateTitleTv);
-        mRechargeStateDesTv = findViewById(R.id.rechargeStateDesTv);
-        mRechargeStateOperationTv = findViewById(R.id.rechargeStateOperationTv);
-        mRechargeProgress = findViewById(R.id.rechargeProgress);
         mMinePoolAddressTv = findViewById(R.id.minePoolAddressTv);
         mHopAddressTitleTv = findViewById(R.id.hopAddressTitleTv);
         mHopCoinTv = findViewById(R.id.hopCoinTv);
@@ -107,22 +89,7 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
 
         ((TextView) findViewById(R.id.titleTv)).setText(getResources().getString(R.string.recharge_recharge_flow));
 
-        mRechargeStateOperationTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                finish();
-            }
-        });
-        mRechargeStateMaskIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        mRechargeStateIv.setBackgroundResource(R.drawable.recharge_authorization_bottom);
-        rechargeStateTopIv.setBackgroundResource(R.drawable.recharge_authorization_top);
         mFlowRecyclerview.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false));
     }
 
@@ -142,17 +109,9 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
     }
 
 
-    private void setTransferStatusBg(int transfer_error) {
-        try {
-            GifDrawable gifDrawable = new GifDrawable(getResources(), transfer_error);
-            mRechargeStateIv.setBackground(gifDrawable);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void recharge(final double tokenNO) {
+        this.tokenNO = tokenNO;
         if (WalletWrapper.EthBalance / Utils.CoinDecimal < 0.0001) {
             Utils.toastTips(getString(R.string.eth_insufficient_balance));
             return;
@@ -164,14 +123,14 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
         new PayPasswordDialog(this, new PayPasswordDialog.PasswordCallBack() {
             @Override
             public void callBack(String password) {
-                openWallet(password, tokenNO);
+                openWallet(password);
 
             }
         }).show();
 
     }
 
-    private void openWallet(String password, final double tokenNO) {
+    private void openWallet(String password) {
         showDialogFragment(R.string.open_walet);
         mRechargeModel.openWallet(this, password, new ResultCallBack<Boolean>() {
             @Override
@@ -188,73 +147,104 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
             @Override
             public void onComplete() {
                 dismissDialogFragment();
-                authorizeTokenSpend(tokenNO);
+                authorizeTokenSpend();
 
             }
         });
     }
 
-    public void authorizeTokenSpend(final double tokenNO) {
-        visiable(mRechargeStateMaskIv, mRechargeProgress, mRechargeStateTitleTv, mRechargeStateIv, rechargeStateTopIv);
-
+    public void authorizeTokenSpend() {
+        showDialogFragment(R.string.approving, false);
         mRechargeModel.authorizeTokenSpend(this, tokenNO, new ResultCallBack<String>() {
             @Override
             public void onError(Throwable e) {
+                dismissDialogFragment();
                 if (e instanceof PError) {
                     Utils.toastTips(e.getMessage());
-                    gone(mRechargeStateMaskIv, mRechargeProgress, mRechargeStateTitleTv, mRechargeStateIv, rechargeStateTopIv);
                 } else {
-                    setTransferStatusBg(R.drawable.transfer_error);
-                    mRechargeStateTitleTv.setText(getResources().getString(R.string.blockchain_time_out));
-                    mRechargeStateOperationTv.setText(getResources().getString(R.string.back));
-                    gone(mRechargeProgress, rechargeStateTopIv);
-                    visiable(mRechargeStateOperationTv);
+                    Utils.toastTips(getString(R.string.approve_error));
                 }
 
             }
 
             @Override
-            public void onSuccess(String s) {
-                setTransferStatusBg(R.drawable.rechargeing);
-                gone(rechargeStateTopIv);
-                mRechargeStateTitleTv.setText("Approve System Success!");
+            public void onSuccess(String tx) {
+                dismissDialogFragment();
+                showDialogFragment(getString(R.string.approving) + "\nat[" + tx + "]", false);
+                queryTxStatus(tx, true);
+
             }
 
             @Override
             public void onComplete() {
-                buyPacket(tokenNO);
 
             }
         });
     }
 
-    private void buyPacket(double tokenNO) {
+    private void buyPacket() {
+        showDialogFragment(R.string.recharge_buy_pacetsing, false);
         mRechargeModel.buyPacket(this, WalletWrapper.MainAddress, PoolAddress, tokenNO, new ResultCallBack<String>() {
             @Override
             public void onError(Throwable e) {
                 if (e instanceof PError) {
                     Utils.toastTips(e.getMessage());
-                    gone(mRechargeStateMaskIv, mRechargeProgress, mRechargeStateTitleTv, mRechargeStateIv, rechargeStateTopIv);
                 } else {
-                    setTransferStatusBg(R.drawable.transfer_error);
-                    mRechargeStateTitleTv.setText(getResources().getString(R.string.blockchain_time_out));
-                    mRechargeStateOperationTv.setText(getResources().getString(R.string.back));
-                    gone(mRechargeProgress, rechargeStateTopIv);
-                    visiable(mRechargeStateOperationTv);
+                    Utils.toastTips(getString(R.string.recharge_buy_pacets_error));
                 }
+                dismissDialogFragment();
             }
 
             @Override
-            public void onSuccess(String s) {
+            public void onSuccess(String tx) {
+                dismissDialogFragment();
+                showDialogFragment(getString(R.string.recharge_buy_pacetsing) + "\nat[" + tx + "]", false);
+                queryTxStatus(tx, false);
+
 
             }
 
             @Override
             public void onComplete() {
-                Utils.toastTips(getString(R.string.recharge_success));
-                MinePoolBean.syncPoolsAndUserData();
-                EventBus.getDefault().postSticky(new EventShowTabHome());
-                finish();
+
+            }
+        });
+    }
+
+    private void queryTxStatus(final String tx, final boolean isProve) {
+        mRechargeModel.queryTxProcessStatus(tx, new ResultCallBack<Boolean>() {
+            @Override
+            public void onError(Throwable e) {
+                dismissDialogFragment();
+                Utils.toastTips(getString(R.string.blockchain_time_out));
+            }
+
+            @Override
+            public void onSuccess(Boolean isSuccess) {
+                if (isSuccess) {
+                    if (isProve) {
+                        dismissDialogFragment();
+                        buyPacket();
+                    } else {
+                        dismissDialogFragment();
+                        MinePoolBean.syncPoolsAndUserData();
+                        String content = getString(R.string.recharge_success) + "\ntx=[" + tx + "]";
+                        MessageDialog.show(RechargePacketsActivity.this, getString(R.string.tips), content, getString(R.string.sure)).setOnOkButtonClickListener(new OnDialogButtonClickListener() {
+                            @Override
+                            public boolean onClick(BaseDialog baseDialog, View v) {
+                                EventBus.getDefault().postSticky(new EventShowTabHome());
+                                finish();
+                                return false;
+                            }
+                        });
+                    }
+
+
+                }
+            }
+
+            @Override
+            public void onComplete() {
             }
         });
     }

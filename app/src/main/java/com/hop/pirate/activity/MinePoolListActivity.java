@@ -54,11 +54,22 @@ public class MinePoolListActivity extends BaseActivity {
         mCurrentMinePoolBean = (MinePoolBean) getIntent().getSerializableExtra(IntentKey.CURRENT_MINE_POOL);
         mMiningPoolRecyclerVeiw.setLayoutManager(new WrapContentLinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        showDialogFragment();
+        if (sMinePoolBeans == null || sMinePoolBeans.size() == 0) {
+            showDialogFragment();
+        } else {
+            mMiningPoolAdapter.setMinePoolBeans(sMinePoolBeans);
+        }
+        getPoolData(sMinePoolBeans == null || sMinePoolBeans.size() == 0);
+
+    }
+
+    private void getPoolData(final boolean hasLoading) {
         mMinePoolListModel.getPoolDataOfUser(MainActivity.sWalletBean.getMain(), new ResultCallBack<List<MinePoolBean>>() {
             @Override
             public void onError(Throwable e) {
-                showErrorDialog(R.string.get_data_failed);
+                if (hasLoading) {
+                    showErrorDialog(R.string.get_data_failed);
+                }
             }
 
             @Override
@@ -69,11 +80,12 @@ public class MinePoolListActivity extends BaseActivity {
 
             @Override
             public void onComplete() {
-                showSuccessDialog(R.string.loading_success);
+                if (hasLoading) {
+                    showSuccessDialog(R.string.loading_success);
+                }
             }
         });
     }
-
 
     @Override
     public void cancelWaitDialog() {

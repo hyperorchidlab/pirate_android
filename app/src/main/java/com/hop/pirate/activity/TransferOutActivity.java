@@ -23,6 +23,7 @@ import com.hop.pirate.model.impl.TransferModelImpl;
 import com.hop.pirate.service.WalletWrapper;
 import com.hop.pirate.util.Utils;
 import com.kongzue.dialog.interfaces.OnDismissListener;
+import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
 
 public class TransferOutActivity extends BaseActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
@@ -116,8 +117,6 @@ public class TransferOutActivity extends BaseActivity implements View.OnClickLis
                         }
                     }
                 });
-
-
                 break;
         }
     }
@@ -136,20 +135,14 @@ public class TransferOutActivity extends BaseActivity implements View.OnClickLis
             }
 
             @Override
-            public void onSuccess(String s) {
-                boolean transferStatus = !TextUtils.isEmpty(s);
-                if (transferStatus) {
-                    showSuccessDialog(R.string.transfer_success);
-                } else {
-                    showErrorDialog(R.string.transfer_fail);
-                }
+            public void onSuccess(String tx) {
+                dismissDialogFragment();
+                showDialogFragment(getString(R.string.transferring) + "\ntx[" + tx + "]", false);
+                queryTxStatus(tx, transferNumber, false);
             }
 
             @Override
             public void onComplete() {
-                double tokenBalance = WalletWrapper.HopBalance - Double.parseDouble(transferNumber) * Utils.CoinDecimal;
-                WalletWrapper.HopBalance = tokenBalance;
-                mTokenCountTv.setText(String.format(getString(R.string.transfer_token_balance), Utils.ConvertCoin(WalletWrapper.HopBalance)));
 
 
             }
@@ -169,25 +162,56 @@ public class TransferOutActivity extends BaseActivity implements View.OnClickLis
             }
 
             @Override
-            public void onSuccess(String s) {
-                boolean transferStatus = !TextUtils.isEmpty(s);
-                if (transferStatus) {
-                    showSuccessDialog(R.string.transfer_success);
-                } else {
-                    showErrorDialog(R.string.transfer_fail);
-                }
+            public void onSuccess(String tx) {
+                dismissDialogFragment();
+                showDialogFragment(getString(R.string.transferring) + "\ntx[" + tx + "]", false);
+                queryTxStatus(tx, num, true);
 
             }
 
             @Override
             public void onComplete() {
-                double ethBalance = WalletWrapper.EthBalance - Double.parseDouble(num) * Utils.CoinDecimal;
-                WalletWrapper.EthBalance = ethBalance;
-                mEthCountTv.setText(String.format(getString(R.string.transfer_eth_balance), Utils.ConvertCoin(WalletWrapper.EthBalance)));
+
             }
         });
     }
 
+
+    private void queryTxStatus(final String tx, final String num, final boolean isEth) {
+        mTransferModel.queryTxProcessStatus(tx, new ResultCallBack<Boolean>() {
+            @Override
+            public void onError(Throwable e) {
+                dismissDialogFragment();
+                showErrorDialog(R.string.transfer_fail);
+            }
+
+            @Override
+            public void onSuccess(Boolean isSuccess) {
+                if (isSuccess) {
+                    String content;
+                    if (isEth) {
+                        content = "Eth Tx:[" + tx + "]";
+                        double ethBalance = WalletWrapper.EthBalance - Double.parseDouble(num) * Utils.CoinDecimal;
+                        WalletWrapper.EthBalance = ethBalance;
+                        mEthCountTv.setText(String.format(getString(R.string.transfer_eth_balance), Utils.ConvertCoin(WalletWrapper.EthBalance)));
+                    } else {
+                        content = "Eth Tx:[" + tx + "]";
+                        double tokenBalance = WalletWrapper.HopBalance - Double.parseDouble(num) * Utils.CoinDecimal;
+                        WalletWrapper.HopBalance = tokenBalance;
+                        mTokenCountTv.setText(String.format(getString(R.string.transfer_token_balance), Utils.ConvertCoin(WalletWrapper.HopBalance)));
+                    }
+                    showErrorDialog(R.string.transfer_fail);
+                    showSuccessDialog(R.string.transfer_success);
+                    MessageDialog.show(TransferOutActivity.this, getString(R.string.tips), content, getString(R.string.sure));
+                }
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+    }
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {

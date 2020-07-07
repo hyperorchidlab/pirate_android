@@ -15,11 +15,18 @@ import com.hop.pirate.base.BaseActivity;
 import com.hop.pirate.model.bean.ExtendToken;
 import com.hop.pirate.util.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.ViewHolder> {
 
     private TokenAdapterItemClick mTokenAdapterItemClick;
+
+    public void setTokenBeans(List<ExtendToken> tokenBeans) {
+        mTokenBeans = tokenBeans;
+        notifyDataSetChanged();
+    }
+
     private List<ExtendToken> mTokenBeans;
     private BaseActivity mContext;
 
@@ -27,8 +34,7 @@ public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.ViewHolder> 
         void itemClick(ExtendToken extendToken);
     }
 
-    public TokenAdapter(BaseActivity context, List<ExtendToken> tokenBeans, TokenAdapterItemClick tokenAdapterItemClick) {
-        this.mTokenBeans = tokenBeans;
+    public TokenAdapter(BaseActivity context, TokenAdapterItemClick tokenAdapterItemClick) {
         mContext = context;
         mTokenAdapterItemClick = tokenAdapterItemClick;
     }

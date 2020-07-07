@@ -83,8 +83,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ShowQRImageActivity"
-            android:theme="@style/transparent_activity"
-            android:screenOrientation="portrait" />
+            android:theme="@style/transparent_activity" />
 
         <service
             android:name=".service.HopService"

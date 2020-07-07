@@ -26,6 +26,7 @@ public class BaseModel {
         mCompositeDisposable.add(disposable);
     }
 
+
     protected void removeAllDisposable() {
         if (null != mCompositeDisposable) {
             mCompositeDisposable.clear();

@@ -51,7 +51,6 @@ public class MainModelImpl extends BaseModel implements MainModel {
                 AndroidLib.initProtocol();
                 AndroidLib.syncAllPoolsData();
                 AndroidLib.initSysSeting();
-                AndroidLib.syncPoolsAndUserData();
                 Intent i = new Intent(context, MicroChainService.class);
                 context.startService(i);
                 emitter.onComplete();
