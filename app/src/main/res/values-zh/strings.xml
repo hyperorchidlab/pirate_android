@@ -8,7 +8,7 @@
     <string name="password">密码:</string>
     <string name="remembor_password">记住密码</string>
     <string name="createAccount">创建账号</string>
-    <string name="creating_tx">创建区块中...</string>
+    <string name="creating_tx">创建区块交易中...</string>
     <string name="approving">区块链\n授权中...</string>
 
 

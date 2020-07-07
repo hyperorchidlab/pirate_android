@@ -33,10 +33,13 @@ public class TabWalletModelImpl extends BaseModel implements TabWalletModel {
 
 
     @Override
-    public void getPoolDataOfUser(final String address, final ResultCallBack<List<MinePoolBean>> resultCallBack) {
+    public void getPoolDataOfUser(final int currentPoolNum, final String address, final ResultCallBack<List<MinePoolBean>> resultCallBack) {
         Observable.create(new ObservableOnSubscribe<List<MinePoolBean>>() {
             @Override
             public void subscribe(ObservableEmitter<List<MinePoolBean>> emitter) throws Exception {
+                if(currentPoolNum==0){
+                    AndroidLib.initSysSeting();
+                }
                 String poolsStr = AndroidLib.poolDataOfUser(address);
                 List<MinePoolBean> minePoolBeans = new ArrayList<>();
                 if (!TextUtils.isEmpty(poolsStr)) {

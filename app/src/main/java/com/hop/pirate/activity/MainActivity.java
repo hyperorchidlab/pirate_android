@@ -127,6 +127,8 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
             @Override
             public void onComplete() {
                 loadWallet();
+                mMainModel.syncAllPoolsData();
+                mMainModel.initSysSeting();
                 EventBus.getDefault().post(new EventInitLibSuccess());
             }
         });

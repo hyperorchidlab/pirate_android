@@ -67,8 +67,8 @@ public class TabPacketsMarketFragment extends BaseFragement implements SwipeRefr
 
     @Override
     public void onRefresh() {
-
-        mTabPacketsMarketModel.getPoolInfos(new ResultCallBack<List<MinePoolBean>>() {
+        int currentMinePoolNum = mMinePoolBeans == null ? 0 : mMinePoolBeans.size();
+        mTabPacketsMarketModel.getPoolInfos(currentMinePoolNum, new ResultCallBack<List<MinePoolBean>>() {
             @Override
             public void onError(Throwable e) {
                 mSwipeRefreshLayout.setRefreshing(false);

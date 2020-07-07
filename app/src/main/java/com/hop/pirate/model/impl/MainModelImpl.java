@@ -49,8 +49,6 @@ public class MainModelImpl extends BaseModel implements MainModel {
                 String bypassIPs = IOUtils.toString(ipInput);
                 AndroidLib.initSystem(bypassIPs, Utils.getBaseDir(context), ExtendToken.CurTokenI, ExtendToken.CurPaymentContract, Constants.ETH_API_URL, Constants.DNS, hopDelegate);
                 AndroidLib.initProtocol();
-                AndroidLib.syncAllPoolsData();
-                AndroidLib.initSysSeting();
                 Intent i = new Intent(context, MicroChainService.class);
                 context.startService(i);
                 emitter.onComplete();
@@ -118,6 +116,66 @@ public class MainModelImpl extends BaseModel implements MainModel {
             @Override
             public void onComplete() {
                 resultCallBack.onComplete();
+            }
+        });
+    }
+
+    @Override
+    public void syncAllPoolsData() {
+        schedulers(Observable.create(new ObservableOnSubscribe<WalletBean>() {
+            @Override
+            public void subscribe(ObservableEmitter<WalletBean> emitter) throws Exception {
+               AndroidLib.syncAllPoolsData();
+                emitter.onComplete();
+            }
+        })).subscribe(new Observer<WalletBean>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                addSubscribe(d);
+            }
+
+            @Override
+            public void onNext(WalletBean walletBean) {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                System.out.println("syncAllPoolsData :onError"+e.getMessage());
+            }
+
+            @Override
+            public void onComplete() {
+                System.out.println("syncAllPoolsData :onComplete");
+            }
+        });
+    }
+
+    @Override
+    public void initSysSeting() {
+        schedulers(Observable.create(new ObservableOnSubscribe<WalletBean>() {
+            @Override
+            public void subscribe(ObservableEmitter<WalletBean> emitter) throws Exception {
+                AndroidLib.initSysSeting();
+                emitter.onComplete();
+            }
+        })).subscribe(new Observer<WalletBean>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                addSubscribe(d);
+            }
+
+            @Override
+            public void onNext(WalletBean walletBean) {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                System.out.println("initSysSeting :onError"+e.getMessage());
+            }
+
+            @Override
+            public void onComplete() {
+                System.out.println("initSysSeting :onComplete");
             }
         });
     }

@@ -16,7 +16,7 @@ import java.util.List;
 public interface TabWalletModel {
 
 
-    void getPoolDataOfUser(String address, ResultCallBack<List<MinePoolBean>> resultCallBack);
+    void getPoolDataOfUser(int currentPoolNum,String address, ResultCallBack<List<MinePoolBean>> resultCallBack);
 
     void removeAllSubscribe();
 }
