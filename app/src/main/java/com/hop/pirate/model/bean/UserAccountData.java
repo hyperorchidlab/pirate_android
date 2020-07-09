@@ -2,10 +2,13 @@ package com.hop.pirate.model.bean;
 
 import android.text.TextUtils;
 
+import org.greenrobot.greendao.annotation.Entity;
 import org.json.JSONObject;
 
 import androidLib.AndroidLib;
+import org.greenrobot.greendao.annotation.Generated;
 
+@Entity
 public class UserAccountData {
 
     private String user;
@@ -19,6 +22,26 @@ public class UserAccountData {
     private int epoch;
     private double credit;
     private int microNonce;
+
+    @Generated(hash = 1881823397)
+    public UserAccountData(String user, String pool, double inRecharge,
+            String expire, int nonce, double token, double packets, int epoch,
+            double credit, int microNonce) {
+        this.user = user;
+        this.pool = pool;
+        this.inRecharge = inRecharge;
+        this.expire = expire;
+        this.nonce = nonce;
+        this.token = token;
+        this.packets = packets;
+        this.epoch = epoch;
+        this.credit = credit;
+        this.microNonce = microNonce;
+    }
+
+    @Generated(hash = 434031780)
+    public UserAccountData() {
+    }
 
     public int getEpoch() {
         return epoch;

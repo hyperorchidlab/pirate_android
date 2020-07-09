@@ -11,7 +11,7 @@ import java.util.List;
  * @date :   2020/5/26 2:57 PM
  */
 public interface TabPacketsMarketModel {
-    void getPoolInfos(int currentCount,ResultCallBack<List<MinePoolBean>> resultCallBack);
+    void getPoolInfos(ResultCallBack<List<MinePoolBean>> resultCallBack);
 
     void removeAllSubscribe();
 }

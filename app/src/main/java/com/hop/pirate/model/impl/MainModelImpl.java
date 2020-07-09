@@ -7,11 +7,16 @@ import com.google.gson.Gson;
 import com.hop.pirate.Constants;
 import com.hop.pirate.PError;
 import com.hop.pirate.R;
+import com.hop.pirate.activity.RechargePacketsActivity;
 import com.hop.pirate.base.BaseModel;
 import com.hop.pirate.callback.ResultCallBack;
+import com.hop.pirate.fragment.TabPacketsMarketFragment;
+import com.hop.pirate.fragment.TabWalletFragment;
+import com.hop.pirate.greendao.WalletBeanDaoUtil;
 import com.hop.pirate.model.MainModel;
 import com.hop.pirate.model.bean.ExtendToken;
 import com.hop.pirate.model.bean.WalletBean;
+import com.hop.pirate.service.HopService;
 import com.hop.pirate.service.MicroChainService;
 import com.hop.pirate.service.WalletWrapper;
 import com.hop.pirate.util.Utils;
@@ -83,7 +88,14 @@ public class MainModelImpl extends BaseModel implements MainModel {
         schedulers(Observable.create(new ObservableOnSubscribe<WalletBean>() {
             @Override
             public void subscribe(ObservableEmitter<WalletBean> emitter) throws Exception {
-                String jsonStr = AndroidLib.walletInfo();
+                WalletBeanDaoUtil walletBeanDaoUtil = new WalletBeanDaoUtil(context);
+                if(HopService.IsRunning){
+                    WalletBean walletBean = walletBeanDaoUtil.queryWallet();
+                    emitter.onNext(walletBean);
+                    emitter.onComplete();
+                    return;
+                }
+                 String jsonStr = AndroidLib.walletInfo();
                 if (jsonStr.equals("")) {
                     emitter.onError(new PError(context.getString(R.string.wallet_read_failed)));
                     return;
@@ -94,6 +106,8 @@ public class MainModelImpl extends BaseModel implements MainModel {
                 WalletWrapper.EthBalance = walletBean.getEth();
                 WalletWrapper.HopBalance = walletBean.getHop();
                 WalletWrapper.Approved = walletBean.getApproved();
+                walletBeanDaoUtil.deleteAll();
+                walletBeanDaoUtil.insertWallet(walletBean);
                 emitter.onNext(walletBean);
                 emitter.onComplete();
             }
@@ -145,6 +159,7 @@ public class MainModelImpl extends BaseModel implements MainModel {
 
             @Override
             public void onComplete() {
+                TabPacketsMarketFragment.isSyncAllPools=true;
                 System.out.println("syncAllPoolsData :onComplete");
             }
         });
@@ -175,6 +190,39 @@ public class MainModelImpl extends BaseModel implements MainModel {
 
             @Override
             public void onComplete() {
+                RechargePacketsActivity.isInitSysSeting = true;
+                System.out.println("initSysSeting :onComplete");
+            }
+        });
+    }
+
+    @Override
+    public void initsyncPoolsAndUserData() {
+
+        schedulers(Observable.create(new ObservableOnSubscribe<WalletBean>() {
+            @Override
+            public void subscribe(ObservableEmitter<WalletBean> emitter) throws Exception {
+                AndroidLib.syncPoolsAndUserData();
+                emitter.onComplete();
+            }
+        })).subscribe(new Observer<WalletBean>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                addSubscribe(d);
+            }
+
+            @Override
+            public void onNext(WalletBean walletBean) {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                System.out.println("initSysSeting :onError"+e.getMessage());
+            }
+
+            @Override
+            public void onComplete() {
+                TabWalletFragment.initsyncPoolsAndUserData = true;
                 System.out.println("initSysSeting :onComplete");
             }
         });

@@ -37,8 +37,13 @@ import com.hop.pirate.Constants;
 import com.hop.pirate.HopApplication;
 import com.hop.pirate.PError;
 import com.hop.pirate.R;
+import com.hop.pirate.activity.RechargePacketsActivity;
 import com.hop.pirate.callback.AlertDialogOkCallBack;
 import com.hop.pirate.callback.SaveQRCodeCallBack;
+import com.hop.pirate.fragment.TabPacketsMarketFragment;
+import com.hop.pirate.fragment.TabWalletFragment;
+import com.hop.pirate.greendao.MinePoolBeanDaoUtil;
+import com.hop.pirate.greendao.MinerDaoUtil;
 import com.hop.pirate.model.bean.ExtendToken;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
@@ -75,6 +80,7 @@ public final class Utils {
     public static String ConvertCoin(double coinV) {
         return String.format(Locale.CHINA, "%.4f ", coinV / CoinDecimal);
     }
+
 
     public static String ConvertBandWidth(double packetsV) {
         if (packetsV > 1e12) {
@@ -114,6 +120,15 @@ public final class Utils {
         SharedPreferences.Editor edit = sharedPref.edit();
         edit.clear();
         edit.commit();
+    }
+
+    public static void clearAllData(Context context) {
+        TabPacketsMarketFragment.isSyncAllPools = false;
+        RechargePacketsActivity.isInitSysSeting = false;
+        TabWalletFragment.initsyncPoolsAndUserData = false;
+        clearSharedPref();
+        new MinePoolBeanDaoUtil(context).deleteAll();
+        new MinerDaoUtil(context).deleteAll();
     }
 
 

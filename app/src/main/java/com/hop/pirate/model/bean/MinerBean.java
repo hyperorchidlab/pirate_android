@@ -1,19 +1,26 @@
 package com.hop.pirate.model.bean;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Unique;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
 
 import androidLib.AndroidLib;
+import org.greenrobot.greendao.annotation.Generated;
 
-public class MinerBean implements Serializable {
+@Entity
+public class MinerBean  {
+    @Id(autoincrement = true)
+    private Long id;
     private String MID;
     private String zone;
     private double time;
     private String IP;
-
     private boolean isSelected;
+    private String minerPoolAdd;
 
     public boolean isSelected() {
         return isSelected;
@@ -26,6 +33,22 @@ public class MinerBean implements Serializable {
     public MinerBean(String mid, String zone) {
         this.MID = mid;
         this.zone = zone;
+    }
+
+    @Generated(hash = 430485696)
+    public MinerBean(Long id, String MID, String zone, double time, String IP,
+            boolean isSelected, String minerPoolAdd) {
+        this.id = id;
+        this.MID = MID;
+        this.zone = zone;
+        this.time = time;
+        this.IP = IP;
+        this.isSelected = isSelected;
+        this.minerPoolAdd = minerPoolAdd;
+    }
+
+    @Generated(hash = 2093257924)
+    public MinerBean() {
     }
 
     public String getMID() {
@@ -79,5 +102,30 @@ public class MinerBean implements Serializable {
                 e.printStackTrace();
             }
         }
+    }
+
+    public boolean getIsSelected() {
+        return this.isSelected;
+    }
+
+    public void setIsSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+    }
+
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getMinerPoolAdd() {
+        return this.minerPoolAdd;
+    }
+
+    public void setMinerPoolAdd(String minerPoolAdd) {
+        this.minerPoolAdd = minerPoolAdd;
     }
 }

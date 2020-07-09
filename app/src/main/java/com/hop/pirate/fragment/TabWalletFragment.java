@@ -25,8 +25,10 @@ import com.hop.pirate.event.EventSkipTabPacketsMarket;
 import com.hop.pirate.model.TabWalletModel;
 import com.hop.pirate.model.bean.ExtendToken;
 import com.hop.pirate.model.bean.MinePoolBean;
+import com.hop.pirate.model.bean.OwnPool;
 import com.hop.pirate.model.bean.WalletBean;
 import com.hop.pirate.model.impl.TabWalletModelImpl;
+import com.hop.pirate.service.HopService;
 import com.hop.pirate.util.Utils;
 import com.hop.pirate.util.WrapContentLinearLayoutManager;
 
@@ -37,6 +39,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.List;
 
 public class TabWalletFragment extends BaseFragement implements View.OnClickListener {
+    public static boolean initsyncPoolsAndUserData;
     private WalletBean mWalletBean;
     private TabWalletModel mTabWalletModel;
     private TextView mHopNumberTv;
@@ -131,7 +134,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
             Utils.toastTips(getString(R.string.wallet_read_failed));
             return;
         }
-        mTabWalletModel.getPoolDataOfUser(mMinePoolForWalletAdapter.getItemCount(),MainActivity.sWalletBean.getMain(), new ResultCallBack<List<MinePoolBean>>() {
+        mTabWalletModel.getPoolDataOfUser(mActivity,MainActivity.sWalletBean.getMain(), new ResultCallBack<List<OwnPool>>() {
             @Override
             public void onError(Throwable e) {
                 mActivity.dismissDialogFragment();
@@ -139,15 +142,15 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
             }
 
             @Override
-            public void onSuccess(List<MinePoolBean> minePoolBeans) {
-                if (minePoolBeans == null || minePoolBeans.size() == 0) {
+            public void onSuccess(List<OwnPool> ownPools) {
+                if (ownPools == null || ownPools.size() == 0) {
                     mEmptyIv.setVisibility(View.VISIBLE);
                     mEmptyTv.setVisibility(View.VISIBLE);
                 } else {
                     mEmptyIv.setVisibility(View.GONE);
                     mEmptyTv.setVisibility(View.GONE);
                 }
-                mMinePoolForWalletAdapter.setMinePoolBeans(minePoolBeans);
+                mMinePoolForWalletAdapter.setMinePoolBeans(ownPools);
             }
 
             @Override

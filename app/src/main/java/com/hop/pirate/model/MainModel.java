@@ -5,6 +5,7 @@ import android.content.Context;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.model.bean.WalletBean;
 
+import androidLib.AndroidLib;
 import androidLib.HopDelegate;
 
 /**
@@ -20,6 +21,8 @@ public interface MainModel {
     void syncAllPoolsData();
 
     void initSysSeting();
+
+    void initsyncPoolsAndUserData();
 
     void removeAllSubscribe();
 

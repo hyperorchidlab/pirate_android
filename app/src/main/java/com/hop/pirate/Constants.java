@@ -33,7 +33,7 @@ public class Constants {
     public static final String TOKEN_ADDRESS = "0xAd44c8493dE3FE2B070f33927A315b50Da9a0e25";
     public static final String DEFAULT_SYMBOL = "HOP";
     public static final String MICROPAY_SYSADDRESS = "0x4291d9Ff189D90Ba875E0fc1Da4D602406DD7D6e";
-    public static final String ETH_API_URL = "https://ropsten.infura.io/v3/fe5ffffba0bf46bb9dc27fd5e04cd6cb";
+    public static final String ETH_API_URL = "https://ropsten.infura.io/v3/d64d364124684359ace20feae1f9ac20";
     public static final String DNS = "108.61.223.99";
     public static final int TIME_OUT = 60;
     public static final int BLOCKCHAIN_TIME_OUT = 80;

@@ -25,18 +25,17 @@
         android:textColor="@color/color_4d4d4d"
         android:layout_height="wrap_content" />
 
-    <EditText
+    <TextView
         android:id="@+id/hopAddressET"
         android:layout_width="0dp"
-        android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:drawableBottom="@drawable/split_line"
         android:layout_marginStart="16dp"
+        android:gravity="center_vertical"
         android:background="@android:color/transparent"
         android:layout_marginEnd="16dp"
-        android:importantForAutofill="no"
-        tools:ignore="LabelFor"
+        android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@+id/hopAddressTitleTv"
         android:layout_height="50dp" />
 
@@ -61,8 +60,7 @@
         android:drawableBottom="@drawable/split_line"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:importantForAutofill="no"
-        tools:ignore="LabelFor"
+        android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@+id/minePoolTitleTv"
         android:layout_height="50dp" />
 

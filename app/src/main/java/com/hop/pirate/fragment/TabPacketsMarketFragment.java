@@ -29,8 +29,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-public class TabPacketsMarketFragment extends BaseFragement implements SwipeRefreshLayout.OnRefreshListener {
-
+public class TabPacketsMarketFragment extends BaseFragement{
+    public static boolean isSyncAllPools;
     private TabPacketsMarketModel mTabPacketsMarketModel;
     private RecyclerView mRechargeRecycleView;
     private RechargeAdapter mRechargeAdapter;
@@ -47,7 +47,7 @@ public class TabPacketsMarketFragment extends BaseFragement implements SwipeRefr
         EventBus.getDefault().register(this);
         mTabPacketsMarketModel = new TabPacketsMarketModelImpl();
         mSwipeRefreshLayout.setRefreshing(true);
-        onRefresh();
+        getPoolInfos(false);
         return view;
     }
 
@@ -61,14 +61,17 @@ public class TabPacketsMarketFragment extends BaseFragement implements SwipeRefr
         mRechargeRecycleView.setLayoutManager(new WrapContentLinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         mRechargeRecycleView.setAdapter(mRechargeAdapter);
 
-        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getPoolInfos(true);
+            }
+        });
     }
 
 
-    @Override
-    public void onRefresh() {
-        int currentMinePoolNum = mMinePoolBeans == null ? 0 : mMinePoolBeans.size();
-        mTabPacketsMarketModel.getPoolInfos(currentMinePoolNum, new ResultCallBack<List<MinePoolBean>>() {
+    public void getPoolInfos(boolean syncAllPoolsData) {
+        mTabPacketsMarketModel.getPoolInfos( new ResultCallBack<List<MinePoolBean>>() {
             @Override
             public void onError(Throwable e) {
                 mSwipeRefreshLayout.setRefreshing(false);

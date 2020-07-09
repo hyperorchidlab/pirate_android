@@ -20,7 +20,6 @@ import com.hop.pirate.callback.AlertDialogOkCallBack;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.model.CreateAccountModel;
 import com.hop.pirate.model.impl.CreateAccountModelImpl;
-import com.hop.pirate.service.WalletWrapper;
 import com.hop.pirate.util.Utils;
 
 import androidLib.AndroidLib;
@@ -103,7 +102,8 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
             public void onComplete() {
                 dismissDialogFragment();
                 Utils.toastTips(getResources().getString(R.string.create_account_success));
-                Utils.clearSharedPref();
+                Utils.clearAllData(CreateAccountActivity.this);
+
                 startActivity(MainActivity.class);
                 finish();
             }
@@ -211,10 +211,9 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
 
             @Override
             public void onComplete() {
-
                 dismissDialogFragment();
                 Utils.toastTips(getResources().getString(R.string.import_success));
-                Utils.clearSharedPref();
+                Utils.clearAllData(CreateAccountActivity.this);
                 startActivity(MainActivity.class);
                 finish();
             }

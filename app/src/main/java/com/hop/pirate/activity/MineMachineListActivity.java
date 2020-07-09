@@ -125,7 +125,7 @@ public class MineMachineListActivity extends BaseActivity implements View.OnClic
             public void onError(Throwable e) {
                 if (hasLoading) {
                     dismissDialogFragment();
-                    Utils.toastTips(getString(R.string.get_data_failed));
+                    showErrorDialog(R.string.get_data_failed);
                 }
             }
 
@@ -139,7 +139,7 @@ public class MineMachineListActivity extends BaseActivity implements View.OnClic
             public void onComplete() {
                 if (hasLoading) {
                     dismissDialogFragment();
-                    Utils.toastTips(getString(R.string.loading_success));
+                    showSuccessDialog(R.string.loading_success);
                 }
             }
         });

@@ -1,8 +1,8 @@
 package com.hop.pirate.model.impl;
 
-import com.hop.pirate.Constants;
 import com.hop.pirate.base.BaseModel;
 import com.hop.pirate.callback.ResultCallBack;
+import com.hop.pirate.fragment.TabPacketsMarketFragment;
 import com.hop.pirate.model.TabPacketsMarketModel;
 import com.hop.pirate.model.bean.MinePoolBean;
 
@@ -11,16 +11,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import androidLib.AndroidLib;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * @description:
@@ -29,12 +26,13 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class TabPacketsMarketModelImpl extends BaseModel implements TabPacketsMarketModel {
     @Override
-    public void getPoolInfos(final int currentCount, final ResultCallBack<List<MinePoolBean>> resultCallBack) {
+    public void getPoolInfos( final ResultCallBack<List<MinePoolBean>> resultCallBack) {
         schedulers(Observable.create(new ObservableOnSubscribe<List<MinePoolBean>>() {
             @Override
             public void subscribe(ObservableEmitter<List<MinePoolBean>> emitter) throws Exception {
-                if(currentCount==0){
+                if(!TabPacketsMarketFragment.isSyncAllPools){
                     AndroidLib.syncAllPoolsData();
+                    TabPacketsMarketFragment.isSyncAllPools=true;
                 }
                 String jsonStr = AndroidLib.poolInfosInMarket();
                 List<MinePoolBean> minePoolBeans = new ArrayList<>();

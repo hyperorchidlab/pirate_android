@@ -87,7 +87,7 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
                     return;
                 }
 
-                if (Double.parseDouble(Utils.ConvertCoin(Integer.parseInt(balance))) > 500) {
+                if (Double.parseDouble(Utils.ConvertCoin(Double.parseDouble(balance))) > 500) {
                     mApplyFreeTokenBtn.setEnabled(false);
                 } else {
                     mApplyFreeTokenBtn.setEnabled(true);
@@ -307,8 +307,7 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
 
             @Override
             public void onSuccess(String tx) {
-
-                queryTxStatus(tx, true);
+                queryTxStatus(tx, false);
             }
 
             @Override
@@ -378,6 +377,8 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
                 break;
             case Constants.IMPORT_ACCOUNT_ERR_CODE:
                 Utils.toastTips("err:" + msg.obj);
+                break;
+            default:
                 break;
         }
         return false;

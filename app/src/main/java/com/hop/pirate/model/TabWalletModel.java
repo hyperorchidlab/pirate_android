@@ -3,8 +3,7 @@ package com.hop.pirate.model;
 import android.content.Context;
 
 import com.hop.pirate.callback.ResultCallBack;
-import com.hop.pirate.model.bean.MinePoolBean;
-import com.hop.pirate.model.bean.WalletBean;
+import com.hop.pirate.model.bean.OwnPool;
 
 import java.util.List;
 
@@ -16,7 +15,7 @@ import java.util.List;
 public interface TabWalletModel {
 
 
-    void getPoolDataOfUser(int currentPoolNum,String address, ResultCallBack<List<MinePoolBean>> resultCallBack);
+    void getPoolDataOfUser(Context context, String address, ResultCallBack<List<OwnPool>> resultCallBack);
 
     void removeAllSubscribe();
 }

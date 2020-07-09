@@ -16,6 +16,7 @@ import com.hop.pirate.base.BaseActivity;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.dialog.PayPasswordDialog;
 import com.hop.pirate.event.EventShowTabHome;
+import com.hop.pirate.model.MainModel;
 import com.hop.pirate.model.RechargeModel;
 import com.hop.pirate.model.bean.MinePoolBean;
 import com.hop.pirate.model.impl.RechargeModelImpl;
@@ -28,11 +29,12 @@ import com.kongzue.dialog.v3.MessageDialog;
 import org.greenrobot.eventbus.EventBus;
 
 public class RechargePacketsActivity extends BaseActivity implements FlowSelectAdapter.RechargeFlowState {
+    public static boolean isInitSysSeting;
     private RechargeModel mRechargeModel;
     private RecyclerView mFlowRecyclerview;
     private int rechargeState;
     private String PoolAddress;
-    private EditText mHopAddressET;
+    private TextView mHopAddressET;
     private TextView mHopBalanceTV;
     public static final String PoolKey = "PoolAddress";
     private TextView mMinePoolAddressTv;

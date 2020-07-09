@@ -1,12 +1,18 @@
 package com.hop.pirate.model.impl;
 
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.hop.pirate.Constants;
 import com.hop.pirate.base.BaseModel;
 import com.hop.pirate.callback.ResultCallBack;
+import com.hop.pirate.fragment.TabWalletFragment;
+import com.hop.pirate.greendao.MinerDaoUtil;
+import com.hop.pirate.greendao.OwnPoolDaoUtil;
 import com.hop.pirate.model.TabWalletModel;
-import com.hop.pirate.model.bean.MinePoolBean;
+import com.hop.pirate.model.bean.MinerBean;
+import com.hop.pirate.model.bean.OwnPool;
+import com.hop.pirate.service.HopService;
 
 import org.json.JSONObject;
 
@@ -33,15 +39,24 @@ public class TabWalletModelImpl extends BaseModel implements TabWalletModel {
 
 
     @Override
-    public void getPoolDataOfUser(final int currentPoolNum, final String address, final ResultCallBack<List<MinePoolBean>> resultCallBack) {
-        Observable.create(new ObservableOnSubscribe<List<MinePoolBean>>() {
+    public void getPoolDataOfUser(final Context context, final String address, final ResultCallBack<List<OwnPool>> resultCallBack) {
+        Observable.create(new ObservableOnSubscribe<List<OwnPool>>() {
             @Override
-            public void subscribe(ObservableEmitter<List<MinePoolBean>> emitter) throws Exception {
-                if(currentPoolNum==0){
-                    AndroidLib.initSysSeting();
+            public void subscribe(ObservableEmitter<List<OwnPool>> emitter) throws Exception {
+                List<OwnPool> minePoolBeans = new ArrayList<>();
+                OwnPoolDaoUtil ownPoolDaoUtil = new OwnPoolDaoUtil(context);
+                if(HopService.IsRunning){
+                    minePoolBeans = ownPoolDaoUtil.queryAll();
+                    emitter.onNext(minePoolBeans);
+                    emitter.onComplete();
+                    return ;
+                }
+                if(!TabWalletFragment.initsyncPoolsAndUserData){
+                    AndroidLib.syncPoolsAndUserData();
+                    TabWalletFragment.initsyncPoolsAndUserData = true;
                 }
                 String poolsStr = AndroidLib.poolDataOfUser(address);
-                List<MinePoolBean> minePoolBeans = new ArrayList<>();
+
                 if (!TextUtils.isEmpty(poolsStr)) {
                     JSONObject poolMap = new JSONObject(poolsStr);
                     Iterator it = poolMap.keys();
@@ -52,7 +67,7 @@ public class TabWalletModelImpl extends BaseModel implements TabWalletModel {
                         if (p == null) {
                             continue;
                         }
-                        MinePoolBean bean = new MinePoolBean();
+                        OwnPool bean = new OwnPool();
 
                         bean.setAddress(key);
                         bean.setName(p.optString("Name"));
@@ -63,19 +78,22 @@ public class TabWalletModelImpl extends BaseModel implements TabWalletModel {
                     }
 
                 }
+
+                ownPoolDaoUtil.deleteAll();
+                ownPoolDaoUtil.insertOwnPool(minePoolBeans);
                 emitter.onNext(minePoolBeans);
                 emitter.onComplete();
             }
         }).timeout(Constants.TIME_OUT, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<MinePoolBean>>() {
+                .subscribe(new Observer<List<OwnPool>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         addSubscribe(d);
                     }
 
                     @Override
-                    public void onNext(List<MinePoolBean> walletBean) {
+                    public void onNext(List<OwnPool> walletBean) {
                         resultCallBack.onSuccess(walletBean);
                     }
 

@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.hop.pirate.Constants;
 import com.hop.pirate.PError;
 import com.hop.pirate.R;
+import com.hop.pirate.activity.RechargePacketsActivity;
 import com.hop.pirate.base.BaseModel;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.model.RechargeModel;
@@ -118,6 +119,10 @@ public class RechargeModelImpl extends BaseModel implements RechargeModel {
         schedulers(Observable.create(new ObservableOnSubscribe<Double>() {
             @Override
             public void subscribe(ObservableEmitter<Double> emitter) throws Exception {
+                if(!RechargePacketsActivity.isInitSysSeting){
+                    AndroidLib.initSysSeting();
+                    RechargePacketsActivity.isInitSysSeting=true;
+                }
                 String sysStr = AndroidLib.systemSettings();
                 if (!sysStr.equals("")) {
                     JSONObject json = new JSONObject(sysStr);

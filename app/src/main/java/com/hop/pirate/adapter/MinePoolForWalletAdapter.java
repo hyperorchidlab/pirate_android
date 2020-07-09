@@ -21,6 +21,7 @@ import com.hop.pirate.activity.RechargePacketsActivity;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.model.TabHomeModel;
 import com.hop.pirate.model.bean.MinePoolBean;
+import com.hop.pirate.model.bean.OwnPool;
 import com.hop.pirate.model.impl.TabHomeModelImpl;
 import com.hop.pirate.model.bean.UserAccountData;
 import com.hop.pirate.service.WalletWrapper;
@@ -39,7 +40,7 @@ public class MinePoolForWalletAdapter extends RecyclerView.Adapter<MinePoolForWa
         mContext = context;
     }
 
-    private List<MinePoolBean> mMinePoolBeans;
+    private List<OwnPool> mMinePoolBeans;
 
 
     @NonNull
@@ -52,18 +53,18 @@ public class MinePoolForWalletAdapter extends RecyclerView.Adapter<MinePoolForWa
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
-        final MinePoolBean minePoolBean = mMinePoolBeans.get(i);
+        final OwnPool ownPool = mMinePoolBeans.get(i);
 
-        viewHolder.minePoolNameTv.setText(minePoolBean.getName());
+        viewHolder.minePoolNameTv.setText(ownPool.getName());
         viewHolder.rechargeTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(mContext, RechargePacketsActivity.class);
-                i.putExtra(RechargePacketsActivity.PoolKey, minePoolBean.getAddress());
+                i.putExtra(RechargePacketsActivity.PoolKey, ownPool.getAddress());
                 mContext.startActivity(i);
             }
         });
-        mTabHomeModel.getUserDataOfPool(WalletWrapper.MainAddress, minePoolBean.getAddress(), new ResultCallBack<UserAccountData>() {
+        mTabHomeModel.getUserDataOfPool(WalletWrapper.MainAddress, ownPool.getAddress(), new ResultCallBack<UserAccountData>() {
             @Override
             public void onError(Throwable e) {
 
@@ -131,7 +132,7 @@ public class MinePoolForWalletAdapter extends RecyclerView.Adapter<MinePoolForWa
     }
 
 
-    public void setMinePoolBeans(List<MinePoolBean> minePoolBeans) {
+    public void setMinePoolBeans(List<OwnPool> minePoolBeans) {
         mMinePoolBeans = minePoolBeans;
         notifyDataSetChanged();
     }

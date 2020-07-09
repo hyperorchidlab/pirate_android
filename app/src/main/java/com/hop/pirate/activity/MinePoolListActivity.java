@@ -24,7 +24,7 @@ import java.util.List;
 public class MinePoolListActivity extends BaseActivity {
     private MinePoolListModel mMinePoolListModel;
     private RecyclerView mMiningPoolRecyclerVeiw;
-    private MinePoolBean mCurrentMinePoolBean;
+    public static MinePoolBean mCurrentMinePoolBean;
     private MiningPoolAdapter mMiningPoolAdapter;
     private static List<MinePoolBean> sMinePoolBeans;
 
@@ -51,7 +51,6 @@ public class MinePoolListActivity extends BaseActivity {
             return;
         }
 
-        mCurrentMinePoolBean = (MinePoolBean) getIntent().getSerializableExtra(IntentKey.CURRENT_MINE_POOL);
         mMiningPoolRecyclerVeiw.setLayoutManager(new WrapContentLinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         if (sMinePoolBeans == null || sMinePoolBeans.size() == 0) {
@@ -64,7 +63,7 @@ public class MinePoolListActivity extends BaseActivity {
     }
 
     private void getPoolData(final boolean hasLoading) {
-        mMinePoolListModel.getPoolDataOfUser(MainActivity.sWalletBean.getMain(), new ResultCallBack<List<MinePoolBean>>() {
+        mMinePoolListModel.getPoolDataOfUser(this,MainActivity.sWalletBean.getMain(), new ResultCallBack<List<MinePoolBean>>() {
             @Override
             public void onError(Throwable e) {
                 if (hasLoading) {

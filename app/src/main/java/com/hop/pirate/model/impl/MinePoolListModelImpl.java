@@ -1,12 +1,15 @@
 package com.hop.pirate.model.impl;
 
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.hop.pirate.base.BaseModel;
 import com.hop.pirate.callback.ResultCallBack;
+import com.hop.pirate.greendao.MinePoolBeanDaoUtil;
 import com.hop.pirate.model.MinePoolListModel;
 import com.hop.pirate.model.TabWalletModel;
 import com.hop.pirate.model.bean.MinePoolBean;
+import com.hop.pirate.service.HopService;
 
 import org.json.JSONObject;
 
@@ -32,33 +35,42 @@ public class MinePoolListModelImpl extends BaseModel implements MinePoolListMode
 
 
     @Override
-    public void getPoolDataOfUser(final String address, final ResultCallBack<List<MinePoolBean>> resultCallBack) {
+    public void getPoolDataOfUser(final Context context, final String address, final ResultCallBack<List<MinePoolBean>> resultCallBack) {
         schedulers(Observable.create(new ObservableOnSubscribe<List<MinePoolBean>>() {
             @Override
             public void subscribe(ObservableEmitter<List<MinePoolBean>> emitter) throws Exception {
-                String poolsStr = AndroidLib.poolDataOfUser(address);
-                List<MinePoolBean> minePoolBeans = new ArrayList<>();
-                if (!TextUtils.isEmpty(poolsStr)) {
-                    JSONObject poolMap = new JSONObject(poolsStr);
-                    Iterator it = poolMap.keys();
+                List<MinePoolBean> minePoolBeans;
+                MinePoolBeanDaoUtil minePoolBeanDaoUtil = new MinePoolBeanDaoUtil(context);
+                if(HopService.IsRunning){
+                    minePoolBeans= minePoolBeanDaoUtil.queryAll();
+                }else{
+                    String poolsStr = AndroidLib.poolDataOfUser(address);
+                    minePoolBeans = new ArrayList<>();
+                    if (!TextUtils.isEmpty(poolsStr)) {
+                        JSONObject poolMap = new JSONObject(poolsStr);
+                        Iterator it = poolMap.keys();
 
-                    while (it.hasNext()) {
-                        String key = it.next().toString();
-                        JSONObject p = poolMap.optJSONObject(key);
-                        if (p == null) {
-                            continue;
+                        while (it.hasNext()) {
+                            String key = it.next().toString();
+                            JSONObject p = poolMap.optJSONObject(key);
+                            if (p == null) {
+                                continue;
+                            }
+                            MinePoolBean bean = new MinePoolBean();
+                            bean.setAddress(key);
+                            bean.setName(p.optString("Name"));
+                            bean.setEmail(p.optString("Email"));
+                            bean.setMortgageNumber(p.optDouble("GTN"));
+                            bean.setWebsiteAddress(p.optString("Url"));
+                            minePoolBeans.add(bean);
                         }
-                        MinePoolBean bean = new MinePoolBean();
 
-                        bean.setAddress(key);
-                        bean.setName(p.optString("Name"));
-                        bean.setEmail(p.optString("Email"));
-                        bean.setMortgageNumber(p.optDouble("GTN"));
-                        bean.setWebsiteAddress(p.optString("Url"));
-                        minePoolBeans.add(bean);
                     }
-
+                    minePoolBeanDaoUtil.deleteAll();
+                    minePoolBeanDaoUtil.insertMinePoolBeans(minePoolBeans);
                 }
+
+
                 emitter.onNext(minePoolBeans);
                 emitter.onComplete();
             }

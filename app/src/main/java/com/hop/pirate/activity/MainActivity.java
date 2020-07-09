@@ -31,7 +31,6 @@ import com.hop.pirate.model.MainModel;
 import com.hop.pirate.model.bean.WalletBean;
 import com.hop.pirate.model.impl.MainModelImpl;
 import com.hop.pirate.service.HopService;
-import com.hop.pirate.service.SysConf;
 import com.hop.pirate.service.WalletWrapper;
 import com.hop.pirate.util.BottomNavigatorAdapter;
 import com.hop.pirate.util.FragmentNavigator;
@@ -71,6 +70,9 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
         setContentView(R.layout.activity_main);
         EventBus.getDefault().register(this);
         mMainModel = new MainModelImpl();
+        if (HopService.IsRunning) {
+            return;
+        }
         initService();
 
     }
@@ -84,20 +86,20 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        if (HopService.IsRunning) {
+            return;
+        }else{
+            AndroidLib.stopProtocol();
+        }
         initService();
 
 
     }
 
     void initService() {
-        if (HopService.IsRunning) {
-            return;
-        }
-        showDialogFragment(R.string.synchronization_block, false);
         mMainModel.initService(this, this, new ResultCallBack<String>() {
             @Override
             public void onError(Throwable e) {
-                dismissDialogFragment();
                 Utils.showOkAlert(MainActivity.this, R.string.tips, R.string.blockchain_sync_error, new AlertDialogOkCallBack() {
 
                     @Override
@@ -118,6 +120,7 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
                 loadWallet();
                 mMainModel.syncAllPoolsData();
                 mMainModel.initSysSeting();
+                mMainModel.initsyncPoolsAndUserData();
                 EventBus.getDefault().post(new EventInitLibSuccess());
             }
         });
@@ -136,7 +139,8 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
             @Override
             public void onSuccess(WalletBean walletBean) {
                 sWalletBean = walletBean;
-                String tokenName = Utils.getString(Constants.CUR_SYMBOL, "");
+
+                String tokenName = Utils.getString(Constants.CUR_SYMBOL, "HOP");
                 if (sWalletBean.getHop() != 0 && tokenName.startsWith("HOP")) {
                     gone(mGetFreeCoinTv);
                 }

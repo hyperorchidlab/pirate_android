@@ -1,5 +1,7 @@
 package com.hop.pirate.model;
 
+import android.content.Context;
+
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.model.bean.MinePoolBean;
 
@@ -12,7 +14,7 @@ import java.util.List;
  */
 public interface MinePoolListModel {
 
-    void getPoolDataOfUser(String address, ResultCallBack<List<MinePoolBean>> resultCallBack);
+    void getPoolDataOfUser(Context context,String address, ResultCallBack<List<MinePoolBean>> resultCallBack);
 
     void removeAllSubscribe();
 }
