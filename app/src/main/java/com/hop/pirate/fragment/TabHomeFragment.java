@@ -265,7 +265,6 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
             @Override
             public void onComplete() {
                 mActivity.showDialogFragment(R.string.connect);
-                mActivity.showDialogFragment();
                 mHopIntent = new Intent(mActivity, HopService.class);
                 mActivity.startService(mHopIntent);
             }

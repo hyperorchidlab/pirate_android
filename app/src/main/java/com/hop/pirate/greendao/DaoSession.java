@@ -28,7 +28,7 @@ import com.hop.pirate.greendao.WalletBeanDao;
 
 /**
  * {@inheritDoc}
- *
+ * 
  * @see org.greenrobot.greendao.AbstractDaoSession
  */
 public class DaoSession extends AbstractDaoSession {
@@ -90,7 +90,7 @@ public class DaoSession extends AbstractDaoSession {
         registerDao(UserAccountData.class, userAccountDataDao);
         registerDao(WalletBean.class, walletBeanDao);
     }
-
+    
     public void clear() {
         extendTokenDaoConfig.clearIdentityScope();
         minePoolBeanDaoConfig.clearIdentityScope();

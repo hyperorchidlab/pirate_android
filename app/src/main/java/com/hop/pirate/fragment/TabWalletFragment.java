@@ -119,10 +119,13 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
             case R.id.refreshMinPoolTv:
                 mActivity.showDialogFragment();
                 ((MainActivity) mActivity).loadWallet();
+                getPoolDataOfUser(true);
                 break;
             case R.id.addMinePoolBgIv:
             case R.id.addMinePoolTv:
                 EventBus.getDefault().post(new EventSkipTabPacketsMarket());
+                break;
+            default:
                 break;
         }
     }
@@ -163,7 +166,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loadWalletSuccess(EventLoadWalletSuccess eventLoadWalletSuccess) {
         initData();
-        getPoolDataOfUser(true);
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
