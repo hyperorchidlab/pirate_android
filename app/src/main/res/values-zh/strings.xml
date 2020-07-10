@@ -187,4 +187,5 @@
     <string name="tab_setting_replace_account_title">您确定?</string>
     <string name="tab_setting_replace_msg">替换当前账号?</string>
     <string name="new_version">发现新版本</string>
+    <string name="update_version">更新</string>
 </resources>

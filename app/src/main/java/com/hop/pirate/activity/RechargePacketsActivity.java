@@ -97,7 +97,7 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
 
     @Override
     public void initData() {
-        mMinePoolAddressTv.setText(PoolAddress.toUpperCase());
+        mMinePoolAddressTv.setText(PoolAddress);
         mHopAddressTitleTv.setText(Utils.TokenNameFormat(this, R.string.hop_address));
         mHopCoinTv.setText(Utils.TokenNameFormat(this, R.string.recharge_hop_coin));
     }

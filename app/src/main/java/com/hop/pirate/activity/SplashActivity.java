@@ -58,57 +58,73 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
             return;
         }
 
-//        mSplashModel.checkVersion(this, new ResultCallBack<AppVersionBean>() {
-//            @Override
-//            public void onError(Throwable e) {
-//            }
-//
-//            @Override
-//            public void onSuccess(AppVersionBean versionBean) {
-//                if (versionBean.getNewVersion() > Utils.getVersionCode(SplashActivity.this)) {
-//                    String able = getResources().getConfiguration().locale.getCountry();
-//                    if (able.equals("CN")) {
-//                        showUpdataAppDialog(versionBean.getUpdateMsgCN());
-//                    } else {
-//                        showUpdataAppDialog(versionBean.getUpdateMsgEN());
-//                    }
-//                } else {
-//                    mHandler.postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            if (Utils.checkStorage(SplashActivity.this)) {
-//                                loadWallet();
-//                            }
-//                        }
-//                    }, 1500);
-//                }
-//            }
-//
-//            @Override
-//            public void onComplete() {
-//
-//            }
-//        });
-
-        mHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (Utils.checkStorage(SplashActivity.this)) {
-                                loadWallet();
-                            }
-                        }
-                    }, 1500);
-    }
-
-    private void showUpdataAppDialog(String updateMsg) {
-        MessageDialog.show(SplashActivity.this, getString(R.string.tab_setting_new_version), updateMsg, getString(R.string.sure)).setOnOkButtonClickListener(new OnDialogButtonClickListener() {
+        mSplashModel.checkVersion(this, new ResultCallBack<AppVersionBean>() {
             @Override
-            public boolean onClick(BaseDialog baseDialog, View v) {
-                Utils.openAppDownloadPage(SplashActivity.this);
-                finish();
-                return false;
+            public void onError(Throwable e) {
+                delayLoadwallet();
+            }
+
+            @Override
+            public void onSuccess(AppVersionBean versionBean) {
+                if (versionBean.getNewVersion() > Utils.getVersionCode(SplashActivity.this)) {
+                    showUpdataAppDialog(versionBean);
+                } else {
+                    delayLoadwallet();
+                }
+            }
+
+            @Override
+            public void onComplete() {
+
             }
         });
+
+    }
+
+    private void delayLoadwallet() {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (Utils.checkStorage(SplashActivity.this)) {
+                    loadWallet();
+                }
+            }
+        }, 1500);
+    }
+
+    private void showUpdataAppDialog(AppVersionBean versionBean) {
+        String updateMsg;
+        String able = getResources().getConfiguration().locale.getCountry();
+        if (able.equals("CN")) {
+            updateMsg = versionBean.getUpdateMsgCN();
+        } else {
+            updateMsg = versionBean.getUpdateMsgEN();
+        }
+        MessageDialog messageDialog = MessageDialog.build(SplashActivity.this)
+                .setCancelable(false)
+                .setTitle(getString(R.string.new_version))
+                .setMessage(updateMsg)
+                .setOkButton(getString(R.string.update_version))
+                .setOnOkButtonClickListener(new OnDialogButtonClickListener() {
+                    @Override
+                    public boolean onClick(BaseDialog baseDialog, View v) {
+                        Utils.openAppDownloadPage(SplashActivity.this);
+                        finish();
+                        return false;
+                    }
+                });
+        if (Utils.getVersionCode(SplashActivity.this) > versionBean.getMinversion()){
+            messageDialog.setCancelButton(getString(R.string.cancel)).setOnCancelButtonClickListener(new OnDialogButtonClickListener() {
+                @Override
+                public boolean onClick(BaseDialog baseDialog, View v) {
+                    delayLoadwallet();
+                    return false;
+                }
+            });
+
+
+        }
+        messageDialog.show();
     }
 
 

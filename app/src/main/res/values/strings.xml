@@ -194,5 +194,6 @@
     <string name="close_other_vpn_app">Please close other VPN apps </string>
     <string name="blockchain_sync_error">Block synchronization is abnormal, please exit and reopen the app</string>
     <string name="new_version">New Version</string>
+    <string name="update_version">Update</string>
 
 </resources>

@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.TimeoutException;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -73,13 +74,10 @@ public class SplashModelImpl extends BaseModel implements SplashModel {
         Observable.create(new ObservableOnSubscribe<AppVersionBean>() {
             @Override
             public void subscribe(ObservableEmitter<AppVersionBean> emitter) throws Exception {
-                URL url = new URL("https://raw.githubusercontent.com/alen-x/updateversion/master/README.md");
-//
+
+                URL url = new URL("https://www.fastmock.site/mock/c30676a124bcbd7bfa4d0722a374f899/pirate/api/check_new_version");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
-                urlConnection.setRequestProperty("Content-type", "application/json");
-
-                urlConnection.setRequestProperty("Authorization","5eefc923eeb7b76c61d402efbd2fe62f7cecfbf4");
                 urlConnection.connect();
                 int responseCode = urlConnection.getResponseCode();
                 if (responseCode == HttpURLConnection.HTTP_OK) {
@@ -95,9 +93,7 @@ public class SplashModelImpl extends BaseModel implements SplashModel {
                     emitter.onNext(versionBean);
                     emitter.onComplete();
                 } else {
-                    AppVersionBean versionBean = new AppVersionBean();
-                    emitter.onNext(versionBean);
-                    emitter.onComplete();
+                   emitter.onError(new TimeoutException());
                 }
 
 

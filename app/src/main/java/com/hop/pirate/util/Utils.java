@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
+import com.google.zxing.DecodeHintType;
 import com.google.zxing.LuminanceSource;
 import com.google.zxing.MultiFormatReader;
 import com.google.zxing.RGBLuminanceSource;
@@ -56,8 +57,10 @@ import com.kongzue.dialog.v3.MessageDialog;
 
 import java.io.File;
 import java.io.OutputStream;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 import pub.devrel.easypermissions.EasyPermissions;
@@ -199,11 +202,9 @@ public final class Utils {
                     requestErrorId = R.string.create_account_failed;
                     break;
                 case Constants.REQUEST_IMPORT_ACCOUNT_ERROR:
-                    requestErrorId = R.string.import_account_failed;
+                    requestErrorId = R.string.password_eror;
                     break;
                 case Constants.REQUEST_PACKETS_MARKET_ERROR:
-                    requestErrorId = R.string.import_account_failed;
-                    break;
                 case Constants.REQUEST_OWNE_MINE_POOL_ERROR:
                 case Constants.REQUEST_MINE_MACHINE_ERROR:
                 case Constants.REQUEST_WALLET_INFO_ERROR:
@@ -250,7 +251,7 @@ public final class Utils {
                 .setHintText(context.getString(R.string.enter_ethereum_password))
                 .setInputInfo(new InputInfo().setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD)
                 )
-                .setCancelable(true)
+                .setCancelable(false)
                 .show();
 
     }
@@ -335,8 +336,10 @@ public final class Utils {
 
         LuminanceSource source = new RGBLuminanceSource(bitmap.getWidth(), bitmap.getHeight(), intArray);
         BinaryBitmap bb = new BinaryBitmap(new HybridBinarizer(source));
+        Map<DecodeHintType,Object> hints = new LinkedHashMap<DecodeHintType,Object>();
+        hints.put(DecodeHintType.PURE_BARCODE, Boolean.TRUE);
         Reader reader = new MultiFormatReader();
-        Result r = reader.decode(bb);
+        Result r = reader.decode(bb,hints);
 
         return r.getText();
     }

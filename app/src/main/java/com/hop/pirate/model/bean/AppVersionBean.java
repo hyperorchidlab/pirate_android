@@ -7,6 +7,7 @@ package com.hop.pirate.model.bean;
  */
 public class AppVersionBean {
     private int newVersion;
+    private int minversion;
     private String updateMsgEN;
     private String updateStr;
     private String updateMsgCN;
@@ -49,5 +50,12 @@ public class AppVersionBean {
 
     public AppVersionBean(String updateStr) {
         this.updateStr = updateStr;
+    }
+    public int getMinversion() {
+        return minversion;
+    }
+
+    public void setMinversion(int minversion) {
+        this.minversion = minversion;
     }
 }

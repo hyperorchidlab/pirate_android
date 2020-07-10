@@ -65,7 +65,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
         mTabWalletModel = new TabWalletModelImpl();
         initViews(view);
         initData();
-        getPoolDataOfUser();
+        getPoolDataOfUser(false);
         return view;
     }
 
@@ -128,7 +128,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
     }
 
 
-    private void getPoolDataOfUser() {
+    private void getPoolDataOfUser(boolean isShowDialog) {
         if (MainActivity.sWalletBean == null) {
             Utils.toastTips(getString(R.string.wallet_read_failed));
             return;
@@ -163,7 +163,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loadWalletSuccess(EventLoadWalletSuccess eventLoadWalletSuccess) {
         initData();
-        getPoolDataOfUser();
+        getPoolDataOfUser(true);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -173,7 +173,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void rechargeSuccess(EventRechargeSuccess eventRechargeSuccess) {
-        getPoolDataOfUser();
+        getPoolDataOfUser(false);
     }
 
 
