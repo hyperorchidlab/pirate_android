@@ -281,7 +281,6 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
         if (requestCode == Constants.REQUEST_MINE_POOL_CODE || requestCode == Constants.REQUEST_MINE_MACHINE_CODE) {
             if (HopService.IsRunning) {
                 HopService.Stop();
-                mActivity.stopService(new Intent(mActivity, HopService.class));
             }
             updateHomeData();
         } else if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {
