@@ -120,9 +120,9 @@ public class RechargeModelImpl extends WaitTxBaseModel implements RechargeModel 
         schedulers(Observable.create(new ObservableOnSubscribe<Double>() {
             @Override
             public void subscribe(ObservableEmitter<Double> emitter) throws Exception {
-                if(!RechargePacketsActivity.isInitSysSeting){
+                if (!RechargePacketsActivity.isInitSysSeting) {
                     AndroidLib.initSysSeting();
-                    RechargePacketsActivity.isInitSysSeting=true;
+                    RechargePacketsActivity.isInitSysSeting = true;
                 }
                 String sysStr = AndroidLib.systemSettings();
                 if (!sysStr.equals("")) {
@@ -193,7 +193,7 @@ public class RechargeModelImpl extends WaitTxBaseModel implements RechargeModel 
 
     @Override
     public void queryTxProcessStatus(final String tx, final ResultCallBack<Boolean> resultCallBack) {
-        queryTxStatus(tx,resultCallBack);
+        queryTxStatus(tx, resultCallBack);
 
     }
 

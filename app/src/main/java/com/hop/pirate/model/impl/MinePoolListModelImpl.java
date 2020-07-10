@@ -41,9 +41,9 @@ public class MinePoolListModelImpl extends BaseModel implements MinePoolListMode
             public void subscribe(ObservableEmitter<List<MinePoolBean>> emitter) throws Exception {
                 List<MinePoolBean> minePoolBeans;
                 MinePoolBeanDaoUtil minePoolBeanDaoUtil = new MinePoolBeanDaoUtil(context);
-                if(HopService.IsRunning){
-                    minePoolBeans= minePoolBeanDaoUtil.queryAll();
-                }else{
+                if (HopService.IsRunning) {
+                    minePoolBeans = minePoolBeanDaoUtil.queryAll();
+                } else {
                     String poolsStr = AndroidLib.poolDataOfUser(address);
                     minePoolBeans = new ArrayList<>();
                     if (!TextUtils.isEmpty(poolsStr)) {

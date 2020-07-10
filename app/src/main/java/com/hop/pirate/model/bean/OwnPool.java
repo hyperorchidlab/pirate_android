@@ -18,9 +18,10 @@ public class OwnPool {
     private String email;
     private double mortgageNumber;
     private String websiteAddress;
+
     @Generated(hash = 1283472363)
     public OwnPool(Long id, String address, String name, String email,
-            double mortgageNumber, String websiteAddress) {
+                   double mortgageNumber, String websiteAddress) {
         this.id = id;
         this.address = address;
         this.name = name;
@@ -28,42 +29,55 @@ public class OwnPool {
         this.mortgageNumber = mortgageNumber;
         this.websiteAddress = websiteAddress;
     }
+
     @Generated(hash = 414715948)
     public OwnPool() {
     }
+
     public Long getId() {
         return this.id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
+
     public String getAddress() {
         return this.address;
     }
+
     public void setAddress(String address) {
         this.address = address;
     }
+
     public String getName() {
         return this.name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public String getEmail() {
         return this.email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
+
     public double getMortgageNumber() {
         return this.mortgageNumber;
     }
+
     public void setMortgageNumber(double mortgageNumber) {
         this.mortgageNumber = mortgageNumber;
     }
+
     public String getWebsiteAddress() {
         return this.websiteAddress;
     }
+
     public void setWebsiteAddress(String websiteAddress) {
         this.websiteAddress = websiteAddress;
     }

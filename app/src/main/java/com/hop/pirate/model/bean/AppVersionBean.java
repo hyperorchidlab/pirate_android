@@ -51,6 +51,7 @@ public class AppVersionBean {
     public AppVersionBean(String updateStr) {
         this.updateStr = updateStr;
     }
+
     public int getMinversion() {
         return minversion;
     }

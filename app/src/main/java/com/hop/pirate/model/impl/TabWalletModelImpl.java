@@ -45,13 +45,13 @@ public class TabWalletModelImpl extends BaseModel implements TabWalletModel {
             public void subscribe(ObservableEmitter<List<OwnPool>> emitter) throws Exception {
                 List<OwnPool> minePoolBeans = new ArrayList<>();
                 OwnPoolDaoUtil ownPoolDaoUtil = new OwnPoolDaoUtil(context);
-                if(HopService.IsRunning){
+                if (HopService.IsRunning) {
                     minePoolBeans = ownPoolDaoUtil.queryAll();
                     emitter.onNext(minePoolBeans);
                     emitter.onComplete();
-                    return ;
+                    return;
                 }
-                if(!TabWalletFragment.initsyncPoolsAndUserData){
+                if (!TabWalletFragment.initsyncPoolsAndUserData) {
                     AndroidLib.syncPoolsAndUserData();
                     TabWalletFragment.initsyncPoolsAndUserData = true;
                 }

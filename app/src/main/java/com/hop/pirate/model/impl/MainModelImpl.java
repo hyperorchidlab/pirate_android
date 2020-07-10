@@ -89,13 +89,13 @@ public class MainModelImpl extends BaseModel implements MainModel {
             @Override
             public void subscribe(ObservableEmitter<WalletBean> emitter) throws Exception {
                 WalletBeanDaoUtil walletBeanDaoUtil = new WalletBeanDaoUtil(context);
-                if(HopService.IsRunning){
+                if (HopService.IsRunning) {
                     WalletBean walletBean = walletBeanDaoUtil.queryWallet();
                     emitter.onNext(walletBean);
                     emitter.onComplete();
                     return;
                 }
-                 String jsonStr = AndroidLib.walletInfo();
+                String jsonStr = AndroidLib.walletInfo();
                 if (jsonStr.equals("")) {
                     emitter.onError(new PError(context.getString(R.string.wallet_read_failed)));
                     return;
@@ -139,7 +139,7 @@ public class MainModelImpl extends BaseModel implements MainModel {
         schedulers(Observable.create(new ObservableOnSubscribe<WalletBean>() {
             @Override
             public void subscribe(ObservableEmitter<WalletBean> emitter) throws Exception {
-               AndroidLib.syncAllPoolsData();
+                AndroidLib.syncAllPoolsData();
                 emitter.onComplete();
             }
         })).subscribe(new Observer<WalletBean>() {
@@ -154,12 +154,12 @@ public class MainModelImpl extends BaseModel implements MainModel {
 
             @Override
             public void onError(Throwable e) {
-                System.out.println("syncAllPoolsData :onError"+e.getMessage());
+                System.out.println("syncAllPoolsData :onError" + e.getMessage());
             }
 
             @Override
             public void onComplete() {
-                TabPacketsMarketFragment.isSyncAllPools=true;
+                TabPacketsMarketFragment.isSyncAllPools = true;
                 System.out.println("syncAllPoolsData :onComplete");
             }
         });
@@ -185,7 +185,7 @@ public class MainModelImpl extends BaseModel implements MainModel {
 
             @Override
             public void onError(Throwable e) {
-                System.out.println("initSysSeting :onError"+e.getMessage());
+                System.out.println("initSysSeting :onError" + e.getMessage());
             }
 
             @Override
@@ -217,7 +217,7 @@ public class MainModelImpl extends BaseModel implements MainModel {
 
             @Override
             public void onError(Throwable e) {
-                System.out.println("initSysSeting :onError"+e.getMessage());
+                System.out.println("initSysSeting :onError" + e.getMessage());
             }
 
             @Override

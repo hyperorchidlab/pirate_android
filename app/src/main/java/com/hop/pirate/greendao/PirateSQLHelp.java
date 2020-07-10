@@ -30,6 +30,6 @@ public class PirateSQLHelp extends DaoMaster.OpenHelper {
             public void onDropAllTables(Database db, boolean ifExists) {
                 DaoMaster.dropAllTables(db, ifExists);
             }
-        }, ExtendTokenDao.class, MinePoolBeanDao.class,MinerBeanDao.class,TokenBeanDao.class,UserAccountDataDao.class,OwnPoolDao.class,WalletBeanDao.class);
+        }, ExtendTokenDao.class, MinePoolBeanDao.class, MinerBeanDao.class, TokenBeanDao.class, UserAccountDataDao.class, OwnPoolDao.class, WalletBeanDao.class);
     }
 }

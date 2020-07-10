@@ -211,8 +211,6 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
     }
 
 
-
-
     private void applyFreeToken() {
         if (TextUtils.isEmpty(WalletWrapper.MainAddress)) {
             Utils.toastTips(getResources().getString(R.string.please_create_account));
@@ -260,17 +258,17 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
 
             @Override
             public void onSuccess(Boolean isSuccess) {
-                    String content;
-                    if (getFreeHop) {
-                        content = "Hop Tx:[" + tx + "]";
-                        mApplyFreeTokenBtn.setEnabled(false);
-                    } else {
-                        content = "Eth Tx:[" + tx + "]";
-                        mApplyFreeEthBtn.setEnabled(false);
-                    }
-                    MessageDialog.show(mActivity, getString(R.string.tips), content, getString(R.string.sure));
-                    mActivity.dismissDialogFragment();
-                    ((MainActivity) mActivity).loadWallet();
+                String content;
+                if (getFreeHop) {
+                    content = "Hop Tx:[" + tx + "]";
+                    mApplyFreeTokenBtn.setEnabled(false);
+                } else {
+                    content = "Eth Tx:[" + tx + "]";
+                    mApplyFreeEthBtn.setEnabled(false);
+                }
+                MessageDialog.show(mActivity, getString(R.string.tips), content, getString(R.string.sure));
+                mActivity.dismissDialogFragment();
+                ((MainActivity) mActivity).loadWallet();
             }
 
             @Override

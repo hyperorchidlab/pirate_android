@@ -21,7 +21,7 @@ public class ExtendToken {
 
     @Generated(hash = 1977001439)
     public ExtendToken(String PaymentContract, String TokenI, String Symbol, double Balance,
-            int Decimal, boolean isChecked) {
+                       int Decimal, boolean isChecked) {
         this.PaymentContract = PaymentContract;
         this.TokenI = TokenI;
         this.Symbol = Symbol;

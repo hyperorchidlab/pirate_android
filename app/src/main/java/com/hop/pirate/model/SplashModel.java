@@ -13,6 +13,7 @@ import com.hop.pirate.model.bean.AppVersionBean;
 public interface SplashModel {
 
     void loadWallet(Context context, ResultCallBack<String> resultCallBack);
+
     void checkVersion(Context context, ResultCallBack<AppVersionBean> resultCallBack);
 
     void removeAllSubscribe();

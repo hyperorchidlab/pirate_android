@@ -93,7 +93,7 @@ public class SplashModelImpl extends BaseModel implements SplashModel {
                     emitter.onNext(versionBean);
                     emitter.onComplete();
                 } else {
-                   emitter.onError(new TimeoutException());
+                    emitter.onError(new TimeoutException());
                 }
 
 

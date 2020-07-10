@@ -133,7 +133,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
             Utils.toastTips(getString(R.string.wallet_read_failed));
             return;
         }
-        mTabWalletModel.getPoolDataOfUser(mActivity,MainActivity.sWalletBean.getMain(), new ResultCallBack<List<OwnPool>>() {
+        mTabWalletModel.getPoolDataOfUser(mActivity, MainActivity.sWalletBean.getMain(), new ResultCallBack<List<OwnPool>>() {
             @Override
             public void onError(Throwable e) {
                 mActivity.dismissDialogFragment();

@@ -336,10 +336,10 @@ public final class Utils {
 
         LuminanceSource source = new RGBLuminanceSource(bitmap.getWidth(), bitmap.getHeight(), intArray);
         BinaryBitmap bb = new BinaryBitmap(new HybridBinarizer(source));
-        Map<DecodeHintType,Object> hints = new LinkedHashMap<DecodeHintType,Object>();
+        Map<DecodeHintType, Object> hints = new LinkedHashMap<DecodeHintType, Object>();
         hints.put(DecodeHintType.PURE_BARCODE, Boolean.TRUE);
         Reader reader = new MultiFormatReader();
-        Result r = reader.decode(bb,hints);
+        Result r = reader.decode(bb, hints);
 
         return r.getText();
     }

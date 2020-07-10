@@ -30,6 +30,7 @@ public class MinePoolBeanDaoUtil {
         minePoolBeanDao.deleteAll();
         minePoolBeanDao.insertInTx(beans);
     }
+
     public void deleteAll() {
         MinePoolBeanDao minePoolBeanDao = daoSession.getMinePoolBeanDao();
         minePoolBeanDao.deleteAll();

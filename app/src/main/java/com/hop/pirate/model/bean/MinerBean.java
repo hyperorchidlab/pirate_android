@@ -9,10 +9,11 @@ import org.json.JSONObject;
 import java.io.Serializable;
 
 import androidLib.AndroidLib;
+
 import org.greenrobot.greendao.annotation.Generated;
 
 @Entity
-public class MinerBean  {
+public class MinerBean {
     @Id(autoincrement = true)
     private Long id;
     private String MID;
@@ -37,7 +38,7 @@ public class MinerBean  {
 
     @Generated(hash = 430485696)
     public MinerBean(Long id, String MID, String zone, double time, String IP,
-            boolean isSelected, String minerPoolAdd) {
+                     boolean isSelected, String minerPoolAdd) {
         this.id = id;
         this.MID = MID;
         this.zone = zone;

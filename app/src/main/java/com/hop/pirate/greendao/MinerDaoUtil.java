@@ -36,12 +36,12 @@ public class MinerDaoUtil {
         minerBeanDao.insertInTx(beans);
     }
 
-    public void deleteAll(){
+    public void deleteAll() {
         MinerBeanDao minerBeanDao = daoSession.getMinerBeanDao();
         minerBeanDao.deleteAll();
     }
 
-    public void deleteMineBeansByMinePoolAddress(String minePoolAddress){
+    public void deleteMineBeansByMinePoolAddress(String minePoolAddress) {
         MinerBeanDao minerBeanDao = daoSession.getMinerBeanDao();
         List<MinerBean> list = minerBeanDao.queryBuilder().where(MinerBeanDao.Properties.MinerPoolAdd.eq(minePoolAddress)).list();
         minerBeanDao.deleteInTx(list);

@@ -6,6 +6,7 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.json.JSONObject;
 
 import androidLib.AndroidLib;
+
 import org.greenrobot.greendao.annotation.Generated;
 
 @Entity
@@ -25,8 +26,8 @@ public class UserAccountData {
 
     @Generated(hash = 1881823397)
     public UserAccountData(String user, String pool, double inRecharge,
-            String expire, int nonce, double token, double packets, int epoch,
-            double credit, int microNonce) {
+                           String expire, int nonce, double token, double packets, int epoch,
+                           double credit, int microNonce) {
         this.user = user;
         this.pool = pool;
         this.inRecharge = inRecharge;

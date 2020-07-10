@@ -113,7 +113,7 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
                         return false;
                     }
                 });
-        if (Utils.getVersionCode(SplashActivity.this) > versionBean.getMinversion()){
+        if (Utils.getVersionCode(SplashActivity.this) > versionBean.getMinversion()) {
             messageDialog.setCancelButton(getString(R.string.cancel)).setOnCancelButtonClickListener(new OnDialogButtonClickListener() {
                 @Override
                 public boolean onClick(BaseDialog baseDialog, View v) {

@@ -32,7 +32,7 @@ public class OwnPoolDaoUtil {
         ownPoolDao.insertInTx(beans);
     }
 
-    public void deleteAll(){
+    public void deleteAll() {
         OwnPoolDao ownPoolDao = daoSession.getOwnPoolDao();
         ownPoolDao.deleteAll();
     }

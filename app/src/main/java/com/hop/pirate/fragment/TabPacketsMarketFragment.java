@@ -29,7 +29,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-public class TabPacketsMarketFragment extends BaseFragement{
+public class TabPacketsMarketFragment extends BaseFragement {
     public static boolean isSyncAllPools;
     private TabPacketsMarketModel mTabPacketsMarketModel;
     private RecyclerView mRechargeRecycleView;
@@ -71,7 +71,7 @@ public class TabPacketsMarketFragment extends BaseFragement{
 
 
     public void getPoolInfos(boolean syncAllPoolsData) {
-        mTabPacketsMarketModel.getPoolInfos( new ResultCallBack<List<MinePoolBean>>() {
+        mTabPacketsMarketModel.getPoolInfos(new ResultCallBack<List<MinePoolBean>>() {
             @Override
             public void onError(Throwable e) {
                 mSwipeRefreshLayout.setRefreshing(false);
@@ -94,7 +94,7 @@ public class TabPacketsMarketFragment extends BaseFragement{
 
 
     private void setData() {
-        if (mMinePoolBeans==null||mMinePoolBeans.size() == 0) {
+        if (mMinePoolBeans == null || mMinePoolBeans.size() == 0) {
             mEmptyIv.setVisibility(View.VISIBLE);
             mEmptyTv.setVisibility(View.VISIBLE);
         } else {

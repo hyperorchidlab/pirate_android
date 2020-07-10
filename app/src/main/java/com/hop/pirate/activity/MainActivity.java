@@ -88,7 +88,7 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
         super.onNewIntent(intent);
         if (HopService.IsRunning) {
             return;
-        }else{
+        } else {
             AndroidLib.stopProtocol();
         }
         initService();

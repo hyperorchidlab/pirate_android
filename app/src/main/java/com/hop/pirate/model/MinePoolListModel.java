@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface MinePoolListModel {
 
-    void getPoolDataOfUser(Context context,String address, ResultCallBack<List<MinePoolBean>> resultCallBack);
+    void getPoolDataOfUser(Context context, String address, ResultCallBack<List<MinePoolBean>> resultCallBack);
 
     void removeAllSubscribe();
 }

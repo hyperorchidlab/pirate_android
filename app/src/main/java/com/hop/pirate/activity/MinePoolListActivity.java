@@ -63,7 +63,7 @@ public class MinePoolListActivity extends BaseActivity {
     }
 
     private void getPoolData(final boolean hasLoading) {
-        mMinePoolListModel.getPoolDataOfUser(this,MainActivity.sWalletBean.getMain(), new ResultCallBack<List<MinePoolBean>>() {
+        mMinePoolListModel.getPoolDataOfUser(this, MainActivity.sWalletBean.getMain(), new ResultCallBack<List<MinePoolBean>>() {
             @Override
             public void onError(Throwable e) {
                 if (hasLoading) {

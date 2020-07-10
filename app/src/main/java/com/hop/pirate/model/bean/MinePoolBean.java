@@ -11,9 +11,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import androidLib.AndroidLib;
+
 import org.greenrobot.greendao.annotation.Generated;
+
 @Entity
-public class MinePoolBean  {
+public class MinePoolBean {
     public static String TAG = "Miner Pool Bean";
 
     public static void syncPoolsAndUserData() {
@@ -40,7 +42,7 @@ public class MinePoolBean  {
 
     @Generated(hash = 911517445)
     public MinePoolBean(String address, double mortgageNumber, String name, String websiteAddress, String email,
-            int userNumber, int mineMachineNumber, boolean isSelected) {
+                        int userNumber, int mineMachineNumber, boolean isSelected) {
         this.address = address;
         this.mortgageNumber = mortgageNumber;
         this.name = name;

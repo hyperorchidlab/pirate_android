@@ -223,22 +223,22 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
 
             @Override
             public void onSuccess(Boolean isSuccess) {
-                    if (isProve) {
-                        dismissDialogFragment();
-                        buyPacket();
-                    } else {
-                        dismissDialogFragment();
-                        MinePoolBean.syncPoolsAndUserData();
-                        String content = getString(R.string.recharge_success) + "\ntx=[" + tx + "]";
-                        MessageDialog.show(RechargePacketsActivity.this, getString(R.string.tips), content, getString(R.string.sure)).setOnOkButtonClickListener(new OnDialogButtonClickListener() {
-                            @Override
-                            public boolean onClick(BaseDialog baseDialog, View v) {
-                                EventBus.getDefault().postSticky(new EventShowTabHome());
-                                finish();
-                                return false;
-                            }
-                        });
-                    }
+                if (isProve) {
+                    dismissDialogFragment();
+                    buyPacket();
+                } else {
+                    dismissDialogFragment();
+                    MinePoolBean.syncPoolsAndUserData();
+                    String content = getString(R.string.recharge_success) + "\ntx=[" + tx + "]";
+                    MessageDialog.show(RechargePacketsActivity.this, getString(R.string.tips), content, getString(R.string.sure)).setOnOkButtonClickListener(new OnDialogButtonClickListener() {
+                        @Override
+                        public boolean onClick(BaseDialog baseDialog, View v) {
+                            EventBus.getDefault().postSticky(new EventShowTabHome());
+                            finish();
+                            return false;
+                        }
+                    });
+                }
             }
 
             @Override

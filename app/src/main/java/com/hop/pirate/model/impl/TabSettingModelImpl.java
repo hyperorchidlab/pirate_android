@@ -195,7 +195,7 @@ public class TabSettingModelImpl extends WaitTxBaseModel implements TabSettingMo
 
     @Override
     public void queryTxProcessStatus(final String tx, final ResultCallBack<Boolean> resultCallBack) {
-        queryTxStatus(tx,resultCallBack);
+        queryTxStatus(tx, resultCallBack);
 
     }
 
