@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import com.hop.pirate.Constants;
 import com.hop.pirate.PError;
 import com.hop.pirate.base.BaseModel;
+import com.hop.pirate.base.WaitTxBaseModel;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.callback.SaveQRCodeCallBack;
 import com.hop.pirate.model.TabSettingModel;
@@ -29,7 +30,7 @@ import io.reactivex.schedulers.Schedulers;
  * @author: mr.x
  * @date :   2020/5/27 9:09 AM
  */
-public class TabSettingModelImpl extends BaseModel implements TabSettingModel {
+public class TabSettingModelImpl extends WaitTxBaseModel implements TabSettingModel {
 
     private Disposable mDisposable;
 
@@ -194,49 +195,7 @@ public class TabSettingModelImpl extends BaseModel implements TabSettingModel {
 
     @Override
     public void queryTxProcessStatus(final String tx, final ResultCallBack<Boolean> resultCallBack) {
-        final Observable<Boolean> schedulers = schedulers(Observable.create(new ObservableOnSubscribe<Boolean>() {
-            @Override
-            public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
-                boolean isSuccess = AndroidLib.txProcessStatus(tx);
-                if (isSuccess) {
-                    mDisposable.dispose();
-                }
-                emitter.onNext(isSuccess);
-                emitter.onComplete();
-
-            }
-        }));
-
-        mDisposable = Observable.interval(2, TimeUnit.SECONDS).timeout(Constants.BLOCKCHAIN_TIME_OUT, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Long>() {
-                    @Override
-                    public void accept(Long aLong) throws Exception {
-                        schedulers.subscribe(new Observer<Boolean>() {
-                            @Override
-                            public void onSubscribe(Disposable d) {
-                                addSubscribe(d);
-                            }
-
-                            @Override
-                            public void onNext(Boolean isOpen) {
-                                resultCallBack.onSuccess(isOpen);
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                resultCallBack.onError(e);
-                            }
-
-                            @Override
-                            public void onComplete() {
-                                resultCallBack.onComplete();
-                            }
-                        });
-                    }
-
-                });
+        queryTxStatus(tx,resultCallBack);
 
     }
 

@@ -188,10 +188,11 @@
     <string name="eth_insufficient_balance">ETH insufficient balance!</string>
     <string name="token_insufficient_balance">%s insufficient balance!</string>
     <string name="current_version_name">Current </string>
-    <string name="new_version">View the latest version</string>
+    <string name="tab_setting_new_version">View the latest version</string>
     <string name="network_unavailable">The network is not available, please turn on the network</string>
     <string name="network_set">Set</string>
     <string name="close_other_vpn_app">Please close other VPN apps </string>
     <string name="blockchain_sync_error">Block synchronization is abnormal, please exit and reopen the app</string>
+    <string name="new_version">New Version</string>
 
 </resources>

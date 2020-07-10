@@ -1,19 +1,13 @@
 package com.hop.pirate.activity;
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.view.View;
 
 import com.hop.pirate.PError;
 import com.hop.pirate.R;
@@ -21,9 +15,13 @@ import com.hop.pirate.base.BaseActivity;
 import com.hop.pirate.callback.AlertDialogOkCallBack;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.model.SplashModel;
+import com.hop.pirate.model.bean.AppVersionBean;
 import com.hop.pirate.model.impl.SplashModelImpl;
 import com.hop.pirate.service.HopService;
 import com.hop.pirate.util.Utils;
+import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
+import com.kongzue.dialog.util.BaseDialog;
+import com.kongzue.dialog.v3.MessageDialog;
 
 import java.util.List;
 
@@ -49,6 +47,7 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
             return;
         }
 
+
         if (Utils.checkVPN(SplashActivity.this) && (!Utils.isServiceWork(SplashActivity.this, HopService.class.getName()))) {
             Utils.showOkAlert(SplashActivity.this, R.string.tips, R.string.close_other_vpn_app, new AlertDialogOkCallBack() {
                 @Override
@@ -59,15 +58,57 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
             return;
         }
 
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (Utils.checkStorage(SplashActivity.this)) {
-                    loadWallet();
-                }
-            }
-        }, 1500);
+//        mSplashModel.checkVersion(this, new ResultCallBack<AppVersionBean>() {
+//            @Override
+//            public void onError(Throwable e) {
+//            }
+//
+//            @Override
+//            public void onSuccess(AppVersionBean versionBean) {
+//                if (versionBean.getNewVersion() > Utils.getVersionCode(SplashActivity.this)) {
+//                    String able = getResources().getConfiguration().locale.getCountry();
+//                    if (able.equals("CN")) {
+//                        showUpdataAppDialog(versionBean.getUpdateMsgCN());
+//                    } else {
+//                        showUpdataAppDialog(versionBean.getUpdateMsgEN());
+//                    }
+//                } else {
+//                    mHandler.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            if (Utils.checkStorage(SplashActivity.this)) {
+//                                loadWallet();
+//                            }
+//                        }
+//                    }, 1500);
+//                }
+//            }
+//
+//            @Override
+//            public void onComplete() {
+//
+//            }
+//        });
 
+        mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (Utils.checkStorage(SplashActivity.this)) {
+                                loadWallet();
+                            }
+                        }
+                    }, 1500);
+    }
+
+    private void showUpdataAppDialog(String updateMsg) {
+        MessageDialog.show(SplashActivity.this, getString(R.string.tab_setting_new_version), updateMsg, getString(R.string.sure)).setOnOkButtonClickListener(new OnDialogButtonClickListener() {
+            @Override
+            public boolean onClick(BaseDialog baseDialog, View v) {
+                Utils.openAppDownloadPage(SplashActivity.this);
+                finish();
+                return false;
+            }
+        });
     }
 
 

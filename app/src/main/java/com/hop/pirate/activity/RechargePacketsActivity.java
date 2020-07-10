@@ -97,7 +97,7 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
 
     @Override
     public void initData() {
-        mMinePoolAddressTv.setText(PoolAddress);
+        mMinePoolAddressTv.setText(PoolAddress.toUpperCase());
         mHopAddressTitleTv.setText(Utils.TokenNameFormat(this, R.string.hop_address));
         mHopCoinTv.setText(Utils.TokenNameFormat(this, R.string.recharge_hop_coin));
     }
@@ -223,7 +223,6 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
 
             @Override
             public void onSuccess(Boolean isSuccess) {
-                if (isSuccess) {
                     if (isProve) {
                         dismissDialogFragment();
                         buyPacket();
@@ -240,9 +239,6 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
                             }
                         });
                     }
-
-
-                }
             }
 
             @Override

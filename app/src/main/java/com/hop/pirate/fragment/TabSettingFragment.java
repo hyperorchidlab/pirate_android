@@ -1,7 +1,6 @@
 package com.hop.pirate.fragment;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -117,8 +116,8 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
         TextView supprotCoinTypeTv = view.findViewById(R.id.supprotCoinTypeTv);
         TextView versionTv = view.findViewById(R.id.versionTv);
         TextView updateAppTv = view.findViewById(R.id.updateAppTv);
-        versionTv.setText(getString(R.string.current_version_name) + Utils.getVersionCode(mActivity));
-        updateAppTv.setText(getString(R.string.new_version));
+        versionTv.setText(getString(R.string.current_version_name) + Utils.getVersionName(mActivity));
+        updateAppTv.setText(getString(R.string.tab_setting_new_version));
         updateAppTv.setOnClickListener(this);
         versionTv.setOnClickListener(this);
         mApplyFreeEthBtn.setOnClickListener(this);
@@ -203,7 +202,7 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
                 break;
             case R.id.versionTv:
             case R.id.updateAppTv:
-                openAppDownloadPage();
+                Utils.openAppDownloadPage(mActivity);
                 break;
             default:
                 break;
@@ -212,11 +211,7 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
     }
 
 
-    private void openAppDownloadPage() {
-        Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse("http://d.7short.com/zy7s"));
-        getContext().startActivity(it);
 
-    }
 
     private void applyFreeToken() {
         if (TextUtils.isEmpty(WalletWrapper.MainAddress)) {
@@ -265,7 +260,6 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
 
             @Override
             public void onSuccess(Boolean isSuccess) {
-                if (isSuccess) {
                     String content;
                     if (getFreeHop) {
                         content = "Hop Tx:[" + tx + "]";
@@ -276,9 +270,7 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
                     }
                     MessageDialog.show(mActivity, getString(R.string.tips), content, getString(R.string.sure));
                     mActivity.dismissDialogFragment();
-
                     ((MainActivity) mActivity).loadWallet();
-                }
             }
 
             @Override

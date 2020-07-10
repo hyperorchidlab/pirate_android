@@ -2,13 +2,20 @@ package com.hop.pirate.model.impl;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
 import com.hop.pirate.PError;
 import com.hop.pirate.base.BaseModel;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.model.SplashModel;
+import com.hop.pirate.model.bean.AppVersionBean;
 import com.hop.pirate.util.Utils;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -47,6 +54,65 @@ public class SplashModelImpl extends BaseModel implements SplashModel {
                     @Override
                     public void onNext(String tx) {
                         resultCallBack.onSuccess(tx);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        resultCallBack.onError(e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        resultCallBack.onComplete();
+                    }
+                });
+    }
+
+    @Override
+    public void checkVersion(Context context, final ResultCallBack<AppVersionBean> resultCallBack) {
+        Observable.create(new ObservableOnSubscribe<AppVersionBean>() {
+            @Override
+            public void subscribe(ObservableEmitter<AppVersionBean> emitter) throws Exception {
+                URL url = new URL("https://raw.githubusercontent.com/alen-x/updateversion/master/README.md");
+//
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.setRequestProperty("Content-type", "application/json");
+
+                urlConnection.setRequestProperty("Authorization","5eefc923eeb7b76c61d402efbd2fe62f7cecfbf4");
+                urlConnection.connect();
+                int responseCode = urlConnection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    InputStream inputStream = urlConnection.getInputStream();
+                    BufferedReader tBufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                    StringBuffer tStringBuffer = new StringBuffer();
+                    String sTempOneLine;
+                    while ((sTempOneLine = tBufferedReader.readLine()) != null) {
+                        tStringBuffer.append(sTempOneLine);
+                    }
+
+                    AppVersionBean versionBean = new Gson().fromJson(tStringBuffer.toString(), AppVersionBean.class);
+                    emitter.onNext(versionBean);
+                    emitter.onComplete();
+                } else {
+                    AppVersionBean versionBean = new AppVersionBean();
+                    emitter.onNext(versionBean);
+                    emitter.onComplete();
+                }
+
+
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<AppVersionBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        addSubscribe(d);
+                    }
+
+                    @Override
+                    public void onNext(AppVersionBean versionBean) {
+                        resultCallBack.onSuccess(versionBean);
                     }
 
                     @Override

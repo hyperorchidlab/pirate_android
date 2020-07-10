@@ -187,23 +187,21 @@ public class TransferOutActivity extends BaseActivity implements View.OnClickLis
 
             @Override
             public void onSuccess(Boolean isSuccess) {
-                if (isSuccess) {
-                    String content;
-                    if (isEth) {
-                        content = "Eth Tx:[" + tx + "]";
-                        double ethBalance = WalletWrapper.EthBalance - Double.parseDouble(num) * Utils.CoinDecimal;
-                        WalletWrapper.EthBalance = ethBalance;
-                        mEthCountTv.setText(String.format(getString(R.string.transfer_eth_balance), Utils.ConvertCoin(WalletWrapper.EthBalance)));
-                    } else {
-                        content = "Eth Tx:[" + tx + "]";
-                        double tokenBalance = WalletWrapper.HopBalance - Double.parseDouble(num) * Utils.CoinDecimal;
-                        WalletWrapper.HopBalance = tokenBalance;
-                        mTokenCountTv.setText(String.format(getString(R.string.transfer_token_balance), Utils.ConvertCoin(WalletWrapper.HopBalance)));
-                    }
-                    showErrorDialog(R.string.transfer_fail);
-                    showSuccessDialog(R.string.transfer_success);
-                    MessageDialog.show(TransferOutActivity.this, getString(R.string.tips), content, getString(R.string.sure));
+                String content;
+                if (isEth) {
+                    content = "Eth Tx:[" + tx + "]";
+                    double ethBalance = WalletWrapper.EthBalance - Double.parseDouble(num) * Utils.CoinDecimal;
+                    WalletWrapper.EthBalance = ethBalance;
+                    mEthCountTv.setText(String.format(getString(R.string.transfer_eth_balance), Utils.ConvertCoin(WalletWrapper.EthBalance)));
+                } else {
+                    content = "Eth Tx:[" + tx + "]";
+                    double tokenBalance = WalletWrapper.HopBalance - Double.parseDouble(num) * Utils.CoinDecimal;
+                    WalletWrapper.HopBalance = tokenBalance;
+                    mTokenCountTv.setText(String.format(getString(R.string.transfer_token_balance), Utils.ConvertCoin(WalletWrapper.HopBalance)));
                 }
+                showErrorDialog(R.string.transfer_fail);
+                showSuccessDialog(R.string.transfer_success);
+                MessageDialog.show(TransferOutActivity.this, getString(R.string.tips), content, getString(R.string.sure));
             }
 
             @Override

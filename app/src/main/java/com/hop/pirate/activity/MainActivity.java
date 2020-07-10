@@ -133,7 +133,6 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
             @Override
             public void onError(Throwable e) {
                 Utils.toastException(MainActivity.this, e, Constants.REQUEST_WALLET_INFO_ERROR);
-                dismissDialogFragment();
             }
 
             @Override
@@ -149,7 +148,6 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
 
             @Override
             public void onComplete() {
-                dismissDialogFragment();
                 EventBus.getDefault().postSticky(new EventLoadWalletSuccess());
             }
         });

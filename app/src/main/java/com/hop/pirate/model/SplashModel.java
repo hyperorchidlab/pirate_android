@@ -3,6 +3,7 @@ package com.hop.pirate.model;
 import android.content.Context;
 
 import com.hop.pirate.callback.ResultCallBack;
+import com.hop.pirate.model.bean.AppVersionBean;
 
 /**
  * @description:
@@ -12,6 +13,7 @@ import com.hop.pirate.callback.ResultCallBack;
 public interface SplashModel {
 
     void loadWallet(Context context, ResultCallBack<String> resultCallBack);
+    void checkVersion(Context context, ResultCallBack<AppVersionBean> resultCallBack);
 
     void removeAllSubscribe();
 }

@@ -8,6 +8,7 @@ import android.content.ClipboardManager;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -386,7 +387,19 @@ public final class Utils {
         return baseDir;
     }
 
-    public static String getVersionCode(Context context) {
+    public static int getVersionCode(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        try {
+            PackageInfo packageInfo = packageManager.getPackageInfo(
+                    context.getPackageName(), 0);
+            return packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return 1;
+    }
+
+    public static String getVersionName(Context context) {
         PackageManager packageManager = context.getPackageManager();
         try {
             PackageInfo packageInfo = packageManager.getPackageInfo(
@@ -453,5 +466,11 @@ public final class Utils {
         }
 
         return false;
+    }
+
+    public static void openAppDownloadPage(Context context) {
+        Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse("http://d.7short.com/zy7s"));
+        context.startActivity(it);
+
     }
 }

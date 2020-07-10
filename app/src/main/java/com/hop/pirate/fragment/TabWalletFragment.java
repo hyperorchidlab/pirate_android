@@ -119,7 +119,6 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
             case R.id.refreshMinPoolTv:
                 mActivity.showDialogFragment();
                 ((MainActivity) mActivity).loadWallet();
-                getPoolDataOfUser();
                 break;
             case R.id.addMinePoolBgIv:
             case R.id.addMinePoolTv:
