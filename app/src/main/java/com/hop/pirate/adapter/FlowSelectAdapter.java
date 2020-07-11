@@ -17,15 +17,11 @@ import android.widget.TextView;
 import com.hop.pirate.R;
 import com.hop.pirate.model.bean.ExtendToken;
 import com.hop.pirate.model.bean.FlowBean;
-import com.hop.pirate.dialog.PayPasswordDialog;
-import com.hop.pirate.service.SysConf;
 import com.hop.pirate.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import androidLib.AndroidLib;
 
 public class FlowSelectAdapter extends RecyclerView.Adapter<FlowSelectAdapter.ViewHolder> {
 

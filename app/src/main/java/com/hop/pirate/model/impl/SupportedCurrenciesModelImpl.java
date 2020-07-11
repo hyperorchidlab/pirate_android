@@ -11,13 +11,7 @@ import com.hop.pirate.base.BaseModel;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.model.SupportedCurrenciesModel;
 import com.hop.pirate.model.bean.ExtendToken;
-import com.hop.pirate.service.WalletWrapper;
-import com.hop.pirate.util.Utils;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.File;
 import java.lang.reflect.Type;
 import java.util.Iterator;
 import java.util.List;
@@ -27,9 +21,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * @description:

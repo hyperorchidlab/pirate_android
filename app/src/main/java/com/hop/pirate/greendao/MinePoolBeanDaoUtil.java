@@ -12,7 +12,7 @@ import java.util.List;
  * @date :   2020/6/2 9:01 AM
  */
 public class MinePoolBeanDaoUtil {
-    private static final boolean DUBUG = true;
+    private static final boolean DUBUG = false;
     private DaoManager manager;
     private MinePoolBeanDao mMinePoolBeanDao;
     private DaoSession daoSession;

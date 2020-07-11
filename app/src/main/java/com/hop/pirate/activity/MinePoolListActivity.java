@@ -6,8 +6,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
-import com.hop.pirate.Constants;
-import com.hop.pirate.IntentKey;
 import com.hop.pirate.R;
 import com.hop.pirate.adapter.MiningPoolAdapter;
 import com.hop.pirate.base.BaseActivity;

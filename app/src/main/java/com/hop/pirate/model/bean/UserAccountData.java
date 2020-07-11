@@ -1,12 +1,6 @@
 package com.hop.pirate.model.bean;
 
-import android.text.TextUtils;
-
 import org.greenrobot.greendao.annotation.Entity;
-import org.json.JSONObject;
-
-import androidLib.AndroidLib;
-
 import org.greenrobot.greendao.annotation.Generated;
 
 @Entity

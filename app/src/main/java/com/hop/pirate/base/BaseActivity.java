@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.hop.pirate.R;
 import com.kongzue.dialog.interfaces.OnBackClickListener;
+import com.kongzue.dialog.interfaces.OnDismissListener;
 import com.kongzue.dialog.v3.TipDialog;
 import com.kongzue.dialog.v3.WaitDialog;
 
@@ -57,6 +58,10 @@ public abstract class BaseActivity extends AppCompatActivity {
                     cancelWaitDialog();
                 }
                 return false;
+            }
+        }).setOnDismissListener(new OnDismissListener() {
+            @Override
+            public void onDismiss() {
             }
         });
     }

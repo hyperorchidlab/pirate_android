@@ -2,22 +2,16 @@ package com.hop.pirate.model.impl;
 
 import android.content.Context;
 
-
-import com.hop.pirate.R;
 import com.hop.pirate.base.BaseModel;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.model.CreateAccountModel;
-
-import org.greenrobot.eventbus.EventBus;
 
 import androidLib.AndroidLib;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * @description:

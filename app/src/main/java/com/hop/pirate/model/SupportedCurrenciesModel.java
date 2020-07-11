@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.model.bean.ExtendToken;
-import com.hop.pirate.model.bean.MinePoolBean;
 
 import java.util.List;
 

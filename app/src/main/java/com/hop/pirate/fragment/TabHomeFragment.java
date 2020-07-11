@@ -28,10 +28,10 @@ import com.hop.pirate.event.EventVPNClosed;
 import com.hop.pirate.event.EventVPNOpen;
 import com.hop.pirate.model.TabHomeModel;
 import com.hop.pirate.model.bean.ExtendToken;
+import com.hop.pirate.model.bean.UserAccountData;
 import com.hop.pirate.model.impl.TabHomeModelImpl;
 import com.hop.pirate.service.HopService;
 import com.hop.pirate.service.SysConf;
-import com.hop.pirate.model.bean.UserAccountData;
 import com.hop.pirate.service.WalletWrapper;
 import com.hop.pirate.util.Utils;
 
@@ -122,7 +122,6 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
 
             @Override
             public void onComplete() {
-                mActivity.dismissDialogFragment();
                 updateHomeData();
             }
         });

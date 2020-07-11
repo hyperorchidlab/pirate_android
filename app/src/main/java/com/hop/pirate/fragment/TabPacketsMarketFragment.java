@@ -16,16 +16,11 @@ import com.hop.pirate.Constants;
 import com.hop.pirate.R;
 import com.hop.pirate.adapter.RechargeAdapter;
 import com.hop.pirate.callback.ResultCallBack;
-import com.hop.pirate.event.EventInitLibSuccess;
 import com.hop.pirate.model.TabPacketsMarketModel;
 import com.hop.pirate.model.bean.MinePoolBean;
 import com.hop.pirate.model.impl.TabPacketsMarketModelImpl;
 import com.hop.pirate.util.Utils;
 import com.hop.pirate.util.WrapContentLinearLayoutManager;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -44,7 +39,6 @@ public class TabPacketsMarketFragment extends BaseFragement {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_packets_market, null);
         initViews(view);
-        EventBus.getDefault().register(this);
         mTabPacketsMarketModel = new TabPacketsMarketModelImpl();
         mSwipeRefreshLayout.setRefreshing(true);
         getPoolInfos(false);
@@ -106,15 +100,10 @@ public class TabPacketsMarketFragment extends BaseFragement {
         mRechargeAdapter.setMinePoolBeans(mMinePoolBeans);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void eventInitLibSuccess(EventInitLibSuccess eventInitLibSuccess) {
-        setData();
-    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mTabPacketsMarketModel.removeAllSubscribe();
-        EventBus.getDefault().unregister(this);
     }
 }

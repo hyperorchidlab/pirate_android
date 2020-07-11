@@ -1,16 +1,12 @@
 package com.hop.pirate.model.bean;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Unique;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
-
 import androidLib.AndroidLib;
-
-import org.greenrobot.greendao.annotation.Generated;
 
 @Entity
 public class MinerBean {
@@ -93,12 +89,17 @@ public class MinerBean {
         String jsonStr = AndroidLib.testPing(this.MID);
         if (jsonStr.equals("")) {
             this.setIP("None");
-            this.setTime(-1);
+            this.setTime(999);
         } else {
             try {
                 JSONObject obj = new JSONObject(jsonStr);
                 this.setIP(obj.optString("ip"));
-                this.setTime(obj.optDouble("ping"));
+                double ping = obj.optDouble("ping");
+                if (ping == -1) {
+                    this.setTime(999);
+                } else {
+                    this.setTime(ping);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

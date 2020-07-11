@@ -15,7 +15,6 @@ import com.hop.pirate.base.BaseActivity;
 import com.hop.pirate.model.bean.ExtendToken;
 import com.hop.pirate.util.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.ViewHolder> {

@@ -1,12 +1,10 @@
 package com.hop.pirate.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +22,9 @@ import com.hop.pirate.event.EventRechargeSuccess;
 import com.hop.pirate.event.EventSkipTabPacketsMarket;
 import com.hop.pirate.model.TabWalletModel;
 import com.hop.pirate.model.bean.ExtendToken;
-import com.hop.pirate.model.bean.MinePoolBean;
 import com.hop.pirate.model.bean.OwnPool;
 import com.hop.pirate.model.bean.WalletBean;
 import com.hop.pirate.model.impl.TabWalletModelImpl;
-import com.hop.pirate.service.HopService;
 import com.hop.pirate.util.Utils;
 import com.hop.pirate.util.WrapContentLinearLayoutManager;
 

@@ -1,7 +1,6 @@
 package com.hop.pirate.model.impl;
 
 import com.hop.pirate.Constants;
-import com.hop.pirate.base.BaseModel;
 import com.hop.pirate.base.WaitTxBaseModel;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.model.TransferModel;
@@ -15,7 +14,6 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.github.yuweiguocn.library.greendao.MigrationHelper;
-import com.hop.pirate.model.bean.ExtendToken;
 
 import org.greenrobot.greendao.database.Database;
 

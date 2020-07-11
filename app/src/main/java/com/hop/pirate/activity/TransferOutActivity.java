@@ -12,19 +12,15 @@ import android.widget.TextView;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import com.hop.pirate.Constants;
 import com.hop.pirate.R;
 import com.hop.pirate.base.BaseActivity;
 import com.hop.pirate.callback.AlertDialogOkCallBack;
 import com.hop.pirate.callback.ResultCallBack;
-import com.hop.pirate.dialog.TransferStateDialog;
 import com.hop.pirate.model.TransferModel;
 import com.hop.pirate.model.impl.TransferModelImpl;
 import com.hop.pirate.service.WalletWrapper;
 import com.hop.pirate.util.Utils;
-import com.kongzue.dialog.interfaces.OnDismissListener;
 import com.kongzue.dialog.v3.MessageDialog;
-import com.kongzue.dialog.v3.TipDialog;
 
 public class TransferOutActivity extends BaseActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
 

@@ -6,8 +6,8 @@ import android.text.TextUtils;
 
 import com.hop.pirate.Constants;
 import com.hop.pirate.base.BaseActivity;
-import com.hop.pirate.model.bean.MinePoolBean;
 import com.hop.pirate.callback.AlertDialogOkCallBack;
+import com.hop.pirate.model.bean.MinePoolBean;
 import com.hop.pirate.util.Utils;
 
 import java.util.ArrayList;

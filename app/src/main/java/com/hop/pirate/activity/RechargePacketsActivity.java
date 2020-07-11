@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.hop.pirate.Constants;
@@ -16,7 +15,6 @@ import com.hop.pirate.base.BaseActivity;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.dialog.PayPasswordDialog;
 import com.hop.pirate.event.EventShowTabHome;
-import com.hop.pirate.model.MainModel;
 import com.hop.pirate.model.RechargeModel;
 import com.hop.pirate.model.bean.MinePoolBean;
 import com.hop.pirate.model.impl.RechargeModelImpl;

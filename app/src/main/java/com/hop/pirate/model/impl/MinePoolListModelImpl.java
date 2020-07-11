@@ -7,7 +7,6 @@ import com.hop.pirate.base.BaseModel;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.greendao.MinePoolBeanDaoUtil;
 import com.hop.pirate.model.MinePoolListModel;
-import com.hop.pirate.model.TabWalletModel;
 import com.hop.pirate.model.bean.MinePoolBean;
 import com.hop.pirate.service.HopService;
 
@@ -22,9 +21,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * @description:

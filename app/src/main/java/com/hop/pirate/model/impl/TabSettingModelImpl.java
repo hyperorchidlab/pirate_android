@@ -1,19 +1,14 @@
 package com.hop.pirate.model.impl;
 
 import android.content.ContentResolver;
-import android.content.Context;
 import android.text.TextUtils;
 
-import com.hop.pirate.Constants;
 import com.hop.pirate.PError;
-import com.hop.pirate.base.BaseModel;
 import com.hop.pirate.base.WaitTxBaseModel;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.callback.SaveQRCodeCallBack;
 import com.hop.pirate.model.TabSettingModel;
 import com.hop.pirate.util.Utils;
-
-import java.util.concurrent.TimeUnit;
 
 import androidLib.AndroidLib;
 import io.reactivex.Observable;
@@ -22,7 +17,6 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**

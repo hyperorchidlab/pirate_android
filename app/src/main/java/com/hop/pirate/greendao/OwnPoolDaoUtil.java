@@ -2,7 +2,6 @@ package com.hop.pirate.greendao;
 
 import android.content.Context;
 
-import com.hop.pirate.model.bean.MinerBean;
 import com.hop.pirate.model.bean.OwnPool;
 
 import java.util.List;

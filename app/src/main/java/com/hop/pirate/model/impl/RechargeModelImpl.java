@@ -7,7 +7,6 @@ import com.hop.pirate.Constants;
 import com.hop.pirate.PError;
 import com.hop.pirate.R;
 import com.hop.pirate.activity.RechargePacketsActivity;
-import com.hop.pirate.base.BaseModel;
 import com.hop.pirate.base.WaitTxBaseModel;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.model.RechargeModel;
@@ -23,8 +22,6 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.BiFunction;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**

@@ -1,16 +1,7 @@
 package com.hop.pirate.service;
 
 import com.hop.pirate.model.bean.ExtendToken;
-import com.hop.pirate.model.bean.MinerBean;
 import com.hop.pirate.util.Utils;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import androidLib.AndroidLib;
 
 public class SysConf {
 

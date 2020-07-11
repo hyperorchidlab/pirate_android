@@ -3,9 +3,6 @@ package com.hop.pirate.model;
 import android.content.Context;
 
 import com.hop.pirate.callback.ResultCallBack;
-import com.hop.pirate.model.bean.MinePoolBean;
-
-import java.util.List;
 
 /**
  * @description:

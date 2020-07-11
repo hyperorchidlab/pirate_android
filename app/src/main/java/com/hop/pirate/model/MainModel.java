@@ -5,7 +5,6 @@ import android.content.Context;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.model.bean.WalletBean;
 
-import androidLib.AndroidLib;
 import androidLib.HopDelegate;
 
 /**

@@ -1,18 +1,9 @@
 package com.hop.pirate.model.bean;
 
-import android.util.Log;
-
 import org.greenrobot.greendao.annotation.Entity;
-import org.json.JSONObject;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import org.greenrobot.greendao.annotation.Generated;
 
 import androidLib.AndroidLib;
-
-import org.greenrobot.greendao.annotation.Generated;
 
 @Entity
 public class MinePoolBean {
