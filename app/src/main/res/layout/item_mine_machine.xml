@@ -21,18 +21,18 @@
 
     <TextView
         android:id="@+id/miningMachineTv"
-        android:layout_width="120dp"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:textSize="14sp"
-        android:ellipsize="end"
+        android:ellipsize="middle"
         android:layout_marginEnd="100dp"
         android:layout_marginStart="16dp"
-        android:lines="1"
         app:layout_constraintBottom_toBottomOf="parent"
 
         android:textColor="@color/color_4d4d4d"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/miningZoneTv" />
+        app:layout_constraintTop_toBottomOf="@+id/miningZoneTv"
+        android:singleLine="true" />
 
     <TextView
         android:id="@+id/miningMachineTimesTv"

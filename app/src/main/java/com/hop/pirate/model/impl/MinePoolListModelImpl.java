@@ -37,37 +37,29 @@ public class MinePoolListModelImpl extends BaseModel implements MinePoolListMode
             @Override
             public void subscribe(ObservableEmitter<List<MinePoolBean>> emitter) throws Exception {
                 List<MinePoolBean> minePoolBeans;
-                MinePoolBeanDaoUtil minePoolBeanDaoUtil = new MinePoolBeanDaoUtil(context);
-                if (HopService.IsRunning) {
-                    minePoolBeans = minePoolBeanDaoUtil.queryAll();
-                } else {
-                    String poolsStr = AndroidLib.poolDataOfUser(address);
-                    minePoolBeans = new ArrayList<>();
-                    if (!TextUtils.isEmpty(poolsStr)) {
-                        JSONObject poolMap = new JSONObject(poolsStr);
-                        Iterator it = poolMap.keys();
 
-                        while (it.hasNext()) {
-                            String key = it.next().toString();
-                            JSONObject p = poolMap.optJSONObject(key);
-                            if (p == null) {
-                                continue;
-                            }
-                            MinePoolBean bean = new MinePoolBean();
-                            bean.setAddress(key);
-                            bean.setName(p.optString("Name"));
-                            bean.setEmail(p.optString("Email"));
-                            bean.setMortgageNumber(p.optDouble("GTN"));
-                            bean.setWebsiteAddress(p.optString("Url"));
-                            minePoolBeans.add(bean);
+                String poolsStr = AndroidLib.poolDataOfUser(address);
+                minePoolBeans = new ArrayList<>();
+                if (!TextUtils.isEmpty(poolsStr)) {
+                    JSONObject poolMap = new JSONObject(poolsStr);
+                    Iterator it = poolMap.keys();
+
+                    while (it.hasNext()) {
+                        String key = it.next().toString();
+                        JSONObject p = poolMap.optJSONObject(key);
+                        if (p == null) {
+                            continue;
                         }
-
+                        MinePoolBean bean = new MinePoolBean();
+                        bean.setAddress(key);
+                        bean.setName(p.optString("Name"));
+                        bean.setEmail(p.optString("Email"));
+                        bean.setMortgageNumber(p.optDouble("GTN"));
+                        bean.setWebsiteAddress(p.optString("Url"));
+                        minePoolBeans.add(bean);
                     }
-                    minePoolBeanDaoUtil.deleteAll();
-                    minePoolBeanDaoUtil.insertMinePoolBeans(minePoolBeans);
+
                 }
-
-
                 emitter.onNext(minePoolBeans);
                 emitter.onComplete();
             }

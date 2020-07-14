@@ -22,14 +22,12 @@ import com.hop.pirate.service.SysConf;
 import com.hop.pirate.util.CustomClickListener;
 import com.hop.pirate.util.WrapContentLinearLayoutManager;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class MineMachineListActivity extends BaseActivity implements View.OnClickListener, Handler.Callback {
     private MineMachineListModel mMineMachineListModel;
     private RecyclerView mMiningMachineRecyclerView;
-    MiningMachineAdapter miningMachineAdapter;
+    private MiningMachineAdapter miningMachineAdapter;
     public static List<MinerBean> sMinerBeans;
     Handler mHandler = new Handler(this);
 
@@ -54,6 +52,11 @@ public class MineMachineListActivity extends BaseActivity implements View.OnClic
         pinAllMinersTv.setOnClickListener(new CustomClickListener() {
             @Override
             protected void onSingleClick() {
+                if (sMinerBeans == null || sMinerBeans.size() == 0) {
+                    return;
+                }
+
+                showDialogFragment(R.string.testing_speed);
                 OverallSpeed();
 
             }
@@ -66,6 +69,25 @@ public class MineMachineListActivity extends BaseActivity implements View.OnClic
         titleTv.setText(getResources().getString(R.string.mine_machine));
     }
 
+    private void OverallSpeed() {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int size = sMinerBeans.size();
+                for (int i = 0; i < size; i++) {
+                    final MinerBean bean = sMinerBeans.get(i);
+                    bean.TestPing();
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                mHandler.sendEmptyMessage(0);
+            }
+        }).start();
+    }
 
 
     @Override
@@ -120,42 +142,10 @@ public class MineMachineListActivity extends BaseActivity implements View.OnClic
 
     }
 
-
-    private void OverallSpeed() {
-        if (sMinerBeans == null || sMinerBeans.size() == 0) {
-            return;
-        }
-
-        showDialogFragment(R.string.testing_speed);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                int size = sMinerBeans.size();
-                for (int i = 0; i < size; i++) {
-                    final MinerBean bean = sMinerBeans.get(i);
-                    bean.TestPing();
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                mHandler.sendEmptyMessage(0);
-            }
-        }).start();
-    }
-
-
     @Override
     public boolean handleMessage(Message msg) {
         dismissDialogFragment();
-        Collections.sort(sMinerBeans, new Comparator<MinerBean>() {
-            @Override
-            public int compare(MinerBean o1, MinerBean o2) {
-                return (int) (o1.getTime() - o2.getTime());
-            }
-        });
-        miningMachineAdapter.setMineMachineBeans(sMinerBeans);
+        miningMachineAdapter.notifyDataSetChanged();
         return false;
     }
 

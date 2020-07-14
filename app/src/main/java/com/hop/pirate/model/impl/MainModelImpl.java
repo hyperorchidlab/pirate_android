@@ -88,13 +88,6 @@ public class MainModelImpl extends BaseModel implements MainModel {
         schedulers(Observable.create(new ObservableOnSubscribe<WalletBean>() {
             @Override
             public void subscribe(ObservableEmitter<WalletBean> emitter) throws Exception {
-                WalletBeanDaoUtil walletBeanDaoUtil = new WalletBeanDaoUtil(context);
-                if (HopService.IsRunning) {
-                    WalletBean walletBean = walletBeanDaoUtil.queryWallet();
-                    emitter.onNext(walletBean);
-                    emitter.onComplete();
-                    return;
-                }
                 String jsonStr = AndroidLib.walletInfo();
                 if (jsonStr.equals("")) {
                     emitter.onError(new PError(context.getString(R.string.wallet_read_failed)));
@@ -106,8 +99,6 @@ public class MainModelImpl extends BaseModel implements MainModel {
                 WalletWrapper.EthBalance = walletBean.getEth();
                 WalletWrapper.HopBalance = walletBean.getHop();
                 WalletWrapper.Approved = walletBean.getApproved();
-                walletBeanDaoUtil.deleteAll();
-                walletBeanDaoUtil.insertWallet(walletBean);
                 emitter.onNext(walletBean);
                 emitter.onComplete();
             }

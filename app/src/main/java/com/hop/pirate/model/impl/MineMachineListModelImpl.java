@@ -38,28 +38,20 @@ public class MineMachineListModelImpl extends BaseModel implements MineMachineLi
             @Override
             public void subscribe(ObservableEmitter<List<MinerBean>> emitter) throws Exception {
                 List<MinerBean> minerBeans;
-                MinerDaoUtil minerDaoUtil = new MinerDaoUtil(context);
-                if (HopService.IsRunning) {
-                    minerBeans = minerDaoUtil.queryMineByMinePoolAddress(SysConf.CurPoolAddress);
-//                    minerBeans = minerDaoUtil.queryAll();
-                } else {
-                    String miners = AndroidLib.randomMiner(address, random);
-                    if (miners.equals("null") || TextUtils.isEmpty(miners)) {
-                        emitter.onError(new PError(context.getString(R.string.get_data_failed)));
-                        return;
-                    }
-                    minerBeans = new ArrayList<>();
-                    JSONArray minerArr = new JSONArray(miners);
-                    for (int i = 0; i < minerArr.length(); i++) {
-                        JSONObject obj = (JSONObject) minerArr.get(i);
-                        MinerBean bean = new MinerBean();
-                        bean.setMID(obj.optString("SubAddr"));
-                        bean.setZone(obj.optString("Zone"));
-                        bean.setMinerPoolAdd(SysConf.CurPoolAddress);
-                        minerBeans.add(bean);
-                    }
-                    minerDaoUtil.deleteMineBeansByMinePoolAddress(SysConf.CurPoolAddress);
-                    minerDaoUtil.insertMineBeans(minerBeans);
+                String miners = AndroidLib.randomMiner(address, random);
+                if (miners.equals("null") || TextUtils.isEmpty(miners)) {
+                    emitter.onError(new PError(context.getString(R.string.get_data_failed)));
+                    return;
+                }
+                minerBeans = new ArrayList<>();
+                JSONArray minerArr = new JSONArray(miners);
+                for (int i = 0; i < minerArr.length(); i++) {
+                    JSONObject obj = (JSONObject) minerArr.get(i);
+                    MinerBean bean = new MinerBean();
+                    bean.setMID(obj.optString("SubAddr"));
+                    bean.setZone(obj.optString("Zone"));
+                    bean.setMinerPoolAdd(SysConf.CurPoolAddress);
+                    minerBeans.add(bean);
                 }
                 emitter.onNext(minerBeans);
                 emitter.onComplete();
