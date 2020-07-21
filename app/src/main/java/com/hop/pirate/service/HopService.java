@@ -101,8 +101,11 @@ public class HopService extends VpnService implements androidLib.VpnDelegate, Ha
 
     public void disconnectVPN() {
         try {
-            mVpnOutputStream.close();
-            mVpnOutputStream = null;
+            if(mVpnOutputStream!=null){
+                mVpnOutputStream.close();
+                mVpnOutputStream = null;
+
+            }
 
             if (mInterface != null) {
                 mInterface.close();
@@ -125,7 +128,6 @@ public class HopService extends VpnService implements androidLib.VpnDelegate, Ha
     @Subscribe
     public void stopHopService(EventStopHopService eventStopHopService){
         AndroidLib.stopVpn();
-        stopSelf();
     }
 
     public void establishVPN() {
