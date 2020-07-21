@@ -181,7 +181,6 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
 
                         if (HopService.IsRunning) {
                             HopService.Stop();
-                            AndroidLib.stopProtocol();
                         }
 
                         Intent createIntent = new Intent(mActivity, CreateAccountActivity.class);

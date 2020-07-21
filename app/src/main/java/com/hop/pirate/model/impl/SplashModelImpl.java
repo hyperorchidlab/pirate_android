@@ -1,6 +1,7 @@
 package com.hop.pirate.model.impl;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.hop.pirate.PError;
@@ -8,6 +9,7 @@ import com.hop.pirate.base.BaseModel;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.model.SplashModel;
 import com.hop.pirate.model.bean.AppVersionBean;
+import com.hop.pirate.util.AccountUtils;
 import com.hop.pirate.util.Utils;
 
 import java.io.BufferedReader;
@@ -37,11 +39,13 @@ public class SplashModelImpl extends BaseModel implements SplashModel {
         Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(ObservableEmitter<String> emitter) throws Exception {
-                File file = new File(Utils.getBaseDir(context) + "/wallet.json");
-                if (file.exists()) {
-                    emitter.onComplete();
-                } else {
+
+                String walletJson = AccountUtils.loadWallet(context);
+                if (TextUtils.isEmpty(walletJson)) {
                     emitter.onError(new PError("no wallet"));
+                } else {
+                    emitter.onNext(walletJson);
+                    emitter.onComplete();
                 }
             }
         }).subscribeOn(Schedulers.io())

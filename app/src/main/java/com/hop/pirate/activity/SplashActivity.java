@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.google.gson.Gson;
 import com.hop.pirate.PError;
 import com.hop.pirate.R;
 import com.hop.pirate.base.BaseActivity;
@@ -16,12 +17,17 @@ import com.hop.pirate.callback.AlertDialogOkCallBack;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.model.SplashModel;
 import com.hop.pirate.model.bean.AppVersionBean;
+import com.hop.pirate.model.bean.WalletBean;
 import com.hop.pirate.model.impl.SplashModelImpl;
 import com.hop.pirate.service.HopService;
+import com.hop.pirate.service.WalletWrapper;
 import com.hop.pirate.util.Utils;
 import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.v3.MessageDialog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -181,8 +187,12 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
             }
 
             @Override
-            public void onSuccess(String o) {
-
+            public void onSuccess(String walletJson) {
+                try {
+                    WalletWrapper.MainAddress = new JSONObject(walletJson).optString("mainAddress");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override

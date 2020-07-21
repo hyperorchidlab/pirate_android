@@ -22,7 +22,7 @@ public class HopApplication extends Application {
         DialogSettings.style = DialogSettings.STYLE.STYLE_IOS;
         DialogSettings.modalDialog = true;
         if (!isApkInDebug()) {
-            CrashReport.initCrashReport(getApplicationContext(), "27449a53f9", false);
+            CrashReport.initCrashReport(getApplicationContext(), "cfdc2c8a96", false);
         }
         RxJavaPlugins.setErrorHandler(new Consumer<Throwable>() {
             @Override

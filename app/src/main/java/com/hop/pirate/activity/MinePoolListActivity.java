@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.hop.pirate.R;
@@ -14,6 +15,7 @@ import com.hop.pirate.model.MinePoolListModel;
 import com.hop.pirate.model.bean.ExtendToken;
 import com.hop.pirate.model.bean.MinePoolBean;
 import com.hop.pirate.model.impl.MinePoolListModelImpl;
+import com.hop.pirate.service.WalletWrapper;
 import com.hop.pirate.util.Utils;
 import com.hop.pirate.util.WrapContentLinearLayoutManager;
 
@@ -24,7 +26,7 @@ public class MinePoolListActivity extends BaseActivity {
     private RecyclerView mMiningPoolRecyclerVeiw;
     public static MinePoolBean mCurrentMinePoolBean;
     private MiningPoolAdapter mMiningPoolAdapter;
-    private static List<MinePoolBean> sMinePoolBeans;
+    public static List<MinePoolBean> sMinePoolBeans;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,7 +46,7 @@ public class MinePoolListActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        if (MainActivity.sWalletBean == null) {
+        if (TextUtils.isEmpty(WalletWrapper.MainAddress)) {
             Utils.toastTips(getString(R.string.wallet_read_failed));
             return;
         }
@@ -61,7 +63,7 @@ public class MinePoolListActivity extends BaseActivity {
     }
 
     private void getPoolData(final boolean hasLoading) {
-        mMinePoolListModel.getPoolDataOfUser(this, MainActivity.sWalletBean.getMain(), new ResultCallBack<List<MinePoolBean>>() {
+        mMinePoolListModel.getPoolDataOfUser(this, WalletWrapper.MainAddress, new ResultCallBack<List<MinePoolBean>>() {
             @Override
             public void onError(Throwable e) {
                 if (hasLoading) {

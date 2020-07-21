@@ -2,6 +2,7 @@ package com.hop.pirate.util;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -11,6 +12,10 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.hop.pirate.R;
 import com.hop.pirate.activity.ScanActivity;
 import com.hop.pirate.callback.AlertDialogOkCallBack;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 public class AccountUtils {
 
@@ -80,5 +85,33 @@ public class AccountUtils {
         activity.startActivityForResult(albumIntent, Utils.RC_SELECT_FROM_GALLARY);
     }
 
+    public static String loadWallet(Context context) {
+        File file = new File(Utils.getBaseDir(context) + "/wallet.json");
+        if (!file.exists()) {
+            return "";
+        }
+        FileInputStream fileInputStream = null;
+
+        byte[] bytes = new byte[1024];
+        try {
+            fileInputStream = new FileInputStream(file);
+            StringBuffer stringBuffer = new StringBuffer();
+            int read = -1;
+            while ((read = fileInputStream.read(bytes)) != -1) {
+                stringBuffer.append(new String(bytes, 0, read));
+            }
+            fileInputStream.read();
+            return stringBuffer.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        } finally {
+            try {
+                fileInputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }

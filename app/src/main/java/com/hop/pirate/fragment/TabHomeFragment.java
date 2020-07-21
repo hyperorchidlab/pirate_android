@@ -24,6 +24,7 @@ import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.event.EventLoadWalletSuccess;
 import com.hop.pirate.event.EventRechargeSuccess;
 import com.hop.pirate.event.EventReloadPoolsMarket;
+import com.hop.pirate.event.EventStopHopService;
 import com.hop.pirate.event.EventVPNClosed;
 import com.hop.pirate.event.EventVPNOpen;
 import com.hop.pirate.model.TabHomeModel;
@@ -189,28 +190,30 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
                 startActivityForResult(intent, Constants.REQUEST_MINE_MACHINE_CODE);
                 break;
             case R.id.serviceSwitchTv:
-
-                if (!Utils.isFastClick()) {
-                    return;
-                }
-
-                if (!checkMsgforStartVpnService()) {
-                    return;
-                }
-                if (HopService.IsRunning) {
-                    HopService.Stop();
-                } else {
-
-                    Intent ii = VpnService.prepare(mActivity);
-                    if (ii != null) {
-                        startActivityForResult(ii, RC_VPN_RIGHT);
-                    } else {
-                        onActivityResult(RC_VPN_RIGHT, RESULT_OK, null);
-                    }
-                }
+                changeVPNStatus();
                 break;
             default:
                 break;
+        }
+    }
+
+    private void changeVPNStatus() {
+        if (!Utils.isFastClick()) {
+            return;
+        }
+
+        if (!checkMsgforStartVpnService()) {
+            return;
+        }
+        if (HopService.IsRunning) {
+            EventBus.getDefault().post(new EventStopHopService());
+        } else {
+            Intent ii = VpnService.prepare(mActivity);
+            if (ii != null) {
+                startActivityForResult(ii, RC_VPN_RIGHT);
+            } else {
+                onActivityResult(RC_VPN_RIGHT, RESULT_OK, null);
+            }
         }
     }
 

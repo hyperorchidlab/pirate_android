@@ -101,6 +101,7 @@ public class MineMachineListActivity extends BaseActivity implements View.OnClic
             showDialogFragment();
         } else {
             miningMachineAdapter.setMineMachineBeans(sMinerBeans);
+            return;
         }
         loadMinerUnderPool(sMinerBeans == null || sMinerBeans.size() == 0);
     }

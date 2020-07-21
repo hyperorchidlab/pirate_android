@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import com.hop.pirate.model.bean.ExtendToken;
 import com.hop.pirate.model.bean.OwnPool;
 import com.hop.pirate.model.bean.WalletBean;
 import com.hop.pirate.model.impl.TabWalletModelImpl;
+import com.hop.pirate.service.WalletWrapper;
 import com.hop.pirate.util.Utils;
 import com.hop.pirate.util.WrapContentLinearLayoutManager;
 
@@ -100,7 +102,6 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
 
     private void initData() {
         if (MainActivity.sWalletBean == null) {
-            Utils.toastTips(getString(R.string.wallet_read_failed));
             return;
         }
         mHopNumberTv.setText(Utils.ConvertCoin(MainActivity.sWalletBean.getHop()));
@@ -128,11 +129,11 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
 
 
     private void getPoolDataOfUser(boolean isShowDialog) {
-        if (MainActivity.sWalletBean == null) {
+        if (TextUtils.isEmpty(WalletWrapper.MainAddress)) {
             Utils.toastTips(getString(R.string.wallet_read_failed));
             return;
         }
-        mTabWalletModel.getPoolDataOfUser(mActivity, MainActivity.sWalletBean.getMain(), new ResultCallBack<List<OwnPool>>() {
+        mTabWalletModel.getPoolDataOfUser(mActivity, WalletWrapper.MainAddress, new ResultCallBack<List<OwnPool>>() {
             @Override
             public void onError(Throwable e) {
                 mActivity.dismissDialogFragment();

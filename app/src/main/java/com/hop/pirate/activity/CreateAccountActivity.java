@@ -103,7 +103,8 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                 dismissDialogFragment();
                 Utils.toastTips(getResources().getString(R.string.create_account_success));
                 Utils.clearAllData(CreateAccountActivity.this);
-
+                MineMachineListActivity.sMinerBeans = null;
+                MinePoolListActivity.sMinePoolBeans = null;
                 startActivity(MainActivity.class);
                 finish();
             }
@@ -213,6 +214,8 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
             public void onComplete() {
                 dismissDialogFragment();
                 Utils.toastTips(getResources().getString(R.string.import_success));
+                MineMachineListActivity.sMinerBeans = null;
+                MinePoolListActivity.sMinePoolBeans = null;
                 Utils.clearAllData(CreateAccountActivity.this);
                 startActivity(MainActivity.class);
                 finish();

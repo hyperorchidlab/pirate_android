@@ -21,12 +21,13 @@ import com.hop.pirate.service.SysConf;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MiningPoolAdapter extends RecyclerView.Adapter<MiningPoolAdapter.ViewHolder> implements Handler.Callback {
 
 
-    private List<MinePoolBean> mMinePoolBeans;
+    private List<MinePoolBean> mMinePoolBeans = new ArrayList<>();
     private BaseActivity mContext;
     private MinePoolBean mCurrentMinePoolBean;
     private Handler mHandler;
@@ -38,7 +39,8 @@ public class MiningPoolAdapter extends RecyclerView.Adapter<MiningPoolAdapter.Vi
     }
 
     public void setMinePoolBeans(List<MinePoolBean> minePoolBeans) {
-        mMinePoolBeans = minePoolBeans;
+        mMinePoolBeans.clear();
+        mMinePoolBeans.addAll(minePoolBeans);
         notifyDataSetChanged();
     }
 

@@ -230,6 +230,8 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
             case ATRechargeSuccess:
                 EventBus.getDefault().post(new EventRechargeSuccess());
                 break;
+            default:
+                break;
 
         }
     }
@@ -239,6 +241,7 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
     public void serviceExit(Exception err) {
         //Broad cast to restart service
         HopService.Stop();
+
     }
 
     @Override
