@@ -120,6 +120,10 @@ public class HopService extends VpnService implements androidLib.VpnDelegate, Ha
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.d(TAG, "onDestroy: --------------");
+        IsRunning = false;
+        disconnectVPN();
+        EventBus.getDefault().post(new EventVPNClosed());
         if(EventBus.getDefault().isRegistered(this)){
             EventBus.getDefault().unregister(this);
         }
@@ -178,7 +182,7 @@ public class HopService extends VpnService implements androidLib.VpnDelegate, Ha
     }
 
 
-    public static void Stop() {
+    public static void stop() {
         Log.w(TAG, "stop service in android");
         AndroidLib.stopVpn();
     }

@@ -89,14 +89,14 @@ public class MinerBean {
         String jsonStr = AndroidLib.testPing(this.MID);
         if (jsonStr.equals("")) {
             this.setIP("None");
-            this.setTime(999);
+            this.setTime(-1);
         } else {
             try {
                 JSONObject obj = new JSONObject(jsonStr);
                 this.setIP(obj.optString("ip"));
                 double ping = obj.optDouble("ping");
                 if (ping == -1) {
-                    this.setTime(999);
+                    this.setTime(-1);
                 } else {
                     this.setTime(ping);
                 }

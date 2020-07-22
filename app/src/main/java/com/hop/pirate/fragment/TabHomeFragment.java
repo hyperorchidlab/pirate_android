@@ -206,7 +206,7 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
             return;
         }
         if (HopService.IsRunning) {
-            EventBus.getDefault().post(new EventStopHopService());
+           HopService.stop();
         } else {
             Intent ii = VpnService.prepare(mActivity);
             if (ii != null) {
@@ -282,7 +282,7 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
         }
         if (requestCode == Constants.REQUEST_MINE_POOL_CODE || requestCode == Constants.REQUEST_MINE_MACHINE_CODE) {
             if (HopService.IsRunning) {
-                HopService.Stop();
+                HopService.stop();
             }
             updateHomeData();
         } else if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {

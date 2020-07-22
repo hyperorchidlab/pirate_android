@@ -39,8 +39,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import androidLib.AndroidLib;
-
 public class TabSettingFragment extends BaseFragement implements View.OnClickListener, Handler.Callback {
     private TabSettingModel mTabSettingModel;
     private Button mApplyFreeEthBtn;
@@ -180,7 +178,7 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
                     public void onClickOkButton(String parameter) {
 
                         if (HopService.IsRunning) {
-                            HopService.Stop();
+                            HopService.stop();
                         }
 
                         Intent createIntent = new Intent(mActivity, CreateAccountActivity.class);

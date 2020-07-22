@@ -71,7 +71,7 @@ public class MiningPoolAdapter extends RecyclerView.Adapter<MiningPoolAdapter.Vi
                     return;
                 }
                 if (HopService.IsRunning) {
-                    HopService.Stop();
+                    HopService.stop();
                 }
 
                 mHandler.postDelayed(new Runnable() {

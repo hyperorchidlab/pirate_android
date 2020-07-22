@@ -57,6 +57,9 @@ import com.kongzue.dialog.v3.MessageDialog;
 
 import java.io.File;
 import java.io.OutputStream;
+import java.net.NetworkInterface;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -454,8 +457,14 @@ public final class Utils {
     }
 
     public static boolean checkVPN(Activity activity) {
-        ConnectivityManager cm = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getNetworkInfo(ConnectivityManager.TYPE_VPN).isConnectedOrConnecting();
+        List<String> networkList = new ArrayList<>();
+        try {
+            for (NetworkInterface networkInterface : Collections.list(NetworkInterface.getNetworkInterfaces())) {
+                if (networkInterface.isUp()) {networkList.add(networkInterface.getName());}
+            }
+        } catch (Exception ex) {
+        }
+        return networkList.contains("tun0") || networkList.contains("ppp0");
     }
 
     private static final int MIN_CLICK_DELAY_TIME = 1000;

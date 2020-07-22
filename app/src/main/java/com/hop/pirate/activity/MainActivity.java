@@ -240,7 +240,7 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
     @Override
     public void serviceExit(Exception err) {
         //Broad cast to restart service
-        HopService.Stop();
+        HopService.stop();
 
     }
 

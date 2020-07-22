@@ -123,7 +123,7 @@ public class SupportedCurrenciesActivity extends BaseActivity implements Handler
                                 Utils.saveData(Constants.CUR_TOKENI, extendToken.getTokenI());
                                 Utils.saveData(Constants.CUR_SYMBOL, extendToken.getSymbol());
                                 if (HopService.IsRunning) {
-                                    HopService.Stop();
+                                    HopService.stop();
                                 }
                                 exitApp();
                                 startActivity(SplashActivity.class);

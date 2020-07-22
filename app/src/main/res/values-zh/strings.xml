@@ -170,7 +170,7 @@
     <string name="init_service_failed">初始化服务失败</string>
     <string name="password_eror">密码错误</string>
     <string name="testing_speed">测速中…</string>
-    <string name="get_data_failed">获取数据失败！</string>
+    <string name="get_data_failed">获取数据失败!</string>
     <string name="open_walet">开启钱包</string>
     <string name="request_time_out">请求超时</string>
     <string name="request_failed">请求失败!</string>
