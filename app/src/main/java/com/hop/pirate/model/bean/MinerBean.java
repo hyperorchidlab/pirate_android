@@ -1,16 +1,11 @@
 package com.hop.pirate.model.bean;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import androidLib.AndroidLib;
 
-@Entity
 public class MinerBean {
-    @Id(autoincrement = true)
     private Long id;
     private String MID;
     private String zone;
@@ -32,7 +27,6 @@ public class MinerBean {
         this.zone = zone;
     }
 
-    @Generated(hash = 430485696)
     public MinerBean(Long id, String MID, String zone, double time, String IP,
                      boolean isSelected, String minerPoolAdd) {
         this.id = id;
@@ -44,7 +38,6 @@ public class MinerBean {
         this.minerPoolAdd = minerPoolAdd;
     }
 
-    @Generated(hash = 2093257924)
     public MinerBean() {
     }
 

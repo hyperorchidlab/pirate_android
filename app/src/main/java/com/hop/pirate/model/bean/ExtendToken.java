@@ -1,9 +1,6 @@
 package com.hop.pirate.model.bean;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
 
-@Entity
 public class ExtendToken {
     public static String CurPaymentContract = "0x4291d9Ff189D90Ba875E0fc1Da4D602406DD7D6e";
     public static String CurTokenI = "0xAd44c8493dE3FE2B070f33927A315b50Da9a0e25";
@@ -20,7 +17,6 @@ public class ExtendToken {
     private boolean isChecked;
 
 
-    @Generated(hash = 1319121579)
     public ExtendToken(String paymentContract, String tokenI, String symbol, double balance,
             int decimal, boolean isChecked) {
         this.paymentContract = paymentContract;
@@ -31,7 +27,6 @@ public class ExtendToken {
         this.isChecked = isChecked;
     }
 
-    @Generated(hash = 1437756994)
     public ExtendToken() {
     }
 

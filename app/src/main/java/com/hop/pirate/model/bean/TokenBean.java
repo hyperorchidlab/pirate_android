@@ -1,23 +1,18 @@
 package com.hop.pirate.model.bean;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
 
-@Entity
 public class TokenBean {
 
     private String name;
     private double banlance;
     private boolean isChecked;
 
-    @Generated(hash = 1005833175)
     public TokenBean(String name, double banlance, boolean isChecked) {
         this.name = name;
         this.banlance = banlance;
         this.isChecked = isChecked;
     }
 
-    @Generated(hash = 1886787915)
     public TokenBean() {
     }
 

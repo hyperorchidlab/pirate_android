@@ -1,9 +1,6 @@
 package com.hop.pirate.model.bean;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
 
-@Entity
 public class UserAccountData {
 
     private String user;
@@ -18,7 +15,6 @@ public class UserAccountData {
     private double credit;
     private int microNonce;
 
-    @Generated(hash = 1881823397)
     public UserAccountData(String user, String pool, double inRecharge,
                            String expire, int nonce, double token, double packets, int epoch,
                            double credit, int microNonce) {
@@ -34,7 +30,6 @@ public class UserAccountData {
         this.microNonce = microNonce;
     }
 
-    @Generated(hash = 434031780)
     public UserAccountData() {
     }
 

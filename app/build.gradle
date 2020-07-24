@@ -1,20 +1,13 @@
 apply plugin: 'com.android.application'
-apply plugin: 'org.greenrobot.greendao'
 
-greendao {
-    schemaVersion 8 //数据库版本
-    daoPackage 'com.hop.pirate.greendao'
-    //设置DaoMaster、DaoSession、Dao目录
-    targetGenDir 'src/main/java'
-}
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId 'com.hop.pirate'
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 100106
-        versionName '1.1.6'
+        versionCode 100107
+        versionName '1.1.7'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         renderscriptTargetApi 19
         renderscriptSupportModeEnabled true
@@ -85,8 +78,6 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation 'com.google.code.gson:gson:2.8.4'
 
-    implementation 'org.greenrobot:greendao:3.2.0'
-    implementation 'io.github.yuweiguocn:GreenDaoUpgradeHelper:v2.2.1'
 //    configurations.all {
 //        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
 //            def requested = details.requested

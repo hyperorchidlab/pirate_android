@@ -1,11 +1,8 @@
 package com.hop.pirate.model.bean;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
 
 import androidLib.AndroidLib;
 
-@Entity
 public class MinePoolBean {
     public static String TAG = "Miner Pool Bean";
 
@@ -31,7 +28,6 @@ public class MinePoolBean {
         this.userNumber = user;
     }
 
-    @Generated(hash = 911517445)
     public MinePoolBean(String address, double mortgageNumber, String name, String websiteAddress, String email,
                         int userNumber, int mineMachineNumber, boolean isSelected) {
         this.address = address;

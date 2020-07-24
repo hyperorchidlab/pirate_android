@@ -1,17 +1,12 @@
 package com.hop.pirate.model.bean;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
 
 /**
  * @description:
  * @author: Mr.x
  * @date :   2020/7/9 9:55 AM
  */
-@Entity
 public class OwnPool {
-    @Id(autoincrement = true)
     private Long id;
     private String address;
     private String name;
@@ -19,7 +14,6 @@ public class OwnPool {
     private double mortgageNumber;
     private String websiteAddress;
 
-    @Generated(hash = 1283472363)
     public OwnPool(Long id, String address, String name, String email,
                    double mortgageNumber, String websiteAddress) {
         this.id = id;
@@ -30,7 +24,6 @@ public class OwnPool {
         this.websiteAddress = websiteAddress;
     }
 
-    @Generated(hash = 414715948)
     public OwnPool() {
     }
 
