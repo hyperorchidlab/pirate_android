@@ -53,7 +53,7 @@ public class RechargeAdapter extends RecyclerView.Adapter<RechargeAdapter.ViewHo
         mDrawable.setCornerRadius(16);
         viewHolder.mConstraintLayout.setBackground(mDrawable);
         viewHolder.minePoolNameTv.setText(minePoolBean.getName());
-        viewHolder.websiteAddressTv.setText(mContext.getString(R.string.websitAddress) + minePoolBean.getWebsiteAddress());
+        viewHolder.websiteAddressTv.setText(mContext.getString(R.string.websiteAddress) + minePoolBean.getWebsiteAddress());
         viewHolder.emailTv.setText(mContext.getString(R.string.email) + minePoolBean.getEmail());
         viewHolder.minePoolAddressTv.setText(minePoolBean.getAddress());
         viewHolder.mortgageNumberTv.setText(mContext.getString(R.string.gtn) + Utils.ConvertCoin(minePoolBean.getMortgageNumber()));
@@ -73,7 +73,7 @@ public class RechargeAdapter extends RecyclerView.Adapter<RechargeAdapter.ViewHo
         return mMinePoolBeans == null ? 0 : mMinePoolBeans.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         private ConstraintLayout mConstraintLayout;
         private TextView minePoolNameTv;
         private TextView websiteAddressTv;
@@ -82,7 +82,7 @@ public class RechargeAdapter extends RecyclerView.Adapter<RechargeAdapter.ViewHo
         private TextView minePoolAddressTv;
         private TextView mortgageNumberTv;
 
-        public ViewHolder(@NonNull View itemView) {
+        private ViewHolder(@NonNull View itemView) {
             super(itemView);
             mConstraintLayout = itemView.findViewById(R.id.constraintLayout);
             minePoolNameTv = itemView.findViewById(R.id.minePoolNameTv);

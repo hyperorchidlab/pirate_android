@@ -24,7 +24,6 @@ import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.event.EventLoadWalletSuccess;
 import com.hop.pirate.event.EventRechargeSuccess;
 import com.hop.pirate.event.EventReloadPoolsMarket;
-import com.hop.pirate.event.EventStopHopService;
 import com.hop.pirate.event.EventVPNClosed;
 import com.hop.pirate.event.EventVPNOpen;
 import com.hop.pirate.model.TabHomeModel;
@@ -167,7 +166,7 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
         if (HopService.IsRunning) {
             mPirateNetworkStatus.setText(getString(R.string.use));
         } else {
-            mPirateNetworkStatus.setText(getString(R.string.unaccessed));
+            mPirateNetworkStatus.setText(getString(R.string.disconnected));
         }
     }
 
@@ -206,7 +205,7 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
             return;
         }
         if (HopService.IsRunning) {
-           HopService.stop();
+            HopService.stop();
         } else {
             Intent ii = VpnService.prepare(mActivity);
             if (ii != null) {
@@ -231,12 +230,12 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
 
     void startVpnService() {
 
-        if (!WalletWrapper.IsOpen()) {
+        if (!WalletWrapper.isOpen()) {
 
             AlertDialogOkCallBack callBack = new AlertDialogOkCallBack() {
                 @Override
                 public void onClickOkButton(final String password) {
-                    mActivity.showDialogFragment(R.string.open_walet);
+                    mActivity.showDialogFragment(R.string.open_wallet);
                     startHopService(password);
                 }
 
@@ -306,7 +305,7 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void VPNClose(EventVPNClosed eventVPNClosed) {
-        mPirateNetworkStatus.setText(getString(R.string.unaccessed));
+        mPirateNetworkStatus.setText(getString(R.string.disconnected));
         mActivity.dismissDialogFragment();
     }
 

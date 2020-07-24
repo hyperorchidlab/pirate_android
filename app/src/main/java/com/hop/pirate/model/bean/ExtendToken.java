@@ -10,23 +10,24 @@ public class ExtendToken {
     public static String CurSymbol = "HOP";
     public static String TAG = "Extend token Bean";
 
-    private String PaymentContract;
-    private String TokenI;
-    private String Symbol;
-    private double Balance;
-    private int Decimal;
+    private String paymentContract;
+    private String tokenI;
+    private String symbol;
+    private double balance;
+    private int decimal;
 
 
     private boolean isChecked;
 
-    @Generated(hash = 1977001439)
-    public ExtendToken(String PaymentContract, String TokenI, String Symbol, double Balance,
-                       int Decimal, boolean isChecked) {
-        this.PaymentContract = PaymentContract;
-        this.TokenI = TokenI;
-        this.Symbol = Symbol;
-        this.Balance = Balance;
-        this.Decimal = Decimal;
+
+    @Generated(hash = 1319121579)
+    public ExtendToken(String paymentContract, String tokenI, String symbol, double balance,
+            int decimal, boolean isChecked) {
+        this.paymentContract = paymentContract;
+        this.tokenI = tokenI;
+        this.symbol = symbol;
+        this.balance = balance;
+        this.decimal = decimal;
         this.isChecked = isChecked;
     }
 
@@ -34,24 +35,25 @@ public class ExtendToken {
     public ExtendToken() {
     }
 
+
     public String getPaymentContract() {
-        return PaymentContract;
+        return paymentContract;
     }
 
     public String getTokenI() {
-        return TokenI;
+        return tokenI;
     }
 
     public String getSymbol() {
-        return Symbol;
+        return symbol;
     }
 
     public double getBalance() {
-        return Balance;
+        return balance;
     }
 
     public int getDecimal() {
-        return Decimal;
+        return decimal;
     }
 
     public boolean isChecked() {
@@ -62,24 +64,24 @@ public class ExtendToken {
         isChecked = checked;
     }
 
-    public void setPaymentContract(String PaymentContract) {
-        this.PaymentContract = PaymentContract;
+    public void setPaymentContract(String paymentContract) {
+        this.paymentContract = paymentContract;
     }
 
-    public void setTokenI(String TokenI) {
-        this.TokenI = TokenI;
+    public void setTokenI(String tokenI) {
+        this.tokenI = tokenI;
     }
 
-    public void setSymbol(String Symbol) {
-        this.Symbol = Symbol;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
-    public void setBalance(double Balance) {
-        this.Balance = Balance;
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
-    public void setDecimal(int Decimal) {
-        this.Decimal = Decimal;
+    public void setDecimal(int decimal) {
+        this.decimal = decimal;
     }
 
     public boolean getIsChecked() {

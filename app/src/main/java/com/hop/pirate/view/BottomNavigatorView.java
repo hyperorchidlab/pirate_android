@@ -16,17 +16,15 @@ import java.util.List;
 public class BottomNavigatorView extends LinearLayoutCompat {
 
 
-    private int mImageArray[] = {R.drawable.tab_home_normal, R.drawable.tab_recharge_normal, R.drawable.tab_wallet_normal,
+    private int[] mImageArray = {R.drawable.tab_home_normal, R.drawable.tab_recharge_normal, R.drawable.tab_wallet_normal,
             R.drawable.tab_setting_normal};
 
-    private int mImageSelectedArray[] = {R.drawable.tab_home_selected, R.drawable.tab_recharge_selected, R.drawable.tab_wallet_selected,
+    private int[] mImageSelectedArray = {R.drawable.tab_home_selected, R.drawable.tab_recharge_selected, R.drawable.tab_wallet_selected,
             R.drawable.tab_setting_selected};
 
     private int[] mTextArray = {R.string.tab_home, R.string.tab_flow_market, R.string.tab_wallet, R.string.tab_setting};
 
     OnBottomNavigatorViewItemClickListener mOnBottomNavigatorViewItemClickListener;
-
-    private View bottomNavigatorLine;
 
     public interface OnBottomNavigatorViewItemClickListener {
 
@@ -48,7 +46,7 @@ public class BottomNavigatorView extends LinearLayoutCompat {
 
         setOrientation(HORIZONTAL);
         inflate(context, R.layout.layout_bottom_navigator, this);
-        bottomNavigatorLine = findViewById(R.id.bottom_navigator_line);
+        View bottomNavigatorLine = findViewById(R.id.bottom_navigator_line);
         FrameLayout courseFl = findViewById(R.id.bottom_navigator_course);
         FrameLayout groupFl = findViewById(R.id.bottom_navigator_group_up);
         FrameLayout feedFl = findViewById(R.id.bottom_navigator_feed);

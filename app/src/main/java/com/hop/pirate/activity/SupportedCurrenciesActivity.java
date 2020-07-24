@@ -108,7 +108,7 @@ public class SupportedCurrenciesActivity extends BaseActivity implements Handler
     @Override
     public void itemClick(final ExtendToken extendToken) {
         Utils.showOkOrCancelAlert(SupportedCurrenciesActivity.this, R.string.tips,
-                R.string.settting_change_token, new AlertDialogOkCallBack() {
+                R.string.setting_change_token, new AlertDialogOkCallBack() {
 
                     @Override
                     public void onClickOkButton(String parameter) {
@@ -120,7 +120,7 @@ public class SupportedCurrenciesActivity extends BaseActivity implements Handler
                                 ExtendToken.CurSymbol = extendToken.getSymbol();
 
                                 Utils.saveData(Constants.CUR_PAYMENT_CONTRACT, extendToken.getPaymentContract());
-                                Utils.saveData(Constants.CUR_TOKENI, extendToken.getTokenI());
+                                Utils.saveData(Constants.CUR_TOKEN, extendToken.getTokenI());
                                 Utils.saveData(Constants.CUR_SYMBOL, extendToken.getSymbol());
                                 if (HopService.IsRunning) {
                                     HopService.stop();

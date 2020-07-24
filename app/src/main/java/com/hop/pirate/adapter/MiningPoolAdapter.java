@@ -48,7 +48,6 @@ public class MiningPoolAdapter extends RecyclerView.Adapter<MiningPoolAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
 
-        final int currentPosition = position;
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_mining_pool_for_mining, viewGroup, false);
         return new ViewHolder(view);
     }
@@ -82,7 +81,7 @@ public class MiningPoolAdapter extends RecyclerView.Adapter<MiningPoolAdapter.Vi
                             @Override
                             public void run() {
                                 MineMachineListActivity.sMinerBeans = null;
-                                SysConf.ChangeCurPool(minePoolBean.getAddress(), minePoolBean.getName());
+                                SysConf.changeCurPool(minePoolBean.getAddress(), minePoolBean.getName());
                                 EventBus.getDefault().post(new EventReloadPoolsMarket());
                                 mContext.dismissDialogFragment();
                                 ((Activity) mContext).setResult(Activity.RESULT_OK);
@@ -111,13 +110,13 @@ public class MiningPoolAdapter extends RecyclerView.Adapter<MiningPoolAdapter.Vi
     }
 
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         private ConstraintLayout constraintlayout;
         private TextView poolNameTv;
         private TextView poolStatusTv;
 
-        public ViewHolder(@NonNull View itemView) {
+        private ViewHolder(@NonNull View itemView) {
             super(itemView);
             constraintlayout = itemView.findViewById(R.id.constraintlayout);
             poolNameTv = itemView.findViewById(R.id.poolNameTv);

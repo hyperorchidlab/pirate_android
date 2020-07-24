@@ -107,7 +107,7 @@ public class MinePoolForWalletAdapter extends RecyclerView.Adapter<MinePoolForWa
         return mMinePoolBeans == null ? 0 : mMinePoolBeans.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView minePoolNameTv;
         private TextView rechargeTv;
         private TextView creditTv;

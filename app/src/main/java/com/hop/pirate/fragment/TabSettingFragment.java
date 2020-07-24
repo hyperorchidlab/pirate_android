@@ -132,7 +132,7 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
             @Override
             public boolean onLongClick(View v) {
                 if (!TextUtils.isEmpty(mMainNetWorkAddressValueTv.getText().toString())) {
-                    Utils.CopyToMemory(mActivity, mMainNetWorkAddressValueTv.getText().toString());
+                    Utils.copyToMemory(mActivity, mMainNetWorkAddressValueTv.getText().toString());
                 }
 
                 return false;
@@ -313,7 +313,7 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
             return;
         }
 
-        final String accountData = WalletWrapper.WalletJsonData();
+        final String accountData = WalletWrapper.walletJsonData();
         if (accountData.equals("")) {
             Utils.toastTips(getString(R.string.empty_account));
             return;

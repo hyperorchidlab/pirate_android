@@ -23,18 +23,8 @@ public class MiningMachineAdapter extends RecyclerView.Adapter<MiningMachineAdap
 
     private List<MinerBean> mMineMachineBeans;
     private Context mContext;
-    private int selectedIndex;
     private boolean showTime;
     private DecimalFormat mDecimalFormat = new DecimalFormat("0.00");
-
-    public boolean isShowTime() {
-        return showTime;
-    }
-
-    public void setShowTime(boolean showTime) {
-        this.showTime = showTime;
-        notifyDataSetChanged();
-    }
 
     public MiningMachineAdapter(Context context) {
         mContext = context;
@@ -68,7 +58,7 @@ public class MiningMachineAdapter extends RecyclerView.Adapter<MiningMachineAdap
 
         if (miningMachineBean.getMID().equals(SysConf.CurMinerID)) {
             viewHolder.selectedIv.setVisibility(View.VISIBLE);
-            viewHolder.constraintlayout.setBackgroundResource(R.color.color_dcdde0);
+            viewHolder.constraintlayout.setBackgroundResource(R.color.color_dedde0);
             miningMachineBean.setSelected(true);
         } else {
             viewHolder.selectedIv.setVisibility(View.GONE);
@@ -81,7 +71,7 @@ public class MiningMachineAdapter extends RecyclerView.Adapter<MiningMachineAdap
                     ((Activity) mContext).finish();
                     return;
                 }
-                SysConf.SetCurMiner(miningMachineBean.getMID());
+                SysConf.setCurMiner(miningMachineBean.getMID());
 
                 ((Activity) mContext).setResult(Activity.RESULT_OK, null);
                 ((Activity) mContext).finish();
@@ -103,7 +93,7 @@ public class MiningMachineAdapter extends RecyclerView.Adapter<MiningMachineAdap
         return mMineMachineBeans == null ? 0 : mMineMachineBeans.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         private ConstraintLayout constraintlayout;
         private TextView miningMachineTv;
         private TextView miningMachineTimesTv;

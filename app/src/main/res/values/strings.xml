@@ -6,9 +6,9 @@
     <string name="enter_ethereum_password">Enter Ethereum Password</string>
     <string name="enter_password_again">Confirm Your Password</string>
     <string name="password">Password:</string>
-    <string name="remembor_password">Remember password</string>
-    <string name="creating_tx">Creating Blockchain Tx...</string>
-    <string name="approving">Blockchain \nApproving...</string>
+    <string name="remember_password">Remember password</string>
+    <string name="creating_tx">Creating Blockchain Tx…</string>
+    <string name="approving">Blockchain \nApproving…</string>
     <string name="approve_error">approve error!</string>
 
     <string name="createAccount">Create Account</string>
@@ -29,7 +29,7 @@
     <string name="error_import_image">Error: import image</string>
     <string name="import_error">Import eror</string>
     <string name="use">Connected</string>
-    <string name="unaccessed">Disconnected</string>
+    <string name="disconnected">Disconnected</string>
 
 
     <string name="sure_replace">Are you sure you want to replace it？</string>
@@ -39,8 +39,8 @@
     <string name="read_album">Read from the media</string>
     <string name="cancel">Cancel</string>
     <string name="select_import_mode">Please select the import mode.</string>
-    <string name="sacn_porton_account_qr">Please scan the pirate account QR code</string>
-    <string name="sacn_eth_address_qr">Please scan the eth address QR code</string>
+    <string name="scan_pirate_account_qr">Please scan the pirate account QR code</string>
+    <string name="scan_eth_address_qr">Please scan the eth address QR code</string>
     <string name="sure">OK</string>
     <string name="twice_password_not_same">Inconsistent password input twice</string>
     <string name="copy_success">Copy successed!</string>
@@ -69,7 +69,7 @@
     <string name="create_account_create">create</string>
     <string name="create_account_import_account">Import Account</string>
     <string name="bind_address_general_tips">You can bind pirate account by:</string>
-    <string name="genneral_use_describ">Send pirate address ( press and hold on pirate address to copy ) to a friend who has ethereum account</string>
+    <string name="general_use_describe">Send pirate address ( press and hold on pirate address to copy ) to a friend who has ethereum account</string>
     <string name="Account_address_getImtoken">How to get imtoken QR code</string>
 
     <string name="main_help">Help</string>
@@ -99,12 +99,12 @@
     <string name="recharge_submit_order">Submit orders</string>
     <string name="recharge_buy_flow_number">flow(M)</string>
     <string name="recharge_recharge">Buy</string>
-    <string name="recharge_buy_pacetsing">BlockChain \nBuying packets...</string>
-    <string name="recharge_buy_pacets_error">Buy error</string>
+    <string name="recharge_buy_packets">BlockChain \nBuying packets…</string>
+    <string name="recharge_buy_packets_error">Buy error</string>
 
     <string name="hop_address">%s address</string>
     <string name="gtn">GTN：</string>
-    <string name="websitAddress">URL：</string>
+    <string name="websiteAddress">URL：</string>
     <string name="email">Email：</string>
     <string name="mine_machine">Address</string>
     <string name="wallet_flow_unit_hop">HOP</string>
@@ -114,11 +114,11 @@
     <string name="hop_turn_in">Transfer into</string>
     <string name="current_use_flow">Recharge flow</string>
     <string name="uncleared_flow">Credit</string>
-    <string name="main_network_address">Mainnet address</string>
+    <string name="main_network_address">Main net address</string>
     <string name="word_net_address">Subnet address</string>
     <string name="refresh_mine">Refresh the miner</string>
     <string name="transfer_to_money_address">Payee wallet address</string>
-    <string name="transfer_to_ddress">Payment address：</string>
+    <string name="transfer_to_address">Payment address：</string>
     <string name="transfer_eth_balance">Transferable %s ETH</string>
     <string name="transfer_token_balance">Transferable %s token</string>
     <string name="transfer_remarks">Notes optional</string>
@@ -132,18 +132,18 @@
     <string name="recharge_surfing_internet">Start surfing</string>
     <string name="recharge_start_immediately">start</string>
     <string name="mine_machine_measurement_network_speed">Test speed</string>
-    <string name="minemachinelist_pin_all_miners">Overall speed</string>
+    <string name="mine_machine_list_pin_all_miners">Overall speed</string>
     <string name="main_address_tip">This address is used to recharge Token and ETH \n This address is used for network services</string>
-    <string name="creat">Creat/Import</string>
+    <string name="create">Creat/Import</string>
     <string name="export">Export Account</string>
     <string name="transfer">Transfer</string>
-    <string name="creatding_account">Creating account…</string>
+    <string name="creating_account">Creating account…</string>
     <string name="token">token</string>
-    <string name="recharge_packets_minepoolAddress">Mining Pool Address</string>
+    <string name="recharge_packets_mine_pool_address">Mining Pool Address</string>
     <string name="mining_pool_exchange_mine_pool">Switch in the mining pool…</string>
     <string name="wallet_main_address_is_null">Primary network address is empty</string>
     <string name="wallet_export_success">Export succeeded</string>
-    <string name="packets_nsufficient_need_recharge">Insufficient flow, need to recharge</string>
+    <string name="packets_insufficient_need_recharge">Insufficient flow, need to recharge</string>
     <string name="synchronization_block">Sync block…</string>
     <string name="blockchain_time_out">Block synchronization timed out,\n please refresh the wallet to see the recharge result</string>
     <string name="please_create_account">Please create an account first</string>
@@ -162,9 +162,9 @@
     <string name="get_free_eth">0.05 eth free coin</string>
     <string name="select_subscribed_mining_pool">Please select a mining pool that is already subscribed</string>
     <string name="select_miner">Please select a miner</string>
-    <string name="settting_change_token">Are you sure you want to switch the token? App will restart after confirming</string>
+    <string name="setting_change_token">Are you sure you want to switch the token? App will restart after confirming</string>
     <string name="tips">Tips</string>
-    <string name="forbiden_permission_des">Permission denied Cannot use app, reapply.</string>
+    <string name="forbidden_permission_des">Permission denied Cannot use app, reapply.</string>
     <string name="synchronization_wallet">Sync wallet…</string>
     <string name="synchronization_wallet_success">Sync wallet success</string>
     <string name="synchronization_wallet_time_out">Sync wallet timeout</string>
@@ -177,10 +177,10 @@
     <string name="click_exit_application">Click again to exit the application</string>
     <string name="create_account_failed">Create Account Failed:</string>
     <string name="init_service_failed">initService failed:</string>
-    <string name="password_eror">password error</string>
+    <string name="password_error">password error</string>
     <string name="testing_speed">testing speed…</string>
     <string name="get_data_failed">Failed to get data！</string>
-    <string name="open_walet">Open wallet</string>
+    <string name="open_wallet">Open wallet</string>
     <string name="request_time_out">Time out</string>
     <string name="request_failed">Request failed!</string>
     <string name="recharge_failed">Recharge failed!</string>
@@ -195,5 +195,6 @@
     <string name="blockchain_sync_error">Block synchronization is abnormal, please exit and reopen the app</string>
     <string name="new_version">New Version</string>
     <string name="update_version">Update</string>
+    <string name="contentDescription"> </string>
 
 </resources>

@@ -50,6 +50,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="92dp"
+        android:contentDescription="@string/contentDescription"
         android:visibility="gone"
         android:layout_height="200dp" />
 

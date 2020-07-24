@@ -24,7 +24,7 @@
         android:id="@+id/pinAllMinersTv"
         android:layout_width="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/minemachinelist_pin_all_miners"
+        android:text="@string/mine_machine_list_pin_all_miners"
         app:layout_constraintBottom_toBottomOf="parent"
         android:gravity="center"
         android:textSize="16sp"

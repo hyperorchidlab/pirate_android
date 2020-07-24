@@ -3,7 +3,7 @@ package com.hop.pirate.model.impl;
 import android.content.ContentResolver;
 import android.text.TextUtils;
 
-import com.hop.pirate.PError;
+import com.hop.pirate.PirateException;
 import com.hop.pirate.base.WaitTxBaseModel;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.callback.SaveQRCodeCallBack;
@@ -26,14 +26,13 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class TabSettingModelImpl extends WaitTxBaseModel implements TabSettingModel {
 
-    private Disposable mDisposable;
 
     @Override
     public void exportAccount(final ContentResolver cr, final String data, final String fileName, final ResultCallBack<String> resultCallBack) {
         Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(final ObservableEmitter<String> emitter) throws Exception {
-                Utils.SaveStringQRCode(cr, data, fileName, new SaveQRCodeCallBack() {
+                Utils.saveStringQRCode(cr, data, fileName, new SaveQRCodeCallBack() {
                     @Override
                     public void save(String msg) {
                         emitter.onComplete();
@@ -77,7 +76,7 @@ public class TabSettingModelImpl extends WaitTxBaseModel implements TabSettingMo
                     emitter.onNext(result);
                     emitter.onComplete();
                 } else {
-                    emitter.onError(new PError("apply error"));
+                    emitter.onError(new PirateException("apply error"));
                 }
 
 
@@ -118,7 +117,7 @@ public class TabSettingModelImpl extends WaitTxBaseModel implements TabSettingMo
                     emitter.onNext(result);
                     emitter.onComplete();
                 } else {
-                    emitter.onError(new PError("apply error"));
+                    emitter.onError(new PirateException("apply error"));
                 }
 
             }
@@ -157,7 +156,7 @@ public class TabSettingModelImpl extends WaitTxBaseModel implements TabSettingMo
                     emitter.onNext(balance);
                     emitter.onComplete();
                 } else {
-                    emitter.onError(new PError("query  balance error"));
+                    emitter.onError(new PirateException("query  balance error"));
                 }
 
             }

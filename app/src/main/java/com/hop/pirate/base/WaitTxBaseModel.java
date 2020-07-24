@@ -27,7 +27,7 @@ public class WaitTxBaseModel extends BaseModel {
                 emitter.onComplete();
 
             }
-        })).timeout(Constants.BLOCKCHAIN_TIME_OUT, TimeUnit.SECONDS).subscribe(new Observer<Boolean>() {
+        })).timeout(Constants.BLOCK_CHAIN_TIME_OUT, TimeUnit.SECONDS).subscribe(new Observer<Boolean>() {
             @Override
             public void onSubscribe(Disposable d) {
                 addSubscribe(d);

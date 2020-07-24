@@ -9,15 +9,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.google.gson.Gson;
-import com.hop.pirate.PError;
+import com.hop.pirate.PirateException;
 import com.hop.pirate.R;
 import com.hop.pirate.base.BaseActivity;
 import com.hop.pirate.callback.AlertDialogOkCallBack;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.model.SplashModel;
 import com.hop.pirate.model.bean.AppVersionBean;
-import com.hop.pirate.model.bean.WalletBean;
 import com.hop.pirate.model.impl.SplashModelImpl;
 import com.hop.pirate.service.HopService;
 import com.hop.pirate.service.WalletWrapper;
@@ -54,7 +52,7 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
         }
 
 
-        if (Utils.checkVPN(SplashActivity.this) && (!Utils.isServiceWork(SplashActivity.this, HopService.class.getName()))) {
+        if (Utils.checkVPN() && (!Utils.isServiceWork(SplashActivity.this, HopService.class.getName()))) {
             Utils.showOkAlert(SplashActivity.this, R.string.tips, R.string.close_other_vpn_app, new AlertDialogOkCallBack() {
                 @Override
                 public void onClickOkButton(String parameter) {
@@ -73,7 +71,7 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
             @Override
             public void onSuccess(AppVersionBean versionBean) {
                 if (versionBean.getNewVersion() > Utils.getVersionCode(SplashActivity.this)) {
-                    showUpdataAppDialog(versionBean);
+                    showUpdateAppDialog(versionBean);
                 } else {
                     delayLoadwallet();
                 }
@@ -98,7 +96,7 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
         }, 1500);
     }
 
-    private void showUpdataAppDialog(AppVersionBean versionBean) {
+    private void showUpdateAppDialog(AppVersionBean versionBean) {
         String updateMsg;
         String able = getResources().getConfiguration().locale.getCountry();
         if (able.equals("CN")) {
@@ -177,7 +175,7 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
         mSplashModel.loadWallet(SplashActivity.this, new ResultCallBack<String>() {
             @Override
             public void onError(Throwable e) {
-                if (e instanceof PError) {
+                if (e instanceof PirateException) {
                     startActivity(CreateAccountActivity.class);
                     SplashActivity.this.finish();
                 } else {
@@ -209,7 +207,7 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
         new AppSettingsDialog
                 .Builder(this)
                 .setTitle(getString(R.string.tips))
-                .setRationale(R.string.forbiden_permission_des)
+                .setRationale(R.string.forbidden_permission_des)
                 .build()
                 .show();
     }

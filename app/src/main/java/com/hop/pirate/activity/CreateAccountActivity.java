@@ -69,6 +69,8 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
             case R.id.backIv:
                 finish();
                 break;
+            default:
+                break;
         }
     }
 
@@ -85,7 +87,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
             return;
         }
 
-        showDialogFragment(R.string.creatding_account);
+        showDialogFragment(R.string.creating_account);
         mCreateAccountModel.createAccount(password, new ResultCallBack<String>() {
             @Override
             public void onError(Throwable e) {
@@ -128,7 +130,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                     IntentIntegrator ii = new IntentIntegrator(CreateAccountActivity.this);
                     ii.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
                     ii.setCaptureActivity(ScanActivity.class);
-                    ii.setPrompt(getString(R.string.sacn_porton_account_qr));
+                    ii.setPrompt(getString(R.string.scan_pirate_account_qr));
                     ii.setCameraId(0);
                     ii.setBarcodeImageEnabled(true);
                     ii.initiateScan();
@@ -230,7 +232,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
             return;
         }
         try {
-            String walletStr = Utils.ParseQRCodeFile(uri, getContentResolver());
+            String walletStr = Utils.parseQRCodeFile(uri, getContentResolver());
             showPasswordDialog(walletStr);
         } catch (Exception e) {
             Utils.toastTips(getString(R.string.import_error) + e.getLocalizedMessage());

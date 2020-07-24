@@ -3,14 +3,12 @@ package com.hop.pirate.model.impl;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.hop.pirate.PError;
+import com.hop.pirate.PirateException;
 import com.hop.pirate.R;
 import com.hop.pirate.base.BaseModel;
 import com.hop.pirate.callback.ResultCallBack;
-import com.hop.pirate.greendao.MinerDaoUtil;
 import com.hop.pirate.model.MineMachineListModel;
 import com.hop.pirate.model.bean.MinerBean;
-import com.hop.pirate.service.HopService;
 import com.hop.pirate.service.SysConf;
 
 import org.json.JSONArray;
@@ -33,14 +31,14 @@ import io.reactivex.disposables.Disposable;
  */
 public class MineMachineListModelImpl extends BaseModel implements MineMachineListModel {
     @Override
-    public void getMinemachine(final Context context, final String address, final int random, final ResultCallBack<List<MinerBean>> resultCallBack) {
+    public void getMineMachine(final Context context, final String address, final int random, final ResultCallBack<List<MinerBean>> resultCallBack) {
         schedulers(Observable.create(new ObservableOnSubscribe<List<MinerBean>>() {
             @Override
             public void subscribe(ObservableEmitter<List<MinerBean>> emitter) throws Exception {
                 List<MinerBean> minerBeans;
                 String miners = AndroidLib.randomMiner(address, random);
                 if (miners.equals("null") || TextUtils.isEmpty(miners)) {
-                    emitter.onError(new PError(context.getString(R.string.get_data_failed)));
+                    emitter.onError(new PirateException(context.getString(R.string.get_data_failed)));
                     return;
                 }
                 minerBeans = new ArrayList<>();

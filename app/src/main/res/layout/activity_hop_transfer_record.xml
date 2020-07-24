@@ -18,6 +18,7 @@
         android:background="@drawable/bg_wallet_hop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/contentDescription"
         app:layout_constraintTop_toBottomOf="@+id/title"
         android:layout_height="140dp" />
 

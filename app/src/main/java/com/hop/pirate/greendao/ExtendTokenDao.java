@@ -24,11 +24,11 @@ public class ExtendTokenDao extends AbstractDao<ExtendToken, Void> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property PaymentContract = new Property(0, String.class, "PaymentContract", false, "PAYMENT_CONTRACT");
-        public final static Property TokenI = new Property(1, String.class, "TokenI", false, "TOKEN_I");
-        public final static Property Symbol = new Property(2, String.class, "Symbol", false, "SYMBOL");
-        public final static Property Balance = new Property(3, double.class, "Balance", false, "BALANCE");
-        public final static Property Decimal = new Property(4, int.class, "Decimal", false, "DECIMAL");
+        public final static Property PaymentContract = new Property(0, String.class, "paymentContract", false, "PAYMENT_CONTRACT");
+        public final static Property TokenI = new Property(1, String.class, "tokenI", false, "TOKEN_I");
+        public final static Property Symbol = new Property(2, String.class, "symbol", false, "SYMBOL");
+        public final static Property Balance = new Property(3, double.class, "balance", false, "BALANCE");
+        public final static Property Decimal = new Property(4, int.class, "decimal", false, "DECIMAL");
         public final static Property IsChecked = new Property(5, boolean.class, "isChecked", false, "IS_CHECKED");
     }
 
@@ -45,11 +45,11 @@ public class ExtendTokenDao extends AbstractDao<ExtendToken, Void> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"EXTEND_TOKEN\" (" + //
-                "\"PAYMENT_CONTRACT\" TEXT," + // 0: PaymentContract
-                "\"TOKEN_I\" TEXT," + // 1: TokenI
-                "\"SYMBOL\" TEXT," + // 2: Symbol
-                "\"BALANCE\" REAL NOT NULL ," + // 3: Balance
-                "\"DECIMAL\" INTEGER NOT NULL ," + // 4: Decimal
+                "\"PAYMENT_CONTRACT\" TEXT," + // 0: paymentContract
+                "\"TOKEN_I\" TEXT," + // 1: tokenI
+                "\"SYMBOL\" TEXT," + // 2: symbol
+                "\"BALANCE\" REAL NOT NULL ," + // 3: balance
+                "\"DECIMAL\" INTEGER NOT NULL ," + // 4: decimal
                 "\"IS_CHECKED\" INTEGER NOT NULL );"); // 5: isChecked
     }
 
@@ -63,19 +63,19 @@ public class ExtendTokenDao extends AbstractDao<ExtendToken, Void> {
     protected final void bindValues(DatabaseStatement stmt, ExtendToken entity) {
         stmt.clearBindings();
  
-        String PaymentContract = entity.getPaymentContract();
-        if (PaymentContract != null) {
-            stmt.bindString(1, PaymentContract);
+        String paymentContract = entity.getPaymentContract();
+        if (paymentContract != null) {
+            stmt.bindString(1, paymentContract);
         }
  
-        String TokenI = entity.getTokenI();
-        if (TokenI != null) {
-            stmt.bindString(2, TokenI);
+        String tokenI = entity.getTokenI();
+        if (tokenI != null) {
+            stmt.bindString(2, tokenI);
         }
  
-        String Symbol = entity.getSymbol();
-        if (Symbol != null) {
-            stmt.bindString(3, Symbol);
+        String symbol = entity.getSymbol();
+        if (symbol != null) {
+            stmt.bindString(3, symbol);
         }
         stmt.bindDouble(4, entity.getBalance());
         stmt.bindLong(5, entity.getDecimal());
@@ -86,19 +86,19 @@ public class ExtendTokenDao extends AbstractDao<ExtendToken, Void> {
     protected final void bindValues(SQLiteStatement stmt, ExtendToken entity) {
         stmt.clearBindings();
  
-        String PaymentContract = entity.getPaymentContract();
-        if (PaymentContract != null) {
-            stmt.bindString(1, PaymentContract);
+        String paymentContract = entity.getPaymentContract();
+        if (paymentContract != null) {
+            stmt.bindString(1, paymentContract);
         }
  
-        String TokenI = entity.getTokenI();
-        if (TokenI != null) {
-            stmt.bindString(2, TokenI);
+        String tokenI = entity.getTokenI();
+        if (tokenI != null) {
+            stmt.bindString(2, tokenI);
         }
  
-        String Symbol = entity.getSymbol();
-        if (Symbol != null) {
-            stmt.bindString(3, Symbol);
+        String symbol = entity.getSymbol();
+        if (symbol != null) {
+            stmt.bindString(3, symbol);
         }
         stmt.bindDouble(4, entity.getBalance());
         stmt.bindLong(5, entity.getDecimal());
@@ -113,11 +113,11 @@ public class ExtendTokenDao extends AbstractDao<ExtendToken, Void> {
     @Override
     public ExtendToken readEntity(Cursor cursor, int offset) {
         ExtendToken entity = new ExtendToken( //
-            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // PaymentContract
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // TokenI
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // Symbol
-            cursor.getDouble(offset + 3), // Balance
-            cursor.getInt(offset + 4), // Decimal
+            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // paymentContract
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // tokenI
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // symbol
+            cursor.getDouble(offset + 3), // balance
+            cursor.getInt(offset + 4), // decimal
             cursor.getShort(offset + 5) != 0 // isChecked
         );
         return entity;

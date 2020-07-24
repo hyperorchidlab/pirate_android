@@ -37,15 +37,13 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.HybridBinarizer;
 import com.hop.pirate.Constants;
 import com.hop.pirate.HopApplication;
-import com.hop.pirate.PError;
+import com.hop.pirate.PirateException;
 import com.hop.pirate.R;
 import com.hop.pirate.activity.RechargePacketsActivity;
 import com.hop.pirate.callback.AlertDialogOkCallBack;
 import com.hop.pirate.callback.SaveQRCodeCallBack;
 import com.hop.pirate.fragment.TabPacketsMarketFragment;
 import com.hop.pirate.fragment.TabWalletFragment;
-import com.hop.pirate.greendao.MinePoolBeanDaoUtil;
-import com.hop.pirate.greendao.MinerDaoUtil;
 import com.hop.pirate.model.bean.ExtendToken;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
@@ -71,21 +69,18 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public final class Utils {
 
-    public static final int RC_LOCAL_MEMORY_PERM = 123;
-    public static final int RC_CAMERA_PERM = 124;
+    private static final int RC_LOCAL_MEMORY_PERM = 123;
+    private static final int RC_CAMERA_PERM = 124;
     public static final int RC_SELECT_FROM_GALLARY = 125;
-    public static final int RC_VPN_RIGHT = 126;
-    public static final String DEFAULT_ETH_ADDRESS = "0x0000000000000000000000000000000000000000";
-    public static final String KEY_FOR_IMTOKEN_PASSWORD = "key_for_ethereum_password";
-    public static final double CoinDecimal = 1e18;
+    private static final String DEFAULT_ETH_ADDRESS = "0x0000000000000000000000000000000000000000";
+    public static final double COIN_DECIMAL = 1e18;
 
-    public static final String EthScanBaseUrl = "https://cn.etherscan.com/tx/";
 
-    static Context appContext = HopApplication.getAppContext();
-    static SharedPreferences sharedPref = appContext.getSharedPreferences("pirateaManager", Context.MODE_PRIVATE);
+    private static Context appContext = HopApplication.getAppContext();
+    private static SharedPreferences sharedPref = appContext.getSharedPreferences("pirateaManager", Context.MODE_PRIVATE);
 
     public static String ConvertCoin(double coinV) {
-        return String.format(Locale.CHINA, "%.4f ", coinV / CoinDecimal);
+        return String.format(Locale.CHINA, "%.4f ", coinV / COIN_DECIMAL);
     }
 
 
@@ -134,8 +129,6 @@ public final class Utils {
         RechargePacketsActivity.isInitSysSeting = false;
         TabWalletFragment.initsyncPoolsAndUserData = false;
         clearSharedPref();
-        new MinePoolBeanDaoUtil(context).deleteAll();
-        new MinerDaoUtil(context).deleteAll();
     }
 
 
@@ -174,7 +167,7 @@ public final class Utils {
     }
 
 
-    static Toast toast = null;
+    private static Toast toast = null;
 
     public static void toastTips(String msg) {
         Context context = HopApplication.getAppContext();
@@ -196,7 +189,7 @@ public final class Utils {
 
         if (err instanceof TimeoutException) {
             toastTips(context.getString(R.string.request_time_out));
-        } else if (err instanceof PError) {
+        } else if (err instanceof PirateException) {
             toastTips(err.getMessage());
         } else {
             int requestErrorId = 0;
@@ -205,13 +198,13 @@ public final class Utils {
                     requestErrorId = R.string.create_account_failed;
                     break;
                 case Constants.REQUEST_IMPORT_ACCOUNT_ERROR:
-                    requestErrorId = R.string.password_eror;
+                    requestErrorId = R.string.password_error;
                     break;
                 case Constants.REQUEST_PACKETS_MARKET_ERROR:
-                case Constants.REQUEST_OWNE_MINE_POOL_ERROR:
+                case Constants.REQUEST_OWN_MINE_POOL_ERROR:
                 case Constants.REQUEST_MINE_MACHINE_ERROR:
                 case Constants.REQUEST_WALLET_INFO_ERROR:
-                case Constants.REQUEST_BYTESPERTOKEN_ERROR:
+                case Constants.REQUEST_BUY_TESPER_TOKEN_ERROR:
                 case Constants.REQUEST_SUPPORT_COINS_ERROR:
                     requestErrorId = R.string.get_data_failed;
                     break;
@@ -226,7 +219,7 @@ public final class Utils {
                     requestErrorId = R.string.recharge_failed;
                     break;
                 case Constants.REQUEST_OPEN_WALLET_ERROR:
-                    requestErrorId = R.string.password_eror;
+                    requestErrorId = R.string.password_error;
                     break;
                 default:
                     requestErrorId = R.string.get_data_failed;
@@ -260,7 +253,7 @@ public final class Utils {
     }
 
 
-    public static void CopyToMemory(AppCompatActivity context, String src) {
+    public static void copyToMemory(AppCompatActivity context, String src) {
         ClipboardManager clipboard = (ClipboardManager) appContext.getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("pirate memory string", src);
         clipboard.setPrimaryClip(clip);
@@ -281,7 +274,7 @@ public final class Utils {
         return null;
     }
 
-    public static void SaveStringQRCode(ContentResolver cr, String data, String fileName, SaveQRCodeCallBack callBack) {
+    public static void saveStringQRCode(ContentResolver cr, String data, String fileName, SaveQRCodeCallBack callBack) {
 
         try {
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
@@ -297,7 +290,7 @@ public final class Utils {
         }
     }
 
-    public static void saveImageToLocal(ContentResolver cr, Bitmap bitmap, String fileName, SaveQRCodeCallBack callBack) {
+    private static void saveImageToLocal(ContentResolver cr, Bitmap bitmap, String fileName, SaveQRCodeCallBack callBack) {
 
         try {
             ContentValues values = new ContentValues();
@@ -327,13 +320,13 @@ public final class Utils {
     }
 
 
-    public static String ParseQRCodeFile(Uri uri, ContentResolver cr) throws Exception {
+    public static String parseQRCodeFile(Uri uri, ContentResolver cr) throws Exception {
         Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
 
-        return ParseQRcodeFromBitmap(bitmap);
+        return parseQRcodeFromBitmap(bitmap);
     }
 
-    public static String ParseQRcodeFromBitmap(Bitmap bitmap) throws Exception {
+    private static String parseQRcodeFromBitmap(Bitmap bitmap) throws Exception {
         int[] intArray = new int[bitmap.getWidth() * bitmap.getHeight()];
         bitmap.getPixels(intArray, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
 
@@ -345,10 +338,6 @@ public final class Utils {
         Result r = reader.decode(bb, hints);
 
         return r.getText();
-    }
-
-    public static boolean validEthAddress(String ethAddr) {
-        return !ethAddr.equals("") && !ethAddr.equals(DEFAULT_ETH_ADDRESS);
     }
 
     public static boolean checkStorage(Activity ctx) {
@@ -456,13 +445,16 @@ public final class Utils {
         return isWork;
     }
 
-    public static boolean checkVPN(Activity activity) {
+    public static boolean checkVPN() {
         List<String> networkList = new ArrayList<>();
         try {
             for (NetworkInterface networkInterface : Collections.list(NetworkInterface.getNetworkInterfaces())) {
-                if (networkInterface.isUp()) {networkList.add(networkInterface.getName());}
+                if (networkInterface.isUp()) {
+                    networkList.add(networkInterface.getName());
+                }
             }
         } catch (Exception ex) {
+            return false;
         }
         return networkList.contains("tun0") || networkList.contains("ppp0");
     }

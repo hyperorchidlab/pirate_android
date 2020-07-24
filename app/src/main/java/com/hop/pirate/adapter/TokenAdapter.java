@@ -43,7 +43,6 @@ public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
 
-        final int currentPosition = position;
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_token, viewGroup, false);
         return new ViewHolder(view);
     }
@@ -51,7 +50,7 @@ public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         final ExtendToken tokenBean = mTokenBeans.get(position);
-        String curSymbol = Utils.getString(Constants.CUR_TOKENI, ExtendToken.CurTokenI);
+        String curSymbol = Utils.getString(Constants.CUR_TOKEN, ExtendToken.CurTokenI);
         if (tokenBean.getTokenI().equals(curSymbol)) {
             tokenBean.setChecked(true);
         } else {

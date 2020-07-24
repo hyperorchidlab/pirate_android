@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
 
 greendao {
-    schemaVersion 7 //数据库版本
+    schemaVersion 8 //数据库版本
     daoPackage 'com.hop.pirate.greendao'
     //设置DaoMaster、DaoSession、Dao目录
     targetGenDir 'src/main/java'

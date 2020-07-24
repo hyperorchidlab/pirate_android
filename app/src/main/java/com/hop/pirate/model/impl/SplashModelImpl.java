@@ -4,16 +4,14 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.hop.pirate.PError;
+import com.hop.pirate.PirateException;
 import com.hop.pirate.base.BaseModel;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.model.SplashModel;
 import com.hop.pirate.model.bean.AppVersionBean;
 import com.hop.pirate.util.AccountUtils;
-import com.hop.pirate.util.Utils;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -42,7 +40,7 @@ public class SplashModelImpl extends BaseModel implements SplashModel {
 
                 String walletJson = AccountUtils.loadWallet(context);
                 if (TextUtils.isEmpty(walletJson)) {
-                    emitter.onError(new PError("no wallet"));
+                    emitter.onError(new PirateException("no wallet"));
                 } else {
                     emitter.onNext(walletJson);
                     emitter.onComplete();
@@ -86,14 +84,14 @@ public class SplashModelImpl extends BaseModel implements SplashModel {
                 int responseCode = urlConnection.getResponseCode();
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     InputStream inputStream = urlConnection.getInputStream();
-                    BufferedReader tBufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                    StringBuffer tStringBuffer = new StringBuffer();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                    StringBuilder stringBuilder = new StringBuilder();
                     String sTempOneLine;
-                    while ((sTempOneLine = tBufferedReader.readLine()) != null) {
-                        tStringBuffer.append(sTempOneLine);
+                    while ((sTempOneLine = bufferedReader.readLine()) != null) {
+                        stringBuilder.append(sTempOneLine);
                     }
 
-                    AppVersionBean versionBean = new Gson().fromJson(tStringBuffer.toString(), AppVersionBean.class);
+                    AppVersionBean versionBean = new Gson().fromJson(stringBuilder.toString(), AppVersionBean.class);
                     emitter.onNext(versionBean);
                     emitter.onComplete();
                 } else {

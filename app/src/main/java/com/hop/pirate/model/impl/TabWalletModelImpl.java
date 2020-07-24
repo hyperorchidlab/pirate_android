@@ -7,10 +7,8 @@ import com.hop.pirate.Constants;
 import com.hop.pirate.base.BaseModel;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.fragment.TabWalletFragment;
-import com.hop.pirate.greendao.OwnPoolDaoUtil;
 import com.hop.pirate.model.TabWalletModel;
 import com.hop.pirate.model.bean.OwnPool;
-import com.hop.pirate.service.HopService;
 
 import org.json.JSONObject;
 

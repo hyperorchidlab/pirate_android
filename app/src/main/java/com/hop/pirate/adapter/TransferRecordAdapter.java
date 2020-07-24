@@ -45,12 +45,12 @@ public class TransferRecordAdapter extends RecyclerView.Adapter<TransferRecordAd
         return transferRecordBeans == null ? 0 : transferRecordBeans.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView transferCountTv;
         private TextView transferTime;
         private TextView transferPerson;
 
-        public ViewHolder(@NonNull View itemView) {
+        private ViewHolder(@NonNull View itemView) {
             super(itemView);
             transferCountTv = itemView.findViewById(R.id.transferCountTv);
             transferTime = itemView.findViewById(R.id.transferTime);

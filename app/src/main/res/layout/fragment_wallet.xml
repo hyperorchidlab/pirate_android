@@ -180,6 +180,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="22dp"
         android:layout_marginEnd="16dp"
+        android:contentDescription="@string/contentDescription"
         android:background="@drawable/bg_wallet_add_minepool"
         android:layout_marginBottom="10dp"
         android:layout_height="45dp" />
@@ -206,6 +207,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="34dp"
+        android:contentDescription="@string/contentDescription"
         android:visibility="gone"
         android:layout_height="200dp" />
 

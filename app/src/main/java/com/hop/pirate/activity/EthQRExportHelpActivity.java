@@ -58,13 +58,5 @@ public class EthQRExportHelpActivity extends BaseActivity {
 
     }
 
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.backTv:
-                finish();
-                break;
-        }
-    }
-
 
 }

@@ -12,6 +12,7 @@
         android:background="@android:color/transparent"
         android:layout_height="wrap_content"
         android:scaleType="center"
+        android:contentDescription="@string/contentDescription"
         android:transitionName="image"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

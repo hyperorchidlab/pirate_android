@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.hop.pirate.PError;
+import com.hop.pirate.PirateException;
 import com.hop.pirate.R;
 import com.hop.pirate.base.BaseModel;
 import com.hop.pirate.callback.ResultCallBack;
@@ -36,7 +36,7 @@ public class SupportedCurrenciesModelImpl extends BaseModel implements Supported
             public void subscribe(ObservableEmitter<List<ExtendToken>> emitter) throws Exception {
                 String jsonStr = AndroidLib.extendTokens(address);
                 if (TextUtils.isEmpty(jsonStr)) {
-                    emitter.onError(new PError(context.getString(R.string.get_data_failed)));
+                    emitter.onError(new PirateException(context.getString(R.string.get_data_failed)));
                     return;
                 }
                 Type type = new TypeToken<List<ExtendToken>>() {

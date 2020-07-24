@@ -4,7 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.hop.pirate.Constants;
-import com.hop.pirate.PError;
+import com.hop.pirate.PirateException;
 import com.hop.pirate.R;
 import com.hop.pirate.activity.RechargePacketsActivity;
 import com.hop.pirate.base.WaitTxBaseModel;
@@ -31,7 +31,6 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class RechargeModelImpl extends WaitTxBaseModel implements RechargeModel {
 
-    private Disposable mDisposable;
 
     @Override
     public void authorizeTokenSpend(final Context context, final double tokenNO, final ResultCallBack<String> resultCallBack) {
@@ -39,17 +38,17 @@ public class RechargeModelImpl extends WaitTxBaseModel implements RechargeModel 
         Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(ObservableEmitter<String> emitter) throws Exception {
-                String approveTX = AndroidLib.authorizeTokenSpend(tokenNO);
+                String approveTx = AndroidLib.authorizeTokenSpend(tokenNO);
 
-                if (TextUtils.isEmpty(approveTX)) {
-                    emitter.onError(new PError(context.getString(R.string.password_eror)));
+                if (TextUtils.isEmpty(approveTx)) {
+                    emitter.onError(new PirateException(context.getString(R.string.password_error)));
                 } else {
-                    emitter.onNext(approveTX);
+                    emitter.onNext(approveTx);
                     emitter.onComplete();
                 }
 
             }
-        }).timeout(Constants.BLOCKCHAIN_TIME_OUT, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
+        }).timeout(Constants.BLOCK_CHAIN_TIME_OUT, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<String>() {
             @Override
             public void onSubscribe(Disposable d) {
@@ -79,16 +78,16 @@ public class RechargeModelImpl extends WaitTxBaseModel implements RechargeModel 
         Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(ObservableEmitter<String> emitter) throws Exception {
-                String buyTX = AndroidLib.buyPacket(userAddress, pollAddress, tokenNO);
-                if (TextUtils.isEmpty(buyTX)) {
-                    emitter.onError(new PError(context.getString(R.string.password_eror)));
+                String buyTx = AndroidLib.buyPacket(userAddress, pollAddress, tokenNO);
+                if (TextUtils.isEmpty(buyTx)) {
+                    emitter.onError(new PirateException(context.getString(R.string.password_error)));
                 } else {
-                    emitter.onNext(buyTX);
+                    emitter.onNext(buyTx);
                     emitter.onComplete();
                 }
 
             }
-        }).timeout(Constants.BLOCKCHAIN_TIME_OUT, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
+        }).timeout(Constants.BLOCK_CHAIN_TIME_OUT, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<String>() {
             @Override
             public void onSubscribe(Disposable d) {
@@ -128,7 +127,7 @@ public class RechargeModelImpl extends WaitTxBaseModel implements RechargeModel 
                     emitter.onNext(mBytesPerToken);
                     emitter.onComplete();
                 } else {
-                    emitter.onError(new PError(context.getString(R.string.get_data_failed)));
+                    emitter.onError(new PirateException(context.getString(R.string.get_data_failed)));
                 }
 
             }

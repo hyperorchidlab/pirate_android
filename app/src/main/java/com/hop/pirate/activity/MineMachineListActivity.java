@@ -57,7 +57,7 @@ public class MineMachineListActivity extends BaseActivity implements View.OnClic
                 }
 
                 showDialogFragment(R.string.testing_speed);
-                OverallSpeed();
+                overallSpeed();
 
             }
 
@@ -69,7 +69,7 @@ public class MineMachineListActivity extends BaseActivity implements View.OnClic
         titleTv.setText(getResources().getString(R.string.mine_machine));
     }
 
-    private void OverallSpeed() {
+    private void overallSpeed() {
 
         new Thread(new Runnable() {
             @Override
@@ -119,7 +119,7 @@ public class MineMachineListActivity extends BaseActivity implements View.OnClic
     }
 
     private void loadMinerUnderPool(final boolean hasLoading) {
-        mMineMachineListModel.getMinemachine(this, SysConf.CurPoolAddress, 16, new ResultCallBack<List<MinerBean>>() {
+        mMineMachineListModel.getMineMachine(this, SysConf.CurPoolAddress, 16, new ResultCallBack<List<MinerBean>>() {
             @Override
             public void onError(Throwable e) {
                 if (hasLoading) {

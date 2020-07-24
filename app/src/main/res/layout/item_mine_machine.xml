@@ -69,6 +69,7 @@
         android:src="@drawable/mining_machine_selected"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginEnd="8dp"
+        android:contentDescription="@string/contentDescription"
         app:layout_constraintEnd_toStartOf="@+id/measurementNetworkSpeedTv"
         app:layout_constraintTop_toTopOf="parent" />
 

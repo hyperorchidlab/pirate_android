@@ -72,7 +72,7 @@ public class TransferOutActivity extends BaseActivity implements View.OnClickLis
         IntentIntegrator ii = new IntentIntegrator(TransferOutActivity.this);
         ii.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
         ii.setCaptureActivity(ScanActivity.class);
-        ii.setPrompt(getString(R.string.sacn_eth_address_qr));
+        ii.setPrompt(getString(R.string.scan_eth_address_qr));
         ii.setCameraId(0);
         ii.setBarcodeImageEnabled(true);
         ii.initiateScan();
@@ -114,6 +114,8 @@ public class TransferOutActivity extends BaseActivity implements View.OnClickLis
                     }
                 });
                 break;
+            default:
+                break;
         }
     }
 
@@ -123,7 +125,7 @@ public class TransferOutActivity extends BaseActivity implements View.OnClickLis
             public void onError(Throwable e) {
                 if (e.getMessage().equals("password error")) {
                     dismissDialogFragment();
-                    Utils.toastTips(getString(R.string.password_eror));
+                    Utils.toastTips(getString(R.string.password_error));
                 } else {
                     showErrorDialog(R.string.transfer_fail);
                 }
@@ -151,7 +153,7 @@ public class TransferOutActivity extends BaseActivity implements View.OnClickLis
             public void onError(Throwable e) {
                 if (e.getMessage().equals("password error")) {
                     dismissDialogFragment();
-                    Utils.toastTips(getString(R.string.password_eror));
+                    Utils.toastTips(getString(R.string.password_error));
                 } else {
                     showErrorDialog(R.string.transfer_fail);
                 }
@@ -186,12 +188,12 @@ public class TransferOutActivity extends BaseActivity implements View.OnClickLis
                 String content;
                 if (isEth) {
                     content = "Eth Tx:[" + tx + "]";
-                    double ethBalance = WalletWrapper.EthBalance - Double.parseDouble(num) * Utils.CoinDecimal;
+                    double ethBalance = WalletWrapper.EthBalance - Double.parseDouble(num) * Utils.COIN_DECIMAL;
                     WalletWrapper.EthBalance = ethBalance;
                     mEthCountTv.setText(String.format(getString(R.string.transfer_eth_balance), Utils.ConvertCoin(WalletWrapper.EthBalance)));
                 } else {
                     content = "Eth Tx:[" + tx + "]";
-                    double tokenBalance = WalletWrapper.HopBalance - Double.parseDouble(num) * Utils.CoinDecimal;
+                    double tokenBalance = WalletWrapper.HopBalance - Double.parseDouble(num) * Utils.COIN_DECIMAL;
                     WalletWrapper.HopBalance = tokenBalance;
                     mTokenCountTv.setText(String.format(getString(R.string.transfer_token_balance), Utils.ConvertCoin(WalletWrapper.HopBalance)));
                 }
@@ -215,6 +217,8 @@ public class TransferOutActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.tokenRb:
                 checkedEth = false;
+                break;
+            default:
                 break;
         }
     }

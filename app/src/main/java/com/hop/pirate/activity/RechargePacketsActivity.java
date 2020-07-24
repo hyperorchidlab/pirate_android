@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hop.pirate.Constants;
-import com.hop.pirate.PError;
+import com.hop.pirate.PirateException;
 import com.hop.pirate.R;
 import com.hop.pirate.adapter.FlowSelectAdapter;
 import com.hop.pirate.base.BaseActivity;
@@ -30,8 +30,7 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
     public static boolean isInitSysSeting;
     private RechargeModel mRechargeModel;
     private RecyclerView mFlowRecyclerview;
-    private int rechargeState;
-    private String PoolAddress;
+    private String mPoolAddress;
     private TextView mHopAddressET;
     private TextView mHopBalanceTV;
     public static final String PoolKey = "PoolAddress";
@@ -44,7 +43,7 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PoolAddress = getIntent().getStringExtra(PoolKey);
+        mPoolAddress = getIntent().getStringExtra(PoolKey);
         mRechargeModel = new RechargeModelImpl();
         setContentView(R.layout.activity_recharge_packets);
         sysbol = Utils.getString(Constants.CUR_SYMBOL, "HOP");
@@ -57,7 +56,7 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
             @Override
             public void onError(Throwable e) {
                 dismissDialogFragment();
-                Utils.toastException(RechargePacketsActivity.this, e, Constants.REQUEST_BYTESPERTOKEN_ERROR);
+                Utils.toastException(RechargePacketsActivity.this, e, Constants.REQUEST_BUY_TESPER_TOKEN_ERROR);
             }
 
             @Override
@@ -95,7 +94,7 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
 
     @Override
     public void initData() {
-        mMinePoolAddressTv.setText(PoolAddress);
+        mMinePoolAddressTv.setText(mPoolAddress);
         mHopAddressTitleTv.setText(Utils.TokenNameFormat(this, R.string.hop_address));
         mHopCoinTv.setText(Utils.TokenNameFormat(this, R.string.recharge_hop_coin));
     }
@@ -112,7 +111,7 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
     @Override
     public void recharge(final double tokenNO) {
         this.tokenNO = tokenNO;
-        if (WalletWrapper.EthBalance / Utils.CoinDecimal < 0.0001) {
+        if (WalletWrapper.EthBalance / Utils.COIN_DECIMAL < 0.0001) {
             Utils.toastTips(getString(R.string.eth_insufficient_balance));
             return;
         }
@@ -131,7 +130,7 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
     }
 
     private void openWallet(String password) {
-        showDialogFragment(R.string.open_walet);
+        showDialogFragment(R.string.open_wallet);
         mRechargeModel.openWallet(this, password, new ResultCallBack<Boolean>() {
             @Override
             public void onError(Throwable e) {
@@ -159,7 +158,7 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
             @Override
             public void onError(Throwable e) {
                 dismissDialogFragment();
-                if (e instanceof PError) {
+                if (e instanceof PirateException) {
                     Utils.toastTips(e.getMessage());
                 } else {
                     Utils.toastTips(getString(R.string.approve_error));
@@ -183,14 +182,14 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
     }
 
     private void buyPacket() {
-        showDialogFragment(R.string.recharge_buy_pacetsing, false);
-        mRechargeModel.buyPacket(this, WalletWrapper.MainAddress, PoolAddress, tokenNO, new ResultCallBack<String>() {
+        showDialogFragment(R.string.recharge_buy_packets, false);
+        mRechargeModel.buyPacket(this, WalletWrapper.MainAddress, mPoolAddress, tokenNO, new ResultCallBack<String>() {
             @Override
             public void onError(Throwable e) {
-                if (e instanceof PError) {
+                if (e instanceof PirateException) {
                     Utils.toastTips(e.getMessage());
                 } else {
-                    Utils.toastTips(getString(R.string.recharge_buy_pacets_error));
+                    Utils.toastTips(getString(R.string.recharge_buy_packets_error));
                 }
                 dismissDialogFragment();
             }
@@ -198,7 +197,7 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
             @Override
             public void onSuccess(String tx) {
                 dismissDialogFragment();
-                showDialogFragment(getString(R.string.recharge_buy_pacetsing) + "\nat[" + tx + "]", false);
+                showDialogFragment(getString(R.string.recharge_buy_packets) + "\nat[" + tx + "]", false);
                 queryTxStatus(tx, false);
 
 

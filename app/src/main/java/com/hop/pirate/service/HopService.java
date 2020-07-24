@@ -18,13 +18,11 @@ import android.util.Log;
 
 import com.hop.pirate.R;
 import com.hop.pirate.activity.MainActivity;
-import com.hop.pirate.event.EventStopHopService;
 import com.hop.pirate.event.EventVPNClosed;
 import com.hop.pirate.event.EventVPNOpen;
 import com.hop.pirate.util.Utils;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -50,9 +48,6 @@ public class HopService extends VpnService implements androidLib.VpnDelegate, Ha
         mConfigureIntent = PendingIntent.getActivity(this, 0,
                 new Intent(this, MainActivity.class),
                 PendingIntent.FLAG_UPDATE_CURRENT);
-        if(!EventBus.getDefault().isRegistered(this)){
-            EventBus.getDefault().register(this);
-        }
         super.onCreate();
     }
 
@@ -101,7 +96,7 @@ public class HopService extends VpnService implements androidLib.VpnDelegate, Ha
 
     public void disconnectVPN() {
         try {
-            if(mVpnOutputStream!=null){
+            if (mVpnOutputStream != null) {
                 mVpnOutputStream.close();
                 mVpnOutputStream = null;
 
@@ -120,18 +115,8 @@ public class HopService extends VpnService implements androidLib.VpnDelegate, Ha
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "onDestroy: --------------");
-        IsRunning = false;
-        disconnectVPN();
-        EventBus.getDefault().post(new EventVPNClosed());
-        if(EventBus.getDefault().isRegistered(this)){
-            EventBus.getDefault().unregister(this);
-        }
-    }
-
-    @Subscribe
-    public void stopHopService(EventStopHopService eventStopHopService){
-        AndroidLib.stopVpn();
+        Log.d(TAG, "onDestroy: ");
+        stop();
     }
 
     public void establishVPN() {

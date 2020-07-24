@@ -32,7 +32,7 @@ public class TransferModelImpl extends WaitTxBaseModel implements TransferModel 
                 emitter.onComplete();
 
             }
-        }).timeout(Constants.BLOCKCHAIN_TIME_OUT, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
+        }).timeout(Constants.BLOCK_CHAIN_TIME_OUT, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<String>() {
             @Override
             public void onSubscribe(Disposable d) {
@@ -66,7 +66,7 @@ public class TransferModelImpl extends WaitTxBaseModel implements TransferModel 
                 emitter.onComplete();
 
             }
-        }).timeout(Constants.BLOCKCHAIN_TIME_OUT, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
+        }).timeout(Constants.BLOCK_CHAIN_TIME_OUT, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<String>() {
             @Override
             public void onSubscribe(Disposable d) {
@@ -90,7 +90,6 @@ public class TransferModelImpl extends WaitTxBaseModel implements TransferModel 
         });
     }
 
-    private Disposable mDisposable;
 
     @Override
     public void queryTxProcessStatus(final String tx, final ResultCallBack<Boolean> resultCallBack) {

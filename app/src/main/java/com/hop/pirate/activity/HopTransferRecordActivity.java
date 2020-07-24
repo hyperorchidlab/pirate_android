@@ -76,6 +76,8 @@ public class HopTransferRecordActivity extends BaseActivity implements View.OnCl
             case R.id.backIv:
                 finish();
                 break;
+            default:
+                break;
         }
     }
 }

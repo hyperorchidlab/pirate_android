@@ -47,8 +47,6 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
     public static final int ATCounterDataRead = 3;
     public static final int ATNeedToRecharge = 4;
     public static final int ATRechargeSuccess = 5;
-    private String oldCreditStr = "";
-    private int currentPositon;
     private Class[] mFragmentArray = {TabHomeFragment.class, TabPacketsMarketFragment.class, TabWalletFragment.class,
             TabSettingFragment.class};
     private BottomNavigatorView bottomNavigatorView;
@@ -69,7 +67,6 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
         initService();
 
     }
-
 
 
     @Override
@@ -108,8 +105,8 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
             public void onComplete() {
                 loadWallet();
                 mMainModel.syncAllPoolsData();
-                mMainModel.initSysSeting();
-                mMainModel.initsyncPoolsAndUserData();
+                mMainModel.initSysSetting();
+                mMainModel.initPoolsAndUserData();
             }
         });
 
@@ -178,7 +175,6 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
     }
 
     private void setCurrentTab(int position) {
-        currentPositon = position;
         if (null != mNavigator) {
             mNavigator.showFragment(position);
         }
@@ -225,7 +221,7 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
                 EventBus.getDefault().post(new EventReloadPoolsMarket());
                 break;
             case ATNeedToRecharge:
-                Utils.toastTips(getResources().getString(R.string.packets_nsufficient_need_recharge));
+                Utils.toastTips(getResources().getString(R.string.packets_insufficient_need_recharge));
                 break;
             case ATRechargeSuccess:
                 EventBus.getDefault().post(new EventRechargeSuccess());

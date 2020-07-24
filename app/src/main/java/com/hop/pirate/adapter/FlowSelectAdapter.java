@@ -27,18 +27,17 @@ public class FlowSelectAdapter extends RecyclerView.Adapter<FlowSelectAdapter.Vi
 
     private List<FlowBean> flows = new ArrayList<>();
     private Context mContext;
-    private int selectedIndex;
     private RechargeFlowState mRechargeFlowState;
-    private double mMBytesPerToken;
+    private double mBytesPerToken;
 
     public interface RechargeFlowState {
-        void recharge(double BytesInM);
+        void recharge(double bytesInm);
     }
 
     public FlowSelectAdapter(Context context, double mBytesPerToken, RechargeFlowState rechargeFlowState) {
 
         mContext = context;
-        mMBytesPerToken = mBytesPerToken;
+        this.mBytesPerToken = mBytesPerToken;
         flows.add(new FlowBean(500, 500 / mBytesPerToken, 0));
         flows.add(new FlowBean(1000, 1000 / mBytesPerToken, 0));
         flows.add(new FlowBean(2000, 2000 / mBytesPerToken, 0));
@@ -109,14 +108,14 @@ public class FlowSelectAdapter extends RecyclerView.Adapter<FlowSelectAdapter.Vi
     }
 
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         private ConstraintLayout constraintlayout;
         private TextView flowTv;
         private TextView hopTv;
         private TextView customTv;
 
-        public ViewHolder(@NonNull View itemView) {
+        private ViewHolder(@NonNull View itemView) {
             super(itemView);
             constraintlayout = itemView.findViewById(R.id.constraintlayout);
             flowTv = itemView.findViewById(R.id.flowTv);
@@ -133,7 +132,7 @@ public class FlowSelectAdapter extends RecyclerView.Adapter<FlowSelectAdapter.Vi
         final TextView flowNumberEt = (TextView) dialogView.findViewById(R.id.flowNumberTt);
         TextView submitOrderTv = (TextView) dialogView.findViewById(R.id.submitOrderTv);
         TextView exchangePriceTv = (TextView) dialogView.findViewById(R.id.exchangeTv);
-        String price = String.format(Locale.CHINA, "1HOP=%.2fM", mMBytesPerToken);
+        String price = String.format(Locale.CHINA, "1HOP=%.2fM", mBytesPerToken);
         exchangePriceTv.setText(price);
         flowNumberEt.setKeyListener(null);
         hopNumberEt.setHint(Utils.TokenNameFormat(mContext, R.string.recharge_hop_money));
@@ -152,7 +151,8 @@ public class FlowSelectAdapter extends RecyclerView.Adapter<FlowSelectAdapter.Vi
                 if (TextUtils.isEmpty(hopNumberEt.getText().toString())) {
                     return;
                 }
-                flowNumberEt.setText(String.valueOf(Double.parseDouble(hopNumberEt.getText().toString()) * mMBytesPerToken) + "M");
+                String flow = String.valueOf(Double.parseDouble(hopNumberEt.getText().toString()) * mBytesPerToken) + "M";
+                flowNumberEt.setText(flow);
             }
         });
 

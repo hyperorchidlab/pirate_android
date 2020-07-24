@@ -14,7 +14,6 @@ import com.hop.pirate.R;
 
 public class PayPasswordDialog extends Dialog {
 
-    Context mContext;
     private EditText mPasswordEt;
     private PasswordCallBack mRechargeFlowCallBack;
 
@@ -24,7 +23,6 @@ public class PayPasswordDialog extends Dialog {
 
     public PayPasswordDialog(Context context, PasswordCallBack rechargeFlowCallBack) {
         super(context, R.style.payPasswordDialog);
-        this.mContext = context;
         this.mRechargeFlowCallBack = rechargeFlowCallBack;
     }
 

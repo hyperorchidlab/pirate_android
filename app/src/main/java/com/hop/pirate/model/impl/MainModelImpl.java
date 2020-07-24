@@ -5,18 +5,16 @@ import android.content.Intent;
 
 import com.google.gson.Gson;
 import com.hop.pirate.Constants;
-import com.hop.pirate.PError;
+import com.hop.pirate.PirateException;
 import com.hop.pirate.R;
 import com.hop.pirate.activity.RechargePacketsActivity;
 import com.hop.pirate.base.BaseModel;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.fragment.TabPacketsMarketFragment;
 import com.hop.pirate.fragment.TabWalletFragment;
-import com.hop.pirate.greendao.WalletBeanDaoUtil;
 import com.hop.pirate.model.MainModel;
 import com.hop.pirate.model.bean.ExtendToken;
 import com.hop.pirate.model.bean.WalletBean;
-import com.hop.pirate.service.HopService;
 import com.hop.pirate.service.MicroChainService;
 import com.hop.pirate.service.WalletWrapper;
 import com.hop.pirate.util.Utils;
@@ -46,8 +44,8 @@ public class MainModelImpl extends BaseModel implements MainModel {
         Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(ObservableEmitter<String> emitter) throws Exception {
-                ExtendToken.CurPaymentContract = Utils.getString(Constants.CUR_PAYMENT_CONTRACT, Constants.MICROPAY_SYSADDRESS);
-                ExtendToken.CurTokenI = Utils.getString(Constants.CUR_TOKENI, Constants.TOKEN_ADDRESS);
+                ExtendToken.CurPaymentContract = Utils.getString(Constants.CUR_PAYMENT_CONTRACT, Constants.MICROPAY_SYS_ADDRESS);
+                ExtendToken.CurTokenI = Utils.getString(Constants.CUR_TOKEN, Constants.TOKEN_ADDRESS);
                 ExtendToken.CurSymbol = Utils.getString(Constants.CUR_SYMBOL, Constants.DEFAULT_SYMBOL);
 
                 InputStream ipInput = context.getResources().openRawResource(R.raw.bypass);
@@ -90,7 +88,7 @@ public class MainModelImpl extends BaseModel implements MainModel {
             public void subscribe(ObservableEmitter<WalletBean> emitter) throws Exception {
                 String jsonStr = AndroidLib.walletInfo();
                 if (jsonStr.equals("")) {
-                    emitter.onError(new PError(context.getString(R.string.wallet_read_failed)));
+                    emitter.onError(new PirateException(context.getString(R.string.wallet_read_failed)));
                     return;
                 }
                 WalletBean walletBean = new Gson().fromJson(jsonStr, WalletBean.class);
@@ -157,7 +155,7 @@ public class MainModelImpl extends BaseModel implements MainModel {
     }
 
     @Override
-    public void initSysSeting() {
+    public void initSysSetting() {
         schedulers(Observable.create(new ObservableOnSubscribe<WalletBean>() {
             @Override
             public void subscribe(ObservableEmitter<WalletBean> emitter) throws Exception {
@@ -188,7 +186,7 @@ public class MainModelImpl extends BaseModel implements MainModel {
     }
 
     @Override
-    public void initsyncPoolsAndUserData() {
+    public void initPoolsAndUserData() {
 
         schedulers(Observable.create(new ObservableOnSubscribe<WalletBean>() {
             @Override

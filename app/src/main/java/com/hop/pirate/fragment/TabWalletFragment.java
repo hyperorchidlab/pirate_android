@@ -24,7 +24,6 @@ import com.hop.pirate.event.EventSkipTabPacketsMarket;
 import com.hop.pirate.model.TabWalletModel;
 import com.hop.pirate.model.bean.ExtendToken;
 import com.hop.pirate.model.bean.OwnPool;
-import com.hop.pirate.model.bean.WalletBean;
 import com.hop.pirate.model.impl.TabWalletModelImpl;
 import com.hop.pirate.service.WalletWrapper;
 import com.hop.pirate.util.Utils;
@@ -38,18 +37,12 @@ import java.util.List;
 
 public class TabWalletFragment extends BaseFragement implements View.OnClickListener {
     public static boolean initsyncPoolsAndUserData;
-    private WalletBean mWalletBean;
     private TabWalletModel mTabWalletModel;
     private TextView mHopNumberTv;
     private TextView mEthNumberTv;
-    private ImageView mAddMinePoolBgIv;
-    private TextView mAddMinePoolTv;
-    private RecyclerView mMinePoolRecyclerView;
 
 
-    private TextView mEthUintTv;
     private TextView mHopUintTv;
-    private TextView mRefreshMinPoolTv;
     private TextView mHopTv;
     private ImageView mEmptyIv;
     private TextView mEmptyTv;
@@ -63,7 +56,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
         mTabWalletModel = new TabWalletModelImpl();
         initViews(view);
         initData();
-        getPoolDataOfUser(false);
+        getPoolDataOfUser();
         return view;
     }
 
@@ -71,27 +64,27 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
     public void initViews(View view) {
         mHopNumberTv = view.findViewById(R.id.hopNumberTv);
         mEthNumberTv = view.findViewById(R.id.ethNumberTv);
-        mEthUintTv = view.findViewById(R.id.ethUintTv);
+        TextView ethUintTv = view.findViewById(R.id.ethUintTv);
         mHopUintTv = view.findViewById(R.id.hopUintTv);
         mHopTv = view.findViewById(R.id.hopTv);
         mEmptyIv = view.findViewById(R.id.emptyIv);
         mEmptyTv = view.findViewById(R.id.emptyTv);
 
-        mAddMinePoolBgIv = view.findViewById(R.id.addMinePoolBgIv);
-        mAddMinePoolTv = view.findViewById(R.id.addMinePoolTv);
-        mMinePoolRecyclerView = view.findViewById(R.id.minePoolRecyclerView);
-        mRefreshMinPoolTv = view.findViewById(R.id.refreshMinPoolTv);
+        ImageView addMinePoolBgIv = view.findViewById(R.id.addMinePoolBgIv);
+        TextView addMinePoolTv = view.findViewById(R.id.addMinePoolTv);
+        RecyclerView minePoolRecyclerView = view.findViewById(R.id.minePoolRecyclerView);
+        TextView refreshMinPoolTv = view.findViewById(R.id.refreshMinPoolTv);
 
-        mAddMinePoolBgIv.setOnClickListener(this);
-        mAddMinePoolTv.setOnClickListener(this);
-        mEthUintTv.setOnClickListener(this);
+        addMinePoolBgIv.setOnClickListener(this);
+        addMinePoolTv.setOnClickListener(this);
+        ethUintTv.setOnClickListener(this);
         mHopUintTv.setOnClickListener(this);
         mHopNumberTv.setOnClickListener(this);
         mEthNumberTv.setOnClickListener(this);
-        mRefreshMinPoolTv.setOnClickListener(this);
-        mMinePoolRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
+        refreshMinPoolTv.setOnClickListener(this);
+        minePoolRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         mMinePoolForWalletAdapter = new MinePoolForWalletAdapter(mActivity);
-        mMinePoolRecyclerView.setAdapter(mMinePoolForWalletAdapter);
+        minePoolRecyclerView.setAdapter(mMinePoolForWalletAdapter);
     }
 
     @Override
@@ -116,7 +109,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
             case R.id.refreshMinPoolTv:
                 mActivity.showDialogFragment();
                 ((MainActivity) mActivity).loadWallet();
-                getPoolDataOfUser(true);
+                getPoolDataOfUser();
                 break;
             case R.id.addMinePoolBgIv:
             case R.id.addMinePoolTv:
@@ -128,7 +121,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
     }
 
 
-    private void getPoolDataOfUser(boolean isShowDialog) {
+    private void getPoolDataOfUser() {
         if (TextUtils.isEmpty(WalletWrapper.MainAddress)) {
             Utils.toastTips(getString(R.string.wallet_read_failed));
             return;
@@ -137,7 +130,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
             @Override
             public void onError(Throwable e) {
                 mActivity.dismissDialogFragment();
-                Utils.toastException(mActivity, e, Constants.REQUEST_OWNE_MINE_POOL_ERROR);
+                Utils.toastException(mActivity, e, Constants.REQUEST_OWN_MINE_POOL_ERROR);
             }
 
             @Override
@@ -173,7 +166,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void rechargeSuccess(EventRechargeSuccess eventRechargeSuccess) {
-        getPoolDataOfUser(false);
+        getPoolDataOfUser();
     }
 
 

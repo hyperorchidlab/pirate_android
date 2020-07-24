@@ -6,10 +6,10 @@
     <string name="enter_ethereum_password">请输入以太坊钱包密码</string>
     <string name="enter_password_again">再次输入密码</string>
     <string name="password">密码:</string>
-    <string name="remembor_password">记住密码</string>
+    <string name="remember_password">记住密码</string>
     <string name="createAccount">创建账号</string>
-    <string name="creating_tx">创建区块交易中...</string>
-    <string name="approving">区块链\n授权中...</string>
+    <string name="creating_tx">创建区块交易中…</string>
+    <string name="approving">区块链\n授权中…</string>
 
 
     <string name="approve_error">授权失败</string>
@@ -30,7 +30,7 @@
     <string name="error_import_image">没有导入正确图片</string>
     <string name="import_error">导入账号二维码失败:</string>
     <string name="use">已连接</string>
-    <string name="unaccessed">未连接</string>
+    <string name="disconnected">未连接</string>
     <string name="sure_replace">确定要替换吗？</string>
     <string name="save_ethereum_account">导入账号会替换当前以太坊账号，请确保您已经保存好当前账号</string>
     <string name="save_pirate_account">导入账号会替换当前pirate账号，请确保您已经保存好当前账号.</string>
@@ -38,8 +38,8 @@
     <string name="read_album">从相册读取</string>
     <string name="cancel">取消</string>
     <string name="select_import_mode">请选择导入方式</string>
-    <string name="sacn_porton_account_qr">请扫描pirate账号二维码</string>
-    <string name="sacn_eth_address_qr">请扫描钱包地址二维码</string>
+    <string name="scan_pirate_account_qr">请扫描pirate账号二维码</string>
+    <string name="scan_eth_address_qr">请扫描钱包地址二维码</string>
     <string name="sure">确定</string>
     <string name="twice_password_not_same">两次密码输入不一致</string>
     <string name="copy_success">复制成功!</string>
@@ -69,7 +69,7 @@
     <string name="main_account_management">账号管理</string>
     <string name="main_bind_state_unbind">未绑定</string>
     <string name="bind_address_general_tips">您可以通过以下方式绑定海盗账号：</string>
-    <string name="genneral_use_describ">通过任意社交通信软件，将下方HOP地址复制发送给有以太坊账号的朋友完成绑定(长按复制)</string>
+    <string name="general_use_describe">通过任意社交通信软件，将下方HOP地址复制发送给有以太坊账号的朋友完成绑定(长按复制)</string>
     <string name="Account_address_getImtoken">如何查看imtoken二维码</string>
     <string name="main_help">帮助</string>
 
@@ -84,7 +84,7 @@
     <string name="hop_address">%s地址</string>
     <string name="gtn">GTN：</string>
     <string name="recharge_custom">自定义</string>
-    <string name="websitAddress">URL：</string>
+    <string name="websiteAddress">URL：</string>
     <string name="email">Email：</string>
     <string name="mine_machine">地址</string>
     <string name="recharge_hop_coin">%s余额</string>
@@ -93,8 +93,8 @@
     <string name="recharge_submit_order">提交订单</string>
     <string name="recharge_buy_flow_number">流量(M)</string>
     <string name="recharge_recharge">Buy</string>
-    <string name="recharge_buy_pacetsing">区块链\n购买流量中...</string>
-    <string name="recharge_buy_pacets_error">购买失败</string>
+    <string name="recharge_buy_packets">区块链\n购买流量中…</string>
+    <string name="recharge_buy_packets_error">购买失败</string>
 
     <string name="wallet_flow_unit_eth">ETH</string>
     <string name="wallet_read_failed">钱包读取失败</string>
@@ -109,7 +109,7 @@
     <string name="word_net_address">子网地址</string>
     <string name="refresh_mine">刷新矿机</string>
     <string name="transfer_to_money_address">收款人钱包地址</string>
-    <string name="transfer_to_ddress">收款地址：</string>
+    <string name="transfer_to_address">收款地址：</string>
     <string name="transfer_eth_balance">可转出%sETH</string>
     <string name="transfer_token_balance">可转出%stoken</string>
     <string name="transfer_remarks">备注可选</string>
@@ -123,18 +123,18 @@
     <string name="recharge_surfing_internet">开启网上冲浪吧</string>
     <string name="recharge_start_immediately">立即开始</string>
     <string name="mine_machine_measurement_network_speed">测试速度</string>
-    <string name="minemachinelist_pin_all_miners">整体测速</string>
+    <string name="mine_machine_list_pin_all_miners">整体测速</string>
     <string name="main_address_tip">*此地址用于充值token和ETH\n此地址用于网络服务</string>
-    <string name="creat">创建/导入</string>
+    <string name="create">创建/导入</string>
     <string name="export">导出账号</string>
     <string name="transfer">转账</string>
-    <string name="creatding_account">创建账号中…</string>
+    <string name="creating_account">创建账号中…</string>
     <string name="token">token</string>
-    <string name="recharge_packets_minepoolAddress">矿池地址</string>
+    <string name="recharge_packets_mine_pool_address">矿池地址</string>
     <string name="mining_pool_exchange_mine_pool">切换矿池中…</string>
     <string name="wallet_main_address_is_null">主网地址为空</string>
     <string name="wallet_export_success">导出成功</string>
-    <string name="packets_nsufficient_need_recharge">流量不足，需要充值</string>
+    <string name="packets_insufficient_need_recharge">流量不足，需要充值</string>
     <string name="synchronization_block">同步区块中…</string>
     <string name="blockchain_time_out">区块同步超时，\n请刷新钱包查看充值结果</string>
     <string name="please_create_account">请先创建账号</string>
@@ -153,9 +153,9 @@
     <string name="get_free_eth">0.05 eth测试币</string>
     <string name="select_subscribed_mining_pool">请选择已经订阅的矿池</string>
     <string name="select_miner">请选择矿池下的矿机</string>
-    <string name="settting_change_token">您确定要切换token吗?确定后将重启App</string>
+    <string name="setting_change_token">您确定要切换token吗?确定后将重启App</string>
     <string name="tips">提示</string>
-    <string name="forbiden_permission_des">权限拒绝无法使用app,重新申请。</string>
+    <string name="forbidden_permission_des">权限拒绝无法使用app,重新申请。</string>
     <string name="synchronization_wallet">同步钱包中…</string>
     <string name="synchronization_wallet_success">同步钱包成功</string>
     <string name="synchronization_wallet_time_out">同步钱包超时</string>
@@ -168,10 +168,10 @@
     <string name="click_exit_application">请再点击一次退出界面</string>
     <string name="create_account_failed">创建失败</string>
     <string name="init_service_failed">初始化服务失败</string>
-    <string name="password_eror">密码错误</string>
+    <string name="password_error">密码错误</string>
     <string name="testing_speed">测速中…</string>
     <string name="get_data_failed">获取数据失败!</string>
-    <string name="open_walet">开启钱包</string>
+    <string name="open_wallet">开启钱包</string>
     <string name="request_time_out">请求超时</string>
     <string name="request_failed">请求失败!</string>
     <string name="recharge_failed">充值失败!</string>
@@ -188,4 +188,5 @@
     <string name="tab_setting_replace_msg">替换当前账号?</string>
     <string name="new_version">发现新版本</string>
     <string name="update_version">更新</string>
+    <string name="contentDescription"> </string>
 </resources>

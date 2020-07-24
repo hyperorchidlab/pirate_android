@@ -5,10 +5,8 @@ import android.text.TextUtils;
 
 import com.hop.pirate.base.BaseModel;
 import com.hop.pirate.callback.ResultCallBack;
-import com.hop.pirate.greendao.MinePoolBeanDaoUtil;
 import com.hop.pirate.model.MinePoolListModel;
 import com.hop.pirate.model.bean.MinePoolBean;
-import com.hop.pirate.service.HopService;
 
 import org.json.JSONObject;
 

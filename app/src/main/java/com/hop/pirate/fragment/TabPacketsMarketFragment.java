@@ -27,7 +27,6 @@ import java.util.List;
 public class TabPacketsMarketFragment extends BaseFragement {
     public static boolean isSyncAllPools;
     private TabPacketsMarketModel mTabPacketsMarketModel;
-    private RecyclerView mRechargeRecycleView;
     private RechargeAdapter mRechargeAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ImageView mEmptyIv;
@@ -41,31 +40,31 @@ public class TabPacketsMarketFragment extends BaseFragement {
         initViews(view);
         mTabPacketsMarketModel = new TabPacketsMarketModelImpl();
         mSwipeRefreshLayout.setRefreshing(true);
-        getPoolInfos(false);
+        getPoolInfo();
         return view;
     }
 
     @Override
     public void initViews(View view) {
         mSwipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-        mRechargeRecycleView = view.findViewById(R.id.rechargeRecycleView);
+        RecyclerView rechargeRecycleView = view.findViewById(R.id.rechargeRecycleView);
         mEmptyIv = view.findViewById(R.id.emptyIv);
         mEmptyTv = view.findViewById(R.id.emptyTv);
         mRechargeAdapter = new RechargeAdapter(mActivity);
-        mRechargeRecycleView.setLayoutManager(new WrapContentLinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
-        mRechargeRecycleView.setAdapter(mRechargeAdapter);
+        rechargeRecycleView.setLayoutManager(new WrapContentLinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
+        rechargeRecycleView.setAdapter(mRechargeAdapter);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getPoolInfos(true);
+                getPoolInfo();
             }
         });
     }
 
 
-    public void getPoolInfos(boolean syncAllPoolsData) {
-        mTabPacketsMarketModel.getPoolInfos(new ResultCallBack<List<MinePoolBean>>() {
+    public void getPoolInfo() {
+        mTabPacketsMarketModel.getPoolInfo(new ResultCallBack<List<MinePoolBean>>() {
             @Override
             public void onError(Throwable e) {
                 mSwipeRefreshLayout.setRefreshing(false);

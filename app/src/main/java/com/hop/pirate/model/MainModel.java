@@ -19,9 +19,9 @@ public interface MainModel {
 
     void syncAllPoolsData();
 
-    void initSysSeting();
+    void initSysSetting();
 
-    void initsyncPoolsAndUserData();
+    void initPoolsAndUserData();
 
     void removeAllSubscribe();
 

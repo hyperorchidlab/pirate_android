@@ -6,12 +6,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.hop.pirate.R;
 import com.hop.pirate.activity.ScanActivity;
-import com.hop.pirate.callback.AlertDialogOkCallBack;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,21 +17,6 @@ import java.io.IOException;
 
 public class AccountUtils {
 
-    public static void importEthAddress(final AppCompatActivity context, String ethAddress) {
-        AlertDialogOkCallBack callBack = new AlertDialogOkCallBack() {
-            @Override
-            public void onClickOkButton(String parameter) {
-                showImportQRChoice(context);
-            }
-        };
-
-        if (!ethAddress.equals("")) {
-            Utils.showOkOrCancelAlert(context, R.string.sure_replace,
-                    R.string.save_ethereum_account, callBack);
-            return;
-        }
-        showImportQRChoice(context);
-    }
 
     public static void showImportQRChoice(final Activity context) {
         final String[] listItems = {context.getString(R.string.scanning_qr_code), context.getString(R.string.read_album), context.getString(R.string.cancel)};
@@ -52,7 +35,7 @@ public class AccountUtils {
                     IntentIntegrator ii = new IntentIntegrator(context);
                     ii.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
                     ii.setCaptureActivity(ScanActivity.class);
-                    ii.setPrompt(context.getString(R.string.sacn_porton_account_qr));
+                    ii.setPrompt(context.getString(R.string.scan_pirate_account_qr));
                     ii.setCameraId(0);
                     ii.setBarcodeImageEnabled(true);
                     ii.initiateScan();
@@ -72,7 +55,7 @@ public class AccountUtils {
         mDialog.show();
     }
 
-    public static void openAlbum(Activity activity) {
+    private static void openAlbum(Activity activity) {
         Intent albumIntent = new Intent();
         albumIntent.addCategory(Intent.CATEGORY_OPENABLE);
         albumIntent.setType("image/*");

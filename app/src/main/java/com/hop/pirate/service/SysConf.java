@@ -5,9 +5,9 @@ import com.hop.pirate.util.Utils;
 
 public class SysConf {
 
-    public static final String _KEY_CACHED_POOL_IN_USE_ = "_KEY_CACHED_POOL_IN_USE_%s";
-    public static final String _KEY_CACHED_POOL_NAME_IN_USE_ = "_KEY_CACHED_POOL_NAME_IN_USE_%s";
-    public static final String _KEY_CACHED_MINER_ID_IN_USE_ = "_KEY_CACHED_MINER_ID_IN_USE_OF_%s";
+    private static final String KEY_CACHED_POOL_IN_USE = "_KEY_CACHED_POOL_IN_USE_%s";
+    private static final String KEY_CACHED_POOL_NAME_IN_USE = "_KEY_CACHED_POOL_NAME_IN_USE_%s";
+    private static final String KEY_CACHED_MINER_ID_IN_USE = "_KEY_CACHED_MINER_ID_IN_USE_OF_%s";
 
     public static String CurPoolAddress = "";
     public static String CurPoolName = "";
@@ -15,38 +15,33 @@ public class SysConf {
     public static double PacketsBalance;
     public static double PacketsCredit;
 
-    public static double MicroNonce;
-    public static double Epoch;
 
-
-    public static boolean ChangeCurPool(String address, String newPool) {
+    public static void changeCurPool(String address, String newPool) {
 
         CurPoolName = newPool;
         if (CurPoolAddress.equals(address)) {
-            return false;
+            return;
         }
 
         CurPoolAddress = address;
-        String poolAddress = String.format(_KEY_CACHED_POOL_IN_USE_, ExtendToken.CurSymbol);
-        String poolName = String.format(_KEY_CACHED_POOL_NAME_IN_USE_, ExtendToken.CurSymbol);
+        String poolAddress = String.format(KEY_CACHED_POOL_IN_USE, ExtendToken.CurSymbol);
+        String poolName = String.format(KEY_CACHED_POOL_NAME_IN_USE, ExtendToken.CurSymbol);
         Utils.saveData(poolAddress, address);
         Utils.saveData(poolName, CurPoolName);
 
-        String mKey = String.format(_KEY_CACHED_MINER_ID_IN_USE_, CurPoolAddress);
+        String mKey = String.format(KEY_CACHED_MINER_ID_IN_USE, CurPoolAddress);
         CurMinerID = Utils.getString(mKey, "");
 
-        return true;
     }
 
-    public static boolean SetCurMiner(String newMiner) {
+    public static void setCurMiner(String newMiner) {
         if (CurMinerID.equals(newMiner)) {
-            return false;
+            return;
         }
 
         CurMinerID = newMiner;
-        String mKey = String.format(_KEY_CACHED_MINER_ID_IN_USE_, CurPoolAddress);
+        String mKey = String.format(KEY_CACHED_MINER_ID_IN_USE, CurPoolAddress);
         Utils.saveData(mKey, newMiner);
-        return true;
     }
 
 }
