@@ -170,6 +170,8 @@ public class HopService extends VpnService implements androidLib.VpnDelegate, Ha
     public static void stop() {
         Log.w(TAG, "stop service in android");
         AndroidLib.stopVpn();
+        IsRunning = false;
+        EventBus.getDefault().post(new EventVPNClosed());
     }
 
     @Override

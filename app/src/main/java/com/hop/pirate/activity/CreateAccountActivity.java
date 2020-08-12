@@ -1,5 +1,6 @@
 package com.hop.pirate.activity;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -18,13 +20,25 @@ import com.hop.pirate.R;
 import com.hop.pirate.base.BaseActivity;
 import com.hop.pirate.callback.AlertDialogOkCallBack;
 import com.hop.pirate.callback.ResultCallBack;
+import com.hop.pirate.event.EventNewAccount;
 import com.hop.pirate.model.CreateAccountModel;
 import com.hop.pirate.model.impl.CreateAccountModelImpl;
+import com.hop.pirate.service.WalletWrapper;
 import com.hop.pirate.util.Utils;
 
-import androidLib.AndroidLib;
+import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class CreateAccountActivity extends BaseActivity implements View.OnClickListener {
+import java.util.List;
+
+import androidLib.AndroidLib;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.AppSettingsDialog;
+import pub.devrel.easypermissions.EasyPermissions;
+
+public class CreateAccountActivity extends BaseActivity implements View.OnClickListener ,EasyPermissions.PermissionCallbacks,EasyPermissions.RationaleCallbacks{
+    private static final String TAG = "CreateAccountActivity";
     private CreateAccountModel mCreateAccountModel;
     private EditText mPasswordEt;
     private EditText mConfirmPasswordEt;
@@ -64,7 +78,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                 createAccount();
                 break;
             case R.id.importBtn:
-                showImportQRChoice();
+                showImportQrChoice();
                 break;
             case R.id.backIv:
                 finish();
@@ -96,8 +110,12 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
             }
 
             @Override
-            public void onSuccess(String o) {
-
+            public void onSuccess(String walletJson) {
+                try {
+                    WalletWrapper.MainAddress = new JSONObject(walletJson).optString("mainAddress");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -105,8 +123,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                 dismissDialogFragment();
                 Utils.toastTips(getResources().getString(R.string.create_account_success));
                 Utils.clearAllData(CreateAccountActivity.this);
-                MineMachineListActivity.sMinerBeans = null;
-                MinePoolListActivity.sMinePoolBeans = null;
+                EventBus.getDefault().post(new EventNewAccount());
                 startActivity(MainActivity.class);
                 finish();
             }
@@ -114,7 +131,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
     }
 
 
-    void showImportQRChoice() {
+    void showImportQrChoice() {
         final String[] listItems = {getString(R.string.scanning_qr_code), getString(R.string.read_album), getString(R.string.cancel)};
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
         mBuilder.setTitle(getString(R.string.select_import_mode));
@@ -124,23 +141,11 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
             public void onClick(DialogInterface dialogInterface, int i) {
 
                 if (0 == i) {
-                    if (!Utils.checkCamera(CreateAccountActivity.this)) {
-                        return;
-                    }
-                    IntentIntegrator ii = new IntentIntegrator(CreateAccountActivity.this);
-                    ii.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
-                    ii.setCaptureActivity(ScanActivity.class);
-                    ii.setPrompt(getString(R.string.scan_pirate_account_qr));
-                    ii.setCameraId(0);
-                    ii.setBarcodeImageEnabled(true);
-                    ii.initiateScan();
+                    cameraTask();
                 } else if (1 == i) {
 
-                    if (!Utils.checkStorage(CreateAccountActivity.this)) {
-                        return;
-                    }
+                    checkStorage();
 
-                    openAlbum();
 
                 }
                 dialogInterface.dismiss();
@@ -149,6 +154,38 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
 
         AlertDialog mDialog = mBuilder.create();
         mDialog.show();
+    }
+
+    @AfterPermissionGranted(Utils.RC_LOCAL_MEMORY_PERM)
+    public  void checkStorage() {
+        if (Utils.hasStoragePermission(this)) {
+            openAlbum();
+        }else{
+            EasyPermissions.requestPermissions(
+                    this,
+                    getString(R.string.rationale_extra_write),
+                    Utils.RC_LOCAL_MEMORY_PERM,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+    }
+
+    @AfterPermissionGranted(Utils.RC_CAMERA_PERM)
+    public void cameraTask() {
+        if (Utils.hasCameraPermission(this)) {
+            IntentIntegrator ii = new IntentIntegrator(CreateAccountActivity.this);
+            ii.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
+            ii.setCaptureActivity(ScanActivity.class);
+            ii.setPrompt(getString(R.string.scan_pirate_account_qr));
+            ii.setCameraId(0);
+            ii.setBarcodeImageEnabled(true);
+            ii.initiateScan();
+        } else {
+            EasyPermissions.requestPermissions(
+                    this,
+                    getString(R.string.camera),
+                    Utils.RC_CAMERA_PERM,
+                    Manifest.permission.CAMERA);
+        }
     }
 
     private void openAlbum() {
@@ -161,11 +198,30 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions,
+                                           int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode,  List<String> perms) {
+        Log.d(TAG, "onPermissionsGranted:" + requestCode + ":" + perms.size());
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode,  List<String> perms) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            new AppSettingsDialog.Builder(this).build().show();
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (Utils.RC_SELECT_FROM_GALLARY == requestCode) {
             if (resultCode != RESULT_OK || null == data) {
-                Utils.toastTips(getString(R.string.unread_data));
                 return;
             }
             loadAccountFromGalleryQRCode(data.getData());
@@ -175,7 +231,6 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                 return;
             }
             if (result.getContents() == null) {
-                Utils.toastTips(getString(R.string.invalid_scan_code));
                 return;
             }
             try {
@@ -188,8 +243,18 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
         }
     }
 
+    @Override
+    public void onRationaleAccepted(int requestCode) {
+        Log.d(TAG, "onRationaleAccepted:" + requestCode);
+    }
+
+    @Override
+    public void onRationaleDenied(int requestCode) {
+        Log.d(TAG, "onRationaleDenied:" + requestCode);
+    }
+
     void showPasswordDialog(final String walletStr) {
-        Utils.showPassWord(this, new AlertDialogOkCallBack() {
+        Utils.showPassword(this, new AlertDialogOkCallBack() {
 
             @Override
             public void onClickOkButton(String password) {
@@ -208,16 +273,19 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
             }
 
             @Override
-            public void onSuccess(String str) {
-
+            public void onSuccess(String walletJson) {
+                try {
+                    WalletWrapper.MainAddress = new JSONObject(walletJson).optString("mainAddress");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
             public void onComplete() {
                 dismissDialogFragment();
                 Utils.toastTips(getResources().getString(R.string.import_success));
-                MineMachineListActivity.sMinerBeans = null;
-                MinePoolListActivity.sMinePoolBeans = null;
+                EventBus.getDefault().post(new EventNewAccount());
                 Utils.clearAllData(CreateAccountActivity.this);
                 startActivity(MainActivity.class);
                 finish();

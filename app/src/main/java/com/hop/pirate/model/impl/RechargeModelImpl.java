@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.hop.pirate.Constants;
 import com.hop.pirate.PirateException;
 import com.hop.pirate.R;
+import com.hop.pirate.activity.MainActivity;
 import com.hop.pirate.activity.RechargePacketsActivity;
 import com.hop.pirate.base.WaitTxBaseModel;
 import com.hop.pirate.callback.ResultCallBack;
@@ -116,12 +117,12 @@ public class RechargeModelImpl extends WaitTxBaseModel implements RechargeModel 
         schedulers(Observable.create(new ObservableOnSubscribe<Double>() {
             @Override
             public void subscribe(ObservableEmitter<Double> emitter) throws Exception {
-                if (!RechargePacketsActivity.isInitSysSeting) {
-                    AndroidLib.initSysSeting();
-                    RechargePacketsActivity.isInitSysSeting = true;
+                if (!MainActivity.isSyncVersion) {
+                    AndroidLib.syncVer();
+                    MainActivity.isSyncVersion = true;
                 }
                 String sysStr = AndroidLib.systemSettings();
-                if (!sysStr.equals("")) {
+                if (!TextUtils.isEmpty(sysStr)) {
                     JSONObject json = new JSONObject(sysStr);
                     double mBytesPerToken = json.optDouble("MBytesPerToken");
                     emitter.onNext(mBytesPerToken);

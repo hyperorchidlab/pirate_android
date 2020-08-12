@@ -13,6 +13,7 @@ public class Constants {
     public static final String CUR_PAYMENT_CONTRACT = "cur_payment_contract";
     public static final String CUR_TOKEN = "cur_tokeni";
     public static final String CUR_SYMBOL = "cur_symbol";
+    public static final String NEW_DNS = "new_dns";
 
     public static final String TOKEN_ADDRESS = "0xAd44c8493dE3FE2B070f33927A315b50Da9a0e25";
     public static final String DEFAULT_SYMBOL = "HOP";

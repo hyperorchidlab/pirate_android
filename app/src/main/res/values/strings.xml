@@ -80,10 +80,15 @@
     <string name="tab_home">Home</string>
     <string name="tab_flow_market">Flow Market</string>
     <string name="tab_wallet">Wallet</string>
+
     <string name="tab_setting">Setting</string>
     <string name="tab_setting_replace_account_title">Are you sure?</string>
     <string name="tab_setting_replace_msg">Replace you current wallet?</string>
-
+    <string name="tab_setting_bas_address">Bas address</string>
+    <string name="tab_setting_update_bas_address">Modify Bas address</string>
+    <string name="tab_setting_bas_address_empty">Please input a new BAS IP address</string>
+    <string name="tab_setting_bas_address_failed">Please enter the correct ip address</string>
+    <string name="tab_setting_update_bas_address_success">Successfully modified</string>
 
     <string name="wallet_own_mine_pool">Purchased mining pool</string>
     <string name="wallet_add_mine_pool">Add new mining pool</string>

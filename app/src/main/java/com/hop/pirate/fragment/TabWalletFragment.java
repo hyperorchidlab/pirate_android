@@ -19,6 +19,7 @@ import com.hop.pirate.adapter.MinePoolForWalletAdapter;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.event.EventClearAllRequest;
 import com.hop.pirate.event.EventLoadWalletSuccess;
+import com.hop.pirate.event.EventNewAccount;
 import com.hop.pirate.event.EventRechargeSuccess;
 import com.hop.pirate.event.EventSkipTabPacketsMarket;
 import com.hop.pirate.model.TabWalletModel;
@@ -36,7 +37,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.List;
 
 public class TabWalletFragment extends BaseFragement implements View.OnClickListener {
-    public static boolean initsyncPoolsAndUserData;
     private TabWalletModel mTabWalletModel;
     private TextView mHopNumberTv;
     private TextView mEthNumberTv;
@@ -56,7 +56,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
         mTabWalletModel = new TabWalletModelImpl();
         initViews(view);
         initData();
-        getPoolDataOfUser();
+        getPoolDataOfUser(false);
         return view;
     }
 
@@ -74,6 +74,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
         TextView addMinePoolTv = view.findViewById(R.id.addMinePoolTv);
         RecyclerView minePoolRecyclerView = view.findViewById(R.id.minePoolRecyclerView);
         TextView refreshMinPoolTv = view.findViewById(R.id.refreshMinPoolTv);
+        TextView refreshWalletTv = view.findViewById(R.id.refreshWalletTv);
 
         addMinePoolBgIv.setOnClickListener(this);
         addMinePoolTv.setOnClickListener(this);
@@ -82,6 +83,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
         mHopNumberTv.setOnClickListener(this);
         mEthNumberTv.setOnClickListener(this);
         refreshMinPoolTv.setOnClickListener(this);
+        refreshWalletTv.setOnClickListener(this);
         minePoolRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         mMinePoolForWalletAdapter = new MinePoolForWalletAdapter(mActivity);
         minePoolRecyclerView.setAdapter(mMinePoolForWalletAdapter);
@@ -108,8 +110,11 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
         switch (v.getId()) {
             case R.id.refreshMinPoolTv:
                 mActivity.showDialogFragment();
-                ((MainActivity) mActivity).loadWallet();
-                getPoolDataOfUser();
+                getPoolDataOfUser(true);
+                break;
+            case R.id.refreshWalletTv:
+                mActivity.showDialogFragment();
+                ((MainActivity) mActivity).loadWallet(true);
                 break;
             case R.id.addMinePoolBgIv:
             case R.id.addMinePoolTv:
@@ -121,7 +126,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
     }
 
 
-    private void getPoolDataOfUser() {
+    private void getPoolDataOfUser(final boolean isShowLoading) {
         if (TextUtils.isEmpty(WalletWrapper.MainAddress)) {
             Utils.toastTips(getString(R.string.wallet_read_failed));
             return;
@@ -129,7 +134,9 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
         mTabWalletModel.getPoolDataOfUser(mActivity, WalletWrapper.MainAddress, new ResultCallBack<List<OwnPool>>() {
             @Override
             public void onError(Throwable e) {
-                mActivity.dismissDialogFragment();
+                if(isShowLoading){
+                    mActivity.dismissDialogFragment();
+                }
                 Utils.toastException(mActivity, e, Constants.REQUEST_OWN_MINE_POOL_ERROR);
             }
 
@@ -147,7 +154,9 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
 
             @Override
             public void onComplete() {
-                mActivity.dismissDialogFragment();
+                if(isShowLoading){
+                    mActivity.dismissDialogFragment();
+                }
             }
         });
     }
@@ -156,7 +165,6 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loadWalletSuccess(EventLoadWalletSuccess eventLoadWalletSuccess) {
         initData();
-
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -166,9 +174,13 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void rechargeSuccess(EventRechargeSuccess eventRechargeSuccess) {
-        getPoolDataOfUser();
+        getPoolDataOfUser(false);
     }
 
+  @Subscribe(threadMode = ThreadMode.MAIN)
+    public void eventNewAccount(EventNewAccount eventNewAccount) {
+        getPoolDataOfUser(false);
+    }
 
     @Override
     public void onDestroy() {

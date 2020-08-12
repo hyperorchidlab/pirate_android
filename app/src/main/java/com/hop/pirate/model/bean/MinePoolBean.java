@@ -6,15 +6,6 @@ import androidLib.AndroidLib;
 public class MinePoolBean {
     public static String TAG = "Miner Pool Bean";
 
-    public static void syncPoolsAndUserData() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                AndroidLib.syncPoolsAndUserData();
-            }
-        }).start();
-    }
-
     public MinePoolBean() {
 
     }

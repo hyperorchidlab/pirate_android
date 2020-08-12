@@ -32,7 +32,7 @@ public class TabSettingModelImpl extends WaitTxBaseModel implements TabSettingMo
         Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(final ObservableEmitter<String> emitter) throws Exception {
-                Utils.saveStringQRCode(cr, data, fileName, new SaveQRCodeCallBack() {
+                Utils.saveStringQrCode(cr, data, fileName, new SaveQRCodeCallBack() {
                     @Override
                     public void save(String msg) {
                         emitter.onComplete();

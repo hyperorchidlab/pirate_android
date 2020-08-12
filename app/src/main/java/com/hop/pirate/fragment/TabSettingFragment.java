@@ -49,6 +49,7 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
     private ImageView mQRCodeIv;
     private TextView mSubNetAaddressValueTv;
     private TextView currentCoinTypeTv;
+    private TextView mBasAddressEt;
 
     @Nullable
     @Override
@@ -114,10 +115,15 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
         TextView supprotCoinTypeTv = view.findViewById(R.id.supprotCoinTypeTv);
         TextView versionTv = view.findViewById(R.id.versionTv);
         TextView updateAppTv = view.findViewById(R.id.updateAppTv);
+        mBasAddressEt = view.findViewById(R.id.basAddressEt);
+        TextView updateBasAddressTv = view.findViewById(R.id.updateBasAddressTv);
+        String newDns = Utils.getString(Constants.NEW_DNS, Constants.DNS);
+        mBasAddressEt.setText(newDns);
         versionTv.setText(getString(R.string.current_version_name) + Utils.getVersionName(mActivity));
         updateAppTv.setText(getString(R.string.tab_setting_new_version));
         updateAppTv.setOnClickListener(this);
         versionTv.setOnClickListener(this);
+        updateBasAddressTv.setOnClickListener(this);
         mApplyFreeEthBtn.setOnClickListener(this);
         mApplyFreeTokenBtn.setOnClickListener(this);
         mainNetWorkAddressLabTv.setOnClickListener(this);
@@ -171,6 +177,21 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
                 break;
             case R.id.applyFreeTokenBtn:
                 applyFreeToken();
+                break;
+            case R.id.updateBasAddressTv:
+                String newDns = mBasAddressEt.getText().toString().trim();
+                if (TextUtils.isEmpty(newDns)) {
+                    Utils.toastTips(getString(R.string.tab_setting_bas_address_empty));
+                    return;
+                }
+                if (!Utils.isIpAddress(newDns)) {
+                    Utils.toastTips(getString(R.string.tab_setting_bas_address_failed));
+                    return;
+                }
+
+                Utils.saveData(Constants.NEW_DNS, newDns);
+                Utils.toastTips(getString(R.string.tab_setting_update_bas_address_success));
+                mActivity.finish();
                 break;
             case R.id.createAccountTv:
                 Utils.showOkOrCancelAlert(mActivity, R.string.tab_setting_replace_account_title, R.string.tab_setting_replace_msg, new AlertDialogOkCallBack() {
@@ -265,7 +286,7 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
                 }
                 MessageDialog.show(mActivity, getString(R.string.tips), content, getString(R.string.sure));
                 mActivity.dismissDialogFragment();
-                ((MainActivity) mActivity).loadWallet();
+                ((MainActivity) mActivity).loadWallet(false);
             }
 
             @Override
@@ -314,7 +335,7 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
         }
 
         final String accountData = WalletWrapper.walletJsonData();
-        if (accountData.equals("")) {
+        if (TextUtils.isEmpty(accountData)) {
             Utils.toastTips(getString(R.string.empty_account));
             return;
         }

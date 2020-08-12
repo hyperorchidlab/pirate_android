@@ -1,5 +1,6 @@
 package com.hop.pirate.model.impl;
 
+import com.hop.pirate.activity.MainActivity;
 import com.hop.pirate.base.BaseModel;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.fragment.TabPacketsMarketFragment;
@@ -30,9 +31,9 @@ public class TabPacketsMarketModelImpl extends BaseModel implements TabPacketsMa
         schedulers(Observable.create(new ObservableOnSubscribe<List<MinePoolBean>>() {
             @Override
             public void subscribe(ObservableEmitter<List<MinePoolBean>> emitter) throws Exception {
-                if (!TabPacketsMarketFragment.isSyncAllPools) {
-                    AndroidLib.syncAllPoolsData();
-                    TabPacketsMarketFragment.isSyncAllPools = true;
+                if (!MainActivity.isSyncVersion) {
+                    AndroidLib.syncVer();
+                    MainActivity.isSyncVersion = true;
                 }
                 String jsonStr = AndroidLib.poolInfosInMarket();
                 List<MinePoolBean> minePoolBeans = new ArrayList<>();

@@ -6,8 +6,8 @@ android {
         applicationId 'com.hop.pirate'
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 100107
-        versionName '1.1.7'
+        versionCode 100108
+        versionName '1.1.8'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         renderscriptTargetApi 19
         renderscriptSupportModeEnabled true

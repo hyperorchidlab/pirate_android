@@ -25,7 +25,6 @@ import com.hop.pirate.util.WrapContentLinearLayoutManager;
 import java.util.List;
 
 public class TabPacketsMarketFragment extends BaseFragement {
-    public static boolean isSyncAllPools;
     private TabPacketsMarketModel mTabPacketsMarketModel;
     private RechargeAdapter mRechargeAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;

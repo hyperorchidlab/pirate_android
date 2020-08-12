@@ -15,6 +15,7 @@ import com.hop.pirate.base.BaseActivity;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.dialog.PayPasswordDialog;
 import com.hop.pirate.event.EventShowTabHome;
+import com.hop.pirate.event.EventSyncVersion;
 import com.hop.pirate.model.RechargeModel;
 import com.hop.pirate.model.bean.MinePoolBean;
 import com.hop.pirate.model.impl.RechargeModelImpl;
@@ -27,7 +28,6 @@ import com.kongzue.dialog.v3.MessageDialog;
 import org.greenrobot.eventbus.EventBus;
 
 public class RechargePacketsActivity extends BaseActivity implements FlowSelectAdapter.RechargeFlowState {
-    public static boolean isInitSysSeting;
     private RechargeModel mRechargeModel;
     private RecyclerView mFlowRecyclerview;
     private String mPoolAddress;
@@ -225,7 +225,7 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
                     buyPacket();
                 } else {
                     dismissDialogFragment();
-                    MinePoolBean.syncPoolsAndUserData();
+                    EventBus.getDefault().post(new EventSyncVersion());
                     String content = getString(R.string.recharge_success) + "\ntx=[" + tx + "]";
                     MessageDialog.show(RechargePacketsActivity.this, getString(R.string.tips), content, getString(R.string.sure)).setOnOkButtonClickListener(new OnDialogButtonClickListener() {
                         @Override

@@ -24,7 +24,8 @@ public class CreateAccountModelImpl extends BaseModel implements CreateAccountMo
         schedulers(Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(ObservableEmitter<String> emitter) throws Exception {
-                AndroidLib.newWallet(password);
+                String walletJson = AndroidLib.newWallet(password);
+                emitter.onNext(walletJson);
                 emitter.onComplete();
             }
         })).subscribe(new Observer<String>() {
@@ -56,6 +57,7 @@ public class CreateAccountModelImpl extends BaseModel implements CreateAccountMo
             @Override
             public void subscribe(ObservableEmitter<String> emitter) throws Exception {
                 AndroidLib.importWallet(walletStr, password);
+                emitter.onNext(walletStr);
                 emitter.onComplete();
             }
         })).subscribe(new Observer<String>() {

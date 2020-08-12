@@ -25,10 +25,6 @@
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup"
         tools:ignore="LockedOrientationActivity">
-        <service
-            android:name=".service.MicroChainService"
-            android:exported="false" />
-
         <activity
             android:name=".activity.SplashActivity"
             android:screenOrientation="portrait">

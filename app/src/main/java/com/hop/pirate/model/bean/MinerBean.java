@@ -1,5 +1,7 @@
 package com.hop.pirate.model.bean;
 
+import android.text.TextUtils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -80,7 +82,7 @@ public class MinerBean {
 
     public void TestPing() {
         String jsonStr = AndroidLib.testPing(this.MID);
-        if (jsonStr.equals("")) {
+        if (TextUtils.isEmpty(jsonStr)) {
             this.setIP("None");
             this.setTime(-1);
         } else {

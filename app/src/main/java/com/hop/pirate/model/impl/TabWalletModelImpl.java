@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.hop.pirate.Constants;
+import com.hop.pirate.activity.MainActivity;
 import com.hop.pirate.base.BaseModel;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.fragment.TabWalletFragment;
@@ -40,9 +41,9 @@ public class TabWalletModelImpl extends BaseModel implements TabWalletModel {
             @Override
             public void subscribe(ObservableEmitter<List<OwnPool>> emitter) throws Exception {
                 List<OwnPool> minePoolBeans = new ArrayList<>();
-                if (!TabWalletFragment.initsyncPoolsAndUserData) {
-                    AndroidLib.syncPoolsAndUserData();
-                    TabWalletFragment.initsyncPoolsAndUserData = true;
+                if (!MainActivity.isSyncVersion) {
+                    AndroidLib.syncVer();
+                    MainActivity.isSyncVersion = true;
                 }
                 String poolsStr = AndroidLib.poolDataOfUser(address);
 

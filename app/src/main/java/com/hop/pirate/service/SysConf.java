@@ -5,9 +5,9 @@ import com.hop.pirate.util.Utils;
 
 public class SysConf {
 
-    private static final String KEY_CACHED_POOL_IN_USE = "_KEY_CACHED_POOL_IN_USE_%s";
-    private static final String KEY_CACHED_POOL_NAME_IN_USE = "_KEY_CACHED_POOL_NAME_IN_USE_%s";
-    private static final String KEY_CACHED_MINER_ID_IN_USE = "_KEY_CACHED_MINER_ID_IN_USE_OF_%s";
+    public static final String KEY_CACHED_POOL_IN_USE = "KEY_CACHED_POOL_IN_USE_%s";
+    public static final String KEY_CACHED_POOL_NAME_IN_USE = "KEY_CACHED_POOL_NAME_IN_USE_%s";
+    public static final String KEY_CACHED_MINER_ID_IN_USE = "KEY_CACHED_MINER_ID_IN_USE_OF_%s";
 
     public static String CurPoolAddress = "";
     public static String CurPoolName = "";

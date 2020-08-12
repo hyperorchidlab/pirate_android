@@ -15,9 +15,9 @@ import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.event.EventClearAllRequest;
 import com.hop.pirate.event.EventLoadWalletSuccess;
 import com.hop.pirate.event.EventRechargeSuccess;
-import com.hop.pirate.event.EventReloadPoolsMarket;
 import com.hop.pirate.event.EventShowTabHome;
 import com.hop.pirate.event.EventSkipTabPacketsMarket;
+import com.hop.pirate.event.EventSyncVersion;
 import com.hop.pirate.fragment.TabHomeFragment;
 import com.hop.pirate.fragment.TabPacketsMarketFragment;
 import com.hop.pirate.fragment.TabSettingFragment;
@@ -40,6 +40,7 @@ import androidLib.AndroidLib;
 
 public class MainActivity extends BaseActivity implements androidLib.HopDelegate {
     public static WalletBean sWalletBean;
+    public static boolean isSyncVersion = false;
     private MainModel mMainModel;
     public static final String TAG = "HopProtocol";
     public static final int ATSysSettingChanged = 1;
@@ -103,27 +104,32 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
 
             @Override
             public void onComplete() {
-                loadWallet();
-                mMainModel.syncAllPoolsData();
-                mMainModel.initSysSetting();
-                mMainModel.initPoolsAndUserData();
+                loadWallet(false);
+                mMainModel.syncVersion();
             }
         });
 
     }
 
 
-    public void loadWallet() {
+    public void loadWallet(final boolean isShowLoading) {
         mMainModel.getWalletInfo(this, new ResultCallBack<WalletBean>() {
             @Override
             public void onError(Throwable e) {
+                if(isShowLoading){
+                    dismissDialogFragment();
+                }
                 Utils.toastException(MainActivity.this, e, Constants.REQUEST_WALLET_INFO_ERROR);
             }
 
             @Override
             public void onSuccess(WalletBean walletBean) {
                 sWalletBean = walletBean;
-
+                WalletWrapper.MainAddress = walletBean.getMain();
+                WalletWrapper.SubAddress = walletBean.getSub();
+                WalletWrapper.EthBalance = walletBean.getEth();
+                WalletWrapper.HopBalance = walletBean.getHop();
+                WalletWrapper.Approved = walletBean.getApproved();
                 String tokenName = Utils.getString(Constants.CUR_SYMBOL, "HOP");
                 if (sWalletBean.getHop() != 0 && tokenName.startsWith("HOP")) {
                     gone(mGetFreeCoinTv);
@@ -133,6 +139,9 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
 
             @Override
             public void onComplete() {
+                if(isShowLoading){
+                    dismissDialogFragment();
+                }
                 EventBus.getDefault().postSticky(new EventLoadWalletSuccess());
             }
         });
@@ -203,6 +212,11 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
         setCurrentTab(Constants.TAB_HOME);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void eventSyncVersion(EventSyncVersion eventSyncVersion) {
+        mMainModel.syncVersion();
+    }
+
 
     @Override
     protected void onSaveInstanceState(final Bundle outState) {
@@ -218,7 +232,6 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
             case ATSysSettingChanged:
                 break;
             case ATPoolsInMarketChanged:
-                EventBus.getDefault().post(new EventReloadPoolsMarket());
                 break;
             case ATNeedToRecharge:
                 Utils.toastTips(getResources().getString(R.string.packets_insufficient_need_recharge));
@@ -254,7 +267,7 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void rechargeSuccess(EventRechargeSuccess eventRechargeSuccess) {
-        loadWallet();
+        loadWallet(false);
     }
 
 

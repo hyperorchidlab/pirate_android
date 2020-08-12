@@ -39,6 +39,9 @@ import com.hop.pirate.Constants;
 import com.hop.pirate.HopApplication;
 import com.hop.pirate.PirateException;
 import com.hop.pirate.R;
+import com.hop.pirate.activity.MainActivity;
+import com.hop.pirate.activity.MineMachineListActivity;
+import com.hop.pirate.activity.MinePoolListActivity;
 import com.hop.pirate.activity.RechargePacketsActivity;
 import com.hop.pirate.callback.AlertDialogOkCallBack;
 import com.hop.pirate.callback.SaveQRCodeCallBack;
@@ -63,14 +66,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import pub.devrel.easypermissions.EasyPermissions;
 
 
 public final class Utils {
 
-    private static final int RC_LOCAL_MEMORY_PERM = 123;
-    private static final int RC_CAMERA_PERM = 124;
+    public static final int RC_LOCAL_MEMORY_PERM = 123;
+    public static final int RC_CAMERA_PERM = 124;
     public static final int RC_SELECT_FROM_GALLARY = 125;
     private static final String DEFAULT_ETH_ADDRESS = "0x0000000000000000000000000000000000000000";
     public static final double COIN_DECIMAL = 1e18;
@@ -125,9 +130,9 @@ public final class Utils {
     }
 
     public static void clearAllData(Context context) {
-        TabPacketsMarketFragment.isSyncAllPools = false;
-        RechargePacketsActivity.isInitSysSeting = false;
-        TabWalletFragment.initsyncPoolsAndUserData = false;
+        MainActivity.isSyncVersion =false;
+        MineMachineListActivity.sMinerBeans = null;
+        MinePoolListActivity.sMinePoolBeans = null;
         clearSharedPref();
     }
 
@@ -232,7 +237,7 @@ public final class Utils {
     }
 
 
-    public static void showPassWord(AppCompatActivity context, final AlertDialogOkCallBack callBack) {
+    public static void showPassword(AppCompatActivity context, final AlertDialogOkCallBack callBack) {
         InputDialog.build(context)
                 //.setButtonTextInfo(new TextInfo().setFontColor(Color.GREEN))
                 .setTitle(R.string.tips).setMessage(R.string.enter_password)
@@ -274,7 +279,7 @@ public final class Utils {
         return null;
     }
 
-    public static void saveStringQRCode(ContentResolver cr, String data, String fileName, SaveQRCodeCallBack callBack) {
+    public static void saveStringQrCode(ContentResolver cr, String data, String fileName, SaveQRCodeCallBack callBack) {
 
         try {
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
@@ -340,6 +345,9 @@ public final class Utils {
         return r.getText();
     }
 
+    public static boolean hasStoragePermission(Context ctx) {
+        return EasyPermissions.hasPermissions(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    }
     public static boolean checkStorage(Activity ctx) {
         if (!EasyPermissions.hasPermissions(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             EasyPermissions.requestPermissions(
@@ -352,8 +360,12 @@ public final class Utils {
         return true;
     }
 
+    public static boolean hasCameraPermission(Context ctx) {
+        return EasyPermissions.hasPermissions(ctx, Manifest.permission.CAMERA);
+    }
+
     public static boolean checkCamera(Activity ctx) {
-        if (!EasyPermissions.hasPermissions(ctx, Manifest.permission.CAMERA)) {
+        if (!hasCameraPermission(ctx)) {
             EasyPermissions.requestPermissions(
                     ctx,
                     ctx.getString(R.string.camera),
@@ -459,7 +471,7 @@ public final class Utils {
         return networkList.contains("tun0") || networkList.contains("ppp0");
     }
 
-    private static final int MIN_CLICK_DELAY_TIME = 1000;
+    private static final int MIN_CLICK_DELAY_TIME = 500;
     private static long lastClickTime;
 
     public static boolean isFastClick() {
@@ -476,5 +488,15 @@ public final class Utils {
         Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse("http://d.7short.com/zy7s"));
         context.startActivity(it);
 
+    }
+
+    public static boolean isIpAddress(String address){
+
+        String regex = "^([1-9]|([1-9][0-9])|(1[0-9][0-9])|(2[0-4][0-9])|(25[0-5]))(\\.([0-9]|([1-9][0-9])|(1[0-9][0-9])|(2[0-4][0-9])|(25[0-5]))){3}$";
+
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(address);
+
+        return m.matches();
     }
 }

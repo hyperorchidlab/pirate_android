@@ -3,10 +3,9 @@ package com.hop.pirate.fragment;
 import android.content.Intent;
 import android.net.VpnService;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,15 +39,11 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import androidLib.AndroidLib;
-import pub.devrel.easypermissions.AppSettingsDialog;
 
 import static android.app.Activity.RESULT_OK;
 
-public class TabHomeFragment extends BaseFragement implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, Handler.Callback {
+public class TabHomeFragment extends BaseFragement implements View.OnClickListener, RadioGroup.OnCheckedChangeListener{
     private static final int RC_VPN_RIGHT = 126;
-    public static final String _KEY_CACHED_POOL_IN_USE_ = "_KEY_CACHED_POOL_IN_USE_%s";
-    public static final String _KEY_CACHED_POOL_NAME_IN_USE_ = "_KEY_CACHED_POOL_NAME_IN_USE_%s";
-    public static final String _KEY_CACHED_MINER_ID_IN_USE_ = "_KEY_CACHED_MINER_ID_IN_USE_OF_%s";
     private TabHomeModel mTabHomeModel;
     private TextView mMiningPool, mMiningMachine;
     private TextView mPackets, mCredit;
@@ -58,7 +53,6 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
     private RadioButton mIntelligentModel;
     private TextView mPirateNetworkStatus;
     private Intent mHopIntent;
-    private Handler mHandler;
 
 
     @Nullable
@@ -67,22 +61,20 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
         View view = inflater.inflate(R.layout.fragment_home, null);
         EventBus.getDefault().register(this);
         mTabHomeModel = new TabHomeModelImpl();
-        mHandler = new Handler(this);
         initViews(view);
-        updateHomeData();
-        loadConf();
+        loadLocalConf();
+        showPacketsData();
         return view;
     }
 
 
-    private void updateHomeData() {
-
-        if (SysConf.CurPoolAddress.equals("")) {
+    private void showPacketsData() {
+        if (TextUtils.isEmpty(SysConf.CurPoolAddress)) {
             mMiningPool.setText(getResources().getString(R.string.select_subscribed_mining_pool));
         } else {
             mMiningPool.setText(SysConf.CurPoolName);
         }
-        if (SysConf.CurMinerID.equals("")) {
+        if (TextUtils.isEmpty(SysConf.CurMinerID)) {
             mMiningMachine.setText(getResources().getString(R.string.select_miner));
         } else {
             mMiningMachine.setText(SysConf.CurMinerID);
@@ -92,22 +84,24 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
     }
 
 
-    private void loadConf() {
-        String poolAddress = String.format(_KEY_CACHED_POOL_IN_USE_, ExtendToken.CurSymbol);
+    private void loadLocalConf() {
+        String poolAddress = String.format(SysConf.KEY_CACHED_POOL_IN_USE, ExtendToken.CurSymbol);
         SysConf.CurPoolAddress = Utils.getString(poolAddress, "");
-        String poolName = String.format(_KEY_CACHED_POOL_NAME_IN_USE_, ExtendToken.CurSymbol);
+        String poolName = String.format(SysConf.KEY_CACHED_POOL_NAME_IN_USE, ExtendToken.CurSymbol);
         SysConf.CurPoolName = Utils.getString(poolName, "");
 
-        String mKey = String.format(_KEY_CACHED_MINER_ID_IN_USE_, SysConf.CurPoolAddress);
+        String mKey = String.format(SysConf.KEY_CACHED_MINER_ID_IN_USE, SysConf.CurPoolAddress);
         SysConf.CurMinerID = Utils.getString(mKey, "");
 
-        if (SysConf.CurPoolAddress.equals("") || WalletWrapper.MainAddress.equals("")) {
+        if (TextUtils.isEmpty(SysConf.CurPoolAddress)|| TextUtils.isEmpty(WalletWrapper.MainAddress)) {
             SysConf.PacketsBalance = 0;
             SysConf.PacketsCredit = 0;
-            updateHomeData();
-            return;
+            showPacketsData();
         }
 
+    }
+
+    private void getUserDataOfPool(){
         mTabHomeModel.getUserDataOfPool(WalletWrapper.MainAddress, SysConf.CurPoolAddress, new ResultCallBack<UserAccountData>() {
             @Override
             public void onError(Throwable e) {
@@ -122,10 +116,9 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
 
             @Override
             public void onComplete() {
-                updateHomeData();
+                showPacketsData();
             }
         });
-
     }
 
 
@@ -181,7 +174,7 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
                 break;
             case R.id.homeMiningMachinIv:
             case R.id.selectMiningMathinIv:
-                if (SysConf.CurPoolAddress.equals("")) {
+                if (TextUtils.isEmpty(SysConf.CurPoolAddress)) {
                     Utils.toastTips(getString(R.string.select_subscribed_mining_pool));
                     return;
                 }
@@ -207,49 +200,40 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
         if (HopService.IsRunning) {
             HopService.stop();
         } else {
-            Intent ii = VpnService.prepare(mActivity);
-            if (ii != null) {
-                startActivityForResult(ii, RC_VPN_RIGHT);
-            } else {
-                onActivityResult(RC_VPN_RIGHT, RESULT_OK, null);
-            }
+            vpnPrepare();
+        }
+    }
+
+    private void vpnPrepare() {
+        Intent ii = VpnService.prepare(mActivity);
+        if (ii != null) {
+            startActivityForResult(ii, RC_VPN_RIGHT);
+        } else {
+            onActivityResult(RC_VPN_RIGHT, RESULT_OK, null);
         }
     }
 
     private boolean checkMsgforStartVpnService() {
-        if (SysConf.CurPoolAddress.equals("")) {
+        if (TextUtils.isEmpty(SysConf.CurPoolAddress)) {
             Utils.toastTips(getString(R.string.select_subscribed_mining_pool));
             return false;
         }
-        if (SysConf.CurMinerID.equals("")) {
+        if (TextUtils.isEmpty(SysConf.CurMinerID)) {
             Utils.toastTips(getString(R.string.select_miner));
             return false;
         }
         return true;
     }
 
-    void startVpnService() {
 
-        if (!WalletWrapper.isOpen()) {
-
-            AlertDialogOkCallBack callBack = new AlertDialogOkCallBack() {
-                @Override
-                public void onClickOkButton(final String password) {
-                    mActivity.showDialogFragment(R.string.open_wallet);
-                    startHopService(password);
-                }
-
-
-            };
-            Utils.showPassWord(mActivity, callBack);
-            return;
-        }
+    private void startVpnService(){
         mActivity.showDialogFragment(R.string.connect);
         mHopIntent = new Intent(mActivity, HopService.class);
         mActivity.startService(mHopIntent);
     }
 
-    private void startHopService(final String password) {
+
+    private void openWallet(final String password) {
         mTabHomeModel.openWallet(mActivity, password, new ResultCallBack<Boolean>() {
             @Override
             public void onError(Throwable e) {
@@ -283,12 +267,25 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
             if (HopService.IsRunning) {
                 HopService.stop();
             }
-            updateHomeData();
-        } else if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {
-            Utils.toastTips("returned from setting!");
-        } else if (RC_VPN_RIGHT == requestCode) {
-            startVpnService();
+            showPacketsData();
+        }else if (RC_VPN_RIGHT == requestCode) {
+            if (WalletWrapper.isOpen()) {
+                startVpnService();
+            }else{
+                showInputPasswordDialog();
+            }
+
         }
+    }
+
+    private void showInputPasswordDialog() {
+        Utils.showPassword(mActivity, new AlertDialogOkCallBack() {
+            @Override
+            public void onClickOkButton(String password) {
+                mActivity.showDialogFragment(R.string.open_wallet);
+                openWallet(password);
+            }
+        });
     }
 
     @Override
@@ -307,40 +304,32 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
     public void VPNClose(EventVPNClosed eventVPNClosed) {
         mPirateNetworkStatus.setText(getString(R.string.disconnected));
         mActivity.dismissDialogFragment();
+        getUserDataOfPool();
     }
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void rechargeSuccess(EventRechargeSuccess eventRechargeSuccess) {
-        loadConf();
+        getUserDataOfPool();
 
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void eventReloadPoolsMarket(EventReloadPoolsMarket eventReloadPoolsMarket) {
-        loadConf();
+        getUserDataOfPool();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loadWalletSuccess(EventLoadWalletSuccess eventLoadWalletSuccess) {
-        loadConf();
+        loadLocalConf();
+        getUserDataOfPool();
     }
 
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mHandler.removeCallbacksAndMessages(null);
         EventBus.getDefault().unregister(this);
-
-    }
-
-
-    @Override
-    public boolean handleMessage(Message msg) {
-        mActivity.dismissDialogFragment();
-        updateHomeData();
-        return false;
     }
 
 }

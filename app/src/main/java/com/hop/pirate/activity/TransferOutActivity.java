@@ -102,7 +102,7 @@ public class TransferOutActivity extends BaseActivity implements View.OnClickLis
                     return;
                 }
 
-                Utils.showPassWord(this, new AlertDialogOkCallBack() {
+                Utils.showPassword(this, new AlertDialogOkCallBack() {
                     @Override
                     public void onClickOkButton(String password) {
                         showDialogFragment(R.string.transferring, false);

@@ -65,7 +65,7 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
         mSplashModel.checkVersion(this, new ResultCallBack<AppVersionBean>() {
             @Override
             public void onError(Throwable e) {
-                delayLoadwallet();
+                delayLoadWallet();
             }
 
             @Override
@@ -73,7 +73,7 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
                 if (versionBean.getNewVersion() > Utils.getVersionCode(SplashActivity.this)) {
                     showUpdateAppDialog(versionBean);
                 } else {
-                    delayLoadwallet();
+                    delayLoadWallet();
                 }
             }
 
@@ -85,7 +85,7 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
 
     }
 
-    private void delayLoadwallet() {
+    private void delayLoadWallet() {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -121,7 +121,7 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
             messageDialog.setCancelButton(getString(R.string.cancel)).setOnCancelButtonClickListener(new OnDialogButtonClickListener() {
                 @Override
                 public boolean onClick(BaseDialog baseDialog, View v) {
-                    delayLoadwallet();
+                    delayLoadWallet();
                     return false;
                 }
             });
