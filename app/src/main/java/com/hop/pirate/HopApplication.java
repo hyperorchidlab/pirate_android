@@ -13,12 +13,13 @@ import io.reactivex.plugins.RxJavaPlugins;
 
 public class HopApplication extends Application {
     private static final String TAG = "HopApplication";
-    private static Context context;
+    private static HopApplication sApplication;
+    private boolean isRunning;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        HopApplication.context = getApplicationContext();
+        HopApplication.sApplication = this;
         DialogSettings.style = DialogSettings.STYLE.STYLE_IOS;
         DialogSettings.modalDialog = true;
         if (!isApkInDebug()) {
@@ -33,17 +34,25 @@ public class HopApplication extends Application {
 
     }
 
-    public static Context getAppContext() {
-        return HopApplication.context;
+    public static HopApplication getApplication() {
+        return HopApplication.sApplication;
     }
 
+    public boolean isRunning() {
+        return isRunning;
+    }
+
+    public void setRunning(boolean isRunning) {
+        this.isRunning = isRunning;
+    }
 
     public static boolean isApkInDebug() {
         try {
-            ApplicationInfo info = context.getApplicationInfo();
+            ApplicationInfo info = sApplication.getApplicationInfo();
             return (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
         } catch (Exception e) {
             return false;
         }
     }
+
 }

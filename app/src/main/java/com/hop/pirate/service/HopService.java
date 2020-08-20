@@ -16,6 +16,7 @@ import android.os.ParcelFileDescriptor;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
+import com.hop.pirate.HopApplication;
 import com.hop.pirate.R;
 import com.hop.pirate.activity.MainActivity;
 import com.hop.pirate.event.EventVPNClosed;
@@ -31,7 +32,6 @@ import java.util.concurrent.TimeUnit;
 import androidLib.AndroidLib;
 
 public class HopService extends VpnService implements androidLib.VpnDelegate, Handler.Callback {
-    public static boolean IsRunning = false;
 
     public static final long IDLE_INTERVAL_MS = TimeUnit.MILLISECONDS.toMillis(100);
     public static final String TAG = "HopService";
@@ -116,12 +116,13 @@ public class HopService extends VpnService implements androidLib.VpnDelegate, Ha
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy: ");
+        Utils.getApplication(this).setRunning(false);
         stop();
     }
 
     public void establishVPN() {
         try {
-            VpnService.Builder builder = new Builder();
+            Builder builder = new Builder();
             builder.addAddress(LOCAL_IP, 32);
             builder.addRoute("0.0.0.0", 0);
             builder.setConfigureIntent(mConfigureIntent);
@@ -130,8 +131,8 @@ public class HopService extends VpnService implements androidLib.VpnDelegate, Ha
             FileInputStream inputStream = new FileInputStream(mInterface.getFileDescriptor());
             mVpnOutputStream = new FileOutputStream(mInterface.getFileDescriptor());
             AndroidLib.startVPN(LOCAL_IP + ":41080", SysConf.CurPoolAddress, SysConf.CurMinerID, this);
-            IsRunning = true;
-            new Thread(new PacketReader(inputStream)).start();
+            Utils.getApplication(this).setRunning(true);
+            new Thread(new PacketReader(this,inputStream)).start();
 
             EventBus.getDefault().post(new EventVPNOpen());
         } catch (Exception e) {
@@ -154,7 +155,7 @@ public class HopService extends VpnService implements androidLib.VpnDelegate, Ha
 
     @Override
     public void vpnClosed() {
-        IsRunning = false;
+        Utils.getApplication(this).setRunning(false);
         disconnectVPN();
         EventBus.getDefault().post(new EventVPNClosed());
         stopSelf();
@@ -170,7 +171,6 @@ public class HopService extends VpnService implements androidLib.VpnDelegate, Ha
     public static void stop() {
         Log.w(TAG, "stop service in android");
         AndroidLib.stopVpn();
-        IsRunning = false;
         EventBus.getDefault().post(new EventVPNClosed());
     }
 

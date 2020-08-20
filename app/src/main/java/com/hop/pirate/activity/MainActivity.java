@@ -2,12 +2,14 @@ package com.hop.pirate.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
 import com.hop.pirate.Constants;
+import com.hop.pirate.HopApplication;
 import com.hop.pirate.R;
 import com.hop.pirate.base.BaseActivity;
 import com.hop.pirate.callback.AlertDialogOkCallBack;
@@ -62,18 +64,17 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
         setContentView(R.layout.activity_main);
         EventBus.getDefault().register(this);
         mMainModel = new MainModelImpl();
-        if (HopService.IsRunning) {
+        if (Utils.getApplication(this).isRunning()) {
             return;
         }
         initService();
-
     }
 
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if (HopService.IsRunning) {
+        if (Utils.getApplication(this).isRunning()) {
             return;
         } else {
             AndroidLib.stopProtocol();
@@ -249,6 +250,7 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
     @Override
     public void serviceExit(Exception err) {
         //Broad cast to restart service
+        Utils.getApplication(this).setRunning(false);
         HopService.stop();
 
     }
@@ -287,7 +289,7 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
     protected void onDestroy() {
         super.onDestroy();
         WalletWrapper.closeWallet();
-        if (!HopService.IsRunning) {
+        if (!Utils.getApplication(this).isRunning()) {
             AndroidLib.stopProtocol();
         }
         if (mMainModel != null) {

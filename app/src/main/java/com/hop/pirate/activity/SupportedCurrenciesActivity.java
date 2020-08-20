@@ -122,7 +122,8 @@ public class SupportedCurrenciesActivity extends BaseActivity implements Handler
                                 Utils.saveData(Constants.CUR_PAYMENT_CONTRACT, extendToken.getPaymentContract());
                                 Utils.saveData(Constants.CUR_TOKEN, extendToken.getTokenI());
                                 Utils.saveData(Constants.CUR_SYMBOL, extendToken.getSymbol());
-                                if (HopService.IsRunning) {
+                                if (Utils.getApplication(SupportedCurrenciesActivity.this).isRunning()) {
+                                    Utils.getApplication(SupportedCurrenciesActivity.this).setRunning(false);
                                     HopService.stop();
                                 }
                                 exitApp();

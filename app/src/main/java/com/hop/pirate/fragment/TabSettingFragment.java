@@ -198,7 +198,8 @@ public class TabSettingFragment extends BaseFragement implements View.OnClickLis
                     @Override
                     public void onClickOkButton(String parameter) {
 
-                        if (HopService.IsRunning) {
+                        if (Utils.getApplication(getContext()).isRunning()) {
+                            Utils.getApplication(getContext()).setRunning(false);
                             HopService.stop();
                         }
 

@@ -13,11 +13,13 @@ import android.widget.TextView;
 
 import com.hop.pirate.R;
 import com.hop.pirate.activity.MineMachineListActivity;
+import com.hop.pirate.activity.SupportedCurrenciesActivity;
 import com.hop.pirate.base.BaseActivity;
 import com.hop.pirate.event.EventReloadPoolsMarket;
 import com.hop.pirate.model.bean.MinePoolBean;
 import com.hop.pirate.service.HopService;
 import com.hop.pirate.service.SysConf;
+import com.hop.pirate.util.Utils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -69,7 +71,8 @@ public class MiningPoolAdapter extends RecyclerView.Adapter<MiningPoolAdapter.Vi
                     ((Activity) mContext).finish();
                     return;
                 }
-                if (HopService.IsRunning) {
+                if (Utils.getApplication(mContext).isRunning()) {
+                    Utils.getApplication(mContext).setRunning(false);
                     HopService.stop();
                 }
 

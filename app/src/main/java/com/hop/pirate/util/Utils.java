@@ -42,11 +42,8 @@ import com.hop.pirate.R;
 import com.hop.pirate.activity.MainActivity;
 import com.hop.pirate.activity.MineMachineListActivity;
 import com.hop.pirate.activity.MinePoolListActivity;
-import com.hop.pirate.activity.RechargePacketsActivity;
 import com.hop.pirate.callback.AlertDialogOkCallBack;
 import com.hop.pirate.callback.SaveQRCodeCallBack;
-import com.hop.pirate.fragment.TabPacketsMarketFragment;
-import com.hop.pirate.fragment.TabWalletFragment;
 import com.hop.pirate.model.bean.ExtendToken;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
@@ -81,7 +78,7 @@ public final class Utils {
     public static final double COIN_DECIMAL = 1e18;
 
 
-    private static Context appContext = HopApplication.getAppContext();
+    private static Context appContext = HopApplication.getApplication();
     private static SharedPreferences sharedPref = appContext.getSharedPreferences("pirateaManager", Context.MODE_PRIVATE);
 
     public static String ConvertCoin(double coinV) {
@@ -175,7 +172,7 @@ public final class Utils {
     private static Toast toast = null;
 
     public static void toastTips(String msg) {
-        Context context = HopApplication.getAppContext();
+        Context context = HopApplication.getApplication();
         try {
             if (toast != null) {
                 toast.setText(msg);
@@ -498,5 +495,9 @@ public final class Utils {
         Matcher m = p.matcher(address);
 
         return m.matches();
+    }
+
+    public static HopApplication getApplication(Context context){
+        return ((HopApplication)context.getApplicationContext());
     }
 }

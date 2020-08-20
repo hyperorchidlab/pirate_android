@@ -156,7 +156,7 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
             mIntelligentModel.setChecked(true);
         }
 
-        if (HopService.IsRunning) {
+        if (Utils.getApplication(getContext()).isRunning()) {
             mPirateNetworkStatus.setText(getString(R.string.use));
         } else {
             mPirateNetworkStatus.setText(getString(R.string.disconnected));
@@ -197,7 +197,8 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
         if (!checkMsgforStartVpnService()) {
             return;
         }
-        if (HopService.IsRunning) {
+        if (Utils.getApplication(getContext()).isRunning()) {
+            Utils.getApplication(getContext()).setRunning(false);
             HopService.stop();
         } else {
             vpnPrepare();
@@ -264,7 +265,8 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
             return;
         }
         if (requestCode == Constants.REQUEST_MINE_POOL_CODE || requestCode == Constants.REQUEST_MINE_MACHINE_CODE) {
-            if (HopService.IsRunning) {
+            if (Utils.getApplication(getContext()).isRunning()) {
+                Utils.getApplication(getContext()).setRunning(false);
                 HopService.stop();
             }
             showPacketsData();
