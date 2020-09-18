@@ -123,9 +123,7 @@ public class MainModelImpl extends BaseModel implements MainModel {
         schedulers(Observable.create(new ObservableOnSubscribe<WalletBean>() {
             @Override
             public void subscribe(ObservableEmitter<WalletBean> emitter) throws Exception {
-                System.out.println("-------------------开始执行");
                 AndroidLib.syncVer();
-                System.out.println("-------------------执行完毕");
                 emitter.onComplete();
             }
         })).subscribe(new Observer<WalletBean>() {

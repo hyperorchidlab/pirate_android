@@ -19,7 +19,7 @@ public class Constants {
     public static final String DEFAULT_SYMBOL = "HOP";
     public static final String MICROPAY_SYS_ADDRESS = "0x4291d9Ff189D90Ba875E0fc1Da4D602406DD7D6e";
     public static final String ETH_API_URL = "https://ropsten.infura.io/v3/d64d364124684359ace20feae1f9ac20";
-    public static final String DNS = "108.61.223.99";
+    public static final String DNS = "198.13.44.159";
     public static final int TIME_OUT = 40;
     public static final int BLOCK_CHAIN_TIME_OUT = 80;
 
