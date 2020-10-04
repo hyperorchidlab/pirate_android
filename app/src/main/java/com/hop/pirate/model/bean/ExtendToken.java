@@ -18,7 +18,7 @@ public class ExtendToken {
 
 
     public ExtendToken(String paymentContract, String tokenI, String symbol, double balance,
-            int decimal, boolean isChecked) {
+                       int decimal, boolean isChecked) {
         this.paymentContract = paymentContract;
         this.tokenI = tokenI;
         this.symbol = symbol;

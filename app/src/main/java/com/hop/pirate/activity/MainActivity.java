@@ -117,7 +117,7 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
         mMainModel.getWalletInfo(this, new ResultCallBack<WalletBean>() {
             @Override
             public void onError(Throwable e) {
-                if(isShowLoading){
+                if (isShowLoading) {
                     dismissDialogFragment();
                 }
                 Utils.toastException(MainActivity.this, e, Constants.REQUEST_WALLET_INFO_ERROR);
@@ -140,7 +140,7 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
 
             @Override
             public void onComplete() {
-                if(isShowLoading){
+                if (isShowLoading) {
                     dismissDialogFragment();
                 }
                 EventBus.getDefault().postSticky(new EventLoadWalletSuccess());

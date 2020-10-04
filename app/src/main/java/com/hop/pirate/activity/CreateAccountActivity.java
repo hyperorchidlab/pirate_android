@@ -37,7 +37,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class CreateAccountActivity extends BaseActivity implements View.OnClickListener ,EasyPermissions.PermissionCallbacks,EasyPermissions.RationaleCallbacks{
+public class CreateAccountActivity extends BaseActivity implements View.OnClickListener, EasyPermissions.PermissionCallbacks, EasyPermissions.RationaleCallbacks {
     private static final String TAG = "CreateAccountActivity";
     private CreateAccountModel mCreateAccountModel;
     private EditText mPasswordEt;
@@ -157,10 +157,10 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
     }
 
     @AfterPermissionGranted(Utils.RC_LOCAL_MEMORY_PERM)
-    public  void checkStorage() {
+    public void checkStorage() {
         if (Utils.hasStoragePermission(this)) {
             openAlbum();
-        }else{
+        } else {
             EasyPermissions.requestPermissions(
                     this,
                     getString(R.string.rationale_extra_write),
@@ -206,12 +206,12 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
     }
 
     @Override
-    public void onPermissionsGranted(int requestCode,  List<String> perms) {
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
         Log.d(TAG, "onPermissionsGranted:" + requestCode + ":" + perms.size());
     }
 
     @Override
-    public void onPermissionsDenied(int requestCode,  List<String> perms) {
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
             new AppSettingsDialog.Builder(this).build().show();
         }

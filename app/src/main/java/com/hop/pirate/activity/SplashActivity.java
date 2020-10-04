@@ -40,6 +40,8 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class SplashActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks, Handler.Callback {
     private SplashModel mSplashModel;
     private Handler mHandler;
+    private long startTime;
+    private final int SHOW_TIME = 500;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
         setContentView(R.layout.activity_splash);
         mSplashModel = new SplashModelImpl();
         mHandler = new Handler(this);
+        startTime = System.currentTimeMillis();
         if (!checkNetwork()) {
             return;
         }
@@ -86,6 +89,8 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
     }
 
     private void delayLoadWallet() {
+        long currentTimeMillis = System.currentTimeMillis();
+        long delayTime = currentTimeMillis - startTime - SHOW_TIME > 0 ? 0 : SHOW_TIME - (currentTimeMillis - startTime);
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -93,7 +98,7 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
                     loadWallet();
                 }
             }
-        }, 1500);
+        }, delayTime);
     }
 
     private void showUpdateAppDialog(AppVersionBean versionBean) {

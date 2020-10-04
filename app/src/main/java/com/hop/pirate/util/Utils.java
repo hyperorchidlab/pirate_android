@@ -127,7 +127,7 @@ public final class Utils {
     }
 
     public static void clearAllData(Context context) {
-        MainActivity.isSyncVersion =false;
+        MainActivity.isSyncVersion = false;
         MineMachineListActivity.sMinerBeans = null;
         MinePoolListActivity.sMinePoolBeans = null;
         clearSharedPref();
@@ -345,6 +345,7 @@ public final class Utils {
     public static boolean hasStoragePermission(Context ctx) {
         return EasyPermissions.hasPermissions(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
+
     public static boolean checkStorage(Activity ctx) {
         if (!EasyPermissions.hasPermissions(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             EasyPermissions.requestPermissions(
@@ -487,7 +488,7 @@ public final class Utils {
 
     }
 
-    public static boolean isIpAddress(String address){
+    public static boolean isIpAddress(String address) {
 
         String regex = "^([1-9]|([1-9][0-9])|(1[0-9][0-9])|(2[0-4][0-9])|(25[0-5]))(\\.([0-9]|([1-9][0-9])|(1[0-9][0-9])|(2[0-4][0-9])|(25[0-5]))){3}$";
 
@@ -497,7 +498,7 @@ public final class Utils {
         return m.matches();
     }
 
-    public static HopApplication getApplication(Context context){
-        return ((HopApplication)context.getApplicationContext());
+    public static HopApplication getApplication(Context context) {
+        return ((HopApplication) context.getApplicationContext());
     }
 }

@@ -134,7 +134,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
         mTabWalletModel.getPoolDataOfUser(mActivity, WalletWrapper.MainAddress, new ResultCallBack<List<OwnPool>>() {
             @Override
             public void onError(Throwable e) {
-                if(isShowLoading){
+                if (isShowLoading) {
                     mActivity.dismissDialogFragment();
                 }
                 Utils.toastException(mActivity, e, Constants.REQUEST_OWN_MINE_POOL_ERROR);
@@ -154,7 +154,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
 
             @Override
             public void onComplete() {
-                if(isShowLoading){
+                if (isShowLoading) {
                     mActivity.dismissDialogFragment();
                 }
             }
@@ -177,7 +177,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
         getPoolDataOfUser(false);
     }
 
-  @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void eventNewAccount(EventNewAccount eventNewAccount) {
         getPoolDataOfUser(false);
     }

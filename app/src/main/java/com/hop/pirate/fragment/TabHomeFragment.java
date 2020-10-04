@@ -42,7 +42,7 @@ import androidLib.AndroidLib;
 
 import static android.app.Activity.RESULT_OK;
 
-public class TabHomeFragment extends BaseFragement implements View.OnClickListener, RadioGroup.OnCheckedChangeListener{
+public class TabHomeFragment extends BaseFragement implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
     private static final int RC_VPN_RIGHT = 126;
     private TabHomeModel mTabHomeModel;
     private TextView mMiningPool, mMiningMachine;
@@ -93,7 +93,7 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
         String mKey = String.format(SysConf.KEY_CACHED_MINER_ID_IN_USE, SysConf.CurPoolAddress);
         SysConf.CurMinerID = Utils.getString(mKey, "");
 
-        if (TextUtils.isEmpty(SysConf.CurPoolAddress)|| TextUtils.isEmpty(WalletWrapper.MainAddress)) {
+        if (TextUtils.isEmpty(SysConf.CurPoolAddress) || TextUtils.isEmpty(WalletWrapper.MainAddress)) {
             SysConf.PacketsBalance = 0;
             SysConf.PacketsCredit = 0;
             showPacketsData();
@@ -101,7 +101,7 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
 
     }
 
-    private void getUserDataOfPool(){
+    private void getUserDataOfPool() {
         mTabHomeModel.getUserDataOfPool(WalletWrapper.MainAddress, SysConf.CurPoolAddress, new ResultCallBack<UserAccountData>() {
             @Override
             public void onError(Throwable e) {
@@ -227,7 +227,7 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
     }
 
 
-    private void startVpnService(){
+    private void startVpnService() {
         mActivity.showDialogFragment(R.string.connect);
         mHopIntent = new Intent(mActivity, HopService.class);
         mActivity.startService(mHopIntent);
@@ -270,10 +270,10 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
                 HopService.stop();
             }
             showPacketsData();
-        }else if (RC_VPN_RIGHT == requestCode) {
+        } else if (RC_VPN_RIGHT == requestCode) {
             if (WalletWrapper.isOpen()) {
                 startVpnService();
-            }else{
+            } else {
                 showInputPasswordDialog();
             }
 
