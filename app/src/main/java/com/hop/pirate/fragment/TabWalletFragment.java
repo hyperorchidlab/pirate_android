@@ -128,6 +128,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
 
     private void getPoolDataOfUser(final boolean isShowLoading) {
         if (TextUtils.isEmpty(WalletWrapper.MainAddress)) {
+            mActivity.dismissDialogFragment();
             Utils.toastTips(getString(R.string.wallet_read_failed));
             return;
         }

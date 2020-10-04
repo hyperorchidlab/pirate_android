@@ -64,11 +64,12 @@
 -keep class com.google.protobuf.** {*;}
 
 -keep class com.hop.pirate.activity.** {*;}
--keep class com.hop.pirate.activity.OperationBean {*;}
+-keep class com.hop.pirate.model.** {*;}
 -keep class com.hop.pirate.util.Utils {*;}
 -keep class com.hop.pirate.util.DensityUtil {*;}
 -keep class com.hop.pirate.util.AccountUtils {*;}
 -keep class com.hop.pirate.EthereumAccount {*;}
+-keep class com.hop.pirate.service.** {*;}
 
 
 
@@ -148,3 +149,9 @@
 
 -dontwarn androidx.renderscript.**
 -keep public class androidx.renderscript.** { *; }
+
+# Gson
+-keepattributes  *Annotation*
+-keep class sun.misc.Unsafe { *;}
+-keep class com.google.gson.stream.** { *;}
+-keep class com.nbs.bpassword.model.bean.** { *;}
