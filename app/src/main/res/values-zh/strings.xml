@@ -81,13 +81,13 @@
     <string name="tab_setting_new_version">查看最新版本</string>
     <string name="tab_setting_replace_account_title">您确定?</string>
     <string name="tab_setting_replace_msg">替换当前账号?</string>
-    <string name="tab_setting_bas_address">Bas 地址</string>
-    <string name="tab_setting_update_bas_address">修改Bas地址</string>
-    <string name="tab_setting_bas_address_empty">请输入新的BAS IP地址</string>
-    <string name="tab_setting_bas_address_failed">请输入正确的ip地址</string>
-    <string name="tab_setting_update_bas_address_success">修改成功</string>
+    <string name="tab_setting_dns">DNS:</string>
+    <string name="tab_setting_update_dns">更新</string>
+    <string name="tab_setting_dns_empty">请输入新的DNS地址</string>
+    <string name="tab_setting_dns_failed">请输入正确的DNS地址</string>
+    <string name="tab_setting_update_dns_success">修改成功,请再次打开App</string>
 
-    <string name="wallet_own_mine_pool">已购矿池</string>
+    <string name="my_pool">我的矿池</string>
     <string name="wallet_add_mine_pool">添加新矿池</string>
     <string name="wallet_renewal_fee">续费</string>
     <string name="recharge_recharge_flow">充值流量</string>

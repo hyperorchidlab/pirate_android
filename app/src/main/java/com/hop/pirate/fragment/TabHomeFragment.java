@@ -47,10 +47,7 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
     private TabHomeModel mTabHomeModel;
     private TextView mMiningPool, mMiningMachine;
     private TextView mPackets, mCredit;
-    private TextView mServiceTV;
 
-    private RadioButton mGlobalModel;
-    private RadioButton mIntelligentModel;
     private TextView mPirateNetworkStatus;
     private Intent mHopIntent;
 
@@ -126,37 +123,34 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
     public void initViews(View view) {
 
         RadioGroup modelGrp = view.findViewById(R.id.networkModelRg);
-        modelGrp.setOnCheckedChangeListener(this);
-        mIntelligentModel = view.findViewById(R.id.intelligentModel);
-        mGlobalModel = view.findViewById(R.id.globalModel);
+        RadioButton intelligentModel = view.findViewById(R.id.intelligentModel);
+        RadioButton globalModel = view.findViewById(R.id.globalModel);
         mMiningPool = view.findViewById(R.id.miningPool);
         mMiningMachine = view.findViewById(R.id.miningMachin);
         mPirateNetworkStatus = view.findViewById(R.id.pirateNetworkStatus);
-
         mPackets = view.findViewById(R.id.useFlowTv);
         mCredit = view.findViewById(R.id.unclearedTv);
 
         ImageView selectMiningIv = view.findViewById(R.id.homeMiningPoolIv);
         ImageView homeMiningIv = view.findViewById(R.id.selectMiningPoolIv);
-
         ImageView homeMiningMachineIv = view.findViewById(R.id.homeMiningMachinIv);
         ImageView selectMiningMachineIv = view.findViewById(R.id.selectMiningMathinIv);
+        TextView  mServiceTv = view.findViewById(R.id.serviceSwitchTv);
 
-        mServiceTV = view.findViewById(R.id.serviceSwitchTv);
-        mServiceTV.setOnClickListener(this);
-
+        modelGrp.setOnCheckedChangeListener(this);
+        mServiceTv.setOnClickListener(this);
         selectMiningIv.setOnClickListener(this);
         homeMiningIv.setOnClickListener(this);
         homeMiningMachineIv.setOnClickListener(this);
         selectMiningMachineIv.setOnClickListener(this);
 
         if (AndroidLib.isGlobalMode()) {
-            mGlobalModel.setChecked(true);
+            globalModel.setChecked(true);
         } else {
-            mIntelligentModel.setChecked(true);
+            intelligentModel.setChecked(true);
         }
 
-        if (Utils.getApplication(getContext()).isRunning()) {
+        if (Utils.getApplication(mActivity).isRunning()) {
             mPirateNetworkStatus.setText(getString(R.string.use));
         } else {
             mPirateNetworkStatus.setText(getString(R.string.disconnected));
@@ -194,11 +188,11 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
             return;
         }
 
-        if (!checkMsgforStartVpnService()) {
+        if (!checkMessageForStartVpnService()) {
             return;
         }
-        if (Utils.getApplication(getContext()).isRunning()) {
-            Utils.getApplication(getContext()).setRunning(false);
+        if (Utils.getApplication(mActivity).isRunning()) {
+            Utils.getApplication(mActivity).setRunning(false);
             HopService.stop();
         } else {
             vpnPrepare();
@@ -214,7 +208,7 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
         }
     }
 
-    private boolean checkMsgforStartVpnService() {
+    private boolean checkMessageForStartVpnService() {
         if (TextUtils.isEmpty(SysConf.CurPoolAddress)) {
             Utils.toastTips(getString(R.string.select_subscribed_mining_pool));
             return false;
@@ -265,8 +259,8 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
             return;
         }
         if (requestCode == Constants.REQUEST_MINE_POOL_CODE || requestCode == Constants.REQUEST_MINE_MACHINE_CODE) {
-            if (Utils.getApplication(getContext()).isRunning()) {
-                Utils.getApplication(getContext()).setRunning(false);
+            if (Utils.getApplication(mActivity).isRunning()) {
+                Utils.getApplication(mActivity).setRunning(false);
                 HopService.stop();
             }
             showPacketsData();

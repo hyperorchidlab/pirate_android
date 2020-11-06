@@ -14,10 +14,8 @@ import com.hop.pirate.adapter.FlowSelectAdapter;
 import com.hop.pirate.base.BaseActivity;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.dialog.PayPasswordDialog;
-import com.hop.pirate.event.EventShowTabHome;
 import com.hop.pirate.event.EventSyncVersion;
 import com.hop.pirate.model.RechargeModel;
-import com.hop.pirate.model.bean.MinePoolBean;
 import com.hop.pirate.model.impl.RechargeModelImpl;
 import com.hop.pirate.service.WalletWrapper;
 import com.hop.pirate.util.Utils;
@@ -28,6 +26,7 @@ import com.kongzue.dialog.v3.MessageDialog;
 import org.greenrobot.eventbus.EventBus;
 
 public class RechargePacketsActivity extends BaseActivity implements FlowSelectAdapter.RechargeFlowState {
+    private static double AUTHORIZE_TOKEN = 4.2e8;
     private RechargeModel mRechargeModel;
     private RecyclerView mFlowRecyclerview;
     private String mPoolAddress;
@@ -146,7 +145,12 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
             @Override
             public void onComplete() {
                 dismissDialogFragment();
-                authorizeTokenSpend();
+                if (WalletWrapper.Approved / Math.pow(10, 18) >= tokenNO){
+                    buyPacket();
+                }else{
+                    authorizeTokenSpend();
+                }
+
 
             }
         });
@@ -154,7 +158,7 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
 
     public void authorizeTokenSpend() {
         showDialogFragment(R.string.approving, false);
-        mRechargeModel.authorizeTokenSpend(this, tokenNO, new ResultCallBack<String>() {
+        mRechargeModel.authorizeTokenSpend(this, AUTHORIZE_TOKEN, new ResultCallBack<String>() {
             @Override
             public void onError(Throwable e) {
                 dismissDialogFragment();
@@ -226,11 +230,13 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
                 } else {
                     dismissDialogFragment();
                     EventBus.getDefault().post(new EventSyncVersion());
+                    EventBus.getDefault().post(new EventSyncVersion());
                     String content = getString(R.string.recharge_success) + "\ntx=[" + tx + "]";
                     MessageDialog.show(RechargePacketsActivity.this, getString(R.string.tips), content, getString(R.string.sure)).setOnOkButtonClickListener(new OnDialogButtonClickListener() {
+
                         @Override
                         public boolean onClick(BaseDialog baseDialog, View v) {
-                            EventBus.getDefault().postSticky(new EventShowTabHome());
+                            setResult(RESULT_OK);
                             finish();
                             return false;
                         }

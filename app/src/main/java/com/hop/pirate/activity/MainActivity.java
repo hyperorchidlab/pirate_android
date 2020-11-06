@@ -2,14 +2,12 @@ package com.hop.pirate.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
 import com.hop.pirate.Constants;
-import com.hop.pirate.HopApplication;
 import com.hop.pirate.R;
 import com.hop.pirate.base.BaseActivity;
 import com.hop.pirate.callback.AlertDialogOkCallBack;
@@ -17,12 +15,10 @@ import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.event.EventClearAllRequest;
 import com.hop.pirate.event.EventLoadWalletSuccess;
 import com.hop.pirate.event.EventRechargeSuccess;
-import com.hop.pirate.event.EventShowTabHome;
 import com.hop.pirate.event.EventSkipTabPacketsMarket;
 import com.hop.pirate.event.EventSyncVersion;
 import com.hop.pirate.fragment.TabHomeFragment;
 import com.hop.pirate.fragment.TabPacketsMarketFragment;
-import com.hop.pirate.fragment.TabSettingFragment;
 import com.hop.pirate.fragment.TabWalletFragment;
 import com.hop.pirate.model.MainModel;
 import com.hop.pirate.model.bean.WalletBean;
@@ -50,8 +46,8 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
     public static final int ATCounterDataRead = 3;
     public static final int ATNeedToRecharge = 4;
     public static final int ATRechargeSuccess = 5;
-    private Class[] mFragmentArray = {TabHomeFragment.class, TabPacketsMarketFragment.class, TabWalletFragment.class,
-            TabSettingFragment.class};
+    private Class[] mFragmentArray = {TabHomeFragment.class, TabPacketsMarketFragment.class,
+            TabWalletFragment.class};
     private BottomNavigatorView bottomNavigatorView;
     private FragmentNavigator mNavigator;
     private TextView mGetFreeCoinTv;
@@ -150,9 +146,9 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
 
     private void initNavigator(Bundle savedInstanceState) {
         BottomNavigatorAdapter bottomNavigatorAdapter = new BottomNavigatorAdapter(this);
-        for (Class aMFragmentArray : mFragmentArray) {
+        for (Class fragment : mFragmentArray) {
             bottomNavigatorAdapter
-                    .addTab(new BottomNavigatorAdapter.TabInfo(aMFragmentArray.getSimpleName(), aMFragmentArray, null));
+                    .addTab(new BottomNavigatorAdapter.TabInfo(fragment.getSimpleName(), fragment, null));
         }
         mNavigator = new FragmentNavigator(getSupportFragmentManager(), bottomNavigatorAdapter, R.id.contentFrame);
         mNavigator.setDefaultPosition(Constants.TAB_HOME);
@@ -174,7 +170,7 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
         mGetFreeCoinTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setCurrentTab(3);
+                setCurrentTab(Constants.TAB_WALLET);
                 gone(mGetFreeCoinTv);
             }
         });
@@ -195,7 +191,7 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
     }
 
     private void setFreeCoinStatus(int position) {
-        if (position != 3 && WalletWrapper.EthBalance == 0) {
+        if (position != Constants.TAB_WALLET && WalletWrapper.EthBalance == 0) {
             visiable(mGetFreeCoinTv);
         } else {
             gone(mGetFreeCoinTv);
@@ -206,11 +202,6 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void addMiningPool(EventSkipTabPacketsMarket eventSkipTabPacketsMarket) {
         setCurrentTab(Constants.TAB_RECHARGE);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void eventShowTabHome(EventShowTabHome eventShowTabHome) {
-        setCurrentTab(Constants.TAB_HOME);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

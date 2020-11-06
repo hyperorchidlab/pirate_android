@@ -10,8 +10,6 @@ import com.hop.pirate.base.BaseActivity;
 public class TransferInActivity extends BaseActivity {
 
 
-    private TextView mTitleTv;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,11 +19,11 @@ public class TransferInActivity extends BaseActivity {
     @Override
     public void initViews() {
 
-        mTitleTv = findViewById(R.id.titleTv);
+        TextView titleTv = findViewById(R.id.titleTv);
         mBackIv = findViewById(R.id.backIv);
         mBackIv.setBackgroundResource(R.drawable.back_white);
-        mTitleTv.setTextColor(getResources().getColor(R.color.color_ffffff));
-        mTitleTv.setText(getResources().getString(R.string.wallet_flow_unit_hop));
+        titleTv.setTextColor(getResources().getColor(R.color.color_ffffff));
+        titleTv.setText(getResources().getString(R.string.wallet_flow_unit_hop));
     }
 
     @Override

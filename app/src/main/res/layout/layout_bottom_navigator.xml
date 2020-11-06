@@ -19,28 +19,21 @@
 
 
         <include
-            android:id="@+id/bottom_navigator_course"
+            android:id="@+id/bottom_navigator_home"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             layout="@layout/layout_main_tab_item" />
 
         <include
-            android:id="@+id/bottom_navigator_group_up"
+            android:id="@+id/bottom_navigator_pool"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             layout="@layout/layout_main_tab_item" />
 
         <include
-            android:id="@+id/bottom_navigator_feed"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            layout="@layout/layout_main_tab_item" />
-
-        <include
-            android:id="@+id/bottom_navigator_mine"
+            android:id="@+id/bottom_navigator_wallet"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

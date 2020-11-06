@@ -84,13 +84,13 @@
     <string name="tab_setting">Setting</string>
     <string name="tab_setting_replace_account_title">Are you sure?</string>
     <string name="tab_setting_replace_msg">Replace you current wallet?</string>
-    <string name="tab_setting_bas_address">Bas address</string>
-    <string name="tab_setting_update_bas_address">Modify Bas address</string>
-    <string name="tab_setting_bas_address_empty">Please input a new BAS IP address</string>
-    <string name="tab_setting_bas_address_failed">Please enter the correct ip address</string>
-    <string name="tab_setting_update_bas_address_success">Successfully modified</string>
+    <string name="tab_setting_dns">DNS:</string>
+    <string name="tab_setting_update_dns">Update</string>
+    <string name="tab_setting_dns_empty">Please input a new DNS address</string>
+    <string name="tab_setting_dns_failed">Please enter the correct ip address</string>
+    <string name="tab_setting_update_dns_success">Successfully modified,Please open again</string>
 
-    <string name="wallet_own_mine_pool">Purchased mining pool</string>
+    <string name="my_pool">My pool</string>
     <string name="wallet_add_mine_pool">Add new mining pool</string>
     <string name="wallet_renewal_fee">Renew</string>
     <string name="wallet_flow_unit_eth">ETH</string>

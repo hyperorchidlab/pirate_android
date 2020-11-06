@@ -1,5 +1,6 @@
 package com.hop.pirate.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.hop.pirate.Constants;
 import com.hop.pirate.R;
+import com.hop.pirate.activity.MyPoolActivity;
 import com.hop.pirate.adapter.RechargeAdapter;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.model.TabPacketsMarketModel;
@@ -24,12 +26,13 @@ import com.hop.pirate.util.WrapContentLinearLayoutManager;
 
 import java.util.List;
 
-public class TabPacketsMarketFragment extends BaseFragement {
+public class TabPacketsMarketFragment extends BaseFragement implements View.OnClickListener {
     private TabPacketsMarketModel mTabPacketsMarketModel;
     private RechargeAdapter mRechargeAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ImageView mEmptyIv;
     private TextView mEmptyTv;
+    private TextView myPoolTv;
     private List<MinePoolBean> mMinePoolBeans;
 
     @Nullable
@@ -49,6 +52,7 @@ public class TabPacketsMarketFragment extends BaseFragement {
         RecyclerView rechargeRecycleView = view.findViewById(R.id.rechargeRecycleView);
         mEmptyIv = view.findViewById(R.id.emptyIv);
         mEmptyTv = view.findViewById(R.id.emptyTv);
+        myPoolTv = view.findViewById(R.id.myPoolTv);
         mRechargeAdapter = new RechargeAdapter(mActivity);
         rechargeRecycleView.setLayoutManager(new WrapContentLinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         rechargeRecycleView.setAdapter(mRechargeAdapter);
@@ -59,6 +63,7 @@ public class TabPacketsMarketFragment extends BaseFragement {
                 getPoolInfo();
             }
         });
+        myPoolTv.setOnClickListener(this);
     }
 
 
@@ -103,5 +108,11 @@ public class TabPacketsMarketFragment extends BaseFragement {
     public void onDestroy() {
         super.onDestroy();
         mTabPacketsMarketModel.removeAllSubscribe();
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(mActivity, MyPoolActivity.class);
+        startActivity(intent);
     }
 }

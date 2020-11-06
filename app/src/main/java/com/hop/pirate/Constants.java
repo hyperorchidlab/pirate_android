@@ -5,9 +5,10 @@ public class Constants {
     public static final int REQUEST_MINE_MACHINE_CODE = 111;
     public static final int IMPORT_ACCOUNT_ERR_CODE = 123;
     public static final int QUERY_TXSTATUS_TIME_OUT_CODE = 121;
-
+    public static final int REQUEST_BUY_PACKET = 122;
     public static final int TAB_HOME = 0;
     public static final int TAB_RECHARGE = 1;
+    public static final int TAB_WALLET = 2;
 
     public static final String EXPORT_IMTOKEN = "https://piratevpn.oss-us-west-1.aliyuncs.com/imToken.mp4";
     public static final String CUR_PAYMENT_CONTRACT = "cur_payment_contract";

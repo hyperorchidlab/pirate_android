@@ -15,8 +15,9 @@ import com.kongzue.dialog.v3.WaitDialog;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity<T extends BaseModel> extends AppCompatActivity {
     public ImageView mBackIv;
+    private T mode;
     public static List<Activity> sActivities = new ArrayList<>();
 
     @Override
@@ -128,7 +129,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        if(mode!=null){
+            mode.removeAllDisposable();
+        }
         sActivities.remove(this);
     }
 

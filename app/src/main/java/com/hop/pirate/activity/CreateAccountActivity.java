@@ -139,14 +139,10 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
         mBuilder.setSingleChoiceItems(listItems, -1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
                 if (0 == i) {
                     cameraTask();
                 } else if (1 == i) {
-
                     checkStorage();
-
-
                 }
                 dialogInterface.dismiss();
             }
@@ -224,7 +220,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
             if (resultCode != RESULT_OK || null == data) {
                 return;
             }
-            loadAccountFromGalleryQRCode(data.getData());
+            loadAccountFromUri(data.getData());
         } else {
             IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
             if (result == null) {
@@ -293,7 +289,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
         });
     }
 
-    void loadAccountFromGalleryQRCode(Uri uri) {
+    void loadAccountFromUri(Uri uri) {
 
         if (null == uri) {
             Utils.toastTips(getString(R.string.error_import_image));

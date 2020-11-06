@@ -42,12 +42,10 @@ public class MineMachineListActivity extends BaseActivity implements View.OnClic
     @Override
     public void initViews() {
         TextView titleTv = findViewById(R.id.titleTv);
-        ViewGroup title = findViewById(R.id.title);
-        ImageView titleRightIv = findViewById(R.id.titleRight1Iv);
         mMiningMachineRecyclerView = findViewById(R.id.miningMachineRecyclerView);
 
         TextView pinAllMinersTv = findViewById(R.id.pinAllMinersTv);
-        TextView refreshMinetv = findViewById(R.id.refreshMinetv);
+        TextView refreshMineTv = findViewById(R.id.refreshMinetv);
 
         pinAllMinersTv.setOnClickListener(new CustomClickListener() {
             @Override
@@ -65,7 +63,7 @@ public class MineMachineListActivity extends BaseActivity implements View.OnClic
             protected void onFastClick() {
             }
         });
-        refreshMinetv.setOnClickListener(this);
+        refreshMineTv.setOnClickListener(this);
         titleTv.setText(getResources().getString(R.string.mine_machine));
     }
 

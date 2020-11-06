@@ -7,8 +7,7 @@ import com.hop.pirate.Constants;
 import com.hop.pirate.activity.MainActivity;
 import com.hop.pirate.base.BaseModel;
 import com.hop.pirate.callback.ResultCallBack;
-import com.hop.pirate.fragment.TabWalletFragment;
-import com.hop.pirate.model.TabWalletModel;
+import com.hop.pirate.model.MyPoolModel;
 import com.hop.pirate.model.bean.OwnPool;
 
 import org.json.JSONObject;
@@ -32,7 +31,7 @@ import io.reactivex.schedulers.Schedulers;
  * @author: mr.x
  * @date :   2020/5/26 4:07 PM
  */
-public class TabWalletModelImpl extends BaseModel implements TabWalletModel {
+public class MyPoolModelImpl extends BaseModel implements MyPoolModel {
 
 
     @Override

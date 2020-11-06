@@ -8,15 +8,11 @@ import com.hop.pirate.Constants;
 import com.hop.pirate.PirateException;
 import com.hop.pirate.R;
 import com.hop.pirate.activity.MainActivity;
-import com.hop.pirate.activity.RechargePacketsActivity;
 import com.hop.pirate.base.BaseModel;
 import com.hop.pirate.callback.ResultCallBack;
-import com.hop.pirate.fragment.TabPacketsMarketFragment;
-import com.hop.pirate.fragment.TabWalletFragment;
 import com.hop.pirate.model.MainModel;
 import com.hop.pirate.model.bean.ExtendToken;
 import com.hop.pirate.model.bean.WalletBean;
-import com.hop.pirate.service.WalletWrapper;
 import com.hop.pirate.util.Utils;
 
 import org.apache.commons.io.IOUtils;

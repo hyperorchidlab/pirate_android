@@ -25,9 +25,7 @@ import com.kongzue.dialog.v3.MessageDialog;
 public class TransferOutActivity extends BaseActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
 
     private TransferModel mTransferModel;
-    private TextView mTitleTv;
     private EditText mToAddressEt;
-    private EditText mRemarksEt;
     private boolean checkedEth = true;
     private EditText mTransferNumberEt;
     private TextView mTokenCountTv;
@@ -43,13 +41,13 @@ public class TransferOutActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void initViews() {
 
-        mTitleTv = findViewById(R.id.titleTv);
+        TextView titleTv = findViewById(R.id.titleTv);
         mToAddressEt = findViewById(R.id.toAddressEt);
         RadioGroup transferTypeRg = findViewById(R.id.transferTypeRg);
         mEthCountTv = findViewById(R.id.ethCountTv);
         mTokenCountTv = findViewById(R.id.tokenCountTv);
         mTransferNumberEt = findViewById(R.id.transferNumberEt);
-        mRemarksEt = findViewById(R.id.remarksEt);
+        EditText remarksEt = findViewById(R.id.remarksEt);
 
         mTokenCountTv.setText(String.format(getString(R.string.transfer_token_balance), Utils.ConvertCoin(WalletWrapper.HopBalance)));
         mEthCountTv.setText(String.format(getString(R.string.transfer_eth_balance), Utils.ConvertCoin(WalletWrapper.EthBalance)));
@@ -57,7 +55,7 @@ public class TransferOutActivity extends BaseActivity implements View.OnClickLis
         ImageView titleRightIv = findViewById(R.id.titleRight1Iv);
         visiable(titleRightIv);
         titleRightIv.setBackgroundResource(R.drawable.scan);
-        mTitleTv.setText(getResources().getString(R.string.hop_turn_out));
+        titleTv.setText(getResources().getString(R.string.hop_turn_out));
 
         transferOutTv.setOnClickListener(this);
         titleRightIv.setOnClickListener(this);

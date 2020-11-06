@@ -30,7 +30,7 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/refundTimeTv"
+        android:id="@+id/adressTv"
         android:layout_width="wrap_content"
         android:textColor="@color/color_ffffff"
         android:textSize="10sp"

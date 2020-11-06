@@ -64,9 +64,6 @@
             android:name=".activity.RechargePacketsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.HopTransferRecordActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.TransferInActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -81,6 +78,9 @@
         <activity
             android:name=".activity.ShowQRImageActivity"
             android:theme="@style/transparent_activity" />
+        <activity
+            android:name=".activity.MyPoolActivity"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".service.HopService"
