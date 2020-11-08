@@ -201,5 +201,9 @@
     <string name="new_version">New Version</string>
     <string name="update_version">Update</string>
     <string name="contentDescription"> </string>
+    <string name="fragment_account_help">Help</string>
+    <string name="fragment_account_help_address">https://t.me/hopcommunity</string>
+    <string name="fragment_account_course">Mining course</string>
+    <string name="fragment_account_course_address">https://docs.hyperorchid.org/</string>
 
 </resources>

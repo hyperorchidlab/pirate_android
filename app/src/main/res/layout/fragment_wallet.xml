@@ -380,6 +380,7 @@
                 android:gravity="center_vertical"
                 android:drawableEnd="@drawable/main_arrow_right"
                 android:text="@string/transfer"
+                android:visibility="gone"
                 android:textSize="18sp"
                 android:textColor="@color/color_25262a"
                 android:textStyle="bold"
@@ -430,7 +431,58 @@
                 android:drawableBottom="@drawable/split_line"
                 android:layout_height="40dp"/>
 
+            <TextView
+                android:id="@+id/helpTv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dnsTv"
+                android:layout_width="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="@color/color_25262a"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:gravity="center_vertical"
+                android:drawableEnd="@drawable/main_arrow_right"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/fragment_account_help"
+                android:drawableBottom="@drawable/split_line"
+                android:layout_height="40dp"/>
 
+            <TextView
+                android:id="@+id/helpAddressTv"
+                android:layout_width="wrap_content"
+                app:layout_constraintTop_toTopOf="@+id/helpTv"
+                app:layout_constraintBottom_toBottomOf="@+id/helpTv"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="40dp"
+                android:text="@string/fragment_account_help_address"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/courseTv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/helpTv"
+                android:layout_width="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="@color/color_25262a"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:gravity="center_vertical"
+                android:drawableEnd="@drawable/main_arrow_right"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/fragment_account_course"
+                android:drawableBottom="@drawable/split_line"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:id="@+id/courseAddressTv"
+                android:layout_width="wrap_content"
+                app:layout_constraintTop_toTopOf="@+id/courseTv"
+                app:layout_constraintBottom_toBottomOf="@+id/courseTv"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="40dp"
+                android:text="@string/fragment_account_course_address"
+                android:layout_height="wrap_content" />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

@@ -196,4 +196,8 @@
     <string name="new_version">发现新版本</string>
     <string name="update_version">更新</string>
     <string name="contentDescription"> </string>
+    <string name="fragment_account_help">寻求帮助</string>
+    <string name="fragment_account_help_address">https://t.me/hopcommunity</string>
+    <string name="fragment_account_course">挖矿教程</string>
+    <string name="fragment_account_course_address">https://docs.hyperorchid.org/</string>
 </resources>

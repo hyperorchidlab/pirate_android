@@ -1,6 +1,7 @@
 package com.hop.pirate.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -140,6 +141,8 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
         DNSTv.setText(getResources().getString(R.string.tab_setting_dns) + newDns);
         versionTv.setText(getString(R.string.current_version_name) + Utils.getVersionName(mActivity));
         updateAppTv.setText(getString(R.string.tab_setting_new_version));
+        view.findViewById(R.id.helpAddressTv).setOnClickListener(this);
+        view.findViewById(R.id.courseAddressTv).setOnClickListener(this);
         updateAppTv.setOnClickListener(this);
         versionTv.setOnClickListener(this);
         DNSTv.setOnClickListener(this);
@@ -226,10 +229,21 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
             case R.id.updateAppTv:
                 Utils.openAppDownloadPage(mActivity);
                 break;
+             case R.id.helpAddressTv:
+                startWebview(R.string.fragment_account_help_address);
+                break;
+             case R.id.courseAddressTv:
+                startWebview(R.string.fragment_account_course_address);
+                break;
             default:
                 break;
 
         }
+    }
+
+    private void startWebview(int strId) {
+        Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(strId)));
+        startActivity(it);
     }
 
     private void showQRImage() {
