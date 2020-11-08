@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Pirate</string>
+    <string name="app_name">BPirate</string>
     <string name="enter_password">Enter Password</string>
     <string name="enter_password_twice_here">Confirm Your Password</string>
     <string name="enter_password_here">Enter pirate Password here..</string>
@@ -16,9 +16,9 @@
     <string name="refresh">Refresh</string>
     <string name="rationale_extra_write">Need to apply for read and write memory permissions</string>
     <string name="camera">Camera access required</string>
-    <string name="ethLabel">ETH</string>
+    <string name="bnbLabel">BNB</string>
     <string name="bindActionTxt">Bind</string>
-    <string name="hop">HOP</string>
+    <string name="bnb">HOP</string>
     <string name="back">back</string>
     <string name="operationHelp">Notifications</string>
     <string name="globalModelTips">Global</string>
@@ -61,7 +61,7 @@
     <string name="notification_title">pirate BlockChain network</string>
     <string name="create_account_or">or</string>
     <string name="account_address">Hop address</string>
-    <string name="account_address_eth_user">ETH User</string>
+    <string name="account_address_bnb_user">BNB User</string>
     <string name="account_address_have_an_ethereum_account">Have an ethereum account</string>
     <string name="account_address_no_ethereum_account">No ethereum account</string>
     <string name="account_address_general_user">General User</string>
@@ -93,7 +93,7 @@
     <string name="my_pool">My pool</string>
     <string name="wallet_add_mine_pool">Add new mining pool</string>
     <string name="wallet_renewal_fee">Renew</string>
-    <string name="wallet_flow_unit_eth">ETH</string>
+    <string name="wallet_flow_unit_bnb">BNB</string>
     <string name="wallet_read_failed">Wallet reading failed</string>
 
     <string name="recharge_recharge_flow">Recharge flow</string>
@@ -124,7 +124,7 @@
     <string name="refresh_mine">Refresh the miner</string>
     <string name="transfer_to_money_address">Payee wallet address</string>
     <string name="transfer_to_address">Payment address：</string>
-    <string name="transfer_eth_balance">Transferable %s ETH</string>
+    <string name="transfer_eth_balance">Transferable %s BNB</string>
     <string name="transfer_token_balance">Transferable %s token</string>
     <string name="transfer_remarks">Notes optional</string>
     <string name="transfer_success">Transfer Success</string>
@@ -138,7 +138,7 @@
     <string name="recharge_start_immediately">start</string>
     <string name="mine_machine_measurement_network_speed">Test speed</string>
     <string name="mine_machine_list_pin_all_miners">Overall speed</string>
-    <string name="main_address_tip">This address is used to recharge Token and ETH \n This address is used for network services</string>
+    <string name="main_address_tip">This address is used to recharge Token and BNB \n This address is used for network services</string>
     <string name="create">Creat/Import</string>
     <string name="export">Export Account</string>
     <string name="transfer">Transfer</string>
@@ -152,7 +152,7 @@
     <string name="synchronization_block">Sync block…</string>
     <string name="blockchain_time_out">Block synchronization timed out,\n please refresh the wallet to see the recharge result</string>
     <string name="please_create_account">Please create an account first</string>
-    <string name="apply_free_token_des">When eth is less than 0.05, you can apply for eth, and when hop is less than 1,000, you can apply for token</string>
+    <string name="apply_free_token_des">When BNB is less than 0.05, you can apply for eth, and when hop is less than 1,000, you can apply for token</string>
     <string name="applying">applying…</string>
     <string name="apply_success">apply success</string>
     <string name="apply_timeout">apply timeout,Refresh your wallet to check the wallet status</string>
@@ -164,7 +164,7 @@
     <string name="set_as_main_token">Set As main Token</string>
     <string name="get_free_coin">get free coin</string>
     <string name="get_free_hop">1000 Hop free coin</string>
-    <string name="get_free_eth">0.05 eth free coin</string>
+    <string name="get_free_eth">0.05 BNB free coin</string>
     <string name="select_subscribed_mining_pool">Please select a mining pool that is already subscribed</string>
     <string name="select_miner">Please select a miner</string>
     <string name="setting_change_token">Are you sure you want to switch the token? App will restart after confirming</string>
@@ -190,7 +190,7 @@
     <string name="request_failed">Request failed!</string>
     <string name="recharge_failed">Recharge failed!</string>
     <string name="open_wallet_failed">Open wallet failed!</string>
-    <string name="eth_insufficient_balance">ETH insufficient balance!</string>
+    <string name="eth_insufficient_balance">BNB insufficient balance!</string>
     <string name="token_insufficient_balance">%s insufficient balance!</string>
     <string name="current_version_name">Current </string>
     <string name="tab_setting_new_version">View the latest version</string>

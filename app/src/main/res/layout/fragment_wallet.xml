@@ -106,7 +106,7 @@
             <TextView
                 android:id="@+id/hopTv"
                 android:layout_width="wrap_content"
-                android:text="@string/hop"
+                android:text="@string/bnb"
                 android:textSize="14sp"
                 android:textColor="@color/color_25262a"
                 app:layout_constraintTop_toBottomOf="@+id/line1"
@@ -157,7 +157,7 @@
             <TextView
                 android:id="@+id/ethTv"
                 android:layout_width="wrap_content"
-                android:text="@string/ethLabel"
+                android:text="@string/bnbLabel"
                 android:textSize="14sp"
                 android:textColor="@color/color_25262a"
                 app:layout_constraintTop_toBottomOf="@+id/line3"
@@ -172,7 +172,7 @@
             <TextView
                 android:id="@+id/ethUnitTv"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:text="@string/wallet_flow_unit_eth"
+                android:text="@string/wallet_flow_unit_bnb"
                 android:textColor="@color/color_717171"
                 android:layout_width="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -380,6 +380,7 @@
                 android:gravity="center_vertical"
                 android:drawableEnd="@drawable/main_arrow_right"
                 android:text="@string/transfer"
+                android:visibility="gone"
                 android:textSize="18sp"
                 android:textColor="@color/color_25262a"
                 android:textStyle="bold"
@@ -396,6 +397,7 @@
                 android:layout_marginEnd="16dp"
                 android:gravity="center_vertical|start"
                 android:textSize="18sp"
+                android:visibility="gone"
                 android:drawableEnd="@drawable/main_arrow_right"
                 android:lines="1"
                 android:textColor="@color/color_25262a"
@@ -410,6 +412,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/versionTv"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="40dp"
+                android:visibility="gone"
                 android:text="@string/tab_setting_new_version"
                 android:layout_height="wrap_content" />
 

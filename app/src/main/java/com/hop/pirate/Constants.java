@@ -16,10 +16,10 @@ public class Constants {
     public static final String CUR_SYMBOL = "cur_symbol";
     public static final String NEW_DNS = "new_dns";
 
-    public static final String TOKEN_ADDRESS = "0xAd44c8493dE3FE2B070f33927A315b50Da9a0e25";
+    public static final String TOKEN_ADDRESS = "0xaD268D6a8AAC6D6E42C150E52b18e057a742F348";
     public static final String DEFAULT_SYMBOL = "HOP";
-    public static final String MICROPAY_SYS_ADDRESS = "0x4291d9Ff189D90Ba875E0fc1Da4D602406DD7D6e";
-    public static final String ETH_API_URL = "https://ropsten.infura.io/v3/d64d364124684359ace20feae1f9ac20";
+    public static final String MICROPAY_SYS_ADDRESS = "0xCE841ED628421b71BB1247E348066770c1074322";
+    public static final String BNB_API_URL = "https://data-seed-prebsc-1-s1.binance.org:8545/";
     public static final String DNS = "198.13.44.159";
     public static final int TIME_OUT = 40;
     public static final int BLOCK_CHAIN_TIME_OUT = 80;

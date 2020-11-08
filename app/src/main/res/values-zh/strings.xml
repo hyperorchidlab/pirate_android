@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Pirate</string>
+    <string name="app_name">BPirate</string>
     <string name="enter_password">输入密码</string>
     <string name="enter_password_twice_here">再次输入密码</string>
     <string name="enter_password_here">输入pirate密码</string>
@@ -17,9 +17,9 @@
     <string name="refresh">刷新</string>
     <string name="rationale_extra_write">需要申请读写内存权限</string>
     <string name="camera">需要访问您的摄像头</string>
-    <string name="ethLabel">ETH</string>
+    <string name="bnbLabel">BNB</string>
     <string name="bindActionTxt">绑定</string>
-    <string name="hop">HOP</string>
+    <string name="bnb">BNB</string>
     <string name="back">返回</string>
     <string name="operationHelp">公告</string>
     <string name="globalModelTips">全局模式</string>
@@ -58,7 +58,7 @@
     <string name="notification_title">海盗区块链网络</string>
     <string name="create_account_or">or</string>
     <string name="account_address">Hop address</string>
-    <string name="account_address_eth_user">ETH User</string>
+    <string name="account_address_bnb_user">BNB User</string>
     <string name="account_address_have_an_ethereum_account">Have an ethereum account</string>
     <string name="account_address_no_ethereum_account">No ethereum account</string>
     <string name="account_address_general_user">General User</string>
@@ -106,7 +106,7 @@
     <string name="recharge_buy_packets">区块链\n购买流量中…</string>
     <string name="recharge_buy_packets_error">购买失败</string>
 
-    <string name="wallet_flow_unit_eth">ETH</string>
+    <string name="wallet_flow_unit_bnb">BNB</string>
     <string name="wallet_read_failed">钱包读取失败</string>
     <string name="wallet_flow_unit_hop">HOP</string>
     <string name="hop_transfer_record_own_hop_coin">所持HOP币</string>
@@ -120,7 +120,7 @@
     <string name="refresh_mine">刷新矿机</string>
     <string name="transfer_to_money_address">收款人钱包地址</string>
     <string name="transfer_to_address">收款地址：</string>
-    <string name="transfer_eth_balance">可转出%sETH</string>
+    <string name="transfer_eth_balance">可转出%sBNB</string>
     <string name="transfer_token_balance">可转出%stoken</string>
     <string name="transfer_remarks">备注可选</string>
     <string name="transfer_success">转账成功</string>
@@ -134,7 +134,7 @@
     <string name="recharge_start_immediately">立即开始</string>
     <string name="mine_machine_measurement_network_speed">测试速度</string>
     <string name="mine_machine_list_pin_all_miners">整体测速</string>
-    <string name="main_address_tip">*此地址用于充值token和ETH\n此地址用于网络服务</string>
+    <string name="main_address_tip">*此地址用于充值token和BNB\n此地址用于网络服务</string>
     <string name="create">创建/导入</string>
     <string name="export">导出账号</string>
     <string name="transfer">转账</string>
@@ -160,7 +160,7 @@
     <string name="set_as_main_token">Set As main Token</string>
     <string name="get_free_coin">立即领取</string>
     <string name="get_free_hop">1000 Hop测试币</string>
-    <string name="get_free_eth">0.05 eth测试币</string>
+    <string name="get_free_eth">0.05 BNB测试币</string>
     <string name="select_subscribed_mining_pool">请选择已经订阅的矿池</string>
     <string name="select_miner">请选择矿池下的矿机</string>
     <string name="setting_change_token">您确定要切换token吗?确定后将重启App</string>
@@ -186,7 +186,7 @@
     <string name="request_failed">请求失败!</string>
     <string name="recharge_failed">充值失败!</string>
     <string name="open_wallet_failed">开启钱包失败!</string>
-    <string name="eth_insufficient_balance">ETH余额不足!</string>
+    <string name="eth_insufficient_balance">BNB余额不足!</string>
     <string name="token_insufficient_balance">%s 余额不足!</string>
     <string name="current_version_name">当前版本</string>
     <string name="network_unavailable">当前网络不可用,请开启网络</string>

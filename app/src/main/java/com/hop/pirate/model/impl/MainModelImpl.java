@@ -47,7 +47,7 @@ public class MainModelImpl extends BaseModel implements MainModel {
                 InputStream ipInput = context.getResources().openRawResource(R.raw.bypass);
                 String bypassIPs = IOUtils.toString(ipInput);
                 String newDns = Utils.getString(Constants.NEW_DNS, Constants.DNS);
-                AndroidLib.initSystem(bypassIPs, Utils.getBaseDir(context), ExtendToken.CurTokenI, ExtendToken.CurPaymentContract, Constants.ETH_API_URL, newDns, hopDelegate);
+                AndroidLib.initSystem(bypassIPs, Utils.getBaseDir(context), ExtendToken.CurTokenI, ExtendToken.CurPaymentContract, Constants.BNB_API_URL, newDns, hopDelegate);
                 AndroidLib.initProtocol();
                 AndroidLib.startProtocol();
                 emitter.onComplete();

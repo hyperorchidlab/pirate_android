@@ -3,11 +3,11 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId 'com.hop.pirate'
+        applicationId 'com.hop.pirate.bnb'
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 100210
-        versionName '1.2.1'
+        versionCode 100000
+        versionName '1.00.00'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         renderscriptTargetApi 19
         renderscriptSupportModeEnabled true
@@ -33,11 +33,11 @@ android {
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
                 def fileName
                 if (variant.buildType.name == 'release') {
-                    fileName = "pirate_${defaultConfig.versionName}.apk"
+                    fileName = "Bpirate_${defaultConfig.versionName}.apk"
                 } else if (variant.buildType.name == 'debug') {
-                    fileName = "pirate_${defaultConfig.versionName}_debug.apk"
+                    fileName = "Bpirate_${defaultConfig.versionName}_debug.apk"
                 } else {
-                    fileName = "pirate_${defaultConfig.versionName}_${defaultConfig.versionCode}_other.apk"
+                    fileName = "Bpirate_${defaultConfig.versionName}_${defaultConfig.versionCode}_other.apk"
                 }
                 outputFileName = fileName
             }

@@ -65,26 +65,7 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
             return;
         }
 
-        mSplashModel.checkVersion(this, new ResultCallBack<AppVersionBean>() {
-            @Override
-            public void onError(Throwable e) {
-                delayLoadWallet();
-            }
-
-            @Override
-            public void onSuccess(AppVersionBean versionBean) {
-                if (versionBean.getNewVersion() > Utils.getVersionCode(SplashActivity.this)) {
-                    showUpdateAppDialog(versionBean);
-                } else {
-                    delayLoadWallet();
-                }
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        });
+        delayLoadWallet();
 
     }
 
