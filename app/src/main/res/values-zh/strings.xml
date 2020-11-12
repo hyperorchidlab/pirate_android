@@ -200,4 +200,6 @@
     <string name="fragment_account_help_address">https://t.me/hopcommunity</string>
     <string name="fragment_account_course">挖矿教程</string>
     <string name="fragment_account_course_address">https://docs.hyperorchid.org/</string>
+    <string name="fragment_account_clear_local_data">清除本地数据</string>
+    <string name="fragment_account_clear">操作成功</string>
 </resources>

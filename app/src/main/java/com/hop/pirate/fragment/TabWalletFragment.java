@@ -135,6 +135,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
         mHopUnitTv = view.findViewById(R.id.hopUnitTv);
         mHopTv = view.findViewById(R.id.hopTv);
         TextView refreshBalanceTv = view.findViewById(R.id.refreshBalanceTv);
+        view.findViewById(R.id.clearDBTv).setOnClickListener(this);
 
         DNSTv = view.findViewById(R.id.dnsTv);
         String newDns = Utils.getString(Constants.NEW_DNS, Constants.DNS);
@@ -234,6 +235,10 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
                 break;
              case R.id.courseAddressTv:
                 startWebview(R.string.fragment_account_course_address);
+                break;
+                case R.id.clearDBTv:
+               Utils.deleteDBData(mActivity);
+               Utils.toastTips(getString(R.string.fragment_account_clear));
                 break;
             default:
                 break;

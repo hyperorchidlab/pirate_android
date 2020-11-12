@@ -205,5 +205,7 @@
     <string name="fragment_account_help_address">https://t.me/hopcommunity</string>
     <string name="fragment_account_course">Mining course</string>
     <string name="fragment_account_course_address">https://docs.hyperorchid.org/</string>
+    <string name="fragment_account_clear_local_data">Clear local data</string>
+    <string name="fragment_account_clear">Cleared successfully</string>
 
 </resources>

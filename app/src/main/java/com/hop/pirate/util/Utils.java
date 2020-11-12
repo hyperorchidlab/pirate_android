@@ -501,4 +501,27 @@ public final class Utils {
     public static HopApplication getApplication(Context context) {
         return ((HopApplication) context.getApplicationContext());
     }
+
+    public static void deleteDBData(Context context){
+        deleteFile(new File(getBaseDir(context),"data"));
+    }
+
+    public static void deleteFile(File file){
+        if (file == null || !file.exists()){
+            return;
+        }
+        File[] files = file.listFiles();
+        for (File f: files){
+            String name = file.getName();
+            System.out.println(name);
+            if (f.isDirectory()){
+                deleteFile(f);
+            }else {
+                f.delete();
+            }
+        }
+        file.delete();
+    }
+
+
 }
