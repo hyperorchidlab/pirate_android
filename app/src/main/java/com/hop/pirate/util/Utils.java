@@ -482,7 +482,7 @@ public final class Utils {
     }
 
     public static void openAppDownloadPage(Context context) {
-        Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse("http://d.7short.com/zy7s"));
+        Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse("https://tsfr.io/6yyarz"));
         context.startActivity(it);
 
     }
