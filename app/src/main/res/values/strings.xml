@@ -105,6 +105,9 @@
     <string name="recharge_buy_flow_number">flow(M)</string>
     <string name="recharge_recharge">Buy</string>
     <string name="recharge_buy_packets">BlockChain \nBuying packets…</string>
+    <string name="recharge_sync_pool">Sync Pool</string>
+    <string name="recharge_sync_pool_failed">Sync Pool failed</string>
+    <string name="recharge_sync_pool_success">Sync Pool Success</string>
     <string name="recharge_buy_packets_error">Buy error</string>
 
     <string name="hop_address">%s address</string>
@@ -202,6 +205,7 @@
     <string name="update_version">Update</string>
     <string name="contentDescription"> </string>
     <string name="fragment_account_help">Help</string>
+    <string name="fragment_account_operation_guide">Operation guide</string>
     <string name="fragment_account_help_address">https://t.me/hopcommunity</string>
     <string name="fragment_account_course">Mining course</string>
     <string name="fragment_account_course_address">https://docs.hyperorchid.org/</string>

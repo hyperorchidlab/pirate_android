@@ -117,10 +117,7 @@ public class RechargeModelImpl extends WaitTxBaseModel implements RechargeModel 
         schedulers(Observable.create(new ObservableOnSubscribe<Double>() {
             @Override
             public void subscribe(ObservableEmitter<Double> emitter) throws Exception {
-                if (!MainActivity.isSyncVersion) {
-                    AndroidLib.syncVer();
-                    MainActivity.isSyncVersion = true;
-                }
+
                 String sysStr = AndroidLib.systemSettings();
                 if (!TextUtils.isEmpty(sysStr)) {
                     JSONObject json = new JSONObject(sysStr);
@@ -192,6 +189,40 @@ public class RechargeModelImpl extends WaitTxBaseModel implements RechargeModel 
     public void queryTxProcessStatus(final String tx, final ResultCallBack<Boolean> resultCallBack) {
         queryTxStatus(tx, resultCallBack);
 
+    }
+
+    @Override
+    public void syncPool(final String poolAddress, final ResultCallBack<Boolean> resultCallBack) {
+        schedulers(Observable.create(new ObservableOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
+
+                boolean syncStatus=AndroidLib.waitSubPool(poolAddress);
+                emitter.onNext(syncStatus);
+                emitter.onComplete();
+
+            }
+        })).subscribe(new Observer<Boolean>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                addSubscribe(d);
+            }
+
+            @Override
+            public void onNext(Boolean syncStatus) {
+                resultCallBack.onSuccess(syncStatus);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                resultCallBack.onError(e);
+            }
+
+            @Override
+            public void onComplete() {
+                resultCallBack.onComplete();
+            }
+        });
     }
 
     @Override

@@ -14,7 +14,7 @@ import com.hop.pirate.adapter.FlowSelectAdapter;
 import com.hop.pirate.base.BaseActivity;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.dialog.PayPasswordDialog;
-import com.hop.pirate.event.EventSyncVersion;
+import com.hop.pirate.event.EventRechargeSuccess;
 import com.hop.pirate.model.RechargeModel;
 import com.hop.pirate.model.impl.RechargeModelImpl;
 import com.hop.pirate.service.WalletWrapper;
@@ -220,6 +220,9 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
             public void onError(Throwable e) {
                 dismissDialogFragment();
                 Utils.toastTips(getString(R.string.blockchain_time_out));
+                if (!isProve) {
+                    EventBus.getDefault().post(new EventRechargeSuccess());
+                }
             }
 
             @Override
@@ -228,10 +231,31 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
                     dismissDialogFragment();
                     buyPacket();
                 } else {
-                    dismissDialogFragment();
-                    EventBus.getDefault().post(new EventSyncVersion());
-                    EventBus.getDefault().post(new EventSyncVersion());
-                    String content = getString(R.string.recharge_success) + "\ntx=[" + tx + "]";
+                    showDialogFragment(getString(R.string.recharge_buy_packets), false);
+                    EventBus.getDefault().post(new EventRechargeSuccess());
+                    waitSyncSubPool();
+
+                }
+            }
+
+            @Override
+            public void onComplete() {
+            }
+        });
+    }
+
+    private void waitSyncSubPool() {
+        mRechargeModel.syncPool(mPoolAddress, new ResultCallBack<Boolean>() {
+            @Override
+            public void onError(Throwable e) {
+                Utils.toastTips(getResources().getString(R.string.recharge_sync_pool_failed));
+            }
+
+            @Override
+            public void onSuccess(Boolean syncSuccess) {
+                dismissDialogFragment();
+                if(syncSuccess){
+                    String content = getString(R.string.recharge_sync_pool_success);
                     MessageDialog.show(RechargePacketsActivity.this, getString(R.string.tips), content, getString(R.string.sure)).setOnOkButtonClickListener(new OnDialogButtonClickListener() {
 
                         @Override
@@ -241,11 +265,14 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
                             return false;
                         }
                     });
+                }else{
+                    Utils.toastTips(getResources().getString(R.string.recharge_sync_pool_failed));
                 }
             }
 
             @Override
             public void onComplete() {
+
             }
         });
     }

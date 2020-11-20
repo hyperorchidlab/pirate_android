@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.hop.pirate.Constants;
 import com.hop.pirate.R;
-import com.hop.pirate.activity.MyPoolActivity;
+import com.hop.pirate.activity.PurchasedPoolActivity;
 import com.hop.pirate.adapter.RechargeAdapter;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.model.TabPacketsMarketModel;
@@ -112,7 +112,7 @@ public class TabPacketsMarketFragment extends BaseFragement implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(mActivity, MyPoolActivity.class);
+        Intent intent = new Intent(mActivity, PurchasedPoolActivity.class);
         startActivity(intent);
     }
 }

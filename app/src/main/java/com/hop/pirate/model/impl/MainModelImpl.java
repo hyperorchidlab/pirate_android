@@ -2,6 +2,7 @@ package com.hop.pirate.model.impl;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.hop.pirate.Constants;
@@ -50,6 +51,7 @@ public class MainModelImpl extends BaseModel implements MainModel {
                 AndroidLib.initSystem(bypassIPs, Utils.getBaseDir(context), ExtendToken.CurTokenI, ExtendToken.CurPaymentContract, Constants.ETH_API_URL, newDns, hopDelegate);
                 AndroidLib.initProtocol();
                 AndroidLib.startProtocol();
+                Log.d("~~~", "~~~~~~~~~~~~~~~~~~startProtocol");
                 emitter.onComplete();
             }
         }).subscribeOn(Schedulers.io())
@@ -119,7 +121,7 @@ public class MainModelImpl extends BaseModel implements MainModel {
         schedulers(Observable.create(new ObservableOnSubscribe<WalletBean>() {
             @Override
             public void subscribe(ObservableEmitter<WalletBean> emitter) throws Exception {
-                AndroidLib.syncVer();
+//                AndroidLib.syncVer();
                 emitter.onComplete();
             }
         })).subscribe(new Observer<WalletBean>() {
@@ -139,8 +141,37 @@ public class MainModelImpl extends BaseModel implements MainModel {
 
             @Override
             public void onComplete() {
-                MainActivity.isSyncVersion = true;
                 System.out.println("syncAllPoolsData :onComplete");
+            }
+        });
+    }
+
+    @Override
+    public void syncSubPoolsData() {
+        schedulers(Observable.create(new ObservableOnSubscribe<WalletBean>() {
+            @Override
+            public void subscribe(ObservableEmitter<WalletBean> emitter) throws Exception {
+                AndroidLib.syncSubPoolsData();
+                emitter.onComplete();
+            }
+        })).subscribe(new Observer<WalletBean>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                addSubscribe(d);
+            }
+
+            @Override
+            public void onNext(WalletBean walletBean) {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                System.out.println("syncSubPoolsData :onError" + e.getMessage());
+            }
+
+            @Override
+            public void onComplete() {
+                System.out.println("syncSubPoolsData :onComplete");
             }
         });
     }

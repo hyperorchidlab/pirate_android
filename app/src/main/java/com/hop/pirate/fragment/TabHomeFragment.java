@@ -99,6 +99,9 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
     }
 
     private void getUserDataOfPool() {
+        if(TextUtils.isEmpty(SysConf.CurPoolAddress)){
+            return;
+        }
         mTabHomeModel.getUserDataOfPool(WalletWrapper.MainAddress, SysConf.CurPoolAddress, new ResultCallBack<UserAccountData>() {
             @Override
             public void onError(Throwable e) {

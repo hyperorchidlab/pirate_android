@@ -16,7 +16,6 @@ import com.hop.pirate.event.EventClearAllRequest;
 import com.hop.pirate.event.EventLoadWalletSuccess;
 import com.hop.pirate.event.EventRechargeSuccess;
 import com.hop.pirate.event.EventSkipTabPacketsMarket;
-import com.hop.pirate.event.EventSyncVersion;
 import com.hop.pirate.fragment.TabHomeFragment;
 import com.hop.pirate.fragment.TabPacketsMarketFragment;
 import com.hop.pirate.fragment.TabWalletFragment;
@@ -38,7 +37,6 @@ import androidLib.AndroidLib;
 
 public class MainActivity extends BaseActivity implements androidLib.HopDelegate {
     public static WalletBean sWalletBean;
-    public static boolean isSyncVersion = false;
     private MainModel mMainModel;
     public static final String TAG = "HopProtocol";
     public static final int ATSysSettingChanged = 1;
@@ -205,8 +203,8 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void eventSyncVersion(EventSyncVersion eventSyncVersion) {
-        mMainModel.syncVersion();
+    public void eventSyncVersion(EventRechargeSuccess eventRechargeSuccess) {
+        mMainModel.syncSubPoolsData();
     }
 
 

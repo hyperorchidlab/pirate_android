@@ -4,16 +4,15 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.hop.pirate.Constants;
-import com.hop.pirate.activity.MainActivity;
 import com.hop.pirate.base.BaseModel;
 import com.hop.pirate.callback.ResultCallBack;
-import com.hop.pirate.model.MyPoolModel;
+import com.hop.pirate.model.PurchasedPoolModel;
 import com.hop.pirate.model.bean.OwnPool;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -31,7 +30,7 @@ import io.reactivex.schedulers.Schedulers;
  * @author: mr.x
  * @date :   2020/5/26 4:07 PM
  */
-public class MyPoolModelImpl extends BaseModel implements MyPoolModel {
+public class PurchasedPoolModelImpl extends BaseModel implements PurchasedPoolModel {
 
 
     @Override
@@ -40,31 +39,26 @@ public class MyPoolModelImpl extends BaseModel implements MyPoolModel {
             @Override
             public void subscribe(ObservableEmitter<List<OwnPool>> emitter) throws Exception {
                 List<OwnPool> minePoolBeans = new ArrayList<>();
-                if (!MainActivity.isSyncVersion) {
-                    AndroidLib.syncVer();
-                    MainActivity.isSyncVersion = true;
-                }
-                String poolsStr = AndroidLib.poolDataOfUser(address);
+                String poolsStr = AndroidLib.getSubPools();
 
-                if (!TextUtils.isEmpty(poolsStr)) {
-                    JSONObject poolMap = new JSONObject(poolsStr);
-                    Iterator it = poolMap.keys();
+                if (!TextUtils.isEmpty(poolsStr) && !poolsStr.equals("null")) {
+                    JSONArray jsonArray = new JSONArray(poolsStr);
 
-                    while (it.hasNext()) {
-                        String key = it.next().toString();
-                        JSONObject p = poolMap.optJSONObject(key);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject p = jsonArray.getJSONObject(i);
                         if (p == null) {
                             continue;
                         }
                         OwnPool bean = new OwnPool();
 
-                        bean.setAddress(key);
+                        bean.setAddress(p.optString("MainAddr"));
                         bean.setName(p.optString("Name"));
                         bean.setEmail(p.optString("Email"));
                         bean.setMortgageNumber(p.optDouble("GTN"));
                         bean.setWebsiteAddress(p.optString("Url"));
                         minePoolBeans.add(bean);
                     }
+
 
                 }
 

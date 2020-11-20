@@ -104,6 +104,9 @@
     <string name="recharge_buy_flow_number">流量(M)</string>
     <string name="recharge_recharge">Buy</string>
     <string name="recharge_buy_packets">区块链\n购买流量中…</string>
+    <string name="recharge_sync_pool">同步矿池</string>
+    <string name="recharge_sync_pool_failed">同步失败</string>
+    <string name="recharge_sync_pool_success">同步成功</string>
     <string name="recharge_buy_packets_error">购买失败</string>
 
     <string name="wallet_flow_unit_eth">ETH</string>
@@ -197,6 +200,7 @@
     <string name="update_version">更新</string>
     <string name="contentDescription"> </string>
     <string name="fragment_account_help">寻求帮助</string>
+    <string name="fragment_account_operation_guide">操作指南</string>
     <string name="fragment_account_help_address">https://t.me/hopcommunity</string>
     <string name="fragment_account_course">挖矿教程</string>
     <string name="fragment_account_course_address">https://docs.hyperorchid.org/</string>

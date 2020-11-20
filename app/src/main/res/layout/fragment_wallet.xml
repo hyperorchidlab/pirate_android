@@ -430,11 +430,27 @@
                 android:text="@string/tab_setting_dns"
                 android:drawableBottom="@drawable/split_line"
                 android:layout_height="40dp"/>
+            <TextView
+                android:id="@+id/operationGuideTv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dnsTv"
+                android:layout_width="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="@color/color_25262a"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:gravity="center_vertical"
+                android:drawableEnd="@drawable/main_arrow_right"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/fragment_account_operation_guide"
+                android:drawableBottom="@drawable/split_line"
+                android:layout_height="40dp"/>
 
             <TextView
                 android:id="@+id/helpTv"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dnsTv"
+                app:layout_constraintTop_toBottomOf="@+id/operationGuideTv"
                 android:layout_width="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:textColor="@color/color_25262a"

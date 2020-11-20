@@ -12,7 +12,7 @@ import java.util.List;
  * @author: mr.x
  * @date :   2020/5/26 4:05 PM
  */
-public interface MyPoolModel {
+public interface PurchasedPoolModel {
 
 
     void getPoolDataOfUser(Context context, String address, ResultCallBack<List<OwnPool>> resultCallBack);

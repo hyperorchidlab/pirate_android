@@ -18,6 +18,7 @@ public interface MainModel {
     void getWalletInfo(Context context, ResultCallBack<WalletBean> resultCallBack);
 
     void syncVersion();
+    void syncSubPoolsData();
 
 
     void removeAllSubscribe();

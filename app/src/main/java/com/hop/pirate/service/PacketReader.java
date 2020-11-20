@@ -34,6 +34,7 @@ class PacketReader implements Runnable {
                 }
                 readerBuf.limit(length);
                 byte[] dst = Arrays.copyOf(readerBuf.array(), length);
+
                 AndroidLib.inputPacket(dst);
             }
 

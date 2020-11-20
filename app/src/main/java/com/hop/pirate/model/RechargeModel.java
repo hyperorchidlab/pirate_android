@@ -21,6 +21,8 @@ public interface RechargeModel {
 
     void queryTxProcessStatus(String tx, final ResultCallBack<Boolean> resultCallBack);
 
+    void syncPool(String poolAddress, final ResultCallBack<Boolean> resultCallBack);
+
 
     void removeAllSubscribe();
 }

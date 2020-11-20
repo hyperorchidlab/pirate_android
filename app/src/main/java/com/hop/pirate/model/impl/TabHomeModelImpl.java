@@ -28,7 +28,7 @@ public class TabHomeModelImpl extends BaseModel implements TabHomeModel {
         schedulers(Observable.create(new ObservableOnSubscribe<UserAccountData>() {
             @Override
             public void subscribe(ObservableEmitter<UserAccountData> emitter) throws Exception {
-                String jsonStr = AndroidLib.userDataOfPool(user, pool);
+                String jsonStr = AndroidLib.getUserDate(user, pool);
                 if (TextUtils.isEmpty(jsonStr)) {
                     emitter.onNext(new UserAccountData());
                     emitter.onComplete();
@@ -40,15 +40,14 @@ public class TabHomeModelImpl extends BaseModel implements TabHomeModel {
                 bean.setPool(pool);
                 bean.setInRecharge(obj.optDouble("charging"));
 
-                JSONObject ua = obj.optJSONObject("ua");
-                bean.setExpire(ua.optString("expire"));
-                bean.setNonce(ua.optInt("nonce"));
-                bean.setToken(ua.optDouble("balance"));
-                bean.setPackets(ua.optDouble("reminder"));
+                bean.setExpire(obj.optString("left_token_balance"));
+                bean.setNonce(obj.optInt("nonce"));
+                bean.setToken(obj.optDouble("token_balance"));
+                bean.setPackets(obj.optDouble("traffic_balance"));
 
-                bean.setEpoch(ua.optInt("epoch"));
-                bean.setCredit(ua.optDouble("credit"));
-                bean.setMicroNonce(ua.optInt("microNonce"));
+                bean.setEpoch(obj.optInt("epoch"));
+                bean.setCredit(obj.optDouble("used_traffic"));
+                bean.setMicroNonce(obj.optInt("microNonce"));
                 emitter.onNext(bean);
                 emitter.onComplete();
             }

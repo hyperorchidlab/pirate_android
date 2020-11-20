@@ -34,26 +34,26 @@ public class SupportedCurrenciesModelImpl extends BaseModel implements Supported
         schedulers(Observable.create(new ObservableOnSubscribe<List<ExtendToken>>() {
             @Override
             public void subscribe(ObservableEmitter<List<ExtendToken>> emitter) throws Exception {
-                String jsonStr = AndroidLib.extendTokens(address);
-                if (TextUtils.isEmpty(jsonStr)) {
-                    emitter.onError(new PirateException(context.getString(R.string.get_data_failed)));
-                    return;
-                }
-                Type type = new TypeToken<List<ExtendToken>>() {
-                }.getType();
-
-                List<ExtendToken> extendTokens = new Gson().fromJson(jsonStr, type);
-                Iterator<ExtendToken> iterator = extendTokens.iterator();
-
-                while (iterator.hasNext()) {
-                    ExtendToken next = iterator.next();
-                    if (next.getPaymentContract().equals("0x0000000000000000000000000000000000000000")) {
-                        iterator.remove();
-                    }
-                }
-
-                emitter.onNext(extendTokens);
-                emitter.onComplete();
+//                String jsonStr = AndroidLib.extendTokens(address);
+//                if (TextUtils.isEmpty(jsonStr)) {
+//                    emitter.onError(new PirateException(context.getString(R.string.get_data_failed)));
+//                    return;
+//                }
+//                Type type = new TypeToken<List<ExtendToken>>() {
+//                }.getType();
+//
+//                List<ExtendToken> extendTokens = new Gson().fromJson(jsonStr, type);
+//                Iterator<ExtendToken> iterator = extendTokens.iterator();
+//
+//                while (iterator.hasNext()) {
+//                    ExtendToken next = iterator.next();
+//                    if (next.getPaymentContract().equals("0x0000000000000000000000000000000000000000")) {
+//                        iterator.remove();
+//                    }
+//                }
+//
+//                emitter.onNext(extendTokens);
+//                emitter.onComplete();
             }
         })).subscribe(new Observer<List<ExtendToken>>() {
             @Override

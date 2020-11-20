@@ -79,7 +79,10 @@
             android:name=".activity.ShowQRImageActivity"
             android:theme="@style/transparent_activity" />
         <activity
-            android:name=".activity.MyPoolActivity"
+            android:name=".activity.PurchasedPoolActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.GuideActivity"
             android:screenOrientation="portrait" />
 
         <service

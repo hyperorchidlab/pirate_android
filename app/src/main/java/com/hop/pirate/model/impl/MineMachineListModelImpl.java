@@ -46,8 +46,8 @@ public class MineMachineListModelImpl extends BaseModel implements MineMachineLi
                 for (int i = 0; i < minerArr.length(); i++) {
                     JSONObject obj = (JSONObject) minerArr.get(i);
                     MinerBean bean = new MinerBean();
-                    bean.setMID(obj.optString("SubAddr"));
-                    bean.setZone(obj.optString("Zone"));
+                    bean.setMID(obj.optString("sub_addr"));
+                    bean.setZone(obj.optString("zone"));
                     bean.setMinerPoolAdd(SysConf.CurPoolAddress);
                     minerBeans.add(bean);
                 }

@@ -16,9 +16,9 @@ import com.hop.pirate.R;
 import com.hop.pirate.adapter.MyPoolAdapter;
 import com.hop.pirate.base.BaseActivity;
 import com.hop.pirate.callback.ResultCallBack;
-import com.hop.pirate.model.MyPoolModel;
+import com.hop.pirate.model.PurchasedPoolModel;
 import com.hop.pirate.model.bean.OwnPool;
-import com.hop.pirate.model.impl.MyPoolModelImpl;
+import com.hop.pirate.model.impl.PurchasedPoolModelImpl;
 import com.hop.pirate.service.WalletWrapper;
 import com.hop.pirate.util.Utils;
 import com.hop.pirate.util.WrapContentLinearLayoutManager;
@@ -30,8 +30,8 @@ import java.util.List;
  * @author: Mr.x
  * @date :   2020/10/19 3:12 PM
  */
-public class MyPoolActivity extends BaseActivity {
-    private MyPoolModel mMyPoolModel;
+public class PurchasedPoolActivity extends BaseActivity {
+    private PurchasedPoolModel mMyPoolModel;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ImageView mEmptyIv;
     private TextView mEmptyTv;
@@ -55,7 +55,7 @@ public class MyPoolActivity extends BaseActivity {
         myPoolRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(this, LinearLayoutManager.VERTICAL, false) );
         mMyPoolAdapter = new MyPoolAdapter(this);
         myPoolRecyclerView.setAdapter(mMyPoolAdapter);
-        mMyPoolModel = new MyPoolModelImpl();
+        mMyPoolModel = new PurchasedPoolModelImpl();
         mSwipeRefreshLayout.setRefreshing(true);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -80,7 +80,7 @@ public class MyPoolActivity extends BaseActivity {
             @Override
             public void onError(Throwable e) {
                 mSwipeRefreshLayout.setRefreshing(false);
-                Utils.toastException(MyPoolActivity.this, e, Constants.REQUEST_OWN_MINE_POOL_ERROR);
+                Utils.toastException(PurchasedPoolActivity.this, e, Constants.REQUEST_OWN_MINE_POOL_ERROR);
             }
 
             @Override

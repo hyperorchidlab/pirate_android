@@ -127,7 +127,6 @@ public final class Utils {
     }
 
     public static void clearAllData(Context context) {
-        MainActivity.isSyncVersion = false;
         MineMachineListActivity.sMinerBeans = null;
         MinePoolListActivity.sMinePoolBeans = null;
         clearSharedPref();

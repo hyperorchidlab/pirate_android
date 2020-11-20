@@ -31,10 +31,6 @@ public class TabPacketsMarketModelImpl extends BaseModel implements TabPacketsMa
         schedulers(Observable.create(new ObservableOnSubscribe<List<MinePoolBean>>() {
             @Override
             public void subscribe(ObservableEmitter<List<MinePoolBean>> emitter) throws Exception {
-                if (!MainActivity.isSyncVersion) {
-                    AndroidLib.syncVer();
-                    MainActivity.isSyncVersion = true;
-                }
                 String jsonStr = AndroidLib.poolInfosInMarket();
                 List<MinePoolBean> minePoolBeans = new ArrayList<>();
                 JSONObject pools = new JSONObject(jsonStr);

@@ -20,6 +20,7 @@ import com.hop.pirate.Constants;
 import com.hop.pirate.IntentKey;
 import com.hop.pirate.R;
 import com.hop.pirate.activity.CreateAccountActivity;
+import com.hop.pirate.activity.GuideActivity;
 import com.hop.pirate.activity.MainActivity;
 import com.hop.pirate.activity.ShowQRImageActivity;
 import com.hop.pirate.activity.SupportedCurrenciesActivity;
@@ -45,8 +46,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 public class TabWalletFragment extends BaseFragement implements View.OnClickListener, Handler.Callback {
-    private static final int FREE_HOP_MAX_VALUE=1000;
-    private static final double FREE_ETH_MAX_VALUE=0.05;
+    private static final int FREE_HOP_MAX_VALUE = 1000;
+    private static final double FREE_ETH_MAX_VALUE = 0.05;
     private TabSettingModel mTabSettingModel;
     private Button mApplyFreeEthBtn;
     private Button mApplyFreeTokenBtn;
@@ -60,6 +61,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
     private TextView mEthNumberTv;
     private TextView mHopUnitTv;
     private TextView mHopTv;
+    private TextView operationGuideTv;
 
     @Nullable
     @Override
@@ -134,6 +136,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
         mEthNumberTv = view.findViewById(R.id.ethNumberTv);
         mHopUnitTv = view.findViewById(R.id.hopUnitTv);
         mHopTv = view.findViewById(R.id.hopTv);
+        operationGuideTv = view.findViewById(R.id.operationGuideTv);
         TextView refreshBalanceTv = view.findViewById(R.id.refreshBalanceTv);
         view.findViewById(R.id.clearDBTv).setOnClickListener(this);
 
@@ -145,6 +148,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
         view.findViewById(R.id.helpAddressTv).setOnClickListener(this);
         view.findViewById(R.id.courseAddressTv).setOnClickListener(this);
         updateAppTv.setOnClickListener(this);
+        operationGuideTv.setOnClickListener(this);
         versionTv.setOnClickListener(this);
         DNSTv.setOnClickListener(this);
         refreshBalanceTv.setOnClickListener(this);
@@ -230,15 +234,18 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
             case R.id.updateAppTv:
                 Utils.openAppDownloadPage(mActivity);
                 break;
-             case R.id.helpAddressTv:
+            case R.id.helpAddressTv:
                 startWebview(R.string.fragment_account_help_address);
                 break;
-             case R.id.courseAddressTv:
+            case R.id.courseAddressTv:
                 startWebview(R.string.fragment_account_course_address);
                 break;
-                case R.id.clearDBTv:
-               Utils.deleteDBData(mActivity);
-               Utils.toastTips(getString(R.string.fragment_account_clear));
+            case R.id.clearDBTv:
+                Utils.deleteDBData(mActivity);
+                Utils.toastTips(getString(R.string.fragment_account_clear));
+                break;
+            case R.id.operationGuideTv:
+                startActivity(new Intent(mActivity, GuideActivity.class));
                 break;
             default:
                 break;

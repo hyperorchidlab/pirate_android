@@ -7,7 +7,9 @@ import com.hop.pirate.base.BaseModel;
 import com.hop.pirate.callback.ResultCallBack;
 import com.hop.pirate.model.MinePoolListModel;
 import com.hop.pirate.model.bean.MinePoolBean;
+import com.hop.pirate.model.bean.OwnPool;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -36,20 +38,20 @@ public class MinePoolListModelImpl extends BaseModel implements MinePoolListMode
             public void subscribe(ObservableEmitter<List<MinePoolBean>> emitter) throws Exception {
                 List<MinePoolBean> minePoolBeans;
 
-                String poolsStr = AndroidLib.poolDataOfUser(address);
+                String poolsStr = AndroidLib.getSubPools();
                 minePoolBeans = new ArrayList<>();
-                if (!TextUtils.isEmpty(poolsStr)) {
-                    JSONObject poolMap = new JSONObject(poolsStr);
-                    Iterator it = poolMap.keys();
 
-                    while (it.hasNext()) {
-                        String key = it.next().toString();
-                        JSONObject p = poolMap.optJSONObject(key);
+                if (!TextUtils.isEmpty(poolsStr)) {
+                    JSONArray jsonArray = new JSONArray(poolsStr);
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject p = jsonArray.getJSONObject(i);
                         if (p == null) {
                             continue;
                         }
                         MinePoolBean bean = new MinePoolBean();
-                        bean.setAddress(key);
+
+                        bean.setAddress(p.optString("MainAddr"));
                         bean.setName(p.optString("Name"));
                         bean.setEmail(p.optString("Email"));
                         bean.setMortgageNumber(p.optDouble("GTN"));
