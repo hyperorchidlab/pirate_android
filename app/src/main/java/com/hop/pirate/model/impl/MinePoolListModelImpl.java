@@ -41,7 +41,7 @@ public class MinePoolListModelImpl extends BaseModel implements MinePoolListMode
                 String poolsStr = AndroidLib.getSubPools();
                 minePoolBeans = new ArrayList<>();
 
-                if (!TextUtils.isEmpty(poolsStr)) {
+                if (!TextUtils.isEmpty(poolsStr)&& !poolsStr.equals("null")) {
                     JSONArray jsonArray = new JSONArray(poolsStr);
 
                     for (int i = 0; i < jsonArray.length(); i++) {

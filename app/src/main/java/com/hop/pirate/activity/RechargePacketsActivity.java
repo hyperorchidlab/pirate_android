@@ -231,6 +231,7 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
                     dismissDialogFragment();
                     buyPacket();
                 } else {
+                    dismissDialogFragment();
                     showDialogFragment(getString(R.string.recharge_buy_packets), false);
                     EventBus.getDefault().post(new EventRechargeSuccess());
                     waitSyncSubPool();

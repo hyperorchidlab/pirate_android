@@ -100,7 +100,7 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
             @Override
             public void onComplete() {
                 loadWallet(false);
-                mMainModel.syncVersion();
+//                mMainModel.syncVersion();
             }
         });
 

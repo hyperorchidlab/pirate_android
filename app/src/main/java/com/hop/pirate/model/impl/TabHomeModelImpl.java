@@ -41,13 +41,10 @@ public class TabHomeModelImpl extends BaseModel implements TabHomeModel {
                 bean.setInRecharge(obj.optDouble("charging"));
 
                 bean.setExpire(obj.optString("left_token_balance"));
-                bean.setNonce(obj.optInt("nonce"));
                 bean.setToken(obj.optDouble("token_balance"));
                 bean.setPackets(obj.optDouble("traffic_balance"));
 
-                bean.setEpoch(obj.optInt("epoch"));
                 bean.setCredit(obj.optDouble("used_traffic"));
-                bean.setMicroNonce(obj.optInt("microNonce"));
                 emitter.onNext(bean);
                 emitter.onComplete();
             }

@@ -51,7 +51,6 @@ public class MainModelImpl extends BaseModel implements MainModel {
                 AndroidLib.initSystem(bypassIPs, Utils.getBaseDir(context), ExtendToken.CurTokenI, ExtendToken.CurPaymentContract, Constants.ETH_API_URL, newDns, hopDelegate);
                 AndroidLib.initProtocol();
                 AndroidLib.startProtocol();
-                Log.d("~~~", "~~~~~~~~~~~~~~~~~~startProtocol");
                 emitter.onComplete();
             }
         }).subscribeOn(Schedulers.io())
@@ -121,7 +120,7 @@ public class MainModelImpl extends BaseModel implements MainModel {
         schedulers(Observable.create(new ObservableOnSubscribe<WalletBean>() {
             @Override
             public void subscribe(ObservableEmitter<WalletBean> emitter) throws Exception {
-//                AndroidLib.syncVer();
+                AndroidLib.syncSubPoolsData();
                 emitter.onComplete();
             }
         })).subscribe(new Observer<WalletBean>() {
