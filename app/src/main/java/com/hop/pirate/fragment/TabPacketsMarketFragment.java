@@ -42,7 +42,7 @@ public class TabPacketsMarketFragment extends BaseFragement implements View.OnCl
         initViews(view);
         mTabPacketsMarketModel = new TabPacketsMarketModelImpl();
         mSwipeRefreshLayout.setRefreshing(true);
-        getPoolInfo();
+        getPoolInfo(false);
         return view;
     }
 
@@ -60,19 +60,20 @@ public class TabPacketsMarketFragment extends BaseFragement implements View.OnCl
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getPoolInfo();
+                getPoolInfo(true);
             }
         });
         myPoolTv.setOnClickListener(this);
     }
 
 
-    public void getPoolInfo() {
-        mTabPacketsMarketModel.getPoolInfo(new ResultCallBack<List<MinePoolBean>>() {
+    public void getPoolInfo(boolean syncAllPools) {
+        mTabPacketsMarketModel.getPoolInfo(syncAllPools,new ResultCallBack<List<MinePoolBean>>() {
             @Override
             public void onError(Throwable e) {
                 mSwipeRefreshLayout.setRefreshing(false);
                 Utils.toastException(mActivity, e, Constants.REQUEST_PACKETS_MARKET_ERROR);
+                setData();
 
             }
 

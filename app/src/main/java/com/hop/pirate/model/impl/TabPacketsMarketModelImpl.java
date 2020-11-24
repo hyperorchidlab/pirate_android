@@ -27,10 +27,13 @@ import io.reactivex.disposables.Disposable;
  */
 public class TabPacketsMarketModelImpl extends BaseModel implements TabPacketsMarketModel {
     @Override
-    public void getPoolInfo(final ResultCallBack<List<MinePoolBean>> resultCallBack) {
+    public void getPoolInfo(final boolean syncAllPools, final ResultCallBack<List<MinePoolBean>> resultCallBack) {
         schedulers(Observable.create(new ObservableOnSubscribe<List<MinePoolBean>>() {
             @Override
             public void subscribe(ObservableEmitter<List<MinePoolBean>> emitter) throws Exception {
+                if(syncAllPools){
+                    AndroidLib.syncAllPoolsData();
+                }
                 String jsonStr = AndroidLib.poolInfosInMarket();
                 List<MinePoolBean> minePoolBeans = new ArrayList<>();
                 JSONObject pools = new JSONObject(jsonStr);
