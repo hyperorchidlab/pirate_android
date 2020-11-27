@@ -232,7 +232,7 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
                     buyPacket();
                 } else {
                     dismissDialogFragment();
-                    showDialogFragment(getString(R.string.recharge_buy_packets), false);
+                    showDialogFragment(getString(R.string.recharge_sync_pool), false);
                     EventBus.getDefault().post(new EventRechargeSuccess());
                     waitSyncSubPool();
 
@@ -250,6 +250,7 @@ public class RechargePacketsActivity extends BaseActivity implements FlowSelectA
             @Override
             public void onError(Throwable e) {
                 Utils.toastTips(getResources().getString(R.string.recharge_sync_pool_failed));
+                dismissDialogFragment();
             }
 
             @Override

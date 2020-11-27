@@ -365,7 +365,7 @@ public class TabWalletFragment extends BaseFragement implements View.OnClickList
                     content = "Eth Tx:[" + tx + "]";
                     mApplyFreeEthBtn.setEnabled(false);
                 }
-                MessageDialog.show(mActivity, getString(R.string.tips), content, getString(R.string.sure));
+                MessageDialog.show(mActivity, getString(R.string.apply_success), content, getString(R.string.sure));
                 mActivity.dismissDialogFragment();
                 ((MainActivity) mActivity).loadWallet(false);
             }
