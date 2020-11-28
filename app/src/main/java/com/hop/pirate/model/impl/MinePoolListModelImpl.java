@@ -2,6 +2,7 @@ package com.hop.pirate.model.impl;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.hop.pirate.base.BaseModel;
 import com.hop.pirate.callback.ResultCallBack;
@@ -37,7 +38,7 @@ public class MinePoolListModelImpl extends BaseModel implements MinePoolListMode
             @Override
             public void subscribe(ObservableEmitter<List<MinePoolBean>> emitter) throws Exception {
                 List<MinePoolBean> minePoolBeans;
-
+                AndroidLib.syncSubPoolsData();
                 String poolsStr = AndroidLib.getSubPools();
                 minePoolBeans = new ArrayList<>();
 

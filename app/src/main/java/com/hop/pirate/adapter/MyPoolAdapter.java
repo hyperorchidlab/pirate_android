@@ -65,6 +65,9 @@ public class MyPoolAdapter extends RecyclerView.Adapter<MyPoolAdapter.ViewHolder
                 mContext.startActivityForResult(i, Constants.REQUEST_BUY_PACKET);
             }
         });
+        viewHolder.packetsTv.setText(formatText("0.0", "\nPackets"));
+        viewHolder.tokenTv.setText(formatText(Utils.ConvertCoin(0.0), " HOP\nToken"));
+        viewHolder.creditTv.setText(formatText(Utils.ConvertBandWidth(0.0), "\nCredit"));
         mTabHomeModel.getUserDataOfPool(WalletWrapper.MainAddress, ownPool.getAddress(), new ResultCallBack<UserAccountData>() {
             @Override
             public void onError(Throwable e) {
@@ -75,12 +78,12 @@ public class MyPoolAdapter extends RecyclerView.Adapter<MyPoolAdapter.ViewHolder
             public void onSuccess(UserAccountData userAccountData) {
                 String packets = Utils.ConvertBandWidth(userAccountData.getPackets());
 
-                viewHolder.packetsTv.setText(formatText(packets, "\nPackets"));
 
                 double token = userAccountData.getToken();
                 viewHolder.tokenTv.setText(formatText(Utils.ConvertCoin(token), " HOP\nToken"));
                 String c = Utils.ConvertBandWidth(userAccountData.getCredit());
                 viewHolder.creditTv.setText(formatText(c, "\nCredit"));
+                viewHolder.packetsTv.setText(formatText(packets, "\nPackets"));
 
 
             }

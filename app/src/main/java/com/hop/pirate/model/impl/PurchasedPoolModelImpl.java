@@ -39,6 +39,7 @@ public class PurchasedPoolModelImpl extends BaseModel implements PurchasedPoolMo
             @Override
             public void subscribe(ObservableEmitter<List<OwnPool>> emitter) throws Exception {
                 List<OwnPool> minePoolBeans = new ArrayList<>();
+                AndroidLib.syncSubPoolsData();
                 String poolsStr = AndroidLib.getSubPools();
 
                 if (!TextUtils.isEmpty(poolsStr) && !poolsStr.equals("null")) {
