@@ -225,6 +225,8 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
                 break;
             case ATNeedToRecharge:
                 Utils.toastTips(getResources().getString(R.string.packets_insufficient_need_recharge));
+                Utils.getApplication(this).setRunning(false);
+                HopService.stop();
                 break;
             case ATRechargeSuccess:
                 EventBus.getDefault().post(new EventRechargeSuccess());

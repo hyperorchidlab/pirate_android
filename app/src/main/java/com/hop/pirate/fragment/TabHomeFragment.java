@@ -110,8 +110,8 @@ public class TabHomeFragment extends BaseFragement implements View.OnClickListen
 
             @Override
             public void onSuccess(UserAccountData userAccountData) {
-                SysConf.PacketsBalance = userAccountData.getPackets();
                 SysConf.PacketsCredit = userAccountData.getCredit();
+                SysConf.PacketsBalance = userAccountData.getPackets();
             }
 
             @Override
