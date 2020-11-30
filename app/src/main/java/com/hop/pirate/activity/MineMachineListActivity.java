@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -20,13 +21,15 @@ import com.hop.pirate.model.bean.MinerBean;
 import com.hop.pirate.model.impl.MineMachineListModelImpl;
 import com.hop.pirate.service.SysConf;
 import com.hop.pirate.util.CustomClickListener;
+import com.hop.pirate.util.Utils;
 import com.hop.pirate.util.WrapContentLinearLayoutManager;
 
 import java.util.List;
 
-public class MineMachineListActivity extends BaseActivity implements View.OnClickListener, Handler.Callback {
+public class MineMachineListActivity extends BaseActivity implements  Handler.Callback {
     private MineMachineListModel mMineMachineListModel;
     private RecyclerView mMiningMachineRecyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private MiningMachineAdapter miningMachineAdapter;
     public static List<MinerBean> sMinerBeans;
     Handler mHandler = new Handler(this);
@@ -43,9 +46,9 @@ public class MineMachineListActivity extends BaseActivity implements View.OnClic
     public void initViews() {
         TextView titleTv = findViewById(R.id.titleTv);
         mMiningMachineRecyclerView = findViewById(R.id.miningMachineRecyclerView);
-
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        titleTv.setText(getResources().getString(R.string.mine_machine));
         TextView pinAllMinersTv = findViewById(R.id.pinAllMinersTv);
-        TextView refreshMineTv = findViewById(R.id.refreshMinetv);
 
         pinAllMinersTv.setOnClickListener(new CustomClickListener() {
             @Override
@@ -63,8 +66,13 @@ public class MineMachineListActivity extends BaseActivity implements View.OnClic
             protected void onFastClick() {
             }
         });
-        refreshMineTv.setOnClickListener(this);
-        titleTv.setText(getResources().getString(R.string.mine_machine));
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadMinerUnderPool();
+            }
+        });
+
     }
 
     private void overallSpeed() {
@@ -96,19 +104,14 @@ public class MineMachineListActivity extends BaseActivity implements View.OnClic
         mMiningMachineRecyclerView.setAdapter(miningMachineAdapter);
 
         if (sMinerBeans == null || sMinerBeans.size() == 0) {
-            showDialogFragment();
+            swipeRefreshLayout.setRefreshing(true);
         } else {
             miningMachineAdapter.setMineMachineBeans(sMinerBeans);
             return;
         }
-        loadMinerUnderPool(sMinerBeans == null || sMinerBeans.size() == 0);
+        loadMinerUnderPool();
     }
 
-    @Override
-    public void onClick(View v) {
-        showDialogFragment();
-        loadMinerUnderPool(true);
-    }
 
     @Override
     public void cancelWaitDialog() {
@@ -116,13 +119,13 @@ public class MineMachineListActivity extends BaseActivity implements View.OnClic
         mMineMachineListModel.removeAllSubscribe();
     }
 
-    private void loadMinerUnderPool(final boolean hasLoading) {
-        mMineMachineListModel.getMineMachine(this, SysConf.CurPoolAddress, 16, new ResultCallBack<List<MinerBean>>() {
+    private void loadMinerUnderPool() {
+        mMineMachineListModel.getMineMachine(this, SysConf.CurPoolAddress, 16,new ResultCallBack<List<MinerBean>>() {
             @Override
             public void onError(Throwable e) {
-                if (hasLoading) {
-                    showErrorDialog(R.string.get_data_failed);
-                }
+                swipeRefreshLayout.setRefreshing(false);
+
+                Utils.toastTips(getString(R.string.get_data_failed));
             }
 
             @Override
@@ -133,9 +136,8 @@ public class MineMachineListActivity extends BaseActivity implements View.OnClic
 
             @Override
             public void onComplete() {
-                if (hasLoading) {
-                    showSuccessDialog(R.string.loading_success);
-                }
+                swipeRefreshLayout.setRefreshing(false);
+                Utils.toastTips(getString(R.string.loading_success));
             }
         });
 

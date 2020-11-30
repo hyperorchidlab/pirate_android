@@ -2,6 +2,8 @@ package com.hop.pirate.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -26,7 +28,7 @@ import com.hop.pirate.util.WrapContentLinearLayoutManager;
 
 import java.util.List;
 
-public class TabPacketsMarketFragment extends BaseFragement implements View.OnClickListener {
+public class TabPacketsMarketFragment extends BaseFragement implements View.OnClickListener , Handler.Callback {
     private TabPacketsMarketModel mTabPacketsMarketModel;
     private RechargeAdapter mRechargeAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -34,6 +36,9 @@ public class TabPacketsMarketFragment extends BaseFragement implements View.OnCl
     private TextView mEmptyTv;
     private TextView myPoolTv;
     private List<MinePoolBean> mMinePoolBeans;
+    private int RELOAD_TIMES=3;
+    private int currentReloadTimes=0;
+    private Handler handler = new Handler(this);
 
     @Nullable
     @Override
@@ -71,9 +76,16 @@ public class TabPacketsMarketFragment extends BaseFragement implements View.OnCl
         mTabPacketsMarketModel.getPoolInfo(syncAllPools,new ResultCallBack<List<MinePoolBean>>() {
             @Override
             public void onError(Throwable e) {
-                mSwipeRefreshLayout.setRefreshing(false);
-                Utils.toastException(mActivity, e, Constants.REQUEST_PACKETS_MARKET_ERROR);
-                setData();
+                if(currentReloadTimes < RELOAD_TIMES){
+                    currentReloadTimes++;
+                    handler.sendEmptyMessageDelayed(0,1000);
+
+                }else{
+                    mSwipeRefreshLayout.setRefreshing(false);
+                    Utils.toastException(mActivity, e, Constants.REQUEST_PACKETS_MARKET_ERROR);
+                    setData();
+                }
+
 
             }
 
@@ -109,11 +121,18 @@ public class TabPacketsMarketFragment extends BaseFragement implements View.OnCl
     public void onDestroy() {
         super.onDestroy();
         mTabPacketsMarketModel.removeAllSubscribe();
+        handler.removeCallbacksAndMessages(null);
     }
 
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(mActivity, PurchasedPoolActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean handleMessage(Message msg) {
+        getPoolInfo(false);
+        return false;
     }
 }
