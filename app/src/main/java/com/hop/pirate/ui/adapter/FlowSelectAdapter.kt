@@ -126,7 +126,8 @@ class FlowSelectAdapter(private val mContext: Context, private val mBytesPerToke
             }
 
             override fun afterTextChanged(s: Editable) {
-                if (TextUtils.isEmpty(hopNumberEt.text.toString())) {
+                val text = hopNumberEt.text.toString()
+                if (TextUtils.isEmpty(text)|| text ==".") {
                     return
                 }
                 val flow = (hopNumberEt.text.toString().toDouble() * mBytesPerToken).toString() + "M"
