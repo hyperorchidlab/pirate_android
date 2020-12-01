@@ -148,7 +148,8 @@ public class FlowSelectAdapter extends RecyclerView.Adapter<FlowSelectAdapter.Vi
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (TextUtils.isEmpty(hopNumberEt.getText().toString())) {
+                String text = hopNumberEt.getText().toString();
+                if (TextUtils.isEmpty(text)|| text.equals(".") ) {
                     return;
                 }
                 String flow = String.valueOf(Double.parseDouble(hopNumberEt.getText().toString()) * mBytesPerToken) + "M";
