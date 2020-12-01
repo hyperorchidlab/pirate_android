@@ -17,6 +17,7 @@ class PacketReader implements Runnable {
     private static final int MAX_PACKET_SIZE = Short.MAX_VALUE;
     private ByteBuffer readerBuf = ByteBuffer.allocate(MAX_PACKET_SIZE);
     private Context mContext;
+    HopApplication app = HopApplication.getApplication();
 
     PacketReader(Context context, FileInputStream fi) {
         mContext = context;
@@ -26,7 +27,7 @@ class PacketReader implements Runnable {
     @Override
     public void run() {
         try {
-            while (Utils.getApplication(mContext).isRunning()) {
+            while (app.isRunning()) {
                 int length = mReader.read(readerBuf.array());
                 if (length == 0) {
                     Thread.sleep(HopService.IDLE_INTERVAL_MS);
@@ -40,8 +41,8 @@ class PacketReader implements Runnable {
 
         } catch (Exception e) {
             e.printStackTrace();
-            if (Utils.getApplication(mContext).isRunning()) {
-                Utils.getApplication(mContext).setRunning(false);
+            if (HopApplication.getApplication().isRunning()) {
+                HopApplication.getApplication().setRunning(false);
                 HopService.stop();
             }
         }

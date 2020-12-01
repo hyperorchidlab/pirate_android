@@ -1,125 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/color_ffffff"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <include
-        layout="@layout/layout_title"
-        android:id="@+id/title" />
+    <data>
+        <variable
+            name="viewModel"
+            type="com.hop.pirate.viewmodel.RechargePacketsVM" />
+    </data>
 
-    <TextView
-        android:id="@+id/hopAddressTitleTv"
-        android:layout_width="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="27dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/hop_address"
-        android:textSize="18sp"
-        android:textColor="@color/color_4d4d4d"
-        android:layout_height="wrap_content" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@color/color_white"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/hopAddressET"
-        android:layout_width="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:drawableBottom="@drawable/split_line"
-        android:layout_marginStart="16dp"
-        android:gravity="center_vertical"
-        android:background="@android:color/transparent"
-        android:layout_marginEnd="16dp"
-        android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@+id/hopAddressTitleTv"
-        android:layout_height="50dp" />
+        <include
+            layout="@layout/layout_title"
+            android:id="@+id/title" />
 
-    <TextView
-        android:id="@+id/minePoolTitleTv"
-        android:layout_width="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="27dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/hopAddressET"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/recharge_packets_mine_pool_address"
-        android:textSize="18sp"
-        android:textColor="@color/color_4d4d4d"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/hop_address_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="27dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/hop_address"
+            android:textSize="18sp"
+            android:textColor="@color/color_4d4d4d"
+            android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/minePoolAddressTv"
-        android:layout_width="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:drawableBottom="@drawable/split_line"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:gravity="center_vertical"
-        android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@+id/minePoolTitleTv"
-        android:layout_height="50dp" />
+        <TextView
+            android:id="@+id/hop_address_et"
+            android:layout_width="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="16dp"
+            android:gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:layout_marginEnd="16dp"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@+id/hop_address_title_tv"
+            android:layout_height="50dp"
+            app:drawableBottomCompat="@drawable/split_line" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/flowRecyclerview"
-        android:layout_width="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/minePoolAddressTv"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/mine_pool_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="27dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/hop_address_et"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/recharge_packets_mine_pool_address"
+            android:textSize="18sp"
+            android:textColor="@color/color_4d4d4d"
+            android:layout_height="wrap_content" />
 
-    <View
-        android:layout_width="0dp"
-        android:background="@drawable/split_line"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/flowRecyclerview"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_height="0.5dp" />
+        <TextView
+            android:id="@+id/mine_pool_address_tv"
+            android:layout_width="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@{viewModel.poolAddress}"
+            android:gravity="center_vertical"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@+id/mine_pool_title_tv"
+            android:layout_height="50dp"
+            app:drawableBottomCompat="@drawable/split_line" />
 
-    <TextView
-        android:id="@+id/hopCoinTv"
-        android:layout_width="wrap_content"
-        android:text="@string/recharge_hop_coin"
-        android:layout_marginStart="16dp"
-        android:gravity="center_vertical"
-        android:textSize="18sp"
-        android:textColor="@color/color_10161c"
-        app:layout_constraintStart_toStartOf="parent"
-        android:drawableBottom="@color/split_line"
-        app:layout_constraintTop_toBottomOf="@+id/flowRecyclerview"
-        android:layout_height="56dp" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/flow_recyclerview"
+            android:layout_width="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/mine_pool_address_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/hopCoinNumberTv"
-        android:layout_width="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="16dp"
-        android:gravity="center_vertical"
-        tools:text="465.000000 HOP"
-        android:textSize="14sp"
-        android:textColor="@color/color_10161c"
-        android:drawableBottom="@color/split_line"
-        app:layout_constraintTop_toBottomOf="@+id/flowRecyclerview"
-        android:layout_height="56dp" />
+        <View
+            android:layout_width="0dp"
+            android:background="@drawable/split_line"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/flow_recyclerview"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="0.5dp" />
 
-    <View
-        android:layout_width="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/split_line"
-        app:layout_constraintTop_toBottomOf="@+id/hopCoinTv"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_height="0.5dp" />
+        <TextView
+            android:id="@+id/hop_coin_tv"
+            android:layout_width="wrap_content"
+            android:text="@string/recharge_hop_coin"
+            android:layout_marginStart="16dp"
+            android:gravity="center_vertical"
+            android:textSize="18sp"
+            android:textColor="@color/color_10161c"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/flow_recyclerview"
+            android:layout_height="56dp"
+            app:drawableBottomCompat="@color/split_line" />
+
+        <TextView
+            android:id="@+id/hop_coin_number_tv"
+            android:layout_width="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"
+            android:gravity="center_vertical"
+            tools:text="465.000000 HOP"
+            android:textSize="14sp"
+            android:textColor="@color/color_10161c"
+            app:layout_constraintTop_toBottomOf="@+id/flow_recyclerview"
+            android:layout_height="56dp"
+            app:drawableBottomCompat="@color/split_line" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/split_line"
+            app:layout_constraintTop_toBottomOf="@+id/hop_coin_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="0.5dp" />
 
 
-</android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

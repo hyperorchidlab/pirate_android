@@ -22,7 +22,7 @@ public class PayPasswordDialog extends Dialog {
     }
 
     public PayPasswordDialog(Context context, PasswordCallBack rechargeFlowCallBack) {
-        super(context, R.style.payPasswordDialog);
+        super(context, R.style.PayPasswordDialog);
         this.mRechargeFlowCallBack = rechargeFlowCallBack;
     }
 
@@ -30,8 +30,8 @@ public class PayPasswordDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_pay_password);
-        mPasswordEt = findViewById(R.id.keyWordView);
-        findViewById(R.id.sureTv).setOnClickListener(new View.OnClickListener() {
+        mPasswordEt = findViewById(R.id.key_word_et);
+        findViewById(R.id.sure_tv).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mRechargeFlowCallBack.callBack(mPasswordEt.getText().toString().trim());

@@ -93,7 +93,7 @@ public class TransferModelImpl extends WaitTxBaseModel implements TransferModel 
 
     @Override
     public void queryTxProcessStatus(final String tx, final ResultCallBack<Boolean> resultCallBack) {
-        queryTxStatus(tx, resultCallBack);
+//        queryTxStatus(tx);
 
     }
 

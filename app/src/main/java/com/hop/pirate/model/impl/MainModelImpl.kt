@@ -1,0 +1,72 @@
+package com.hop.pirate.model.impl
+
+import android.content.Context
+import android.text.TextUtils
+import androidLib.AndroidLib
+import androidLib.HopDelegate
+import com.google.gson.Gson
+import com.hop.pirate.Constants
+import com.hop.pirate.R
+import com.hop.pirate.callback.ResultCallBack
+import com.hop.pirate.model.bean.ExtendToken
+import com.hop.pirate.model.bean.WalletBean
+import com.hop.pirate.util.Utils
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
+import org.apache.commons.io.IOUtils
+
+/**
+ * @description:
+ * @author: mr.x
+ * @date :   2020/5/26 2:47 PM
+ */
+class MainModelImpl {
+    suspend fun initService(context: Context, hopDelegate: HopDelegate) {
+        withTimeout(Constants.TIME_OUT.toLong()) {
+            withContext(Dispatchers.IO) {
+                ExtendToken.CurPaymentContract =
+                    Utils.getString(Constants.CUR_PAYMENT_CONTRACT, Constants.MICROPAY_SYS_ADDRESS)
+                ExtendToken.CurTokenI =
+                    Utils.getString(Constants.CUR_TOKEN, Constants.TOKEN_ADDRESS)
+                ExtendToken.CurSymbol =
+                    Utils.getString(Constants.CUR_SYMBOL, Constants.DEFAULT_SYMBOL)
+                val ipInput = context.resources.openRawResource(R.raw.bypass)
+                val bypassIPs = IOUtils.toString(ipInput)
+                val newDns = Utils.getString(Constants.NEW_DNS, Constants.DNS)
+                AndroidLib.initSystem(
+                    bypassIPs,
+                    Utils.getBaseDir(context),
+                    ExtendToken.CurTokenI,
+                    ExtendToken.CurPaymentContract,
+                    Constants.ETH_API_URL,
+                    newDns,
+                    hopDelegate
+                )
+                AndroidLib.initProtocol()
+                AndroidLib.startProtocol()
+            }
+        }
+
+
+    }
+
+    suspend fun getWalletInfo(): WalletBean {
+        return withTimeout(Constants.TIME_OUT.toLong()) {
+            withContext(Dispatchers.IO) {
+                val walletInfo = AndroidLib.walletInfo()
+                Gson().fromJson(walletInfo, WalletBean::class.java)
+            }
+        }
+
+    }
+
+    suspend fun syncSubPoolsData() {
+        withTimeout(Constants.TIME_OUT.toLong()) {
+            withContext(Dispatchers.IO) {
+                AndroidLib.syncSubPoolsData()
+            }
+        }
+
+    }
+}

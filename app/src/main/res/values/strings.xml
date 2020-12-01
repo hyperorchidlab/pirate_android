@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Pirate</string>
+    <string name="app_name">Pirate kotlin</string>
     <string name="enter_password">Enter Password</string>
     <string name="enter_password_twice_here">Confirm Your Password</string>
     <string name="enter_password_here">Enter pirate Password here..</string>
@@ -110,7 +110,7 @@
     <string name="recharge_sync_pool_success">Sync Pool Success</string>
     <string name="recharge_buy_packets_error">Buy error</string>
 
-    <string name="hop_address">%s address</string>
+    <string name="hop_address">Hop address</string>
     <string name="gtn">GTN：</string>
     <string name="websiteAddress">URL：</string>
     <string name="email">Email：</string>
@@ -180,7 +180,7 @@
     <string name="get_free_coin_title">get free coin</string>
     <string name="supported_currencies">Supported currencies</string>
     <string name="empty_data">empty,Pull down to refresh</string>
-    <string name="empty_order">empty order</string>
+    <string name="empty_order">empty,Pull down to refresh</string>
     <string name="recharge_success">Recharge success</string>
     <string name="click_exit_application">Click again to exit the application</string>
     <string name="create_account_failed">Create Account Failed:</string>

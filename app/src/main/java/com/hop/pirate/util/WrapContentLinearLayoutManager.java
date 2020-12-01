@@ -1,9 +1,10 @@
 package com.hop.pirate.util;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class WrapContentLinearLayoutManager extends LinearLayoutManager {
     public WrapContentLinearLayoutManager(Context context) {

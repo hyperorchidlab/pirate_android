@@ -1,19 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <include
-        layout="@layout/layout_title"
-        android:id="@+id/title" />
+    <data>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/miningPoolRecyclerVeiw"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        android:layout_width="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_height="wrap_content" />
+        <variable
+            name="viewModel"
+            type="com.hop.pirate.viewmodel.MinePoolVM" />
+    </data>
 
-</android.support.constraint.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/title"
+            layout="@layout/layout_title" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            app:onRefreshCommand="@{viewModel.refreshCommand}">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                app:itemBinding="@{viewModel.itemBinding}"
+                app:items="@{viewModel.items}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <include layout="@layout/layout_empty"
+            app:isShow="@{viewModel.showEmptyLayoutEvent}"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

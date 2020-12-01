@@ -14,16 +14,22 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Looper;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
@@ -39,9 +45,8 @@ import com.hop.pirate.Constants;
 import com.hop.pirate.HopApplication;
 import com.hop.pirate.PirateException;
 import com.hop.pirate.R;
-import com.hop.pirate.activity.MainActivity;
-import com.hop.pirate.activity.MineMachineListActivity;
-import com.hop.pirate.activity.MinePoolListActivity;
+import com.hop.pirate.ui.activity.MineMachineListActivity;
+import com.hop.pirate.ui.activity.MinePoolListActivity;
 import com.hop.pirate.callback.AlertDialogOkCallBack;
 import com.hop.pirate.callback.SaveQRCodeCallBack;
 import com.hop.pirate.model.bean.ExtendToken;
@@ -54,6 +59,7 @@ import com.kongzue.dialog.v3.InputDialog;
 import com.kongzue.dialog.v3.MessageDialog;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.net.NetworkInterface;
 import java.util.ArrayList;
@@ -126,9 +132,9 @@ public final class Utils {
         edit.commit();
     }
 
-    public static void clearAllData(Context context) {
-        MineMachineListActivity.sMinerBeans = null;
-        MinePoolListActivity.sMinePoolBeans = null;
+    public static void clearAllData() {
+        MineMachineListActivity.Companion.setSMinerBeans(null);
+        MinePoolListActivity.Companion.setSMinePoolBeans(null);
         clearSharedPref();
     }
 
@@ -275,25 +281,18 @@ public final class Utils {
         return null;
     }
 
-    public static void saveStringQrCode(ContentResolver cr, String data, String fileName, SaveQRCodeCallBack callBack) {
+    public static void saveStringQrCode(ContentResolver cr, String data, String fileName) throws IOException, WriterException {
 
-        try {
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             Bitmap bitmap = barcodeEncoder.encodeBitmap(data,
                     BarcodeFormat.QR_CODE,
                     400,
                     400);
-            saveImageToLocal(cr, bitmap, fileName, callBack);
-        } catch (Exception e) {
-            if (callBack != null) {
-                callBack.save(e.getLocalizedMessage());
-            }
-        }
+            saveImageToLocal(cr, bitmap, fileName);
     }
 
-    private static void saveImageToLocal(ContentResolver cr, Bitmap bitmap, String fileName, SaveQRCodeCallBack callBack) {
+    private static void saveImageToLocal(ContentResolver cr, Bitmap bitmap, String fileName) throws IOException {
 
-        try {
             ContentValues values = new ContentValues();
             values.put(MediaStore.Images.Media.TITLE, fileName);
             values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName);
@@ -310,14 +309,7 @@ public final class Utils {
                 imageOut.close();
             }
 
-            if (callBack != null) {
-                callBack.save(appContext.getString(R.string.save_to_album));
-            }
-        } catch (Exception e) {
-            if (callBack != null) {
-                callBack.save(e.getLocalizedMessage());
-            }
-        }
+
     }
 
 
@@ -497,10 +489,6 @@ public final class Utils {
         return m.matches();
     }
 
-    public static HopApplication getApplication(Context context) {
-        return ((HopApplication) context.getApplicationContext());
-    }
-
     public static void deleteDBData(Context context){
         deleteFile(new File(getBaseDir(context),"data"));
     }
@@ -521,6 +509,17 @@ public final class Utils {
         }
         file.delete();
     }
+
+
+    public static SpannableString formatText(String start, String end) {
+        SpannableString spannableString = new SpannableString(start + end);
+        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#aaffffff"));
+        RelativeSizeSpan relativeSizeSpan = new RelativeSizeSpan(0.8f);
+        spannableString.setSpan(colorSpan, start.length() - 1, (start + end).length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(relativeSizeSpan, start.length() - 1, (start + end).length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        return spannableString;
+    }
+
 
 
 }

@@ -22,7 +22,7 @@ public class HopApplication extends Application {
         HopApplication.sApplication = this;
         DialogSettings.style = DialogSettings.STYLE.STYLE_IOS;
         DialogSettings.modalDialog = true;
-        if (!isApkInDebug()) {
+        if (!BuildConfig.DEBUG) {
             CrashReport.initCrashReport(getApplicationContext(), "cfdc2c8a96", false);
         }
         RxJavaPlugins.setErrorHandler(new Consumer<Throwable>() {
@@ -44,15 +44,6 @@ public class HopApplication extends Application {
 
     public void setRunning(boolean isRunning) {
         this.isRunning = isRunning;
-    }
-
-    public static boolean isApkInDebug() {
-        try {
-            ApplicationInfo info = sApplication.getApplicationInfo();
-            return (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
-        } catch (Exception e) {
-            return false;
-        }
     }
 
 }

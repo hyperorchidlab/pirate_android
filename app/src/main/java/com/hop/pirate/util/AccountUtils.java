@@ -9,7 +9,7 @@ import android.os.Build;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.hop.pirate.R;
-import com.hop.pirate.activity.ScanActivity;
+import com.hop.pirate.ui.activity.ScanActivity;
 
 import java.io.File;
 import java.io.FileInputStream;

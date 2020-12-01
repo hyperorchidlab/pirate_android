@@ -3,7 +3,7 @@ package com.hop.pirate.model;
 import android.content.Context;
 
 import com.hop.pirate.callback.ResultCallBack;
-import com.hop.pirate.model.bean.UserAccountData;
+import com.hop.pirate.model.bean.UserPoolData;
 
 /**
  * @description:
@@ -12,7 +12,7 @@ import com.hop.pirate.model.bean.UserAccountData;
  */
 public interface TabHomeModel {
 
-    void getUserDataOfPool(String user, String pool, ResultCallBack<UserAccountData> resultCallBack);
+    void getUserDataOfPool(String user, String pool, ResultCallBack<UserPoolData> resultCallBack);
 
     void openWallet(Context context, String password, ResultCallBack<Boolean> resultCallBack);
 

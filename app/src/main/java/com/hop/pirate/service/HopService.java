@@ -13,12 +13,13 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.os.ParcelFileDescriptor;
-import android.support.annotation.RequiresApi;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import com.hop.pirate.HopApplication;
 import com.hop.pirate.R;
-import com.hop.pirate.activity.MainActivity;
+import com.hop.pirate.ui.activity.MainActivity;
 import com.hop.pirate.event.EventVPNClosed;
 import com.hop.pirate.event.EventVPNOpen;
 import com.hop.pirate.util.Utils;
@@ -116,7 +117,7 @@ public class HopService extends VpnService implements androidLib.VpnDelegate, Ha
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy: ");
-        Utils.getApplication(this).setRunning(false);
+        HopApplication.getApplication().setRunning(false);
         stop();
     }
 
@@ -131,7 +132,7 @@ public class HopService extends VpnService implements androidLib.VpnDelegate, Ha
             FileInputStream inputStream = new FileInputStream(mInterface.getFileDescriptor());
             mVpnOutputStream = new FileOutputStream(mInterface.getFileDescriptor());
             AndroidLib.startVPN(LOCAL_IP + ":41080", SysConf.CurPoolAddress, SysConf.CurMinerID, this);
-            Utils.getApplication(this).setRunning(true);
+            HopApplication.getApplication().setRunning(true);
             new Thread(new PacketReader(this, inputStream)).start();
 
             EventBus.getDefault().post(new EventVPNOpen());
@@ -155,7 +156,7 @@ public class HopService extends VpnService implements androidLib.VpnDelegate, Ha
 
     @Override
     public void vpnClosed() {
-        Utils.getApplication(this).setRunning(false);
+        HopApplication.getApplication().setRunning(false);
         disconnectVPN();
         EventBus.getDefault().post(new EventVPNClosed());
         stopSelf();

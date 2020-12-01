@@ -1,0 +1,67 @@
+package com.hop.pirate.viewmodel
+
+import android.os.Bundle
+import android.text.SpannableString
+import androidx.databinding.ObservableField
+import androidx.lifecycle.viewModelScope
+import com.hop.pirate.IntentKey
+import com.hop.pirate.ui.activity.RechargePacketsActivity
+import com.hop.pirate.model.bean.OwnPool
+import com.hop.pirate.model.impl.OwnPoolModelImpl
+import com.hop.pirate.service.WalletWrapper
+import com.hop.pirate.util.Utils
+import com.nbs.android.lib.base.ItemViewModel
+import com.nbs.android.lib.command.BindingAction
+import com.nbs.android.lib.command.BindingCommand
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
+
+/**
+ *Author:Mr'x
+ *Time:
+ *Description:
+ */
+class OwnPoolItemVM(var vm:OwnPoolVM,var own:OwnPool,var index:Int) : ItemViewModel<OwnPoolVM>(vm) {
+    private val ownPoolModelImpl = OwnPoolModelImpl()
+    val packets = ObservableField<SpannableString>()
+    val token = ObservableField<SpannableString>()
+    val credit = ObservableField<SpannableString>()
+
+    init {
+        getItemPacket()
+    }
+
+    private fun getItemPacket() {
+        viewModelScope.launch {
+            runCatching {
+                withContext(Dispatchers.IO) {
+                    own.address?.let {
+                        ownPoolModelImpl.getPacketsByPool(
+                            WalletWrapper.MainAddress,
+                            it
+                        )
+                    }
+                }
+            }.onSuccess {
+                it?.let {
+                    packets.set(Utils.formatText(Utils.ConvertBandWidth(it.packets),"\nPackets"))
+                    token.set(Utils.formatText(Utils.ConvertCoin(it.token), " HOP\nToken"))
+                    credit.set(Utils.formatText(it.credit.toString(), "\nCredit"))
+                }
+            }.onFailure {
+            }
+
+        }
+
+    }
+
+    val rechargeCommand= BindingCommand<Any>(object : BindingAction {
+        override fun call() {
+            val bundle = Bundle()
+            bundle.putString(IntentKey.PoolKey,own.address)
+            vm.startActivity(RechargePacketsActivity::class.java,bundle)
+        }
+    })
+}

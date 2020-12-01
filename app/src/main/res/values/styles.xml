@@ -1,4 +1,4 @@
-<resources>
+<resources >
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -39,7 +39,7 @@
         <attr name="bg_radius" format="dimension" />
     </declare-styleable>
 
-    <style name="payPasswordDialog" parent="@android:style/Theme.Holo.Dialog">
+    <style name="PayPasswordDialog" parent="@android:style/Theme.Holo.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowNoTitle">true</item>
@@ -55,10 +55,90 @@
     </style>
 
 
-    <style name="transparent_activity" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="transparentActivity" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@color/color_aa6791c8</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="CreateAccountEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:inputType">textPassword</item>
+        <item name="android:lines">1</item>
+        <item name="android:background">@null</item>
+        <item name="android:drawableBottom">@drawable/bg_edittext_selector</item>
+        <item name="android:textColorHint">@color/color_dedee3</item>
+        <item name="android:hint">@string/enter_password</item>
+    </style>
+
+    <style name="CreateAccountTextInputLayout">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+    </style>
+
+
+    <style name="CreateAccountButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:background">@drawable/bg_rectangle_round4_4d4d4d</item>
+        <item name="android:textSize">18sp</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+    </style>
+
+    <style name="MatchParent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+    <style name="TokenTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_25262a</item>
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+    </style>
+
+
+    <style name="TokenBalance">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/color_25262a</item>
+        <item name="android:layout_marginEnd">5dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+    </style>
+  <style name="TokenUnit">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/color_717171</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+    </style>
+
+  <style name="WalletLab">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">47dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/color_25262a</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textStyle">bold</item>
+        <item name="drawableEndCompat">@drawable/main_arrow_right</item>
+        <item name="drawableBottomCompat">@drawable/split_line</item>
     </style>
 
 </resources>
