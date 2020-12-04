@@ -15,8 +15,9 @@
 
 
         <include
-            layout="@layout/layout_title"
-            android:id="@+id/title" />
+            layout="@layout/layout_title2"
+            app:viewModel="@{viewModel}"
+            android:id="@+id/title_layout" />
 
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

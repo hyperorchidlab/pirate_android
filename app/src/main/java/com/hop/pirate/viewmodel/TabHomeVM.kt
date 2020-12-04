@@ -4,7 +4,7 @@ import androidLib.AndroidLib
 import androidx.lifecycle.viewModelScope
 import com.hop.pirate.HopApplication
 import com.hop.pirate.R
-import com.hop.pirate.model.impl.TabHomeModelImpl
+import com.hop.pirate.model.TabHomeModel
 import com.hop.pirate.service.SysConf
 import com.hop.pirate.service.WalletWrapper
 import com.nbs.android.lib.base.BaseViewModel
@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
  *Description:
  */
 class TabHomeVM : BaseViewModel() {
-    val model = TabHomeModelImpl()
+    val model = TabHomeModel()
     val selectPoolLiveEvent = SingleLiveEvent<Boolean>()
     val selectMinerLiveEvent = SingleLiveEvent<Boolean>()
     val changeVPNStatusEvent = SingleLiveEvent<Boolean>()

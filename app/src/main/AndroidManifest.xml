@@ -49,9 +49,6 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.EthQRExportHelpActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.activity.WebActivity"
             android:screenOrientation="portrait" />
         <activity

@@ -5,8 +5,9 @@ import androidx.databinding.ObservableList
 import androidx.lifecycle.viewModelScope
 import com.hop.pirate.BR
 import com.hop.pirate.R
+import com.hop.pirate.model.MinePoolListModel
 import com.hop.pirate.model.bean.OwnPool
-import com.hop.pirate.model.impl.OwnPoolModelImpl
+import com.hop.pirate.model.OwnPoolModel
 import com.nbs.android.lib.base.BaseViewModel
 import com.nbs.android.lib.command.BindingAction
 import com.nbs.android.lib.command.BindingCommand
@@ -22,8 +23,7 @@ import me.tatarka.bindingcollectionadapter2.ItemBinding
  *Description:
  */
 class MinePoolVM : BaseViewModel() {
-    private val ownPoolModelImpl = OwnPoolModelImpl()
-
+    val model = OwnPoolModel()
     val showEmptyLayoutEvent = SingleLiveEvent<Boolean>().apply { value = false }
     var finishRefreshingEvent = SingleLiveEvent<Any>()
     var finishAndResultOkEvent = SingleLiveEvent<Any>()
@@ -40,7 +40,7 @@ class MinePoolVM : BaseViewModel() {
         viewModelScope.launch {
             runCatching {
                 withContext(Dispatchers.IO) {
-                    ownPoolModelImpl.getPoolDataOfUser()
+                    model.getPoolDataOfUser()
                 }
             }.onSuccess {
                 requestSuccess(it)

@@ -1,5 +1,6 @@
 package com.hop.pirate.viewmodel
 
+import com.nbs.android.lib.base.BaseModel
 import com.nbs.android.lib.base.BaseViewModel
 import com.nbs.android.lib.command.BindingAction
 import com.nbs.android.lib.command.BindingCommand
@@ -18,4 +19,5 @@ class MainNetAddressQRCodeVM :BaseViewModel() {
         }
 
     })
+
 }

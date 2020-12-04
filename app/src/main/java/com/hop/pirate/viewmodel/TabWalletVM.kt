@@ -5,8 +5,8 @@ import android.text.TextUtils
 import androidx.lifecycle.viewModelScope
 import com.hop.pirate.Constants
 import com.hop.pirate.R
+import com.hop.pirate.model.TabWalletModel
 import com.hop.pirate.ui.fragement.TabWalletFragment
-import com.hop.pirate.model.impl.TabSettingModelImpl
 import com.hop.pirate.service.WalletWrapper
 import com.hop.pirate.ui.activity.GuideActivity
 import com.nbs.android.lib.base.BaseViewModel
@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
  *Description:
  */
 class TabWalletVM : BaseViewModel() {
-    val model = TabSettingModelImpl()
+    val model = TabWalletModel()
     val showqrImageEvent = SingleLiveEvent<Boolean>()
     val exportEvent = SingleLiveEvent<Boolean>()
     val queryTxEvent = SingleLiveEvent<Boolean>()

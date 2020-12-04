@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.hop.pirate.HopApplication
 import com.hop.pirate.ui.activity.MainActivity
 import com.hop.pirate.model.bean.AppVersionBean
-import com.hop.pirate.model.impl.SplashModelImpl
+import com.hop.pirate.model.SplashModel
 import com.hop.pirate.service.WalletWrapper
 import com.hop.pirate.ui.activity.CreateAccountActivity
 import com.nbs.android.lib.base.BaseViewModel
@@ -21,14 +21,14 @@ import org.json.JSONObject
  *Description:
  */
 class SplashVM : BaseViewModel() {
-    private val splashModelImpl = SplashModelImpl()
+    val model = SplashModel()
     val delayLoadWalletEvent = SingleLiveEvent<AppVersionBean?>()
 
     fun loadWallet() {
         viewModelScope.launch {
             runCatching {
                 withContext(Dispatchers.IO) {
-                    splashModelImpl.loadWallet(HopApplication.getApplication().applicationContext)
+                    model.loadWallet(HopApplication.getApplication().applicationContext)
                 }
             }.onSuccess {
                 loadWalletSuccess(it)
@@ -61,7 +61,7 @@ class SplashVM : BaseViewModel() {
     fun checkVersion() {
         viewModelScope.launch {
             kotlin.runCatching {
-                splashModelImpl.checkVersion()
+                model.checkVersion()
             }.onSuccess {
                 checkVersionSuccess(it)
             }.onFailure {

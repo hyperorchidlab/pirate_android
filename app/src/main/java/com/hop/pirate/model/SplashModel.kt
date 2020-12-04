@@ -1,10 +1,11 @@
-package com.hop.pirate.model.impl
+package com.hop.pirate.model
 
 import android.content.Context
 import com.google.gson.Gson
 import com.hop.pirate.Constants
 import com.hop.pirate.model.bean.AppVersionBean
 import com.hop.pirate.util.AccountUtils
+import com.nbs.android.lib.base.BaseModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
@@ -18,7 +19,7 @@ import java.net.URL
  * @author: mr.x
  * @date :   2020/5/26 11:10 AM
  */
-class SplashModelImpl {
+class SplashModel : BaseModel(){
     suspend fun loadWallet(context: Context) :String{
         return withTimeout(Constants.TIME_OUT.toLong()) {
             withContext(Dispatchers.IO) {

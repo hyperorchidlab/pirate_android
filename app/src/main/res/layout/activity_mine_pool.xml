@@ -12,10 +12,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <include
-            android:id="@+id/title"
-            layout="@layout/layout_title" />
+            layout="@layout/layout_title2"
+            app:viewModel="@{viewModel}"
+            android:id="@+id/title_layout" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
@@ -27,7 +27,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title"
+            app:layout_constraintTop_toBottomOf="@+id/title_layout"
             app:onRefreshCommand="@{viewModel.refreshCommand}">
 
             <androidx.recyclerview.widget.RecyclerView

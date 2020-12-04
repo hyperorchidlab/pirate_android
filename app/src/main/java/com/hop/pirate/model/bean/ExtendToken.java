@@ -2,8 +2,8 @@ package com.hop.pirate.model.bean;
 
 
 public class ExtendToken {
-    public static String CurPaymentContract = "0x4291d9Ff189D90Ba875E0fc1Da4D602406DD7D6e";
-    public static String CurTokenI = "0xAd44c8493dE3FE2B070f33927A315b50Da9a0e25";
+    public static String CurPaymentContract;
+    public static String CurTokenI ;
     public static String CurSymbol = "HOP";
     public static String TAG = "Extend token Bean";
 
@@ -12,8 +12,6 @@ public class ExtendToken {
     private String symbol;
     private double balance;
     private int decimal;
-
-
     private boolean isChecked;
 
 

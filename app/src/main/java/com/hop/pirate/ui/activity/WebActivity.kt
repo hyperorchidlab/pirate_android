@@ -21,7 +21,7 @@ class WebActivity : BaseActivity<WebVM,ActivityWebBinding>() {
     override fun getLayoutId(): Int = R.layout.activity_web
 
     override fun initView() {
-
+        mViewModel.showBackImage.set(true)
         webView.webChromeClient = object : WebChromeClient() {
             override fun onReceivedTitle(view: WebView, title: String) {
                 super.onReceivedTitle(view, title)

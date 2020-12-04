@@ -10,7 +10,7 @@ import me.tatarka.bindingcollectionadapter2.ItemBinding
 import com.hop.pirate.BR
 import com.hop.pirate.R
 import com.hop.pirate.model.bean.OwnPool
-import com.hop.pirate.model.impl.OwnPoolModelImpl
+import com.hop.pirate.model.OwnPoolModel
 import com.nbs.android.lib.event.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,7 +23,7 @@ import kotlinx.coroutines.withContext
  *Description:
  */
 class OwnPoolVM : BaseViewModel() {
-    private val ownPoolModelImpl = OwnPoolModelImpl()
+    val model = OwnPoolModel()
     val showEmptyLayoutEvent = SingleLiveEvent<Boolean>().apply { value = false }
 
     var finishRefreshingEvent = SingleLiveEvent<Any>()
@@ -40,7 +40,7 @@ class OwnPoolVM : BaseViewModel() {
         viewModelScope.launch {
             runCatching {
                 withContext(Dispatchers.IO) {
-                    ownPoolModelImpl.getPoolDataOfUser()
+                    model.getPoolDataOfUser()
                 }
             }.onSuccess {
                 requestSuccess(it)

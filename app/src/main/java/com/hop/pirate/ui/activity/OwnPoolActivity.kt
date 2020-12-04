@@ -7,6 +7,7 @@ import com.hop.pirate.BR
 import com.hop.pirate.Constants
 import com.hop.pirate.R
 import com.hop.pirate.databinding.ActivityOwnPoolBinding
+import com.hop.pirate.model.OwnPoolModel
 import com.hop.pirate.viewmodel.OwnPoolVM
 import com.nbs.android.lib.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_own_pool.*
@@ -21,6 +22,8 @@ class OwnPoolActivity : BaseActivity<OwnPoolVM, ActivityOwnPoolBinding>() {
     override fun getLayoutId(): Int = R.layout.activity_own_pool
 
     override fun initView() {
+        mViewModel.title.set(getString(R.string.my_pool))
+        mViewModel.showBackImage.set(true)
         recyclerView.itemAnimator = null
     }
 

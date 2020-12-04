@@ -77,7 +77,7 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
     }
 
     private fun showUpdateAppDialog(versionBean: AppVersionBean) {
-        val updateMsg: String
+        val updateMsg: String?
         val able = resources.configuration.locale.country
         updateMsg = if (able == "CN") {
             versionBean.updateMsgCN

@@ -10,7 +10,7 @@ import com.hop.pirate.ui.activity.MainActivity
 import com.hop.pirate.event.EventLoadWalletSuccess
 import com.hop.pirate.event.EventRechargeSuccess
 import com.hop.pirate.model.bean.WalletBean
-import com.hop.pirate.model.impl.MainModelImpl
+import com.hop.pirate.model.MainModel
 import com.hop.pirate.service.HopService
 import com.hop.pirate.service.WalletWrapper
 import com.hop.pirate.util.Utils
@@ -25,13 +25,13 @@ import org.greenrobot.eventbus.EventBus
  *Description:
  */
 class MainVM : BaseViewModel(), HopDelegate {
-    val mainModel = MainModelImpl()
+    val model = MainModel()
     val hindeFreeCoinEvent = SingleLiveEvent<Boolean>()
     val initServiceFailEvent = SingleLiveEvent<Boolean>()
     fun initService() {
         viewModelScope.launch {
             kotlin.runCatching {
-                mainModel.initService(HopApplication.getApplication().applicationContext, this@MainVM)
+                model.initService(HopApplication.getApplication().applicationContext, this@MainVM)
             }.onSuccess {
                 onInitServiceSuccess()
             }.onFailure {
@@ -51,7 +51,7 @@ class MainVM : BaseViewModel(), HopDelegate {
         }
         viewModelScope.launch {
             kotlin.runCatching {
-                mainModel.getWalletInfo()
+                model.getWalletInfo()
             }.onSuccess {
                 onWalletInfoSuccess(isShowLoading,it)
             }.onFailure {
@@ -65,7 +65,7 @@ class MainVM : BaseViewModel(), HopDelegate {
 
     fun syncSubPoolsData() {
         viewModelScope.launch {
-            mainModel.syncSubPoolsData()
+            model.syncSubPoolsData()
         }
 
 

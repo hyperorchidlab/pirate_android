@@ -96,7 +96,7 @@
     <string name="recharge_custom">自定义</string>
     <string name="websiteAddress">URL：</string>
     <string name="email">Email：</string>
-    <string name="mine_machine">地址</string>
+    <string name="mine_machine">矿机列表</string>
     <string name="recharge_hop_coin">%s余额</string>
     <string name="recharge_buy_flow">购买流量</string>
     <string name="recharge_hop_money">%s金额</string>

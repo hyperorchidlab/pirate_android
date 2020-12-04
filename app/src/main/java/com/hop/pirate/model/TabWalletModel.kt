@@ -1,20 +1,10 @@
-package com.hop.pirate.model.impl
+package com.hop.pirate.model
 
 import android.content.ContentResolver
-import android.text.TextUtils
 import androidLib.AndroidLib
 import com.hop.pirate.Constants
-import com.hop.pirate.PirateException
 import com.hop.pirate.base.WaitTxBaseModel
-import com.hop.pirate.callback.ResultCallBack
-import com.hop.pirate.callback.SaveQRCodeCallBack
-import com.hop.pirate.model.TabSettingModel
 import com.hop.pirate.util.Utils
-import io.reactivex.Observable
-import io.reactivex.Observer
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
@@ -24,7 +14,7 @@ import kotlinx.coroutines.withTimeout
  * @author: mr.x
  * @date :   2020/5/27 9:09 AM
  */
-class TabSettingModelImpl : WaitTxBaseModel() {
+class TabWalletModel : WaitTxBaseModel() {
 
      suspend fun exportAccount(cr: ContentResolver, data: String, fileName: String) {
        withTimeout(Constants.TIME_OUT.toLong()){

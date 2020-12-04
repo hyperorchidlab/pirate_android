@@ -60,6 +60,7 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
         mViewModel.selectMinerLiveEvent.observe(this, Observer {
             if (TextUtils.isEmpty(SysConf.CurPoolAddress)) {
                 Utils.toastTips(getString(R.string.select_subscribed_mining_pool))
+                return@Observer
             }
             val intent = Intent(mActivity, MineMachineListActivity::class.java)
             startActivityForResult(intent, Constants.REQUEST_MINE_MACHINE_CODE)

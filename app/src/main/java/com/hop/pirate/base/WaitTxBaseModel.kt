@@ -2,14 +2,10 @@ package com.hop.pirate.base
 
 import androidLib.AndroidLib
 import com.hop.pirate.Constants
-import com.hop.pirate.callback.ResultCallBack
-import io.reactivex.Observable
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
+import com.nbs.android.lib.base.BaseModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
-import java.util.concurrent.TimeUnit
 
 /**
  * @description:

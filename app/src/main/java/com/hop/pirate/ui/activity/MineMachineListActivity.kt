@@ -15,6 +15,8 @@ class MineMachineListActivity : BaseActivity<MineMachineListVM, ActivityMineMach
     override fun getLayoutId(): Int = R.layout.activity_mine_machine
 
     override fun initView() {
+        mViewModel.title.set(getString(R.string.mine_machine))
+        mViewModel.showBackImage.set(true)
         swipeRefreshLayout.setRefreshing(true)
         recyclerView.itemAnimator = null
     }

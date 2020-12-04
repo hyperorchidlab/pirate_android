@@ -20,6 +20,8 @@ class MinePoolListActivity : BaseActivity<MinePoolVM,ActivityMinePoolBinding>() 
     override fun getLayoutId(): Int = R.layout.activity_mine_pool
 
     override fun initView() {
+        mViewModel.title.set(getString(R.string.my_pool))
+        mViewModel.showBackImage.set(true)
         recyclerView.itemAnimator = null
     }
 

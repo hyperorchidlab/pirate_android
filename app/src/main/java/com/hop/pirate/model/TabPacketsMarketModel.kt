@@ -1,8 +1,9 @@
-package com.hop.pirate.model.impl
+package com.hop.pirate.model
 
 import androidLib.AndroidLib
 import com.hop.pirate.Constants
 import com.hop.pirate.model.bean.MinePoolBean
+import com.nbs.android.lib.base.BaseModel
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -15,7 +16,7 @@ import java.util.*
  * @author: mr.x
  * @date :   2020/5/26 2:59 PM
  */
-class TabPacketsMarketModelImpl {
+class TabPacketsMarketModel : BaseModel(){
    suspend fun getPoolInfo(syncAllPools: Boolean):List<MinePoolBean> {
        return withTimeout(Constants.TIME_OUT.toLong()) {
            withContext(Dispatchers.IO){

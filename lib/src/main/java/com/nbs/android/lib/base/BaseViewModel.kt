@@ -5,9 +5,13 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.nbs.android.lib.command.BindingAction
 import com.nbs.android.lib.command.BindingCommand
 import com.nbs.android.lib.event.SingleLiveEvent
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.launch
 import java.util.*
 
 
@@ -23,6 +27,8 @@ open class BaseViewModel : ViewModel() {
     val showRightImage = ObservableField<Boolean>(false)
     val showRightText = ObservableField<Boolean>(false)
     val rightText = ObservableField<String>("")
+
+    val jobs = mutableListOf<Job>()
 
     val clickBackCommand = BindingCommand<Any>(object : BindingAction {
         override fun call() {
@@ -144,6 +150,17 @@ open class BaseViewModel : ViewModel() {
         override fun observe(owner: LifecycleOwner, observer: Observer<in Any>) {
             super.observe(owner, observer)
         }
+    }
+
+    fun cancelRequest(){
+        println("-----cancelRequest")
+        viewModelScope.launch {
+            jobs.forEach {
+                it.cancelAndJoin()
+            }
+
+        }
+
     }
 
 

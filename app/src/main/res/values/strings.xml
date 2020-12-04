@@ -114,7 +114,7 @@
     <string name="gtn">GTN：</string>
     <string name="websiteAddress">URL：</string>
     <string name="email">Email：</string>
-    <string name="mine_machine">Address</string>
+    <string name="mine_machine">Mine machine list</string>
     <string name="wallet_flow_unit_hop">HOP</string>
     <string name="hop_transfer_record_own_hop_coin">Own Hop Coins</string>
     <string name="hop_transfer_to_me">Transfer to you</string>

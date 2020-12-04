@@ -1,6 +1,7 @@
 package com.hop.pirate.viewmodel
 
 import com.hop.pirate.R
+import com.nbs.android.lib.base.BaseModel
 import com.nbs.android.lib.base.BaseViewModel
 
 /**
@@ -15,5 +16,6 @@ class GuideVM : BaseViewModel() {
         R.drawable.guide_03,
         R.drawable.guide_04
     )
+
 
 }

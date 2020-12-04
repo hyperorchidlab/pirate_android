@@ -30,7 +30,7 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
 
     protected lateinit var mDataBinding: DB
     private var viewModelId = 0
-    private  var dialog: SweetAlertDialog? = null
+    protected  var dialog: SweetAlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -124,20 +124,16 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
     @JvmOverloads
     open fun showDialog(title: String = getString(R.string.LOADING)) {
 
-        if (dialog == null) {
             dialog = SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
-            dialog?.let {
-                it.progressHelper.barColor = resources.getColor(R.color.colorAccent, null)
-                it.titleText = title
-                it.setCancelable(false)
-                it.show()
+            dialog?.apply {
+                progressHelper.barColor = resources.getColor(R.color.colorAccent, null)
+                titleText = title
+                setCancelable(true)
+                setOnCancelListener {
+                    mViewModel.cancelRequest()
+                }
+                show()
             }
-        } else {
-            dialog?.let {
-                it.titleText = title
-                it.show()
-            }
-        }
     }
 
     open fun dismissDialog() {

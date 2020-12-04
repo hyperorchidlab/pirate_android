@@ -6,16 +6,14 @@ import androidx.lifecycle.viewModelScope
 import com.hop.pirate.R
 import com.hop.pirate.ui.activity.MainActivity
 import com.hop.pirate.event.EventNewAccount
-import com.hop.pirate.model.impl.CreateAccountModelImpl
+import com.hop.pirate.model.CreateAccountModel
 import com.hop.pirate.service.WalletWrapper
 import com.hop.pirate.util.Utils
 import com.nbs.android.lib.base.BaseViewModel
 import com.nbs.android.lib.command.BindingAction
 import com.nbs.android.lib.command.BindingCommand
 import com.nbs.android.lib.event.SingleLiveEvent
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 
@@ -25,7 +23,7 @@ import org.json.JSONObject
  *Description:
  */
 class CreateAccountVM : BaseViewModel() {
-    val createAccountModel = CreateAccountModelImpl()
+    val model = CreateAccountModel()
     val password = ObservableField<String>()
     val confirmPassword = ObservableField<String>()
     val showImportDialogEvent = SingleLiveEvent<Any?>()
@@ -53,20 +51,33 @@ class CreateAccountVM : BaseViewModel() {
 
     fun createAccount() {
         showDialog(R.string.creating_account)
-        viewModelScope.launch {
+        val job = viewModelScope.launch {
             runCatching {
                 withContext(Dispatchers.IO) {
-                    createAccountModel.createAccount(password.get()!!)
+                    model.createAccount(password.get()!!)
                 }
             }.onSuccess {
                 createSuccess(it)
             }.onFailure {
                 createFailure()
-
-
             }
         }
+//        val job = viewModelScope.launch {
+//            runCatching {
+//                withContext(Dispatchers.IO) {
+//                   delay(5000)
+//                }
+//            }.onSuccess {
+//                println("---------------执行了成功")
+//                dismissDialog()
+//            }.onFailure {
+//                println("----------${it.message}")
+//                dismissDialog()
+//                println("---------------执行了失败")
+//            }
+//        }
 
+        jobs.add(job)
 
     }
 
@@ -95,9 +106,9 @@ class CreateAccountVM : BaseViewModel() {
 
     fun importWallet(password: String, walletStr: String) {
         showDialog(R.string.password_error)
-        viewModelScope.launch {
+        val job = viewModelScope.launch {
             runCatching {
-                createAccountModel.importWallet(walletStr, password)
+                model.importWallet(walletStr, password)
             }.onSuccess {
                 importWalletSuccess(walletStr)
             }.onFailure {
@@ -105,6 +116,7 @@ class CreateAccountVM : BaseViewModel() {
 
             }
         }
+        jobs.add(job)
     }
 
 

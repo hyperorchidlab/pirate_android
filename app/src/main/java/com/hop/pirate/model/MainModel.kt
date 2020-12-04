@@ -1,16 +1,15 @@
-package com.hop.pirate.model.impl
+package com.hop.pirate.model
 
 import android.content.Context
-import android.text.TextUtils
 import androidLib.AndroidLib
 import androidLib.HopDelegate
 import com.google.gson.Gson
 import com.hop.pirate.Constants
 import com.hop.pirate.R
-import com.hop.pirate.callback.ResultCallBack
 import com.hop.pirate.model.bean.ExtendToken
 import com.hop.pirate.model.bean.WalletBean
 import com.hop.pirate.util.Utils
+import com.nbs.android.lib.base.BaseModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
@@ -21,7 +20,7 @@ import org.apache.commons.io.IOUtils
  * @author: mr.x
  * @date :   2020/5/26 2:47 PM
  */
-class MainModelImpl {
+class MainModel : BaseModel() {
     suspend fun initService(context: Context, hopDelegate: HopDelegate) {
         withTimeout(Constants.TIME_OUT.toLong()) {
             withContext(Dispatchers.IO) {

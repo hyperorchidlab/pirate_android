@@ -1,4 +1,4 @@
-package com.hop.pirate.model.impl
+package com.hop.pirate.model
 
 import androidLib.AndroidLib
 import com.google.gson.Gson
@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken
 import com.hop.pirate.Constants
 import com.hop.pirate.model.bean.OwnPool
 import com.hop.pirate.model.bean.UserPoolData
+import com.nbs.android.lib.base.BaseModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
@@ -16,7 +17,7 @@ import kotlinx.coroutines.withTimeout
  * @author: mr.x
  * @date :   2020/5/26 4:07 PM
  */
-class OwnPoolModelImpl {
+class OwnPoolModel : BaseModel() {
     suspend fun getPoolDataOfUser(): ArrayList<OwnPool>? {
         return withTimeout(Constants.TIME_OUT.toLong()) {
             withContext(Dispatchers.IO) {

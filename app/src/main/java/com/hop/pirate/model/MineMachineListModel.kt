@@ -1,29 +1,15 @@
-package com.hop.pirate.model.impl
+package com.hop.pirate.model
 
-import android.content.Context
 import android.text.TextUtils
 import androidLib.AndroidLib
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.hop.pirate.Constants
-import com.hop.pirate.PirateException
-import com.hop.pirate.R
-import com.hop.pirate.base.BaseModel
-import com.hop.pirate.callback.ResultCallBack
-import com.hop.pirate.model.MineMachineListModel
 import com.hop.pirate.model.bean.MinerBean
-import com.hop.pirate.model.bean.OwnPool
-import com.hop.pirate.model.bean.WalletBean
-import com.hop.pirate.service.SysConf
-import io.reactivex.Observable
-import io.reactivex.ObservableOnSubscribe
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
+import com.nbs.android.lib.base.BaseModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
-import org.json.JSONArray
-import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
 
@@ -32,7 +18,7 @@ import java.util.*
  * @author: mr.x
  * @date :   2020/5/30 2:10 PM
  */
-class MineMachineListModelImpl {
+class MineMachineListModel : BaseModel(){
     suspend fun getMineMachine(address: String, random: Int): List<MinerBean> {
         return withTimeout(Constants.TIME_OUT.toLong()) {
             withContext(Dispatchers.IO) {

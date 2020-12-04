@@ -13,8 +13,7 @@ import com.hop.pirate.databinding.FragmentWalletBinding
 import com.hop.pirate.event.EventLoadWalletSuccess
 import com.hop.pirate.event.EventRechargeSuccess
 import com.hop.pirate.model.bean.ExtendToken
-import com.hop.pirate.model.bean.WalletBean
-import com.hop.pirate.model.impl.TabSettingModelImpl
+import com.hop.pirate.model.TabWalletModel
 import com.hop.pirate.service.HopService
 import com.hop.pirate.service.WalletWrapper
 import com.hop.pirate.ui.activity.CreateAccountActivity
@@ -33,7 +32,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(), Handler.Callback {
-    private var mTabSettingModel: TabSettingModelImpl? = null
+    private var mTabSettingModel: TabWalletModel? = null
     private var mHandler: Handler? = null
 
     override fun getLayoutId(): Int = R.layout.fragment_wallet
@@ -42,7 +41,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(), Ha
         mViewModel.title.set(getString(R.string.tab_wallet))
         mViewModel.showRightImage.set(true)
         mHandler = Handler(this)
-        mTabSettingModel = TabSettingModelImpl()
+        mTabSettingModel = TabWalletModel()
         EventBus.getDefault().register(this)
 
         val newDns = Utils.getString(Constants.NEW_DNS, Constants.DNS)
@@ -216,7 +215,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(), Ha
             .setMessage(R.string.tab_setting_dns_empty)
             .setOkButton(
                 R.string.sure,
-                OnInputDialogButtonClickListener { baseDialog, v, inputStr ->
+                OnInputDialogButtonClickListener { _, _, inputStr ->
                     if (TextUtils.isEmpty(inputStr)) {
                         Utils.toastTips(getString(R.string.tab_setting_dns_empty))
                         return@OnInputDialogButtonClickListener true

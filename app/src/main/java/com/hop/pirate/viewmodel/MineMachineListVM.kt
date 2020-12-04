@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.hop.pirate.BR
 import com.hop.pirate.R
 import com.hop.pirate.model.bean.MinerBean
-import com.hop.pirate.model.impl.MineMachineListModelImpl
+import com.hop.pirate.model.MineMachineListModel
 import com.hop.pirate.service.SysConf
 import com.nbs.android.lib.base.BaseViewModel
 import com.nbs.android.lib.command.BindingAction
@@ -23,11 +23,11 @@ import java.text.DecimalFormat
  *Description:
  */
 class MineMachineListVM : BaseViewModel() {
+    val model = MineMachineListModel()
     val finishAndResultOk :MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>()
     }
     val showEmptyLayoutEvent = SingleLiveEvent<Boolean>().apply { value=false }
-    val mineMachineListModelImpl = MineMachineListModelImpl()
     val mDecimalFormat = DecimalFormat("0.00")
     val items: ObservableList<MineMachineItemVM> = ObservableArrayList()
     val itemBinding = ItemBinding.of<MineMachineItemVM>(BR.item, R.layout.item_mine_machine)
@@ -40,7 +40,7 @@ class MineMachineListVM : BaseViewModel() {
                 viewModelScope.launch {
                     kotlin.runCatching {
                         for (item in items) {
-                            item.minerBean.time.set(mDecimalFormat.format(mineMachineListModelImpl.ping(item.minerBean.address)))
+                            item.minerBean.time.set(mDecimalFormat.format(model.ping(item.minerBean.address)))
                         }
                     }
 
@@ -60,7 +60,7 @@ class MineMachineListVM : BaseViewModel() {
     fun getMachineList(address: String, random: Int) {
         viewModelScope.launch {
             runCatching {
-                mineMachineListModelImpl.getMineMachine(address,random)
+                model.getMineMachine(address,random)
             }.onSuccess {
                 onGetMachineListSuccess(it)
             }.onFailure {

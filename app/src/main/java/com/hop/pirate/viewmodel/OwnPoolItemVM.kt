@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.hop.pirate.IntentKey
 import com.hop.pirate.ui.activity.RechargePacketsActivity
 import com.hop.pirate.model.bean.OwnPool
-import com.hop.pirate.model.impl.OwnPoolModelImpl
+import com.hop.pirate.model.OwnPoolModel
 import com.hop.pirate.service.WalletWrapper
 import com.hop.pirate.util.Utils
 import com.nbs.android.lib.base.ItemViewModel
@@ -24,7 +24,7 @@ import kotlinx.coroutines.withContext
  *Description:
  */
 class OwnPoolItemVM(var vm:OwnPoolVM,var own:OwnPool,var index:Int) : ItemViewModel<OwnPoolVM>(vm) {
-    private val ownPoolModelImpl = OwnPoolModelImpl()
+    private val ownPoolModelImpl = OwnPoolModel()
     val packets = ObservableField<SpannableString>()
     val token = ObservableField<SpannableString>()
     val credit = ObservableField<SpannableString>()

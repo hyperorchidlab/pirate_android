@@ -27,6 +27,8 @@ class RechargePacketsActivity : BaseActivity<RechargePacketsVM,ActivityRechargeP
 
     override fun getLayoutId(): Int = R.layout.activity_recharge_packets
     override fun initView() {
+        mViewModel.title.set(getString(R.string.recharge_recharge_flow))
+        mViewModel.showBackImage.set(true)
         sysbol = Utils.getString(Constants.CUR_SYMBOL, "HOP")
         hop_address_et.setText(WalletWrapper.MainAddress);
         hop_coin_number_tv.setText(Utils.ConvertCoin(WalletWrapper.HopBalance));
@@ -73,7 +75,11 @@ class RechargePacketsActivity : BaseActivity<RechargePacketsVM,ActivityRechargeP
             Utils.toastTips(String.format(getString(R.string.token_insufficient_balance), sysbol))
             return
         }
-        PayPasswordDialog(this, PasswordCallBack { password -> mViewModel.openWallet(password) }).show()
+        PayPasswordDialog(this, object : PasswordCallBack {
+            override fun callBack(password: String) {
+                mViewModel.openWallet(password)
+            }
+        }).show()
     }
 
 

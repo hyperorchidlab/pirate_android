@@ -13,14 +13,15 @@ import kotlinx.android.synthetic.main.activity_main_net_address_qr_code.*
 
 class MainNetAddressQRCodeActivity : BaseActivity<MainNetAddressQRCodeVM,ActivityMainNetAddressQrCodeBinding>() {
 
-    override fun initData() {
-        val qrStr2Bitmap = Utils.QRStr2Bitmap(WalletWrapper.MainAddress)
-        qr_iv.setImageBitmap(qrStr2Bitmap)
-    }
 
     override fun getLayoutId(): Int = R.layout.activity_main_net_address_qr_code
 
     override fun initView() {
+    }
+
+    override fun initData() {
+        val qrStr2Bitmap = Utils.QRStr2Bitmap(WalletWrapper.MainAddress)
+        qr_iv.setImageBitmap(qrStr2Bitmap)
     }
 
     override fun initObserve() {

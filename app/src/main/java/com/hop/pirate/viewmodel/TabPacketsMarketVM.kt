@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.hop.pirate.BR
 import com.hop.pirate.R
 import com.hop.pirate.model.bean.MinePoolBean
-import com.hop.pirate.model.impl.TabPacketsMarketModelImpl
+import com.hop.pirate.model.TabPacketsMarketModel
 import com.hop.pirate.ui.activity.OwnPoolActivity
 import com.nbs.android.lib.base.BaseViewModel
 import com.nbs.android.lib.command.BindingAction
@@ -21,7 +21,7 @@ import me.tatarka.bindingcollectionadapter2.ItemBinding
  *Description:
  */
 class TabPacketsMarketVM : BaseViewModel() {
-    val packetMarketModelImpl = TabPacketsMarketModelImpl()
+    val model = TabPacketsMarketModel()
     val showEmptyLayoutEvent = SingleLiveEvent<Boolean>().apply { value = false }
     val items: ObservableList<PacketsMarketItemVM> = ObservableArrayList()
     val itemBinding = ItemBinding.of<PacketsMarketItemVM>(BR.item, R.layout.item_market_pool)
@@ -40,7 +40,7 @@ class TabPacketsMarketVM : BaseViewModel() {
     fun getPoolInfo(syncAllPools: Boolean) {
         viewModelScope.launch {
             kotlin.runCatching {
-                packetMarketModelImpl.getPoolInfo(syncAllPools)
+                model.getPoolInfo(syncAllPools)
             }.onSuccess {
                 onGetPoolInfoSuccess(it)
             }.onFailure {

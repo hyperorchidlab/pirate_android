@@ -1,12 +1,11 @@
-package com.hop.pirate.model.impl
+package com.hop.pirate.model
 
-import android.content.Context
 import android.text.TextUtils
 import androidLib.AndroidLib
 import com.hop.pirate.model.bean.MinePoolBean
+import com.nbs.android.lib.base.BaseModel
 import org.json.JSONArray
 import org.json.JSONException
-import java.util.*
 import kotlin.jvm.Throws
 
 /**
@@ -14,7 +13,7 @@ import kotlin.jvm.Throws
  * @author: mr.x
  * @date :   2020/5/26 4:07 PM
  */
-class MinePoolListModelImpl {
+class MinePoolListModel : BaseModel(){
     @Throws(JSONException::class)
     fun getPoolDataOfUser() :List<MinePoolBean>{
         val minePoolBeans= mutableListOf<MinePoolBean>()

@@ -4,7 +4,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
 import com.hop.pirate.R
 import com.hop.pirate.event.EventRechargeSuccess
-import com.hop.pirate.model.impl.RechargeModelImpl
+import com.hop.pirate.model.RechargeModel
 import com.hop.pirate.service.WalletWrapper
 import com.nbs.android.lib.base.BaseViewModel
 import com.nbs.android.lib.event.SingleLiveEvent
@@ -18,17 +18,18 @@ import kotlin.math.pow
  *Description:
  */
 class RechargePacketsVM:BaseViewModel() {
+    val model = RechargeModel()
     private val AUTHORIZE_TOKEN = 4.2e8
     val poolAddress = ObservableField<String>("")
     var tokenNO = 0.0
     val bytePreTokenEvent = SingleLiveEvent<Double>()
     val syncPoolSuccessEvent = SingleLiveEvent<Boolean>()
-    val rechargeModelImpl = RechargeModelImpl()
+
      fun initFlows(){
         showDialog(R.string.waiting)
         viewModelScope.launch {
             kotlin.runCatching {
-                rechargeModelImpl.getBytesPerToken()
+                model.getBytesPerToken()
             }.onSuccess {
                 oninitFlowsSuccess(it)
             }.onFailure {
@@ -52,7 +53,7 @@ class RechargePacketsVM:BaseViewModel() {
         showDialog(R.string.open_wallet)
         viewModelScope.launch {
             kotlin.runCatching {
-                rechargeModelImpl.openWallet(password)
+                model.openWallet(password)
             }.onSuccess {
                 onOpenWalletSuccess()
             }.onFailure {
@@ -80,7 +81,7 @@ class RechargePacketsVM:BaseViewModel() {
         println("~~~~~~~~~show recharge_buy_packets${System.currentTimeMillis()}")
         viewModelScope.launch {
             kotlin.runCatching {
-                rechargeModelImpl.buyPacket(WalletWrapper.MainAddress,poolAddress.get()!!,tokenNO)
+                model.buyPacket(WalletWrapper.MainAddress,poolAddress.get()!!,tokenNO)
             }.onSuccess {
                 onBuyPacketSuccess(it)
             }.onFailure {
@@ -104,7 +105,7 @@ class RechargePacketsVM:BaseViewModel() {
         showDialog(R.string.approving)
         viewModelScope.launch {
             kotlin.runCatching {
-                rechargeModelImpl.approve(AUTHORIZE_TOKEN)
+                model.approve(AUTHORIZE_TOKEN)
             }.onSuccess {
                 onApproveSuccess(it)
             }.onFailure {
@@ -126,7 +127,7 @@ class RechargePacketsVM:BaseViewModel() {
     fun queryTxStatus(tx: String, isProve: Boolean){
         viewModelScope.launch {
             kotlin.runCatching {
-                rechargeModelImpl.queryTxStatus(tx)
+                model.queryTxStatus(tx)
             }.onSuccess {
                 onQueryTxStatusSuccess(isProve)
             }.onFailure {
@@ -156,7 +157,7 @@ class RechargePacketsVM:BaseViewModel() {
     private fun syncPool() {
         viewModelScope.launch {
             kotlin.runCatching {
-                rechargeModelImpl.syncPool(poolAddress.get()!!)
+                model.syncPool(poolAddress.get()!!)
             }.onSuccess {
                 onSyncPoolSuccess(it)
             }.onFailure {
@@ -178,4 +179,5 @@ class RechargePacketsVM:BaseViewModel() {
             showToast(R.string.recharge_sync_pool_failed)
         }
     }
+
 }

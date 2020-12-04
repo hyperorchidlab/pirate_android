@@ -5,6 +5,7 @@ import com.hop.pirate.HopApplication
 import com.hop.pirate.R
 import com.hop.pirate.ui.activity.MineMachineListActivity.Companion.sMinerBeans
 import com.hop.pirate.event.EventReloadPoolsMarket
+import com.hop.pirate.model.OwnPoolModel
 import com.hop.pirate.model.bean.OwnPool
 import com.hop.pirate.service.HopService
 import com.hop.pirate.service.SysConf
