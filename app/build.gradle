@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 30
     defaultConfig {
         applicationId 'com.hop.pirate'
         minSdkVersion 23
-        targetSdkVersion 28
-        versionCode 100502
-        versionName '1.5.2'
+        targetSdkVersion 30
+        versionCode 100503
+        versionName '1.5.3'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         renderscriptTargetApi 19
         renderscriptSupportModeEnabled true
