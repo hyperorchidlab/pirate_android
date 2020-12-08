@@ -28,8 +28,6 @@ class MainModel : BaseModel() {
                     Utils.getString(Constants.CUR_PAYMENT_CONTRACT, Constants.MICROPAY_SYS_ADDRESS)
                 ExtendToken.CurTokenI =
                     Utils.getString(Constants.CUR_TOKEN, Constants.TOKEN_ADDRESS)
-                ExtendToken.CurSymbol =
-                    Utils.getString(Constants.CUR_SYMBOL, Constants.DEFAULT_SYMBOL)
                 val ipInput = context.resources.openRawResource(R.raw.bypass)
                 val bypassIPs = IOUtils.toString(ipInput)
                 val newDns = Utils.getString(Constants.NEW_DNS, Constants.DNS)

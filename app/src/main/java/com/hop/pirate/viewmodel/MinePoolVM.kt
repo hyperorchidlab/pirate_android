@@ -5,16 +5,13 @@ import androidx.databinding.ObservableList
 import androidx.lifecycle.viewModelScope
 import com.hop.pirate.BR
 import com.hop.pirate.R
-import com.hop.pirate.model.MinePoolListModel
 import com.hop.pirate.model.bean.OwnPool
 import com.hop.pirate.model.OwnPoolModel
 import com.nbs.android.lib.base.BaseViewModel
 import com.nbs.android.lib.command.BindingAction
 import com.nbs.android.lib.command.BindingCommand
 import com.nbs.android.lib.event.SingleLiveEvent
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 
 /**
@@ -39,22 +36,20 @@ class MinePoolVM : BaseViewModel() {
     fun getMinePool(){
         viewModelScope.launch {
             runCatching {
-                withContext(Dispatchers.IO) {
                     model.getPoolDataOfUser()
-                }
             }.onSuccess {
                 requestSuccess(it)
                 finishRefreshingEvent.call()
             }.onFailure {
-                requestFailure()
+                requestFailure(it)
                 finishRefreshingEvent.call()
             }
 
         }
     }
 
-    private fun requestFailure() {
-        showToast(R.string.get_data_failed)
+    private fun requestFailure(t: Throwable) {
+        showErrorToast(R.string.get_data_failed,t)
         if(items.size==0){
             showEmptyLayoutEvent.value= true
         }

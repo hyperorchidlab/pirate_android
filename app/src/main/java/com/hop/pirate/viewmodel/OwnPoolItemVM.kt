@@ -36,14 +36,12 @@ class OwnPoolItemVM(var vm:OwnPoolVM,var own:OwnPool,var index:Int) : ItemViewMo
     private fun getItemPacket() {
         viewModelScope.launch {
             runCatching {
-                withContext(Dispatchers.IO) {
                     own.address?.let {
                         ownPoolModelImpl.getPacketsByPool(
                             WalletWrapper.MainAddress,
                             it
                         )
                     }
-                }
             }.onSuccess {
                 it?.let {
                     packets.set(Utils.formatText(Utils.ConvertBandWidth(it.packets),"\nPackets"))

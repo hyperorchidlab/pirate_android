@@ -22,21 +22,7 @@ public class Constants {
     public static final String ETH_API_URL = "https://ropsten.infura.io/v3/d64d364124684359ace20feae1f9ac20";
     public static final String DNS = "167.179.75.39";
     public static final int TIME_OUT = 60000;
-    public static final int BLOCK_CHAIN_TIME_OUT = 80;
 
-    public static final int REQUEST_CREATE_ACCOUNT_ERROR = 401;
-    public static final int REQUEST_IMPORT_ACCOUNT_ERROR = 402;
-    public static final int REQUEST_PACKETS_MARKET_ERROR = 403;
-    public static final int REQUEST_OWN_MINE_POOL_ERROR = 404;
-    public static final int REQUEST_WALLET_INFO_ERROR = 405;
-    public static final int REQUEST_SUPPORT_COINS_ERROR = 406;
-    public static final int REQUEST_TRANSFER_ERROR = 407;
-    public static final int REQUEST_FREE_ETH_ERROR = 408;
-    public static final int REQUEST_FREE_HOP_ERROR = 409;
-    public static final int REQUEST_RECHARGE_ERROR = 4010;
-    public static final int REQUEST_MINE_MACHINE_ERROR = 4011;
-    public static final int REQUEST_BUY_TESPER_TOKEN_ERROR = 4012;
-    public static final int REQUEST_OPEN_WALLET_ERROR = 4013;
     public static final String APP_DOWNLOAD_URL = "https://tsfr.io/6yyarz";
     public static final String APP_HELP_URL = "https://t.me/hopcommunity";
     public static final String APP_COURSE_URL = "https://docs.hyperorchid.org/";

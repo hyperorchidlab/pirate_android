@@ -76,7 +76,7 @@ class TabHomeVM : BaseViewModel() {
                 dismissDialog()
             }.onFailure {
                 dismissDialog()
-                showToast(R.string.password_error)
+                showErrorToast(R.string.password_error,it)
             }
         }
     }

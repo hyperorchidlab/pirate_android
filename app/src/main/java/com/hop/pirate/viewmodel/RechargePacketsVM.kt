@@ -33,15 +33,15 @@ class RechargePacketsVM:BaseViewModel() {
             }.onSuccess {
                 oninitFlowsSuccess(it)
             }.onFailure {
-                oninitFlowsFailure()
+                oninitFlowsFailure(it)
             }
         }
 
     }
 
-    private fun oninitFlowsFailure() {
+    private fun oninitFlowsFailure(t: Throwable) {
         dismissDialog()
-        showToast(R.string.get_data_failed)
+        showErrorToast(R.string.get_data_failed,t)
     }
 
     private fun oninitFlowsSuccess(it: Double) {
@@ -57,14 +57,14 @@ class RechargePacketsVM:BaseViewModel() {
             }.onSuccess {
                 onOpenWalletSuccess()
             }.onFailure {
-                onOpenWalletFailure()
+                onOpenWalletFailure(it)
             }
         }
     }
 
-    private fun onOpenWalletFailure() {
+    private fun onOpenWalletFailure(t: Throwable) {
         dismissDialog()
-        showToast(R.string.password_error)
+        showErrorToast(R.string.password_error,t)
     }
 
     private fun onOpenWalletSuccess() {
@@ -78,22 +78,20 @@ class RechargePacketsVM:BaseViewModel() {
 
     fun buyPacket(){
         showDialog(R.string.recharge_buy_packets)
-        println("~~~~~~~~~show recharge_buy_packets${System.currentTimeMillis()}")
         viewModelScope.launch {
             kotlin.runCatching {
                 model.buyPacket(WalletWrapper.MainAddress,poolAddress.get()!!,tokenNO)
             }.onSuccess {
                 onBuyPacketSuccess(it)
             }.onFailure {
-                onBuyPacketFailure()
+                onBuyPacketFailure(it)
             }
         }
     }
 
-    private fun onBuyPacketFailure() {
-        println("~~~~~~~~~onBuyPacketFailure${System.currentTimeMillis()}")
+    private fun onBuyPacketFailure(t: Throwable) {
         dismissDialog()
-        showToast(R.string.recharge_buy_packets_error)
+        showErrorToast(R.string.recharge_buy_packets_error,t)
 
     }
 
@@ -109,14 +107,14 @@ class RechargePacketsVM:BaseViewModel() {
             }.onSuccess {
                 onApproveSuccess(it)
             }.onFailure {
-                onApproveFailure()
+                onApproveFailure(it)
             }
         }
     }
 
-    private fun onApproveFailure() {
+    private fun onApproveFailure(t: Throwable) {
         dismissDialog()
-        showToast(R.string.approve_error)
+        showErrorToast(R.string.approve_error,t)
     }
 
     private fun onApproveSuccess(tx: String) {
@@ -131,14 +129,14 @@ class RechargePacketsVM:BaseViewModel() {
             }.onSuccess {
                 onQueryTxStatusSuccess(isProve)
             }.onFailure {
-                onQueryTxStatusFailure()
+                onQueryTxStatusFailure(it)
             }
         }
     }
 
-    private fun onQueryTxStatusFailure() {
+    private fun onQueryTxStatusFailure(t: Throwable) {
         dismissDialog()
-        showToast(R.string.blockchain_time_out)
+        showErrorToast(R.string.blockchain_time_out,t)
         EventBus.getDefault().post(EventRechargeSuccess())
     }
 
@@ -161,14 +159,14 @@ class RechargePacketsVM:BaseViewModel() {
             }.onSuccess {
                 onSyncPoolSuccess(it)
             }.onFailure {
-                onSyncPoolFailure()
+                onSyncPoolFailure(it)
             }
         }
     }
 
-    private fun onSyncPoolFailure() {
+    private fun onSyncPoolFailure(t: Throwable) {
         dismissDialog()
-        showToast(R.string.recharge_sync_pool_failed)
+        showErrorToast(R.string.recharge_sync_pool_failed,t)
     }
 
     private fun onSyncPoolSuccess(syncSuccess: Boolean) {

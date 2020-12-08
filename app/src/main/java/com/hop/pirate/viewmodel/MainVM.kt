@@ -55,7 +55,7 @@ class MainVM : BaseViewModel(), HopDelegate {
             }.onSuccess {
                 onWalletInfoSuccess(isShowLoading,it)
             }.onFailure {
-                showToast(R.string.get_data_failed)
+                showErrorToast(R.string.get_data_failed,it)
             }
         }
 
@@ -82,8 +82,7 @@ class MainVM : BaseViewModel(), HopDelegate {
             WalletWrapper.EthBalance = walletBean.eth
             WalletWrapper.HopBalance = walletBean.hop
             WalletWrapper.Approved = walletBean.approved
-            val tokenName = Utils.getString(Constants.CUR_SYMBOL, "HOP")
-            if (MainActivity.walletBean!!.hop != 0.0 && tokenName.startsWith("HOP")) {
+            if (MainActivity.walletBean!!.hop != 0.0) {
                 hindeFreeCoinEvent.postValue(true)
             }
             EventBus.getDefault().postSticky(EventLoadWalletSuccess())

@@ -53,29 +53,13 @@ class CreateAccountVM : BaseViewModel() {
         showDialog(R.string.creating_account)
         val job = viewModelScope.launch {
             runCatching {
-                withContext(Dispatchers.IO) {
-                    model.createAccount(password.get()!!)
-                }
+                model.createAccount(password.get()!!)
             }.onSuccess {
                 createSuccess(it)
             }.onFailure {
-                createFailure()
+                createFailure(it)
             }
         }
-//        val job = viewModelScope.launch {
-//            runCatching {
-//                withContext(Dispatchers.IO) {
-//                   delay(5000)
-//                }
-//            }.onSuccess {
-//                println("---------------执行了成功")
-//                dismissDialog()
-//            }.onFailure {
-//                println("----------${it.message}")
-//                dismissDialog()
-//                println("---------------执行了失败")
-//            }
-//        }
 
         jobs.add(job)
 
@@ -91,9 +75,9 @@ class CreateAccountVM : BaseViewModel() {
         finish()
     }
 
-    private fun createFailure() {
+    private fun createFailure(t: Throwable) {
         dismissDialog()
-        showToast(R.string.create_account_failed)
+        showErrorToast(R.string.create_account_failed,t)
     }
 
     val importCommand = BindingCommand<Any>(object : BindingAction {
@@ -112,7 +96,7 @@ class CreateAccountVM : BaseViewModel() {
             }.onSuccess {
                 importWalletSuccess(walletStr)
             }.onFailure {
-                importWalletFailure()
+                importWalletFailure(it)
 
             }
         }
@@ -129,10 +113,9 @@ class CreateAccountVM : BaseViewModel() {
         startActivity(MainActivity::class.java)
     }
 
-    private fun importWalletFailure() {
+    private fun importWalletFailure(t: Throwable) {
         dismissDialog()
-        showToast(R.string.password_error)
+        showErrorToast(R.string.password_error,t)
     }
-
 
 }

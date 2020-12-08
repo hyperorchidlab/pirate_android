@@ -41,9 +41,7 @@ import com.google.zxing.Reader;
 import com.google.zxing.Result;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.HybridBinarizer;
-import com.hop.pirate.Constants;
 import com.hop.pirate.HopApplication;
-import com.hop.pirate.PirateException;
 import com.hop.pirate.R;
 import com.hop.pirate.callback.AlertDialogOkCallBack;
 import com.hop.pirate.model.bean.ExtendToken;
@@ -67,7 +65,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.TimeoutException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -190,52 +187,6 @@ public final class Utils {
         }
     }
 
-
-    public static void toastException(Context context, Throwable err, int errCode) {
-
-        if (err instanceof TimeoutException) {
-            toastTips(context.getString(R.string.request_time_out));
-        } else if (err instanceof PirateException) {
-            toastTips(err.getMessage());
-        } else {
-            int requestErrorId = 0;
-            switch (errCode) {
-                case Constants.REQUEST_CREATE_ACCOUNT_ERROR:
-                    requestErrorId = R.string.create_account_failed;
-                    break;
-                case Constants.REQUEST_IMPORT_ACCOUNT_ERROR:
-                    requestErrorId = R.string.password_error;
-                    break;
-                case Constants.REQUEST_PACKETS_MARKET_ERROR:
-                case Constants.REQUEST_OWN_MINE_POOL_ERROR:
-                case Constants.REQUEST_MINE_MACHINE_ERROR:
-                case Constants.REQUEST_WALLET_INFO_ERROR:
-                case Constants.REQUEST_BUY_TESPER_TOKEN_ERROR:
-                case Constants.REQUEST_SUPPORT_COINS_ERROR:
-                    requestErrorId = R.string.get_data_failed;
-                    break;
-                case Constants.REQUEST_TRANSFER_ERROR:
-                    requestErrorId = R.string.transfer_fail;
-                    break;
-                case Constants.REQUEST_FREE_ETH_ERROR:
-                case Constants.REQUEST_FREE_HOP_ERROR:
-                    requestErrorId = R.string.apply_fail;
-                    break;
-                case Constants.REQUEST_RECHARGE_ERROR:
-                    requestErrorId = R.string.recharge_failed;
-                    break;
-                case Constants.REQUEST_OPEN_WALLET_ERROR:
-                    requestErrorId = R.string.password_error;
-                    break;
-                default:
-                    requestErrorId = R.string.get_data_failed;
-                    break;
-            }
-            toastTips(context.getString(requestErrorId));
-        }
-
-
-    }
 
 
     public static void showPassword(AppCompatActivity context, final AlertDialogOkCallBack callBack) {
@@ -364,10 +315,6 @@ public final class Utils {
         return true;
     }
 
-    public static String TokenNameFormat(Context context, int strId) {
-        String text = context.getResources().getString(strId);
-        return String.format(text, ExtendToken.CurSymbol);
-    }
 
     public static String getBaseDir(Context context) {
         String baseDir = context.getFilesDir().getAbsolutePath();

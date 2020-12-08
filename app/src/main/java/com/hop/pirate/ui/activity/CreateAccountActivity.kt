@@ -2,7 +2,6 @@ package com.hop.pirate.ui.activity
 
 import android.Manifest
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
@@ -18,6 +17,7 @@ import com.hop.pirate.callback.AlertDialogOkCallBack
 import com.hop.pirate.databinding.ActivityCreateAccountBinding
 import com.hop.pirate.util.Utils
 import com.hop.pirate.viewmodel.CreateAccountVM
+import com.kongzue.dialog.v3.BottomMenu
 import com.nbs.android.lib.base.BaseActivity
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.AppSettingsDialog
@@ -25,17 +25,18 @@ import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
 import pub.devrel.easypermissions.EasyPermissions.RationaleCallbacks
 
+
 class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccountBinding>(),
     PermissionCallbacks, RationaleCallbacks {
-    val CLICK_SCAN = 0
-    val CLICK_ALBUM = 1
+    private val CLICK_SCAN = 0
+    private val CLICK_ALBUM = 1
     override fun getLayoutId(): Int = R.layout.activity_create_account
 
     override fun initView() {
         AndroidLib.initFildPath(Utils.getBaseDir(this))
         val showBackBtn = intent.getBooleanExtra(IntentKey.SHOW_BACK_BUTTON, false)
         if (showBackBtn) {
-            mDataBinding.backIv.setVisibility(View.VISIBLE)
+            mDataBinding.backIv.visibility = View.VISIBLE
         }
     }
 
@@ -50,23 +51,18 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
     }
 
 
-    fun showImportDialog() {
+    private fun showImportDialog() {
         val listItems = arrayOf(
             getString(R.string.scanning_qr_code),
             getString(R.string.read_album),
-            getString(R.string.cancel)
         )
-        val mDialog = AlertDialog.Builder(this)
-        mDialog.setTitle(getString(R.string.select_import_mode))
-        mDialog.setSingleChoiceItems(listItems, -1) { dialogInterface, i ->
-            if (i == CLICK_SCAN) {
+        BottomMenu.show(this, listItems) { _, index ->
+            if (index == CLICK_SCAN) {
                 requestCameraPermission()
-            } else if (i == CLICK_ALBUM) {
+            } else if (index == CLICK_ALBUM) {
                 requestLocalMemoryPermission()
             }
-            dialogInterface.dismiss()
-        }.create()
-        mDialog.show()
+        }.title = getString(R.string.select_import_mode)
     }
 
     @AfterPermissionGranted(Utils.RC_LOCAL_MEMORY_PERM)
@@ -159,9 +155,9 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
 
     fun showPasswordDialog(walletStr: String) {
         Utils.showPassword(this, object : AlertDialogOkCallBack() {
-            override fun onClickOkButton(password: String) {
+            override fun onClickOkButton(parameter: String) {
                 showDialog()
-                mViewModel.importWallet(password, walletStr)
+                mViewModel.importWallet(parameter, walletStr)
             }
         })
     }

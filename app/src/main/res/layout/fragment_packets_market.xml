@@ -13,7 +13,7 @@
         android:background="@color/color_white"
         android:layout_height="match_parent">
 
-        <include layout="@layout/layout_title2"
+        <include layout="@layout/layout_title"
             app:viewModel="@{viewModel}"
             android:id="@+id/title_layout"/>
 

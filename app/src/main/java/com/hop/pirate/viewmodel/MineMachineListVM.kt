@@ -64,14 +64,14 @@ class MineMachineListVM : BaseViewModel() {
             }.onSuccess {
                 onGetMachineListSuccess(it)
             }.onFailure {
-                onGetMachineListFailure()
+                onGetMachineListFailure(it)
             }
         }
     }
 
-    private fun onGetMachineListFailure() {
+    private fun onGetMachineListFailure(t: Throwable) {
         finishRefreshingEvent.postValue(true)
-        showToast(R.string.get_data_failed)
+        showErrorToast(R.string.get_data_failed,t)
         showEmptyLayoutEvent.value = items.size==0
     }
 

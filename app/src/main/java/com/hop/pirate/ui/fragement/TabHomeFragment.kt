@@ -96,14 +96,9 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
     }
 
     private fun loadLocalConf() {
-        val poolAddress =
-            String.format(SysConf.KEY_CACHED_POOL_IN_USE, ExtendToken.CurSymbol)
-        SysConf.CurPoolAddress = Utils.getString(poolAddress, "")
-        val poolName =
-            String.format(SysConf.KEY_CACHED_POOL_NAME_IN_USE, ExtendToken.CurSymbol)
-        SysConf.CurPoolName = Utils.getString(poolName, "")
-        val mKey =
-            String.format(SysConf.KEY_CACHED_MINER_ID_IN_USE, SysConf.CurPoolAddress)
+        SysConf.CurPoolAddress = Utils.getString(SysConf.KEY_CACHED_POOL_IN_USE, "")
+        SysConf.CurPoolName = Utils.getString(SysConf.KEY_CACHED_POOL_NAME_IN_USE, "")
+        val mKey = String.format(SysConf.KEY_CACHED_MINER_ID_IN_USE, SysConf.CurPoolAddress)
         SysConf.CurMinerID = Utils.getString(mKey, "")
         if (TextUtils.isEmpty(SysConf.CurPoolAddress) || TextUtils.isEmpty(WalletWrapper.MainAddress)) {
             SysConf.PacketsBalance = 0.0

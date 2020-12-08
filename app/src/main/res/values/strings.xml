@@ -81,14 +81,22 @@
     <string name="tab_flow_market">Flow Market</string>
     <string name="tab_wallet">Wallet</string>
 
-    <string name="tab_setting">Setting</string>
-    <string name="tab_setting_replace_account_title">Are you sure?</string>
-    <string name="tab_setting_replace_msg">Replace you current wallet?</string>
-    <string name="tab_setting_dns">DNS:</string>
-    <string name="tab_setting_update_dns">Update</string>
-    <string name="tab_setting_dns_empty">Please input a new DNS address</string>
-    <string name="tab_setting_dns_failed">Please enter the correct ip address</string>
-    <string name="tab_setting_update_dns_success">Successfully modified,Please open again</string>
+    <string name="tab_account">Setting</string>
+    <string name="tab_account_replace_account_title">Are you sure?</string>
+    <string name="tab_account_replace_msg">Replace you current wallet?</string>
+    <string name="tab_account_dns">DNS:</string>
+    <string name="tab_account_update_dns">Update</string>
+    <string name="tab_account_dns_empty">Please input a new DNS address</string>
+    <string name="tab_account_dns_failed">Please enter the correct ip address</string>
+    <string name="tab_account_update_dns_success">Successfully modified,Please open again</string>
+    <string name="tab_account_help">Help</string>
+    <string name="tab_account_operation_guide">Operation guide</string>
+    <string name="tab_account_help_address">https://t.me/hopcommunity</string>
+    <string name="tab_account_course">Mining course</string>
+    <string name="tab_account_course_address">https://docs.hyperorchid.org/</string>
+    <string name="tab_account_clear_local_data">Clear local data</string>
+    <string name="tab_account_clear">Cleared successfully</string>
+    <string name="tab_account_token_unit">hop</string>
 
     <string name="my_pool">My pool</string>
     <string name="wallet_add_mine_pool">Add new mining pool</string>
@@ -98,9 +106,9 @@
 
     <string name="recharge_recharge_flow">Recharge flow</string>
     <string name="recharge_custom">customize</string>
-    <string name="recharge_hop_coin">%s balance</string>
+    <string name="recharge_hop_coin">Hop balance</string>
     <string name="recharge_buy_flow">Purchase flow</string>
-    <string name="recharge_hop_money">%smoney</string>
+    <string name="recharge_hop_money">money</string>
     <string name="recharge_submit_order">Submit orders</string>
     <string name="recharge_buy_flow_number">flow(M)</string>
     <string name="recharge_recharge">Buy</string>
@@ -204,12 +212,6 @@
     <string name="new_version">New Version</string>
     <string name="update_version">Update</string>
     <string name="contentDescription"> </string>
-    <string name="fragment_account_help">Help</string>
-    <string name="fragment_account_operation_guide">Operation guide</string>
-    <string name="fragment_account_help_address">https://t.me/hopcommunity</string>
-    <string name="fragment_account_course">Mining course</string>
-    <string name="fragment_account_course_address">https://docs.hyperorchid.org/</string>
-    <string name="fragment_account_clear_local_data">Clear local data</string>
-    <string name="fragment_account_clear">Cleared successfully</string>
+
 
 </resources>

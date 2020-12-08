@@ -5,6 +5,7 @@ import android.text.TextUtils
 import androidx.lifecycle.viewModelScope
 import com.hop.pirate.Constants
 import com.hop.pirate.R
+import com.hop.pirate.event.EventReLoadWallet
 import com.hop.pirate.model.TabWalletModel
 import com.hop.pirate.ui.fragement.TabWalletFragment
 import com.hop.pirate.service.WalletWrapper
@@ -14,6 +15,7 @@ import com.nbs.android.lib.command.BindingAction
 import com.nbs.android.lib.command.BindingCommand
 import com.nbs.android.lib.event.SingleLiveEvent
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
 
 /**
  *Author:Mr'x
@@ -31,8 +33,9 @@ class TabWalletVM : BaseViewModel() {
     val createAccountEvent = SingleLiveEvent<Boolean>()
 
     override fun clickRightIv() {
-
+        EventBus.getDefault().post(EventReLoadWallet())
     }
+
     val showqrCommand = BindingCommand<Any>(object : BindingAction {
         override fun call() {
             showqrImageEvent.call()
@@ -116,7 +119,7 @@ class TabWalletVM : BaseViewModel() {
             }.onSuccess {
                 queryTxStatus(it, true)
             }.onFailure {
-                showToast(R.string.apply_fail)
+                showErrorToast(R.string.apply_fail, it)
             }
         }
     }
@@ -138,7 +141,7 @@ class TabWalletVM : BaseViewModel() {
                 }
                 .onFailure {
                     dismissDialog()
-                    showToast(R.string.apply_fail)
+                    showErrorToast(R.string.apply_fail, it)
                 }
 
         }
@@ -156,7 +159,7 @@ class TabWalletVM : BaseViewModel() {
                 }
                 .onFailure {
                     dismissDialog()
-                    showToast(R.string.apply_fail)
+                    showErrorToast(R.string.apply_fail, it)
                 }
 
         }
@@ -166,11 +169,9 @@ class TabWalletVM : BaseViewModel() {
         viewModelScope.launch {
             kotlin.runCatching {
                 model.queryHopBalance(WalletWrapper.MainAddress)
-            }
-                .onSuccess {
-                    hopBalanceEvent.postValue(it)
-                }
-                .onFailure {
+            }.onSuccess {
+                hopBalanceEvent.postValue(it)
+            }.onFailure {
 
                 }
 
@@ -187,7 +188,7 @@ class TabWalletVM : BaseViewModel() {
                 showToast(R.string.wallet_export_success)
             }.onFailure {
                 dismissDialog()
-                showToast(R.string.transfer_fail)
+                showErrorToast(R.string.transfer_fail,it)
             }
 
         }

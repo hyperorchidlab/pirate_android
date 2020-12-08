@@ -12,6 +12,7 @@ import com.hop.pirate.HopApplication
 import com.hop.pirate.R
 import com.hop.pirate.callback.AlertDialogOkCallBack
 import com.hop.pirate.databinding.ActivityMinePoolBinding
+import com.hop.pirate.event.EventReLoadWallet
 import com.hop.pirate.event.EventRechargeSuccess
 import com.hop.pirate.event.EventSkipTabPacketsMarket
 import com.hop.pirate.ui.fragement.TabHomeFragment
@@ -30,10 +31,10 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class MainActivity : BaseActivity<MainVM,ActivityMinePoolBinding>(){
+class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
 
     companion object {
-        var walletBean : WalletBean?=  null
+        var walletBean: WalletBean? = null
         const val TAG = "HopProtocol"
         const val ATSysSettingChanged = 1
         const val ATPoolsInMarketChanged = 2
@@ -42,13 +43,18 @@ class MainActivity : BaseActivity<MainVM,ActivityMinePoolBinding>(){
         const val ATRechargeSuccess = 5
     }
 
-    private val mFragmentArray = arrayOf(TabHomeFragment::class.java, TabPacketsMarketFragment::class.java, TabWalletFragment::class.java)
+    private val mFragmentArray = arrayOf(
+        TabHomeFragment::class.java,
+        TabPacketsMarketFragment::class.java,
+        TabWalletFragment::class.java
+    )
     private lateinit var mNavigator: FragmentNavigator
 
     override fun onContentViewBefor(savedInstanceState: Bundle?) {
         super.onContentViewBefor(savedInstanceState)
         initNavigator(savedInstanceState)
     }
+
     override fun getLayoutId(): Int = R.layout.activity_main
 
     override fun initView() {
@@ -75,9 +81,9 @@ class MainActivity : BaseActivity<MainVM,ActivityMinePoolBinding>(){
 
     override fun initObserve() {
         mViewModel.hindeFreeCoinEvent.observe(this, Observer {
-            if(it){
+            if (it) {
                 get_free_coin_tv.visibility = View.GONE
-            }else{
+            } else {
                 get_free_coin_tv.visibility = View.VISIBLE
             }
         })
@@ -119,9 +125,16 @@ class MainActivity : BaseActivity<MainVM,ActivityMinePoolBinding>(){
     private fun initNavigator(savedInstanceState: Bundle?) {
         val bottomNavigatorAdapter = BottomNavigatorAdapter(this)
         for (fragment in mFragmentArray) {
-            bottomNavigatorAdapter.addTab(BottomNavigatorAdapter.TabInfo(fragment.simpleName, fragment, null))
+            bottomNavigatorAdapter.addTab(
+                BottomNavigatorAdapter.TabInfo(
+                    fragment.simpleName,
+                    fragment,
+                    null
+                )
+            )
         }
-        mNavigator = FragmentNavigator(supportFragmentManager, bottomNavigatorAdapter, R.id.content_frame)
+        mNavigator =
+            FragmentNavigator(supportFragmentManager, bottomNavigatorAdapter, R.id.content_frame)
         mNavigator.setDefaultPosition(Constants.TAB_HOME)
         mNavigator.onCreate(savedInstanceState)
     }
@@ -155,11 +168,15 @@ class MainActivity : BaseActivity<MainVM,ActivityMinePoolBinding>(){
     }
 
 
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun rechargeSuccess(eventRechargeSuccess: EventRechargeSuccess?) {
         mViewModel.syncSubPoolsData()
         loadWallet(false)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun eventReLoadWallet(event: EventReLoadWallet) {
+        loadWallet(true)
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
@@ -182,8 +199,6 @@ class MainActivity : BaseActivity<MainVM,ActivityMinePoolBinding>(){
 
         EventBus.getDefault().unregister(this)
     }
-
-
 
 
 }

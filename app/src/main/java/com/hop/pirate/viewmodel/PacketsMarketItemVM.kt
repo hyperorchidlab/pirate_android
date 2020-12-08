@@ -32,7 +32,7 @@ class PacketsMarketItemVM(VM:TabPacketsMarketVM, var minePool:MinePoolBean, var 
         override fun call() {
             val bundle = Bundle()
             bundle.putString(IntentKey.PoolKey,minePool.address)
-            viewModel.startActivity(RechargePacketsActivity::class.java)
+            viewModel.startActivity(RechargePacketsActivity::class.java,bundle)
         }
 
     })

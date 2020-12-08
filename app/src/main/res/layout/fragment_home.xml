@@ -24,7 +24,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <include layout="@layout/layout_title2"
+        <include layout="@layout/layout_title"
             app:viewModel = "@{viewModel}"
             android:id="@+id/title_layout"/>
 

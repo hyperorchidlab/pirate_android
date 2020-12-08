@@ -13,7 +13,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.hop.pirate.R
-import com.hop.pirate.model.bean.ExtendToken
 import com.hop.pirate.model.bean.FlowBean
 import com.hop.pirate.util.Utils
 import java.util.*
@@ -46,7 +45,7 @@ class FlowSelectAdapter(private val mContext: Context, private val mBytesPerToke
             } else {
                 viewHolder.flowTv.text = flowBean.flow.toString() + "M"
             }
-            val hopText = String.format(Locale.CHINA, "%.4f ", flowBean.hop) + ExtendToken.CurSymbol
+            val hopText = String.format(Locale.CHINA, "%.4f ", flowBean.hop) + mContext.getString(R.string.tab_account_token_unit)
             viewHolder.hopTv.text = hopText
         }
         if (flowBean.isSelected) {
@@ -117,7 +116,7 @@ class FlowSelectAdapter(private val mContext: Context, private val mBytesPerToke
             String.format(Locale.CHINA, "1HOP=%.2fM", mBytesPerToken)
         exchangePriceTv.text = price
         flowNumberEt.keyListener = null
-        hopNumberEt.hint = Utils.TokenNameFormat(mContext, R.string.recharge_hop_money)
+        hopNumberEt.hint = mContext.getString(R.string.recharge_hop_money)
         hopNumberEt.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
             }

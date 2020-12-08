@@ -77,15 +77,23 @@
     <string name="tab_flow_market">流量市场</string>
     <string name="tab_wallet">钱包</string>
 
-    <string name="tab_setting">设置</string>
+    <string name="tab_account">设置</string>
     <string name="tab_setting_new_version">查看最新版本</string>
-    <string name="tab_setting_replace_account_title">您确定?</string>
-    <string name="tab_setting_replace_msg">替换当前账号?</string>
-    <string name="tab_setting_dns">DNS:</string>
-    <string name="tab_setting_update_dns">更新</string>
-    <string name="tab_setting_dns_empty">请输入新的DNS地址</string>
-    <string name="tab_setting_dns_failed">请输入正确的DNS地址</string>
-    <string name="tab_setting_update_dns_success">修改成功,请再次打开App</string>
+    <string name="tab_account_replace_account_title">您确定?</string>
+    <string name="tab_account_replace_msg">替换当前账号?</string>
+    <string name="tab_account_dns">DNS:</string>
+    <string name="tab_account_update_dns">更新</string>
+    <string name="tab_account_dns_empty">请输入新的DNS地址</string>
+    <string name="tab_account_dns_failed">请输入正确的DNS地址</string>
+    <string name="tab_account_update_dns_success">修改成功,请再次打开App</string>
+    <string name="tab_account_help">寻求帮助</string>
+    <string name="tab_account_operation_guide">操作指南</string>
+    <string name="tab_account_help_address">https://t.me/hopcommunity</string>
+    <string name="tab_account_course">挖矿教程</string>
+    <string name="tab_account_course_address">https://docs.hyperorchid.org/</string>
+    <string name="tab_account_clear_local_data">清除本地数据</string>
+    <string name="tab_account_clear">操作成功</string>
+    <string name="tab_account_token_unit">hop</string>
 
     <string name="my_pool">我的矿池</string>
     <string name="wallet_add_mine_pool">添加新矿池</string>
@@ -97,9 +105,9 @@
     <string name="websiteAddress">URL：</string>
     <string name="email">Email：</string>
     <string name="mine_machine">矿机列表</string>
-    <string name="recharge_hop_coin">%s余额</string>
+    <string name="recharge_hop_coin">余额</string>
     <string name="recharge_buy_flow">购买流量</string>
-    <string name="recharge_hop_money">%s金额</string>
+    <string name="recharge_hop_money">金额</string>
     <string name="recharge_submit_order">提交订单</string>
     <string name="recharge_buy_flow_number">流量(M)</string>
     <string name="recharge_recharge">Buy</string>
@@ -199,11 +207,5 @@
     <string name="new_version">发现新版本</string>
     <string name="update_version">更新</string>
     <string name="contentDescription"> </string>
-    <string name="fragment_account_help">寻求帮助</string>
-    <string name="fragment_account_operation_guide">操作指南</string>
-    <string name="fragment_account_help_address">https://t.me/hopcommunity</string>
-    <string name="fragment_account_course">挖矿教程</string>
-    <string name="fragment_account_course_address">https://docs.hyperorchid.org/</string>
-    <string name="fragment_account_clear_local_data">清除本地数据</string>
-    <string name="fragment_account_clear">操作成功</string>
+
 </resources>

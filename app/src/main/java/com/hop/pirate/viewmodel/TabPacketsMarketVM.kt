@@ -44,14 +44,14 @@ class TabPacketsMarketVM : BaseViewModel() {
             }.onSuccess {
                 onGetPoolInfoSuccess(it)
             }.onFailure {
-                onGetPoolInfoFailure()
+                onGetPoolInfoFailure(it)
             }
         }
     }
 
-    private fun onGetPoolInfoFailure() {
+    private fun onGetPoolInfoFailure(t: Throwable) {
         finishRefreshingEvent.call()
-        showToast(R.string.get_data_failed)
+        showErrorToast(R.string.get_data_failed,t)
         showEmptyLayoutEvent.value = items.size==0
     }
 

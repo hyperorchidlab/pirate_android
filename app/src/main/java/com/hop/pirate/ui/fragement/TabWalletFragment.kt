@@ -45,7 +45,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(), Ha
         EventBus.getDefault().register(this)
 
         val newDns = Utils.getString(Constants.NEW_DNS, Constants.DNS)
-        val dnsText = resources.getString(R.string.tab_setting_dns) + newDns
+        val dnsText = resources.getString(R.string.tab_account_dns) + newDns
         dns_tv.text = dnsText
         val versionText = getString(R.string.current_version_name) + Utils.getVersionName(mActivity)
         version_tv.text = versionText
@@ -82,7 +82,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(), Ha
 
         mViewModel.clearDBEvent.observe(this, Observer {
             Utils.deleteDBData(mActivity)
-            mActivity.showToast(R.string.fragment_account_clear)
+            mActivity.showToast(R.string.tab_account_clear)
         })
 
         mViewModel.dnsEvent.observe(this, Observer {
@@ -129,8 +129,6 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(), Ha
             eth_number_tv.text = Utils.ConvertCoin(MainActivity.walletBean!!.eth)
         }
 
-        hop_tv.text = ExtendToken.CurSymbol
-        hop_unit_tv.text = ExtendToken.CurSymbol
     }
 
     fun onClick(v: View?) {
@@ -193,8 +191,8 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(), Ha
     private fun showCreateAccountAlert() {
         Utils.showOkOrCancelAlert(
             mActivity,
-            R.string.tab_setting_replace_account_title,
-            R.string.tab_setting_replace_msg,
+            R.string.tab_account_replace_account_title,
+            R.string.tab_account_replace_msg,
             object : AlertDialogOkCallBack() {
                 override fun onClickOkButton(parameter: String) {
                     if (HopApplication.getApplication().isRunning) {
@@ -212,20 +210,20 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(), Ha
     private fun showChangeDNSDialog() {
         InputDialog.build(mActivity)
             .setTitle(R.string.tips)
-            .setMessage(R.string.tab_setting_dns_empty)
+            .setMessage(R.string.tab_account_dns_empty)
             .setOkButton(
                 R.string.sure,
                 OnInputDialogButtonClickListener { _, _, inputStr ->
                     if (TextUtils.isEmpty(inputStr)) {
-                        Utils.toastTips(getString(R.string.tab_setting_dns_empty))
+                        Utils.toastTips(getString(R.string.tab_account_dns_empty))
                         return@OnInputDialogButtonClickListener true
                     }
                     if (!Utils.isIpAddress(inputStr)) {
-                        Utils.toastTips(getString(R.string.tab_setting_dns_failed))
+                        Utils.toastTips(getString(R.string.tab_account_dns_failed))
                         return@OnInputDialogButtonClickListener true
                     }
                     Utils.saveData(Constants.NEW_DNS, inputStr)
-                    Utils.toastTips(getString(R.string.tab_setting_update_dns_success))
+                    Utils.toastTips(getString(R.string.tab_account_update_dns_success))
                     mActivity.finish()
                     false
                 })

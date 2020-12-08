@@ -12,9 +12,7 @@ import com.hop.pirate.R
 import com.hop.pirate.model.bean.OwnPool
 import com.hop.pirate.model.OwnPoolModel
 import com.nbs.android.lib.event.SingleLiveEvent
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 /**
@@ -36,36 +34,35 @@ class OwnPoolVM : BaseViewModel() {
         }
     })
 
-    fun getOwnPool(){
+    fun getOwnPool() {
         viewModelScope.launch {
             runCatching {
-                withContext(Dispatchers.IO) {
-                    model.getPoolDataOfUser()
-                }
+                model.getPoolDataOfUser()
             }.onSuccess {
                 requestSuccess(it)
-                finishRefreshingEvent.call()
             }.onFailure {
-                requestFailure()
-                finishRefreshingEvent.call()
+                requestFailure(it)
+
             }
 
         }
     }
 
-    private fun requestFailure() {
-        showToast(R.string.get_data_failed)
-        showEmptyLayoutEvent.value = items.size==0
+    private fun requestFailure(t: Throwable) {
+        finishRefreshingEvent.call()
+        showErrorToast(R.string.get_data_failed,t)
+        showEmptyLayoutEvent.value = items.size == 0
     }
 
     private fun requestSuccess(ownPools: List<OwnPool>?) {
+        finishRefreshingEvent.call()
         items.clear()
-        var index =0
+        var index = 0
         ownPools?.forEach {
-            items.add(OwnPoolItemVM(this,it,index))
+            items.add(OwnPoolItemVM(this, it, index))
             index++
         }
-        showEmptyLayoutEvent.value = items.size==0
+        showEmptyLayoutEvent.value = items.size == 0
     }
 
 }

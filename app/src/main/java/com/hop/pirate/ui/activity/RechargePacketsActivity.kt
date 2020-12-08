@@ -30,16 +30,16 @@ class RechargePacketsActivity : BaseActivity<RechargePacketsVM,ActivityRechargeP
         mViewModel.title.set(getString(R.string.recharge_recharge_flow))
         mViewModel.showBackImage.set(true)
         sysbol = Utils.getString(Constants.CUR_SYMBOL, "HOP")
-        hop_address_et.setText(WalletWrapper.MainAddress);
-        hop_coin_number_tv.setText(Utils.ConvertCoin(WalletWrapper.HopBalance));
+        hop_address_et.text = WalletWrapper.MainAddress
+        hop_coin_number_tv.text = Utils.ConvertCoin(WalletWrapper.HopBalance)
         mViewModel.initFlows()
-        flow_recyclerview.setLayoutManager(GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false))
+        flow_recyclerview.layoutManager = GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false)
     }
 
     override fun initData() {
         mPoolAddress = intent.getStringExtra(IntentKey.PoolKey)
         mViewModel.poolAddress.set(mPoolAddress)
-        hop_coin_tv.text = Utils.TokenNameFormat(this, R.string.recharge_hop_coin)
+        hop_coin_tv.text = getString(R.string.recharge_hop_coin)
     }
 
     override fun initObserve() {

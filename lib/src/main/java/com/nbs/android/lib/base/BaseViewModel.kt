@@ -1,5 +1,6 @@
 package com.nbs.android.lib.base
 
+import android.app.PendingIntent
 import android.os.Bundle
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LifecycleOwner
@@ -67,13 +68,21 @@ open class BaseViewModel : ViewModel() {
         UIChangeLiveData()
     }
 
-    fun showToast(msgId:Int){
+    fun showToast(msgId: Int) {
+        uc.toastEvent.postValue(msgId)
+    }
+
+    fun showErrorToast(msgId: Int,t: Throwable) {
+        if(t.message.equals("Job was cancelled")){
+            return
+        }
         uc.toastEvent.postValue(msgId)
     }
 
     open fun showDialog(titleId: Int) {
         uc.showDialogEvent.postValue(titleId)
     }
+
     open fun showDialog(title: String) {
         uc.showDialogStrEvent.postValue(title)
     }
@@ -109,7 +118,7 @@ open class BaseViewModel : ViewModel() {
     }
 
 
-    fun startWebActivity(url:String){
+    fun startWebActivity(url: String) {
         uc.startWebActivityEvent.postValue(url)
     }
 
@@ -152,18 +161,19 @@ open class BaseViewModel : ViewModel() {
         }
     }
 
-    fun cancelRequest(){
+    fun cancelRequest() {
         println("-----cancelRequest")
         viewModelScope.launch {
             jobs.forEach {
-                it.cancelAndJoin()
+                if (it.isActive) {
+                    it.cancelAndJoin()
+                }
+
             }
 
         }
 
     }
-
-
 }
 
 object ParameterField {

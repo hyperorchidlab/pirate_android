@@ -10,9 +10,7 @@ import com.hop.pirate.service.WalletWrapper
 import com.hop.pirate.ui.activity.CreateAccountActivity
 import com.nbs.android.lib.base.BaseViewModel
 import com.nbs.android.lib.event.SingleLiveEvent
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.json.JSONObject
 
 /**
@@ -27,9 +25,7 @@ class SplashVM : BaseViewModel() {
     fun loadWallet() {
         viewModelScope.launch {
             runCatching {
-                withContext(Dispatchers.IO) {
                     model.loadWallet(HopApplication.getApplication().applicationContext)
-                }
             }.onSuccess {
                 loadWalletSuccess(it)
             }.onFailure {
