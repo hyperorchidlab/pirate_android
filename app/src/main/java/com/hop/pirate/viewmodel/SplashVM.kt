@@ -25,7 +25,7 @@ class SplashVM : BaseViewModel() {
     fun loadWallet() {
         viewModelScope.launch {
             runCatching {
-                    model.loadWallet(HopApplication.getApplication().applicationContext)
+                    model.loadWallet(HopApplication.instance.applicationContext)
             }.onSuccess {
                 loadWalletSuccess(it)
             }.onFailure {

@@ -13,7 +13,6 @@ import com.hop.pirate.R
 import com.hop.pirate.callback.AlertDialogOkCallBack
 import com.hop.pirate.databinding.FragmentHomeBinding
 import com.hop.pirate.event.*
-import com.hop.pirate.model.bean.ExtendToken
 import com.hop.pirate.service.HopService
 import com.hop.pirate.service.SysConf
 import com.hop.pirate.service.WalletWrapper
@@ -41,7 +40,7 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
         } else {
             intelligent_model_rbtn.isChecked = true
         }
-        if (HopApplication.getApplication().isRunning) {
+        if (HopApplication.instance.isRunning) {
             pirate_network_status_tv.setText(getString(R.string.use))
         } else {
             pirate_network_status_tv.setText(getString(R.string.disconnected))
@@ -109,14 +108,14 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
 
 
     private fun changeVPNStatus() {
-        if (!Utils.isFastClick()) {
+        if (!Utils.isFastClick) {
             return
         }
         if (!checkMessageForStartVpnService()) {
             return
         }
-        if (HopApplication.getApplication().isRunning) {
-            HopApplication.getApplication().isRunning = false
+        if (HopApplication.instance.isRunning) {
+            HopApplication.instance.isRunning = false
             HopService.stop()
         } else {
             vpnPrepare()
@@ -158,13 +157,13 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
             return
         }
         if (requestCode == Constants.REQUEST_MINE_POOL_CODE || requestCode == Constants.REQUEST_MINE_MACHINE_CODE) {
-            if (HopApplication.getApplication().isRunning) {
-                HopApplication.getApplication().isRunning = false
+            if (HopApplication.instance.isRunning) {
+                HopApplication.instance.isRunning = false
                 HopService.stop()
             }
             showPacketsData()
         } else if (RC_VPN_RIGHT == requestCode) {
-            if (WalletWrapper.isOpen()) {
+            if (WalletWrapper.isOpen) {
                 startVpnService()
             } else {
                 showInputPasswordDialog()

@@ -22,14 +22,12 @@ import kotlinx.android.synthetic.main.activity_recharge_packets.*
 
 class RechargePacketsActivity : BaseActivity<RechargePacketsVM,ActivityRechargePacketsBinding>(), RechargeFlowState {
     private var mPoolAddress: String? = null
-    var sysbol: String? = null
     private var tokenNO = 0.0
 
     override fun getLayoutId(): Int = R.layout.activity_recharge_packets
     override fun initView() {
         mViewModel.title.set(getString(R.string.recharge_recharge_flow))
         mViewModel.showBackImage.set(true)
-        sysbol = Utils.getString(Constants.CUR_SYMBOL, "HOP")
         hop_address_et.text = WalletWrapper.MainAddress
         hop_coin_number_tv.text = Utils.ConvertCoin(WalletWrapper.HopBalance)
         mViewModel.initFlows()
@@ -72,7 +70,7 @@ class RechargePacketsActivity : BaseActivity<RechargePacketsVM,ActivityRechargeP
             return
         }
         if (WalletWrapper.HopBalance < tokenNO) {
-            Utils.toastTips(String.format(getString(R.string.token_insufficient_balance), sysbol))
+            Utils.toastTips(getString(R.string.token_insufficient_balance))
             return
         }
         PayPasswordDialog(this, object : PasswordCallBack {

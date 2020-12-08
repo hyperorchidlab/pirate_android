@@ -59,7 +59,7 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
 
     override fun initView() {
         EventBus.getDefault().register(this)
-        if (HopApplication.getApplication().isRunning) {
+        if (HopApplication.instance.isRunning) {
             return
         }
         initService()
@@ -106,7 +106,7 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        if (HopApplication.getApplication().isRunning) {
+        if (HopApplication.instance.isRunning) {
             return
         } else {
             AndroidLib.stopProtocol()
@@ -193,7 +193,7 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
     override fun onDestroy() {
         super.onDestroy()
         WalletWrapper.closeWallet()
-        if (!HopApplication.getApplication().isRunning) {
+        if (!HopApplication.instance.isRunning) {
             AndroidLib.stopProtocol()
         }
 

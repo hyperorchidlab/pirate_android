@@ -28,15 +28,15 @@ class MinePooIItemVM(vm: MinePoolVM, var pool: OwnPool) : ItemViewModel<MinePool
                 viewModel.finish()
                 return
             }
-            if (HopApplication.getApplication().isRunning) {
-                HopApplication.getApplication().isRunning = false
+            if (HopApplication.instance.isRunning) {
+                HopApplication.instance.isRunning = false
                 HopService.stop()
             }
             Handler().postDelayed({
                 viewModel.showDialog(R.string.mining_pool_exchange_mine_pool)
                 Thread(Runnable {
                     sMinerBeans = null
-                    SysConf.changeCurPool(pool.address, pool.name)
+                    SysConf.changeCurPool(pool.address!!, pool.name!!)
                     EventBus.getDefault().post(EventReloadPoolsMarket())
                     viewModel.dismissDialog()
                     viewModel.finishAndResultOkEvent.postValue(null)

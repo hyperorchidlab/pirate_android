@@ -82,7 +82,7 @@
             android:src="@drawable/mining_machine_selected"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginEnd="8dp"
-            app:isVisible="@{item.minerBean.address == SysConf.CurMinerID}"
+            app:isVisible="@{item.minerBean.address == SysConf.INSTANCE.CurMinerID}"
             android:contentDescription="@string/contentDescription"
             app:layout_constraintEnd_toStartOf="@+id/ping_tv"
             app:layout_constraintTop_toTopOf="parent" />

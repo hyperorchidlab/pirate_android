@@ -22,8 +22,8 @@ import com.nbs.android.lib.utils.dp
  */
 class PacketsMarketItemVM(VM:TabPacketsMarketVM, var minePool:MinePoolBean, var index: Int):ItemViewModel<TabPacketsMarketVM>(VM) {
     private val colorIds = intArrayOf(R.color.color_6d97ce, R.color.color_f7aa6e, R.color.color_4cc2d0)
-    var background = ContextCompat.getDrawable(HopApplication.getApplication().applicationContext,R.drawable.bg_rectangle_round3_ffffff) as GradientDrawable
-    var textColor = ContextCompat.getColor(HopApplication.getApplication().applicationContext, colorIds[index%3])
+    var background = ContextCompat.getDrawable(HopApplication.instance.applicationContext,R.drawable.bg_rectangle_round3_ffffff) as GradientDrawable
+    var textColor = ContextCompat.getColor(HopApplication.instance.applicationContext, colorIds[index%3])
     init{
         background.setColor(textColor)
         background.cornerRadius = 8f.dp

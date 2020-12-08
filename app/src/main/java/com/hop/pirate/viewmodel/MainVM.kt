@@ -31,7 +31,7 @@ class MainVM : BaseViewModel(), HopDelegate {
     fun initService() {
         viewModelScope.launch {
             kotlin.runCatching {
-                model.initService(HopApplication.getApplication().applicationContext, this@MainVM)
+                model.initService(HopApplication.instance.applicationContext, this@MainVM)
             }.onSuccess {
                 onInitServiceSuccess()
             }.onFailure {
@@ -92,7 +92,7 @@ class MainVM : BaseViewModel(), HopDelegate {
     }
 
     override fun serviceExit(p0: java.lang.Exception?) {
-        HopApplication.getApplication().isRunning = false
+        HopApplication.instance.isRunning = false
         HopService.stop()
     }
 

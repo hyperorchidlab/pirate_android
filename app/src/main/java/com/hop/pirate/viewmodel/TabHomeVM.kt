@@ -28,7 +28,7 @@ class TabHomeVM : BaseViewModel() {
     val openWalletSuccessEvent = SingleLiveEvent<Boolean>()
     val changeModelCommand = BindingCommand(null, object : BindingConsumer<String> {
         override fun call(t: String) {
-            AndroidLib.setGlobalModel(t == HopApplication.getApplication().getString(R.string.globalModelTips))
+            AndroidLib.setGlobalModel(t == HopApplication.instance.getString(R.string.globalModelTips))
         }
 
     })

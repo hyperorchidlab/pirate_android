@@ -12,7 +12,6 @@ import com.hop.pirate.callback.AlertDialogOkCallBack
 import com.hop.pirate.databinding.FragmentWalletBinding
 import com.hop.pirate.event.EventLoadWalletSuccess
 import com.hop.pirate.event.EventRechargeSuccess
-import com.hop.pirate.model.bean.ExtendToken
 import com.hop.pirate.model.TabWalletModel
 import com.hop.pirate.service.HopService
 import com.hop.pirate.service.WalletWrapper
@@ -195,8 +194,8 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(), Ha
             R.string.tab_account_replace_msg,
             object : AlertDialogOkCallBack() {
                 override fun onClickOkButton(parameter: String) {
-                    if (HopApplication.getApplication().isRunning) {
-                        HopApplication.getApplication().isRunning = false
+                    if (HopApplication.instance.isRunning) {
+                        HopApplication.instance.isRunning = false
                         HopService.stop()
                     }
                     val createIntent =
