@@ -12,7 +12,7 @@ import android.widget.EditText
 import com.hop.pirate.R
 
 class PayPasswordDialog(context: Context, private val mRechargeFlowCallBack: PasswordCallBack) : Dialog(context, R.style.PayPasswordDialog) {
-    private var mPasswordEt: EditText? = null
+    private lateinit var mPasswordEt: EditText
 
     interface PasswordCallBack {
         fun callBack(password: String)
@@ -20,15 +20,17 @@ class PayPasswordDialog(context: Context, private val mRechargeFlowCallBack: Pas
 
     override fun onCreate(savedInstanceState: Bundle) {
         super.onCreate(savedInstanceState)
+        println("~~~~~~~~~~onCreate")
         setContentView(R.layout.dialog_pay_password)
         mPasswordEt = findViewById(R.id.key_word_et)
         findViewById<View>(R.id.sure_tv).setOnClickListener {
-            mRechargeFlowCallBack.callBack(mPasswordEt?.text.toString().trim { it <= ' ' })
+            mRechargeFlowCallBack.callBack(mPasswordEt.text.toString().trim { it <= ' ' })
             dismiss()
         }
     }
 
     override fun show() {
+        println("~~~~~~~~~~show")
         window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         super.show()
         val layoutParams = window?.attributes
@@ -37,15 +39,6 @@ class PayPasswordDialog(context: Context, private val mRechargeFlowCallBack: Pas
         layoutParams?.height = WindowManager.LayoutParams.WRAP_CONTENT
         window?.decorView?.setPadding(0, 0, 0, 0)
         window?.attributes = layoutParams
-        Handler().postDelayed({
-            mPasswordEt!!.isFocusable = true
-            mPasswordEt!!.isFocusableInTouchMode = true
-            mPasswordEt!!.requestFocus()
-            val inputManager =
-                mPasswordEt!!.context
-                    .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputManager.showSoftInput(mPasswordEt, 0)
-        }, 200)
     }
 
 }

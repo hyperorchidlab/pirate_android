@@ -76,8 +76,8 @@ object Utils {
         editor.apply()
     }
 
-    fun getString(key: String?, defaultVal: String?): String {
-        return sharedPref.getString(key, defaultVal)
+    fun getString(key: String, defaultVal: String): String {
+        return sharedPref.getString(key, defaultVal).toString()
     }
 
     fun saveBoolean(key: String?, value: Boolean?) {
@@ -177,11 +177,9 @@ object Utils {
     }
 
     fun copyToMemory(context: AppCompatActivity, src: String?) {
-        val clipboard =
-            context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clip =
-            ClipData.newPlainText("pirate memory string", src)
-        clipboard.primaryClip = clip
+        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("pirate memory string", src)
+        clipboard.setPrimaryClip(clip)
         MessageDialog.show(context, context.getString(R.string.copy_success), src)
     }
 
@@ -240,16 +238,19 @@ object Utils {
         )
         val path =
             cr.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
-        val imageOut = cr.openOutputStream(path)
-        try {
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, imageOut)
-        } finally {
-            imageOut.close()
+        path?.let {
+            val imageOut = cr.openOutputStream(path)
+            try {
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, imageOut)
+            } finally {
+                imageOut?.close()
+            }
         }
+
     }
 
     @Throws(Exception::class)
-    fun parseQRCodeFile(uri: Uri?, cr: ContentResolver): String {
+    fun parseQRCodeFile(uri: Uri, cr: ContentResolver): String {
         val bitmap =
             BitmapFactory.decodeStream(cr.openInputStream(uri))
         return parseQRcodeFromBitmap(bitmap)

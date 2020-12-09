@@ -23,7 +23,7 @@ class KeyWordView : AppCompatEditText, TextWatcher {
     private var mBgRadius = 0
 
     //画笔
-    private var mPaint: Paint? = null
+    private lateinit var mPaint: Paint
 
     //背景框颜色
     private var mBgColor = 0

@@ -29,7 +29,9 @@ object AccountUtils {
             ""
         } finally {
             try {
-                fileInputStream!!.close()
+                if(fileInputStream!=null){
+                    fileInputStream!!.close()
+                }
             } catch (e: IOException) {
                 e.printStackTrace()
             }

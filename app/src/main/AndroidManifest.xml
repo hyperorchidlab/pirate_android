@@ -25,6 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup, android:icon"
+        android:requestLegacyExternalStorage="true"
         tools:ignore="LockedOrientationActivity">
         <activity
             android:name=".ui.activity.SplashActivity"

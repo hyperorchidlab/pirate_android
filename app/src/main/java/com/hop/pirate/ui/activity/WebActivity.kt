@@ -56,7 +56,10 @@ class WebActivity : BaseActivity<WebVM,ActivityWebBinding>() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun initData() {
         val url = intent.getStringExtra(IntentKey.WEB_URL)
-        webView.loadUrl(url)
+        url?.let {
+            webView.loadUrl(it)
+        }
+
         val settings = webView.settings
         settings.javaScriptEnabled = true
         settings.setAppCacheEnabled(false)

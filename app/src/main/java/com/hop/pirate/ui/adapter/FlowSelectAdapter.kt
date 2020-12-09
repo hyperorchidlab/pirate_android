@@ -18,9 +18,18 @@ import com.hop.pirate.util.Utils
 import java.util.*
 
 class FlowSelectAdapter(private val mContext: Context, private val mBytesPerToken: Double, rechargeFlowState: RechargeFlowState) : RecyclerView.Adapter<FlowSelectAdapter.ViewHolder>() {
-    private val flows: MutableList<FlowBean>? = ArrayList()
+    private val flows: MutableList<FlowBean> = ArrayList()
     private val mRechargeFlowState: RechargeFlowState?
 
+    init {
+        flows.add(FlowBean(500.0, 500 / mBytesPerToken, 0))
+        flows.add(FlowBean(1000.0, 1000 / mBytesPerToken, 0))
+        flows.add(FlowBean(2000.0, 2000 / mBytesPerToken, 0))
+        flows.add(FlowBean(5000.0, 5000 / mBytesPerToken, 0))
+        flows.add(FlowBean(8000.0, 8000 / mBytesPerToken, 0))
+        flows.add(FlowBean(0.0, 0.0, 1))
+        mRechargeFlowState = rechargeFlowState
+    }
     interface RechargeFlowState {
         fun recharge(bytesInm: Double)
     }
@@ -31,7 +40,7 @@ class FlowSelectAdapter(private val mContext: Context, private val mBytesPerToke
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        val flowBean = flows!![position]
+        val flowBean = flows[position]
         if (flowBean.type == 1) {
             viewHolder.customTv.visibility = View.VISIBLE
             viewHolder.flowTv.visibility = View.GONE
@@ -79,7 +88,7 @@ class FlowSelectAdapter(private val mContext: Context, private val mBytesPerToke
     }
 
     override fun getItemCount(): Int {
-        return flows?.size ?: 0
+        return flows.size
     }
 
     class ViewHolder(itemView: View) :
@@ -157,13 +166,5 @@ class FlowSelectAdapter(private val mContext: Context, private val mBytesPerToke
         mRechargeFlowState?.recharge(tokenNo)
     }
 
-    init {
-        flows!!.add(FlowBean(500.0, 500 / mBytesPerToken, 0))
-        flows.add(FlowBean(1000.0, 1000 / mBytesPerToken, 0))
-        flows.add(FlowBean(2000.0, 2000 / mBytesPerToken, 0))
-        flows.add(FlowBean(5000.0, 5000 / mBytesPerToken, 0))
-        flows.add(FlowBean(8000.0, 8000 / mBytesPerToken, 0))
-        flows.add(FlowBean(0.0, 0.0, 1))
-        mRechargeFlowState = rechargeFlowState
-    }
+
 }

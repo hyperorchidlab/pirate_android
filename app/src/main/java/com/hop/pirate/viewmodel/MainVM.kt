@@ -111,7 +111,7 @@ class MainVM : BaseViewModel(), HopDelegate {
         }
     }
 
-    override fun log(str: String?) {
+    override fun log(str: String) {
         Log.i("G0", str)
     }
 }
