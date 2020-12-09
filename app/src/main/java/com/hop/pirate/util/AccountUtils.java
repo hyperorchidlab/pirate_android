@@ -90,7 +90,9 @@ public class AccountUtils {
             return "";
         } finally {
             try {
-                fileInputStream.close();
+                if(fileInputStream!= null){
+                    fileInputStream.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
