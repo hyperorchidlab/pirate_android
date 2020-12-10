@@ -71,7 +71,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     android:transitionName="image"
                     android:layout_marginEnd="16dp"
-                    onClickCommand="@{viewModel.showqrCommand}"
+                    onClickCommand="@{viewModel.showAddressCommand}"
                     android:contentDescription="@string/contentDescription"
                     app:layout_constraintTop_toTopOf="@+id/main_network_address_lab_tv"
                     app:layout_constraintBottom_toBottomOf="@+id/main_network_address_lab_tv"

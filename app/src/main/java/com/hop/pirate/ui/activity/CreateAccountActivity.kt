@@ -104,7 +104,7 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
         albumIntent.addCategory(Intent.CATEGORY_OPENABLE)
         albumIntent.type = "image/*"
         albumIntent.action = Intent.ACTION_OPEN_DOCUMENT
-        startActivityForResult(albumIntent, Utils.RC_SELECT_FROM_GALLARY)
+        startActivityForResult(albumIntent, Utils.RC_SELECT_FROM_GALLERY)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -124,7 +124,7 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (Utils.RC_SELECT_FROM_GALLARY == requestCode) {
+        if (Utils.RC_SELECT_FROM_GALLERY == requestCode) {
             if (resultCode != Activity.RESULT_OK || null == data) {
                 return
             }

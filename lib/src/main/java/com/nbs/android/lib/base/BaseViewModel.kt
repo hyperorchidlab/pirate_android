@@ -1,10 +1,7 @@
 package com.nbs.android.lib.base
 
-import android.app.PendingIntent
 import android.os.Bundle
 import androidx.databinding.ObservableField
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nbs.android.lib.command.BindingAction
@@ -83,6 +80,13 @@ open class BaseViewModel : ViewModel() {
         uc.showDialogEvent.postValue(titleId)
     }
 
+    open fun showDialogNotCancel(titleId: Int) {
+        uc.showDialogNotCancelEvent.postValue(titleId)
+    }
+    open fun showDialogNotCancel(title: String) {
+        uc.showDialogNotCancelStrEvent.postValue(title)
+    }
+
     open fun showDialog(title: String) {
         uc.showDialogStrEvent.postValue(title)
     }
@@ -108,8 +112,7 @@ open class BaseViewModel : ViewModel() {
      * @param bundle 跳转所携带的信息
      */
     open fun startActivity(clz: Class<*>, bundle: Bundle?) {
-        val params: MutableMap<String, Any> =
-            HashMap()
+        val params: MutableMap<String, Any> = HashMap()
         params[ParameterField.CLASS] = clz
         if (bundle != null) {
             params[ParameterField.BUNDLE] = bundle
@@ -130,35 +133,38 @@ open class BaseViewModel : ViewModel() {
     }
 
     class UIChangeLiveData : SingleLiveEvent<Any>() {
-        public val toastEvent: SingleLiveEvent<Int> by lazy {
+        val toastEvent: SingleLiveEvent<Int> by lazy {
             SingleLiveEvent<Int>()
         }
 
-        public val showDialogEvent: SingleLiveEvent<Int> by lazy {
+        val showDialogEvent: SingleLiveEvent<Int> by lazy {
             SingleLiveEvent<Int>()
         }
-        public val showDialogStrEvent: SingleLiveEvent<String> by lazy {
+        val showDialogNotCancelEvent: SingleLiveEvent<Int> by lazy {
+            SingleLiveEvent<Int>()
+        }
+        val showDialogNotCancelStrEvent: SingleLiveEvent<String> by lazy {
             SingleLiveEvent<String>()
         }
-        public val dismissDialogEvent: SingleLiveEvent<Long> by lazy {
+        val showDialogStrEvent: SingleLiveEvent<String> by lazy {
+            SingleLiveEvent<String>()
+        }
+        val dismissDialogEvent: SingleLiveEvent<Long> by lazy {
             SingleLiveEvent<Long>()
         }
-        public val startActivityEvent: SingleLiveEvent<Map<String, Any>> by lazy {
+        val startActivityEvent: SingleLiveEvent<Map<String, Any>> by lazy {
             SingleLiveEvent<Map<String, Any>>()
         }
-        public val startWebActivityEvent: SingleLiveEvent<String> by lazy {
+        val startWebActivityEvent: SingleLiveEvent<String> by lazy {
             SingleLiveEvent<String>()
         }
-        public val finishEvent: SingleLiveEvent<Void> by lazy {
+        val finishEvent: SingleLiveEvent<Void> by lazy {
             SingleLiveEvent<Void>()
         }
-        public val onBackPressedEvent: SingleLiveEvent<Void> by lazy {
+        val onBackPressedEvent: SingleLiveEvent<Void> by lazy {
             SingleLiveEvent<Void>()
         }
 
-        override fun observe(owner: LifecycleOwner, observer: Observer<in Any>) {
-            super.observe(owner, observer)
-        }
     }
 
     fun cancelRequest() {
@@ -178,7 +184,6 @@ open class BaseViewModel : ViewModel() {
 
 object ParameterField {
     var CLASS = "CLASS"
-    var CANONICAL_NAME = "CANONICAL_NAME"
     var BUNDLE = "BUNDLE"
 }
 

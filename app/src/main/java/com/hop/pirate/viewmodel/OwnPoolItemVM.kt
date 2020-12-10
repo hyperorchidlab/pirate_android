@@ -13,9 +13,7 @@ import com.hop.pirate.util.Utils
 import com.nbs.android.lib.base.ItemViewModel
 import com.nbs.android.lib.command.BindingAction
 import com.nbs.android.lib.command.BindingCommand
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 /**
@@ -44,8 +42,8 @@ class OwnPoolItemVM(var vm:OwnPoolVM,var own:OwnPool,var index:Int) : ItemViewMo
                     }
             }.onSuccess {
                 it?.let {
-                    packets.set(Utils.formatText(Utils.ConvertBandWidth(it.packets),"\nPackets"))
-                    token.set(Utils.formatText(Utils.ConvertCoin(it.token), " HOP\nToken"))
+                    packets.set(Utils.formatText(Utils.convertBandWidth(it.packets),"\nPackets"))
+                    token.set(Utils.formatText(Utils.convertCoin(it.token), " HOP\nToken"))
                     credit.set(Utils.formatText(it.credit.toString(), "\nCredit"))
                 }
             }.onFailure {

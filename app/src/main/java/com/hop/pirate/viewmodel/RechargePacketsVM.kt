@@ -26,26 +26,23 @@ class RechargePacketsVM:BaseViewModel() {
     val syncPoolSuccessEvent = SingleLiveEvent<Boolean>()
 
      fun initFlows(){
-        showDialog(R.string.waiting)
         viewModelScope.launch {
             kotlin.runCatching {
                 model.getBytesPerToken()
             }.onSuccess {
-                oninitFlowsSuccess(it)
+                onInitFlowsSuccess(it)
             }.onFailure {
-                oninitFlowsFailure(it)
+                onInitFlowsFailure(it)
             }
         }
 
     }
 
-    private fun oninitFlowsFailure(t: Throwable) {
-        dismissDialog()
+    private fun onInitFlowsFailure(t: Throwable) {
         showErrorToast(R.string.get_data_failed,t)
     }
 
-    private fun oninitFlowsSuccess(it: Double) {
-        dismissDialog()
+    private fun onInitFlowsSuccess(it: Double) {
         bytePreTokenEvent.value = it
     }
 
@@ -77,7 +74,7 @@ class RechargePacketsVM:BaseViewModel() {
     }
 
     fun buyPacket(){
-        showDialog(R.string.recharge_buy_packets)
+        showDialogNotCancel(R.string.recharge_buy_packets)
         viewModelScope.launch {
             kotlin.runCatching {
                 model.buyPacket(WalletWrapper.MainAddress,poolAddress.get()!!,tokenNO)
@@ -100,7 +97,7 @@ class RechargePacketsVM:BaseViewModel() {
     }
 
     private fun approve(){
-        showDialog(R.string.approving)
+        showDialogNotCancel(R.string.approving)
         viewModelScope.launch {
             kotlin.runCatching {
                 model.approve(AUTHORIZE_TOKEN)
@@ -146,7 +143,7 @@ class RechargePacketsVM:BaseViewModel() {
         if (prove) {
             buyPacket()
         } else {
-           showDialog(R.string.recharge_sync_pool)
+            showDialogNotCancel(R.string.recharge_sync_pool)
             EventBus.getDefault().post(EventRechargeSuccess())
             syncPool()
         }

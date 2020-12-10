@@ -44,28 +44,33 @@ import kotlin.jvm.Throws
 object Utils {
     const val RC_LOCAL_MEMORY_PERM = 123
     const val RC_CAMERA_PERM = 124
-    const val RC_SELECT_FROM_GALLARY = 125
-    private const val DEFAULT_ETH_ADDRESS = "0x0000000000000000000000000000000000000000"
+    const val RC_SELECT_FROM_GALLERY = 125
     const val COIN_DECIMAL = 1e18
     private val appContext: Context = HopApplication.instance
-    private val sharedPref = appContext.getSharedPreferences("pirateaManager", Context.MODE_PRIVATE)
+    private val sharedPref = appContext.getSharedPreferences("pirateManager", Context.MODE_PRIVATE)
 
-    fun ConvertCoin(coinV: Double): String {
+    fun convertCoin(coinV: Double): String {
         return String.format(Locale.CHINA, "%.4f ", coinV / COIN_DECIMAL
         )
     }
 
-    fun ConvertBandWidth(packetsV: Double): String {
-        return if (packetsV > 1e12) {
-            String.format(Locale.CHINA, "%.2f T", packetsV / 1e12)
-        } else if (packetsV > 1e9) {
-            String.format(Locale.CHINA, "%.2f G", packetsV / 1e9)
-        } else if (packetsV > 1e6) {
-            String.format(Locale.CHINA, "%.2f M", packetsV / 1e6)
-        } else if (packetsV > 1e3) {
-            String.format(Locale.CHINA, "%.2f K", packetsV / 1e3)
-        } else {
-            String.format(Locale.CHINA, "%.2f B", packetsV)
+    fun convertBandWidth(packetsV: Double): String {
+        return when {
+            packetsV > 1e12 -> {
+                String.format(Locale.CHINA, "%.2f T", packetsV / 1e12)
+            }
+            packetsV > 1e9 -> {
+                String.format(Locale.CHINA, "%.2f G", packetsV / 1e9)
+            }
+            packetsV > 1e6 -> {
+                String.format(Locale.CHINA, "%.2f M", packetsV / 1e6)
+            }
+            packetsV > 1e3 -> {
+                String.format(Locale.CHINA, "%.2f K", packetsV / 1e3)
+            }
+            else -> {
+                String.format(Locale.CHINA, "%.2f B", packetsV)
+            }
         }
     }
 
@@ -121,19 +126,8 @@ object Utils {
         }
     }
 
-    fun showOkOrCancelAlert(
-        context: AppCompatActivity,
-        tittleID: Int,
-        messageId: Int,
-        callBack: AlertDialogOkCallBack?
-    ) {
-        MessageDialog.show(
-            context,
-            context.getString(tittleID),
-            context.getString(messageId),
-            context.getString(R.string.sure),
-            context.getString(R.string.cancel)
-        ).setOnOkButtonClickListener { baseDialog, v ->
+    fun showOkOrCancelAlert(context: AppCompatActivity, tittleID: Int, messageId: Int, callBack: AlertDialogOkCallBack?) {
+        MessageDialog.show(context, context.getString(tittleID), context.getString(messageId), context.getString(R.string.sure), context.getString(R.string.cancel)).setOnOkButtonClickListener { baseDialog, v ->
             callBack?.onClickOkButton("")
             false
         }.onCancelButtonClickListener = OnDialogButtonClickListener { baseDialog, v ->

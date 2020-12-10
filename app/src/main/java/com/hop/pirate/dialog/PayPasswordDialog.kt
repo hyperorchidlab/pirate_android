@@ -18,9 +18,8 @@ class PayPasswordDialog(context: Context, private val mRechargeFlowCallBack: Pas
         fun callBack(password: String)
     }
 
-    override fun onCreate(savedInstanceState: Bundle) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        println("~~~~~~~~~~onCreate")
         setContentView(R.layout.dialog_pay_password)
         mPasswordEt = findViewById(R.id.key_word_et)
         findViewById<View>(R.id.sure_tv).setOnClickListener {
@@ -30,7 +29,6 @@ class PayPasswordDialog(context: Context, private val mRechargeFlowCallBack: Pas
     }
 
     override fun show() {
-        println("~~~~~~~~~~show")
         window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         super.show()
         val layoutParams = window?.attributes
@@ -39,6 +37,15 @@ class PayPasswordDialog(context: Context, private val mRechargeFlowCallBack: Pas
         layoutParams?.height = WindowManager.LayoutParams.WRAP_CONTENT
         window?.decorView?.setPadding(0, 0, 0, 0)
         window?.attributes = layoutParams
+        Handler().postDelayed({
+            mPasswordEt.isFocusable = true
+            mPasswordEt.isFocusableInTouchMode = true
+            mPasswordEt.requestFocus()
+            val inputManager =
+                mPasswordEt.context
+                    .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputManager.showSoftInput(mPasswordEt, 0)
+        }, 200)
     }
 
 }

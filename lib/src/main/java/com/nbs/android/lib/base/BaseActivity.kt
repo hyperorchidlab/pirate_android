@@ -30,7 +30,7 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
 
     protected lateinit var mDataBinding: DB
     private var viewModelId = 0
-    protected  var dialog: SweetAlertDialog? = null
+    protected  var dialog: SweetAlertDialog? =null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,12 +60,27 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
     open fun <T : ViewModel> createViewModel(cls: Class<T>): T {
         return ViewModelProvider(this).get(cls)
     }
+
     //注册ViewModel与View的契约UI回调事件
     protected open fun registorUIChangeLiveDataCallBack() { //加载对话框显示
         mViewModel.uc.showDialogEvent.observe(this, object : Observer<Int> {
             override fun onChanged(@Nullable titleId: Int) {
                 println("~~~~~~~~~~showDialog${resources.getString(titleId)}------------${System.currentTimeMillis()}")
-                showDialog(resources.getString(titleId))
+                showDialog(resources.getString(titleId),true)
+            }
+        })
+
+        mViewModel.uc.showDialogNotCancelEvent.observe(this, object : Observer<Int> {
+            override fun onChanged(@Nullable titleId: Int) {
+                println("~~~~~~~~~~showDialog${resources.getString(titleId)}------------${System.currentTimeMillis()}")
+                showDialog(resources.getString(titleId),false)
+            }
+        })
+
+        mViewModel.uc.showDialogNotCancelStrEvent.observe(this, object : Observer<String> {
+            override fun onChanged(@Nullable title: String) {
+                println("~~~~~~~~~~showDialog${title}------------${System.currentTimeMillis()}")
+                showDialog(title,false)
             }
         })
 
@@ -86,19 +101,13 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
         })
         //跳入新页面
         mViewModel.uc.startActivityEvent.observe(
-            this,
-            object : Observer<Map<String, Any>> {
-                override fun onChanged(@Nullable params: Map<String, Any>) {
-                    val clz =
-                        params[ParameterField.CLASS] as Class<*>
-                    val bundle = params[ParameterField.BUNDLE] as Bundle?
-                    startActivity(clz, bundle)
-                }
+            this, Observer<Map<String, Any>> { params ->
+                val clz = params[ParameterField.CLASS] as Class<*>
+                val bundle = params[ParameterField.BUNDLE] as Bundle?
+                startActivity(clz, bundle)
             })
 
-        mViewModel.uc.startWebActivityEvent.observe(
-            this,
-            object : Observer<String> {
+        mViewModel.uc.startWebActivityEvent.observe(this, object : Observer<String> {
                 override fun onChanged(@Nullable url: String) {
                     val intent = Intent()
                     intent.action = "android.intent.action.VIEW"
@@ -122,18 +131,18 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
     }
 
     @JvmOverloads
-    open fun showDialog(title: String = getString(R.string.LOADING)) {
+    open fun showDialog(title: String = getString(R.string.LOADING),cancelable: Boolean = true) {
 
-            dialog = SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
-            dialog?.apply {
-                progressHelper.barColor = resources.getColor(R.color.colorAccent, null)
-                titleText = title
-                setCancelable(true)
-                setOnCancelListener {
-                    mViewModel.cancelRequest()
-                }
-                show()
+        dialog = SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
+        dialog?.apply {
+            progressHelper.barColor = resources.getColor(R.color.colorAccent, null)
+            titleText = title
+            setCancelable(cancelable)
+            setOnCancelListener {
+                mViewModel.cancelRequest()
             }
+            show()
+        }
     }
 
     open fun dismissDialog() {
@@ -164,7 +173,6 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
         }
         startActivity(intent)
     }
-
 
 
     override fun onDestroy() {

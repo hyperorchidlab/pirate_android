@@ -33,10 +33,10 @@ class TabWalletVM : BaseViewModel() {
     val createAccountEvent = SingleLiveEvent<Boolean>()
 
     override fun clickRightIv() {
-        EventBus.getDefault().post(EventReLoadWallet())
+        EventBus.getDefault().post(EventReLoadWallet(true))
     }
 
-    val showqrCommand = BindingCommand<Any>(object : BindingAction {
+    val showAddressCommand = BindingCommand<Any>(object : BindingAction {
         override fun call() {
             showqrImageEvent.call()
         }
@@ -82,7 +82,7 @@ class TabWalletVM : BaseViewModel() {
 
     val guideCommand = BindingCommand<Any>(object : BindingAction {
         override fun call() {
-            startActivity(GuideActivity::class.java);
+            startActivity(GuideActivity::class.java)
         }
     })
 
@@ -133,7 +133,7 @@ class TabWalletVM : BaseViewModel() {
             showToast(R.string.apply_free_token_des)
             return
         }
-        showDialog(R.string.creating_tx)
+        showDialogNotCancel(R.string.creating_tx)
         viewModelScope.launch {
             kotlin.runCatching { model.applyFreeEth(WalletWrapper.MainAddress) }
                 .onSuccess {
@@ -150,7 +150,7 @@ class TabWalletVM : BaseViewModel() {
 
     fun queryTxStatus(tx: String, isFreeHop: Boolean) {
         val msg = "\nHop TX:[$tx]"
-        showDialog(msg)
+        showDialogNotCancel(msg)
         viewModelScope.launch {
             kotlin.runCatching { model.queryTxStatus(tx) }
                 .onSuccess {
@@ -170,10 +170,13 @@ class TabWalletVM : BaseViewModel() {
             kotlin.runCatching {
                 model.queryHopBalance(WalletWrapper.MainAddress)
             }.onSuccess {
+                if (it.isEmpty()) {
+                    return@launch
+                }
                 hopBalanceEvent.postValue(it)
             }.onFailure {
 
-                }
+            }
 
         }
     }
@@ -188,7 +191,7 @@ class TabWalletVM : BaseViewModel() {
                 showToast(R.string.wallet_export_success)
             }.onFailure {
                 dismissDialog()
-                showErrorToast(R.string.transfer_fail,it)
+                showErrorToast(R.string.transfer_fail, it)
             }
 
         }

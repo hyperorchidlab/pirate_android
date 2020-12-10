@@ -66,10 +66,7 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
         setCurrentTab(mNavigator.currentPosition)
         main_bottom_navigator_view.setOnBottomNavigatorViewItemClickListener(object :
             OnBottomNavigatorViewItemClickListener {
-            override fun onBottomNavigatorViewItemClick(
-                position: Int,
-                view: View?
-            ) {
+            override fun onBottomNavigatorViewItemClick(position: Int, view: View?) {
                 setCurrentTab(position)
             }
         })
@@ -133,8 +130,7 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
                 )
             )
         }
-        mNavigator =
-            FragmentNavigator(supportFragmentManager, bottomNavigatorAdapter, R.id.content_frame)
+        mNavigator = FragmentNavigator(supportFragmentManager, bottomNavigatorAdapter, R.id.content_frame)
         mNavigator.setDefaultPosition(Constants.TAB_HOME)
         mNavigator.onCreate(savedInstanceState)
     }
@@ -158,7 +154,7 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun addMiningPool(eventSkipTabPacketsMarket: EventSkipTabPacketsMarket?) {
+    fun addMiningPool(eventSkipTabPacketsMarket: EventSkipTabPacketsMarket) {
         setCurrentTab(Constants.TAB_RECHARGE)
     }
 
@@ -169,7 +165,7 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun rechargeSuccess(eventRechargeSuccess: EventRechargeSuccess?) {
+    fun rechargeSuccess(eventRechargeSuccess: EventRechargeSuccess) {
         mViewModel.syncSubPoolsData()
         loadWallet(false)
     }

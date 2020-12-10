@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.hop.pirate.R
 import com.hop.pirate.model.bean.FlowBean
-import com.hop.pirate.util.Utils
 import java.util.*
 
 class FlowSelectAdapter(private val mContext: Context, private val mBytesPerToken: Double, rechargeFlowState: RechargeFlowState) : RecyclerView.Adapter<FlowSelectAdapter.ViewHolder>() {
@@ -50,7 +49,7 @@ class FlowSelectAdapter(private val mContext: Context, private val mBytesPerToke
             viewHolder.flowTv.visibility = View.VISIBLE
             viewHolder.hopTv.visibility = View.VISIBLE
             if (flowBean.flow >= 1000) {
-                viewHolder.flowTv.setText((flowBean.flow / 1000).toString() + "G")
+                viewHolder.flowTv.text = (flowBean.flow / 1000).toString() + "G"
             } else {
                 viewHolder.flowTv.text = flowBean.flow.toString() + "M"
             }

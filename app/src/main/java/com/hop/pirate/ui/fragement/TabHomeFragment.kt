@@ -90,8 +90,8 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
         } else {
             miner_machin_tv.text = SysConf.CurMinerID
         }
-        use_flow_tv.text = Utils.ConvertBandWidth(SysConf.PacketsBalance)
-        uncleared_tv.text = Utils.ConvertBandWidth(SysConf.PacketsCredit)
+        use_flow_tv.text = Utils.convertBandWidth(SysConf.PacketsBalance)
+        uncleared_tv.text = Utils.convertBandWidth(SysConf.PacketsCredit)
     }
 
     private fun loadLocalConf() {
@@ -181,30 +181,30 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun VPNOpen(eventVPNOpen: EventVPNOpen?) {
+    fun VPNOpen(eventVPNOpen: EventVPNOpen) {
         pirate_network_status_tv.text = getString(R.string.use)
         dismissDialog()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun VPNClose(eventVPNClosed: EventVPNClosed?) {
+    fun VPNClose(eventVPNClosed: EventVPNClosed) {
         pirate_network_status_tv.text = getString(R.string.disconnected)
         dismissDialog()
         mViewModel.getPool()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun rechargeSuccess(eventRechargeSuccess: EventRechargeSuccess?) {
+    fun rechargeSuccess(eventRechargeSuccess: EventRechargeSuccess) {
         mViewModel.getPool()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun eventReloadPoolsMarket(eventReloadPoolsMarket: EventReloadPoolsMarket?) {
+    fun eventReloadPoolsMarket(eventReloadPoolsMarket: EventReloadPoolsMarket) {
         mViewModel.getPool()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun loadWalletSuccess(eventLoadWalletSuccess: EventLoadWalletSuccess?) {
+    fun loadWalletSuccess(eventLoadWalletSuccess: EventLoadWalletSuccess) {
         loadLocalConf()
         mViewModel.getPool()
     }

@@ -11,6 +11,7 @@ import com.hop.pirate.*
 import com.hop.pirate.callback.AlertDialogOkCallBack
 import com.hop.pirate.databinding.FragmentWalletBinding
 import com.hop.pirate.event.EventLoadWalletSuccess
+import com.hop.pirate.event.EventReLoadWallet
 import com.hop.pirate.event.EventRechargeSuccess
 import com.hop.pirate.model.TabWalletModel
 import com.hop.pirate.service.HopService
@@ -61,7 +62,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(), Ha
 
     override fun initObserve() {
         mViewModel.showqrImageEvent.observe(this, Observer {
-            showqrImage()
+            showAddressImage()
         })
         mViewModel.exportEvent.observe(this, Observer {
             exportWallet()
@@ -76,7 +77,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(), Ha
                 apply_free_token_btn.isEnabled = true
                 return@Observer
             }
-            apply_free_token_btn.isEnabled = Utils.ConvertCoin(it.toDouble()).toDouble() <= 500
+            apply_free_token_btn.isEnabled = Utils.convertCoin(it.toDouble()).toDouble() <= 500
         })
 
         mViewModel.clearDBEvent.observe(this, Observer {
@@ -102,7 +103,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(), Ha
             apply_free_eth_btn.isEnabled = false
         }
         MessageDialog.show(mActivity, title, getString(R.string.apply_success), getString(R.string.sure))
-        (mActivity as MainActivity).loadWallet(false)
+        EventBus.getDefault().post(EventReLoadWallet(false))
     }
 
 
@@ -124,61 +125,14 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(), Ha
         main_network_address_value_tv.text = WalletWrapper.MainAddress
         apply_free_eth_btn.isEnabled = WalletWrapper.EthBalance <= 0.05
         MainActivity.walletBean?.let {
-            hop_number_tv.text = Utils.ConvertCoin(MainActivity.walletBean!!.hop)
-            eth_number_tv.text = Utils.ConvertCoin(MainActivity.walletBean!!.eth)
+            hop_number_tv.text = Utils.convertCoin(MainActivity.walletBean!!.hop)
+            eth_number_tv.text = Utils.convertCoin(MainActivity.walletBean!!.eth)
         }
 
     }
 
-    fun onClick(v: View?) {
-//        switch (v.getId()) {
-//            case R.id.refreshBalanceTv:
-//                mActivity.showDialogFragment();
-//                ((MainActivity) mActivity).loadWallet(true);
-//                break;
-//            case R.id.QRCodeIv:
-//                showQRImage();
-//                break;
-//            case R.id.applyFreeEthBtn:
-//                applyFreeEth();
-//                break;
-//            case R.id.applyFreeTokenBtn:
-//                applyFreeToken();
-//                break;
-//            case R.id.dnsTv:
-//                showChangeDNSDialog();
-//                break;
-//            case R.id.createAccountTv:
-//                showCreateAccountAlert();
-//                break;
-//            case R.id.exportTv:
-//                exportWallet();
-//                break;
-//            case R.id.versionTv:
-//            case R.id.updateAppTv:
-//                Utils.openAppDownloadPage(mActivity);
-//                break;
-//            case R.id.helpAddressTv:
-//                startWebview(R.string.fragment_account_help_address);
-//                break;
-//            case R.id.courseAddressTv:
-//                startWebview(R.string.fragment_account_course_address);
-//                break;
-//            case R.id.clearDBTv:
-//                Utils.deleteDBData(mActivity);
-//                Utils.toastTips(getString(R.string.fragment_account_clear));
-//                break;
-//            case R.id.operationGuideTv:
-//                startActivity(new Intent(mActivity, GuideActivity.class));
-//                break;
-//            default:
-//                break;
-//
-//        }
-    }
 
-
-    private fun showqrImage() {
+    private fun showAddressImage() {
         val intent =
             Intent(mActivity, MainNetAddressQRCodeActivity::class.java)
         val bundle =
@@ -188,11 +142,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(), Ha
     }
 
     private fun showCreateAccountAlert() {
-        Utils.showOkOrCancelAlert(
-            mActivity,
-            R.string.tab_account_replace_account_title,
-            R.string.tab_account_replace_msg,
-            object : AlertDialogOkCallBack() {
+        Utils.showOkOrCancelAlert(mActivity, R.string.tab_account_replace_account_title, R.string.tab_account_replace_msg, object : AlertDialogOkCallBack() {
                 override fun onClickOkButton(parameter: String) {
                     if (HopApplication.instance.isRunning) {
                         HopApplication.instance.isRunning = false
@@ -210,9 +160,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(), Ha
         InputDialog.build(mActivity)
             .setTitle(R.string.tips)
             .setMessage(R.string.tab_account_dns_empty)
-            .setOkButton(
-                R.string.sure,
-                OnInputDialogButtonClickListener { _, _, inputStr ->
+            .setOkButton(R.string.sure, OnInputDialogButtonClickListener { _, _, inputStr ->
                     if (TextUtils.isEmpty(inputStr)) {
                         Utils.toastTips(getString(R.string.tab_account_dns_empty))
                         return@OnInputDialogButtonClickListener true
@@ -254,7 +202,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(), Ha
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun loadWalletSuccess(eventLoadWalletSuccess: EventLoadWalletSuccess?) {
+    fun loadWalletSuccess(eventLoadWalletSuccess: EventLoadWalletSuccess) {
         initData()
     }
 

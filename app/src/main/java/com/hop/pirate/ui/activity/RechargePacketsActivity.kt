@@ -4,7 +4,6 @@ import android.app.Activity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hop.pirate.BR
-import com.hop.pirate.Constants
 import com.hop.pirate.IntentKey
 import com.hop.pirate.R
 import com.hop.pirate.ui.adapter.FlowSelectAdapter
@@ -29,9 +28,9 @@ class RechargePacketsActivity : BaseActivity<RechargePacketsVM,ActivityRechargeP
         mViewModel.title.set(getString(R.string.recharge_recharge_flow))
         mViewModel.showBackImage.set(true)
         hop_address_et.text = WalletWrapper.MainAddress
-        hop_coin_number_tv.text = Utils.ConvertCoin(WalletWrapper.HopBalance)
-        mViewModel.initFlows()
+        hop_coin_number_tv.text = Utils.convertCoin(WalletWrapper.HopBalance)
         flow_recyclerview.layoutManager = GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false)
+        mViewModel.initFlows()
     }
 
     override fun initData() {

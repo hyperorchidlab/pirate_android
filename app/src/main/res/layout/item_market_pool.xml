@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:text="@{@string/gtn + Utils.INSTANCE.ConvertCoin(item.minePool.mortgageNumber)}"
+            android:text="@{@string/gtn + Utils.INSTANCE.convertCoin(item.minePool.mortgageNumber)}"
             android:textColor="@color/color_white"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"

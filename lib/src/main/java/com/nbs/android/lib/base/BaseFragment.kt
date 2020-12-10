@@ -36,6 +36,7 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment
         super.onAttach(context)
         mActivity = context as AppCompatActivity
     }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mDatabinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
         mDatabinding.lifecycleOwner = this
@@ -169,6 +170,7 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment
         if (bundle != null) {
             intent.putExtras(bundle)
         }
+        println("~~~~~~~~~~~~startActivity")
         startActivity(intent)
     }
     open fun showDialog(titleId: Int = R.string.LOADING) {
