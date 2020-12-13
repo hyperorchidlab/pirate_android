@@ -1,8 +1,6 @@
 package com.hop.pirate.ui.fragement
 
 import android.content.Intent
-import android.os.Handler
-import android.os.Message
 import android.text.TextUtils
 import android.view.View
 import androidx.core.app.ActivityOptionsCompat
@@ -31,25 +29,21 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(), Handler.Callback {
+class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(){
     private var mTabSettingModel: TabWalletModel? = null
-    private var mHandler: Handler? = null
 
     override fun getLayoutId(): Int = R.layout.fragment_wallet
 
     override fun initView() {
         mViewModel.title.set(getString(R.string.tab_wallet))
         mViewModel.showRightImage.set(true)
-        mHandler = Handler(this)
         mTabSettingModel = TabWalletModel()
         EventBus.getDefault().register(this)
 
         val newDns = Utils.getString(Constants.NEW_DNS, Constants.DNS)
-        val dnsText = resources.getString(R.string.tab_account_dns) + newDns
-        dns_tv.text = dnsText
+        mViewModel.dnsObservable.set(resources.getString(R.string.tab_account_dns) + newDns)
         val versionText = getString(R.string.current_version_name) + Utils.getVersionName(mActivity)
-        version_tv.text = versionText
-        update_app_tv.text = getString(R.string.tab_setting_new_version)
+        mViewModel.versionObservable.set(versionText)
 
         main_network_address_value_tv.setOnLongClickListener(View.OnLongClickListener {
             if (!TextUtils.isEmpty(main_network_address_value_tv.text.toString())) {
@@ -73,7 +67,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(), Ha
         })
 
         mViewModel.hopBalanceEvent.observe(this, Observer {
-            if (it == "0") {
+            if (it == "0" || it ==null) {
                 apply_free_token_btn.isEnabled = true
                 return@Observer
             }
@@ -81,8 +75,8 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(), Ha
         })
 
         mViewModel.clearDBEvent.observe(this, Observer {
-            Utils.deleteDBData(mActivity)
-            mActivity.showToast(R.string.tab_account_clear)
+            showClearLocalDataDialog()
+
         })
 
         mViewModel.dnsEvent.observe(this, Observer {
@@ -91,6 +85,15 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(), Ha
 
         mViewModel.createAccountEvent.observe(this, Observer {
             showCreateAccountAlert()
+        })
+    }
+
+    private fun showClearLocalDataDialog() {
+        Utils.showOkOrCancelAlert(mActivity,R.string.tips , R.string.tab_account_clear_local_data, object : AlertDialogOkCallBack() {
+            override fun onClickOkButton(parameter: String) {
+                Utils.deleteDBData(mActivity)
+                mActivity.showToast(R.string.tab_account_clear)
+            }
         })
     }
 
@@ -133,11 +136,8 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(), Ha
 
 
     private fun showAddressImage() {
-        val intent =
-            Intent(mActivity, MainNetAddressQRCodeActivity::class.java)
-        val bundle =
-            ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, qr_code_iv, "image")
-                .toBundle()
+        val intent = Intent(mActivity, MainNetAddressQRCodeActivity::class.java)
+        val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, qr_code_iv, "image").toBundle()
         startActivity(intent, bundle)
     }
 
@@ -148,8 +148,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(), Ha
                         HopApplication.instance.isRunning = false
                         HopService.stop()
                     }
-                    val createIntent =
-                        Intent(mActivity, CreateAccountActivity::class.java)
+                    val createIntent = Intent(mActivity, CreateAccountActivity::class.java)
                     createIntent.putExtra(IntentKey.SHOW_BACK_BUTTON, true)
                     startActivity(createIntent)
                 }
@@ -198,7 +197,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(), Ha
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun rechargeSuccess(eventRechargeSuccess: EventRechargeSuccess) {
-        (mActivity as MainActivity).loadWallet(false)
+        EventBus.getDefault().post(EventReLoadWallet(false))
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -209,22 +208,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(), Ha
     override fun onDestroy() {
         super.onDestroy()
         EventBus.getDefault().unregister(this)
-        mHandler!!.removeCallbacksAndMessages(null)
     }
-
-    override fun handleMessage(msg: Message): Boolean {
-        when (msg.what) {
-            Constants.QUERY_TXSTATUS_TIME_OUT_CODE -> //                mActivity.dismissDialogFragment();
-                Utils.toastTips(resources.getString(R.string.apply_timeout))
-            Constants.IMPORT_ACCOUNT_ERR_CODE -> Utils.toastTips(
-                "err:" + msg.obj
-            )
-            else -> {
-            }
-        }
-        return false
-    }
-
 
     companion object {
         const val FREE_HOP_MAX_VALUE = 1000

@@ -2,6 +2,7 @@ package com.hop.pirate.viewmodel
 
 import android.content.ContentResolver
 import android.text.TextUtils
+import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
 import com.hop.pirate.Constants
 import com.hop.pirate.R
@@ -24,6 +25,8 @@ import org.greenrobot.eventbus.EventBus
  */
 class TabWalletVM : BaseViewModel() {
     val model = TabWalletModel()
+    val dnsObservable = ObservableField<String>()
+    val versionObservable = ObservableField<String>()
     val showqrImageEvent = SingleLiveEvent<Boolean>()
     val exportEvent = SingleLiveEvent<Boolean>()
     val queryTxEvent = SingleLiveEvent<Boolean>()
@@ -119,6 +122,7 @@ class TabWalletVM : BaseViewModel() {
             }.onSuccess {
                 queryTxStatus(it, true)
             }.onFailure {
+                dismissDialog()
                 showErrorToast(R.string.apply_fail, it)
             }
         }

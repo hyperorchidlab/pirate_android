@@ -2,9 +2,11 @@ package com.hop.pirate.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import androidLib.AndroidLib
+import androidLib.HopDelegate
 import androidx.lifecycle.Observer
 import com.hop.pirate.BR
 import com.hop.pirate.Constants
@@ -19,6 +21,7 @@ import com.hop.pirate.ui.fragement.TabHomeFragment
 import com.hop.pirate.ui.fragement.TabPacketsMarketFragment
 import com.hop.pirate.ui.fragement.TabWalletFragment
 import com.hop.pirate.model.bean.WalletBean
+import com.hop.pirate.service.HopService
 import com.hop.pirate.service.WalletWrapper
 import com.hop.pirate.util.Utils
 import com.hop.pirate.viewmodel.MainVM
@@ -30,8 +33,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.lang.Exception
 
-class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
+class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>(), HopDelegate {
 
     companion object {
         var walletBean: WalletBean? = null
@@ -62,7 +66,8 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
         if (HopApplication.instance.isRunning) {
             return
         }
-        initService()
+        AndroidLib.setDelegate(this)
+        mViewModel.getWalletInfo(false)
         setCurrentTab(mNavigator.currentPosition)
         main_bottom_navigator_view.setOnBottomNavigatorViewItemClickListener(object :
             OnBottomNavigatorViewItemClickListener {
@@ -85,17 +90,7 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
             }
         })
 
-        mViewModel.initServiceFailEvent.observe(this, Observer {
-            Utils.showOkAlert(
-                this@MainActivity,
-                R.string.tips,
-                R.string.blockchain_sync_error,
-                object : AlertDialogOkCallBack() {
-                    override fun onClickOkButton(parameter: String) {
-                        finish()
-                    }
-                })
-        })
+
     }
 
     override fun initVariableId(): Int = BR.viewModel
@@ -105,15 +100,11 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
         super.onNewIntent(intent)
         if (HopApplication.instance.isRunning) {
             return
-        } else {
-            AndroidLib.stopProtocol()
         }
-        initService()
+        mViewModel.getWalletInfo(false)
+        AndroidLib.setDelegate(this)
     }
 
-    fun initService() {
-        mViewModel.initService()
-    }
 
     fun loadWallet(isShowLoading: Boolean) {
         mViewModel.getWalletInfo(isShowLoading)
@@ -172,7 +163,7 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun eventReLoadWallet(event: EventReLoadWallet) {
-        loadWallet(true)
+        loadWallet(event.showDialog)
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
@@ -194,6 +185,30 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
         }
 
         EventBus.getDefault().unregister(this)
+    }
+
+    override fun serviceExit(p0: java.lang.Exception?) {
+        HopApplication.instance.isRunning = false
+        HopService.stop()
+    }
+
+    override fun actionNotify(type: Short, msg: String?) {
+        Log.w("Go", "actionNotify: type:[$type] msg:=>$msg")
+        when (type.toInt()) {
+            ATSysSettingChanged -> {
+            }
+            ATPoolsInMarketChanged -> {
+            }
+            ATNeedToRecharge -> showDialog(R.string.packets_insufficient_need_recharge)
+            ATRechargeSuccess -> EventBus.getDefault()
+                .post(EventRechargeSuccess())
+            else -> {
+            }
+        }
+    }
+
+    override fun log(str: String) {
+        Log.i("G0", str)
     }
 
 

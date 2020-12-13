@@ -18,8 +18,7 @@ class GuideActivity : BaseActivity<GuideVM, ActivityGuideBinding>() {
     }
 
     override fun initData() {
-        val guideAdapter =
-            GuideAdapter(this, mViewModel.images)
+        val guideAdapter = GuideAdapter(this, mViewModel.images)
         viewpager.adapter = guideAdapter
         indicator.setViewPager(viewpager)
         guideAdapter.registerDataSetObserver(indicator.dataSetObserver)

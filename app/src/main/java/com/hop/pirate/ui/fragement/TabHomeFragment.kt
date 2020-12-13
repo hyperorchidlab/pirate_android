@@ -125,9 +125,7 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
     private fun vpnPrepare() {
         val ii = VpnService.prepare(mActivity)
         if (ii != null) {
-            startActivityForResult(ii,
-                RC_VPN_RIGHT
-            )
+            startActivityForResult(ii, RC_VPN_RIGHT)
         } else {
             onActivityResult(RC_VPN_RIGHT, Activity.RESULT_OK, null)
         }

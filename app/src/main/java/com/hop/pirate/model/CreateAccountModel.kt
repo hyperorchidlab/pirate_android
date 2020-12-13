@@ -13,7 +13,7 @@ import kotlinx.coroutines.withTimeout
  * @author: mr.x
  * @date :   2020/5/25 11:17 AM
  */
-class CreateAccountModel: BaseModel() {
+class CreateAccountModel: InitServiceModel() {
     suspend fun createAccount(password: String): String {
         return withTimeout(Constants.TIME_OUT.toLong()) {
             withContext(Dispatchers.IO) {
@@ -23,6 +23,7 @@ class CreateAccountModel: BaseModel() {
 
 
     }
+
 
     suspend fun importWallet(walletStr: String, password: String) {
         withTimeout(Constants.TIME_OUT.toLong()) {

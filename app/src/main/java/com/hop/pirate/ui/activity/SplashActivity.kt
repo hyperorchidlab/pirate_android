@@ -25,10 +25,10 @@ import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
  * @author: mr.x
  * @date :   2020/5/26 10:37 AM
  */
-class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), PermissionCallbacks, Handler.Callback {
+class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), PermissionCallbacks,
+    Handler.Callback {
     private lateinit var mHandler: Handler
     private var startTime: Long = 0
-    private val SHOW_TIME = 500
 
     override fun getLayoutId(): Int = R.layout.activity_splash
 
@@ -42,12 +42,20 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
         if (!checkNetwork()) {
             return
         }
-        if (Utils.checkVPN() && !Utils.isServiceWork(this@SplashActivity, HopService::class.java.name)) {
-            Utils.showOkAlert(this@SplashActivity, R.string.tips, R.string.close_other_vpn_app, object : AlertDialogOkCallBack() {
-                override fun onClickOkButton(parameter: String) {
-                    finish()
-                }
-            })
+        if (Utils.checkVPN() && !Utils.isServiceWork(
+                this@SplashActivity,
+                HopService::class.java.name
+            )
+        ) {
+            Utils.showOkAlert(
+                this@SplashActivity,
+                R.string.tips,
+                R.string.close_other_vpn_app,
+                object : AlertDialogOkCallBack() {
+                    override fun onClickOkButton(parameter: String) {
+                        finish()
+                    }
+                })
             return
         }
         mViewModel.checkVersion()
@@ -63,17 +71,22 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
                 }
             }
         })
+
+        mViewModel.initServiceFailEvent.observe(this, Observer {
+            Utils.showOkAlert(this@SplashActivity, R.string.tips, R.string.blockchain_sync_error,
+                object : AlertDialogOkCallBack() {
+                    override fun onClickOkButton(parameter: String) {
+                        finish()
+                    }
+                })
+        })
     }
 
 
     private fun delayLoadWallet() {
-        val currentTimeMillis = System.currentTimeMillis()
-        val delayTime = if (currentTimeMillis - startTime - SHOW_TIME > 0) 0 else SHOW_TIME - (currentTimeMillis - startTime)
-        mHandler.postDelayed({
-            if (Utils.checkStorage(this@SplashActivity)) {
-                mViewModel.loadWallet()
-            }
-        }, delayTime)
+        if (Utils.checkStorage(this@SplashActivity)) {
+            mViewModel.loadWallet()
+        }
     }
 
     private fun showUpdateAppDialog(versionBean: AppVersionBean) {
@@ -106,7 +119,11 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
 
     private fun checkNetwork(): Boolean {
         if (!Utils.isNetworkAvailable(this@SplashActivity)) {
-            Utils.showOkAlert(this@SplashActivity, R.string.tips, R.string.network_unavailable, object : AlertDialogOkCallBack() {
+            Utils.showOkAlert(
+                this@SplashActivity,
+                R.string.tips,
+                R.string.network_unavailable,
+                object : AlertDialogOkCallBack() {
                     override fun onClickOkButton(parameter: String) {
                         finish()
                     }
@@ -117,7 +134,11 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
     }
 
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }

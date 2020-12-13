@@ -3,6 +3,7 @@ package com.hop.pirate.viewmodel
 import android.text.TextUtils
 import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
+import com.hop.pirate.HopApplication
 import com.hop.pirate.R
 import com.hop.pirate.ui.activity.MainActivity
 import com.hop.pirate.event.EventNewAccount
@@ -27,6 +28,7 @@ class CreateAccountVM : BaseViewModel() {
     val password = ObservableField<String>()
     val confirmPassword = ObservableField<String>()
     val showImportDialogEvent = SingleLiveEvent<Any?>()
+    val exitEvent = SingleLiveEvent<Any?>()
 
 
     val createCommand = BindingCommand<Any>(object : BindingAction {
@@ -67,12 +69,7 @@ class CreateAccountVM : BaseViewModel() {
 
     private fun createSuccess(it: String) {
         WalletWrapper.MainAddress = JSONObject(it).optString("mainAddress")
-        dismissDialog()
-        showToast(R.string.create_account_success)
-        Utils.clearAllData()
-        EventBus.getDefault().post(EventNewAccount())
-        startActivity(MainActivity::class.java)
-        finish()
+       initService(true)
     }
 
     private fun createFailure(t: Throwable) {
@@ -105,17 +102,45 @@ class CreateAccountVM : BaseViewModel() {
 
 
     private fun importWalletSuccess(walletStr: String) {
-        dismissDialog()
-        showToast(R.string.import_success)
         WalletWrapper.MainAddress = JSONObject(walletStr).optString("mainAddress")
-        EventBus.getDefault().post(EventNewAccount())
-        Utils.clearAllData()
-        startActivity(MainActivity::class.java)
+        initService(false)
     }
 
     private fun importWalletFailure(t: Throwable) {
         dismissDialog()
         showErrorToast(R.string.password_error,t)
+    }
+
+    fun initService(isCreated: Boolean) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                model.initService(HopApplication.instance.applicationContext)
+            }.onSuccess {
+                initVerviceSuccess(isCreated)
+            }.onFailure {
+                initServiceFailure()
+            }
+        }
+
+    }
+
+    private fun initServiceFailure() {
+        exitEvent.call()
+    }
+
+    private fun initVerviceSuccess(isCreated: Boolean) {
+        dismissDialog()
+        Utils.clearAllData()
+        if(isCreated){
+            showToast(R.string.create_account_success)
+            EventBus.getDefault().post(EventNewAccount())
+        }else{
+            showToast(R.string.import_success)
+            EventBus.getDefault().post(EventNewAccount())
+        }
+
+        startActivity(MainActivity::class.java)
+        finish()
     }
 
 }

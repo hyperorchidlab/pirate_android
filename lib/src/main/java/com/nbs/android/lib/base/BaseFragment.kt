@@ -1,6 +1,5 @@
 package com.nbs.android.lib.base
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -8,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -82,70 +80,45 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment
     }
     //注册ViewModel与View的契约UI回调事件
     protected open fun registorUIChangeLiveDataCallBack() { //加载对话框显示
-        mViewModel.uc.showDialogEvent.observe(this, object : Observer<Int> {
-            override fun onChanged(@Nullable title: Int) {
-                showDialog(title)
-            }
-        })
+        mViewModel.uc.showDialogEvent.observe(this,
+            Observer<Int> { title -> showDialog(title) })
 
-        mViewModel.uc.showDialogStrEvent.observe(this,object: Observer<String>{
-            override fun onChanged(t: String) {
-                showDialog(t)
-            }
-
-        })
+        mViewModel.uc.showDialogStrEvent.observe(this,
+            Observer<String> { t -> showDialog(t) })
+        mViewModel.uc.showDialogNotCancelEvent.observe(this,
+            Observer<Int> { titleId -> showDialog(titleId) })
         //加载对话框消失
         mViewModel.uc.dismissDialogEvent
-            .observe(this, object : Observer<Long> {
-                override fun onChanged(@Nullable v: Long) {
-                    dismissDialog()
-                }
-            })
+            .observe(this, Observer<Long> { dismissDialog() })
 
 
-        mViewModel.uc.toastEvent.observe(this, object : Observer<Int> {
-            override fun onChanged(msgId: Int) {
-                context?.showToast(msgId)
-            }
-
-        })
+        mViewModel.uc.toastEvent.observe(this,
+            Observer<Int> { msgId -> context?.showToast(msgId) })
         //跳入新页面
         mViewModel.uc.startActivityEvent.observe(
             this,
-            object : Observer<Map<String, Any>> {
-                override fun onChanged(@Nullable params: Map<String, Any>) {
-                    val clz =
-                        params[ParameterField.CLASS] as Class<*>
-                    val bundle = params[ParameterField.BUNDLE] as Bundle?
-                    startActivity(clz, bundle)
-                }
+            Observer<Map<String, Any>> { params ->
+                val clz =
+                    params[ParameterField.CLASS] as Class<*>
+                val bundle = params[ParameterField.BUNDLE] as Bundle?
+                startActivity(clz, bundle)
             })
 
         mViewModel.uc.startWebActivityEvent.observe(
-            this,
-            object : Observer<String> {
-                override fun onChanged(@Nullable url: String) {
-                    val intent = Intent()
-                    intent.action = "android.intent.action.VIEW"
-                    intent.data = Uri.parse(url)
-                    startActivity(intent, null)
-                }
+            this, Observer<String> { url ->
+                val intent = Intent()
+                intent.action = "android.intent.action.VIEW"
+                intent.data = Uri.parse(url)
+                startActivity(intent, null)
             })
 
         //关闭界面
-        mViewModel.uc.finishEvent.observe(this, object : Observer<Void> {
-            override fun onChanged(@Nullable v: Void?) {
-                mActivity.finish()
-            }
-        })
+        mViewModel.uc.finishEvent.observe(this,
+            Observer<Void> { mActivity.finish() })
         //关闭上一层
         mViewModel.uc.onBackPressedEvent
-            .observe(this, object : Observer<Void> {
-                override fun onChanged(@Nullable v: Void) {
-
-                    mActivity.onBackPressed()
-                }
-            })
+            .observe(this,
+                Observer<Void> { mActivity.onBackPressed() })
     }
 
 

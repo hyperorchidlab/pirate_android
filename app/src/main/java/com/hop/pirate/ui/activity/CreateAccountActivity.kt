@@ -19,6 +19,7 @@ import com.hop.pirate.util.Utils
 import com.hop.pirate.viewmodel.CreateAccountVM
 import com.kongzue.dialog.v3.BottomMenu
 import com.nbs.android.lib.base.BaseActivity
+import com.nbs.android.lib.utils.AppManager
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
@@ -48,6 +49,18 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
     override fun initObserve() {
         mViewModel.showImportDialogEvent.observe(this,
             Observer { showImportDialog() })
+
+        mViewModel.exitEvent.observe(this, Observer {
+            Utils.showOkAlert(
+                this@CreateAccountActivity,
+                R.string.tips,
+                R.string.blockchain_sync_error,
+                object : AlertDialogOkCallBack() {
+                    override fun onClickOkButton(parameter: String) {
+                        AppManager.removeAllActivity()
+                    }
+                })
+        })
     }
 
 

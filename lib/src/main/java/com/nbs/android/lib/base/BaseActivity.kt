@@ -65,21 +65,18 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
     protected open fun registorUIChangeLiveDataCallBack() { //加载对话框显示
         mViewModel.uc.showDialogEvent.observe(this, object : Observer<Int> {
             override fun onChanged(@Nullable titleId: Int) {
-                println("~~~~~~~~~~showDialog${resources.getString(titleId)}------------${System.currentTimeMillis()}")
                 showDialog(resources.getString(titleId),true)
             }
         })
 
         mViewModel.uc.showDialogNotCancelEvent.observe(this, object : Observer<Int> {
             override fun onChanged(@Nullable titleId: Int) {
-                println("~~~~~~~~~~showDialog${resources.getString(titleId)}------------${System.currentTimeMillis()}")
                 showDialog(resources.getString(titleId),false)
             }
         })
 
         mViewModel.uc.showDialogNotCancelStrEvent.observe(this, object : Observer<String> {
             override fun onChanged(@Nullable title: String) {
-                println("~~~~~~~~~~showDialog${title}------------${System.currentTimeMillis()}")
                 showDialog(title,false)
             }
         })
@@ -88,7 +85,6 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
         mViewModel.uc.dismissDialogEvent
             .observe(this, object : Observer<Long> {
                 override fun onChanged(@Nullable v: Long) {
-                    println("~~~~~~~~~~dismissDialog${System.currentTimeMillis()}")
                     dismissDialog()
                 }
             })

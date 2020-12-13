@@ -309,6 +309,7 @@
                     style="@style/WalletLab"
                     app:layout_constraintTop_toBottomOf="@+id/export_tv"
                     android:gravity="center_vertical|start"
+                    android:text="@{viewModel.versionObservable}"
                     android:lines="1" />
 
                 <TextView
@@ -327,7 +328,7 @@
                     style="@style/WalletLab"
                     onClickCommand="@{viewModel.dnsCommand}"
                     app:layout_constraintTop_toBottomOf="@+id/version_tv"
-                    android:text="@string/tab_account_dns" />
+                    android:text="@{viewModel.dnsObservable}" />
 
                 <TextView
                     android:id="@+id/operation_guide_tv"

@@ -24,26 +24,9 @@ import org.greenrobot.eventbus.EventBus
  *Time:
  *Description:
  */
-class MainVM : BaseViewModel(), HopDelegate {
+class MainVM : BaseViewModel(){
     val model = MainModel()
     val hindeFreeCoinEvent = SingleLiveEvent<Boolean>()
-    val initServiceFailEvent = SingleLiveEvent<Boolean>()
-    fun initService() {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                model.initService(HopApplication.instance.applicationContext, this@MainVM)
-            }.onSuccess {
-                onInitServiceSuccess()
-            }.onFailure {
-                initServiceFailEvent.postValue(true)
-            }
-        }
-
-    }
-
-    private fun onInitServiceSuccess() {
-        getWalletInfo(false)
-    }
 
     fun getWalletInfo(isShowLoading: Boolean) {
         if(isShowLoading){
@@ -91,27 +74,4 @@ class MainVM : BaseViewModel(), HopDelegate {
         }
     }
 
-    override fun serviceExit(p0: java.lang.Exception?) {
-        HopApplication.instance.isRunning = false
-        HopService.stop()
-    }
-
-    override fun actionNotify(type: Short, msg: String?) {
-        Log.w("Go", "actionNotify: type:[$type] msg:=>$msg")
-        when (type.toInt()) {
-            MainActivity.ATSysSettingChanged -> {
-            }
-            MainActivity.ATPoolsInMarketChanged -> {
-            }
-            MainActivity.ATNeedToRecharge -> showDialog(R.string.packets_insufficient_need_recharge)
-            MainActivity.ATRechargeSuccess -> EventBus.getDefault()
-                .post(EventRechargeSuccess())
-            else -> {
-            }
-        }
-    }
-
-    override fun log(str: String) {
-        Log.i("G0", str)
-    }
 }

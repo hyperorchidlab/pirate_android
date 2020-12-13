@@ -21,7 +21,7 @@ import org.json.JSONObject
 class SplashVM : BaseViewModel() {
     val model = SplashModel()
     val delayLoadWalletEvent = SingleLiveEvent<AppVersionBean?>()
-
+    val initServiceFailEvent = SingleLiveEvent<Boolean>()
     fun loadWallet() {
         viewModelScope.launch {
             runCatching {
@@ -36,6 +36,26 @@ class SplashVM : BaseViewModel() {
 
     }
 
+    fun initService() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                model.initService(HopApplication.instance.applicationContext)
+            }.onSuccess {
+                onInitServiceSuccess()
+            }.onFailure {
+                println("~~~~~~~~~~~~~~~${it.message}")
+                initServiceFailEvent.postValue(true)
+            }
+        }
+
+    }
+
+    private fun onInitServiceSuccess() {
+
+        startActivity(MainActivity::class.java)
+        finish()
+    }
+
     private fun loadWalletFailure() {
             startActivity(CreateAccountActivity::class.java)
             finish()
@@ -47,8 +67,7 @@ class SplashVM : BaseViewModel() {
             finish()
         }else{
             WalletWrapper.MainAddress = JSONObject(walletJson).optString("mainAddress")
-            startActivity(MainActivity::class.java)
-            finish()
+            initService()
         }
 
     }
