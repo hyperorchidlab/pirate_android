@@ -82,6 +82,7 @@ public class MainActivity extends BaseActivity implements androidLib.HopDelegate
         mMainModel.initService(this, this, new ResultCallBack<String>() {
             @Override
             public void onError(Throwable e) {
+                Utils.deleteDBData(MainActivity.this);
                 Utils.showOkAlert(MainActivity.this, R.string.tips, R.string.blockchain_sync_error, new AlertDialogOkCallBack() {
 
                     @Override
