@@ -37,19 +37,21 @@
 -keepattributes *Annotation*
 
 -keep public class * extends android.app.Fragment
--keep public class * extends android.support.v4.app.Fragment
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
 -keep public class * extends android.app.Service
 -keep public class * extends android.content.BroadcastReceiver
 -keep public class * extends android.content.ContentProvider
 -keep public class * extends android.preference.Preference
-#support librariesv4*v7
--dontwarn android.support.**
--keep class android.support.** { *;}
--keep class android.support.v4.** { *; }
--keep interface android.support.v4.** { *; }
--keep public class android.support.v7.** { *; }
+
+
+-keep class com.google.android.material.* {*;}
+-keep class androidx.* {*;}
+-keep public class * extends androidx.*
+-keep interface androidx.* {*;}
+-dontwarn com.google.android.material.**
+-dontnote com.google.android.material.**
+-dontwarn androidx.**
 
 
 -ignorewarnings
@@ -61,15 +63,14 @@
 
 
 -dontwarn com.google.**
--keep class com.google.protobuf.** {*;}
+-keep class com.google.protobuf.* {*;}
 
--keep class com.hop.pirate.activity.** {*;}
--keep class com.hop.pirate.model.** {*;}
+-keep class com.hop.pirate.ui.activity.* {*;}
+-keep class com.hop.pirate.model.* {*;}
 -keep class com.hop.pirate.util.Utils {*;}
--keep class com.hop.pirate.util.DensityUtil {*;}
 -keep class com.hop.pirate.util.AccountUtils {*;}
--keep class com.hop.pirate.EthereumAccount {*;}
--keep class com.hop.pirate.service.** {*;}
+-keep class com.hop.pirate.service.* {*;}
+-keep class com.hop.pirate.widget.navigator.* {*;}
 
 
 
@@ -124,34 +125,31 @@
         public static <fields>;
     }
 
-    -keep class com.google.zxing.** { *; }
-    -keep class com.google.zxing.**
+    -keep class com.google.zxing.* { *; }
+    -keep class com.google.zxing.*
 
 
 #EventBus
 -keepattributes *Annotation*
--keepclassmembers class ** {
+-keepclassmembers class * {
     @org.greenrobot.eventbus.Subscribe <methods>;
 }
 -keep enum org.greenrobot.eventbus.ThreadMode { *; }
 
 
 -dontwarn com.tencent.bugly.**
--keep public class com.tencent.bugly.**{*;}
+-keep public class com.tencent.bugly.*{*;}
 
--keep class com.kongzue.dialog.** { *; }
+-keep class com.kongzue.dialog.* { *; }
 -dontwarn com.kongzue.dialog.**
 
--keep class android.view.** { *; }
+# 额外的，建议将 android.view 也列入 keep 范围：
+-keep class android.view.* { *; }
 
--dontwarn android.support.v8.renderscript.**
--keep public class android.support.v8.renderscript.** { *; }
-
+# AndroidX版本请使用如下配置：
 -dontwarn androidx.renderscript.**
--keep public class androidx.renderscript.** { *; }
-
+-keep public class androidx.renderscript.* { *; }
 # Gson
 -keepattributes  *Annotation*
--keep class sun.misc.Unsafe { *;}
--keep class com.google.gson.stream.** { *;}
--keep class com.nbs.bpassword.model.bean.** { *;}
+-keep class com.google.gson.stream.* { *;}
+-keep class com.nbs.bpassword.model.bean.* { *;}

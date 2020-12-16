@@ -10,7 +10,8 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import cn.pedant.SweetAlert.SweetAlertDialog
+import com.kongzue.dialog.v3.TipDialog
+import com.kongzue.dialog.v3.WaitDialog
 import com.nbs.android.lib.R
 import com.nbs.android.lib.utils.AppManager
 import com.nbs.android.lib.utils.showToast
@@ -30,7 +31,7 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
 
     protected lateinit var mDataBinding: DB
     private var viewModelId = 0
-    protected  var dialog: SweetAlertDialog? =null
+    protected  var dialog: TipDialog? =null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -127,23 +128,14 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
     }
 
     @JvmOverloads
-    open fun showDialog(title: String = getString(R.string.LOADING),cancelable: Boolean = true) {
-
-        dialog = SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
-        dialog?.apply {
-            progressHelper.barColor = resources.getColor(R.color.colorAccent, null)
-            titleText = title
-            setCancelable(cancelable)
-            setOnCancelListener {
-                mViewModel.cancelRequest()
-            }
-            show()
-        }
+    open fun showDialog(title: String = getString(R.string.loading),cancelable: Boolean = true) {
+        dialog= WaitDialog.show(this,title)
+        dialog?.cancelable = cancelable
     }
 
     open fun dismissDialog() {
-        if (dialog != null && dialog!!.isShowing) {
-            dialog?.dismiss()
+        if (dialog != null && dialog!!.isShow) {
+            dialog?.doDismiss()
         }
     }
 

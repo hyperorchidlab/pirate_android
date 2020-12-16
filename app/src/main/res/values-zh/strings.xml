@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Pirate Pirate kotlin</string>
+    <string name="app_name">Pirate</string>
     <string name="enter_password">输入密码</string>
     <string name="enter_password_twice_here">再次输入密码</string>
     <string name="enter_password_here">输入pirate密码</string>

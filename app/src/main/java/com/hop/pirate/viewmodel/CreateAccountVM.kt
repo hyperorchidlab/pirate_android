@@ -31,6 +31,12 @@ class CreateAccountVM : BaseViewModel() {
     val exitEvent = SingleLiveEvent<Any?>()
 
 
+    val finisCommand = BindingCommand<Any>(object : BindingAction {
+        override fun call() {
+            finish()
+        }
+
+    })
     val createCommand = BindingCommand<Any>(object : BindingAction {
         override fun call() {
             if (verifyPassword()) {
@@ -116,7 +122,7 @@ class CreateAccountVM : BaseViewModel() {
             kotlin.runCatching {
                 model.initService(HopApplication.instance.applicationContext)
             }.onSuccess {
-                initVerviceSuccess(isCreated)
+                initServiceSuccess(isCreated)
             }.onFailure {
                 initServiceFailure()
             }
@@ -128,7 +134,7 @@ class CreateAccountVM : BaseViewModel() {
         exitEvent.call()
     }
 
-    private fun initVerviceSuccess(isCreated: Boolean) {
+    private fun initServiceSuccess(isCreated: Boolean) {
         dismissDialog()
         Utils.clearAllData()
         if(isCreated){

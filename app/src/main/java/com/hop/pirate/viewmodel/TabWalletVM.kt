@@ -174,7 +174,7 @@ class TabWalletVM : BaseViewModel() {
             kotlin.runCatching {
                 model.queryHopBalance(WalletWrapper.MainAddress)
             }.onSuccess {
-                if (it.isEmpty()) {
+                if (it.isEmpty()||it.equals("<nil>")) {
                     return@launch
                 }
                 hopBalanceEvent.postValue(it)

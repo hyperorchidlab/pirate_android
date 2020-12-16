@@ -63,16 +63,15 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
 
     override fun initObserve() {
         mViewModel.delayLoadWalletEvent.observe(this, Observer {
-            it?.let {
-                if (it.newVersion > Utils.getVersionCode(this@SplashActivity)) {
-                    showUpdateAppDialog(it)
-                } else {
-                    delayLoadWallet()
-                }
+            if (it == null || it.newVersion < Utils.getVersionCode(this@SplashActivity)) {
+                delayLoadWallet()
+            }else{
+                showUpdateAppDialog(it)
             }
         })
 
         mViewModel.initServiceFailEvent.observe(this, Observer {
+            Utils.deleteDBData(this)
             Utils.showOkAlert(this@SplashActivity, R.string.tips, R.string.blockchain_sync_error,
                 object : AlertDialogOkCallBack() {
                     override fun onClickOkButton(parameter: String) {

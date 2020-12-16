@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.VpnService
 import android.text.TextUtils
+import android.util.Log
 import androidLib.AndroidLib
 import androidx.lifecycle.Observer
 import com.hop.pirate.BR
@@ -172,6 +173,10 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
     private fun showInputPasswordDialog() {
         Utils.showPassword(mActivity, object : AlertDialogOkCallBack() {
             override fun onClickOkButton(password: String) {
+                if(TextUtils.isEmpty(password)){
+                    Utils.toastTips(getString(R.string.enter_password))
+                    return
+                }
                 mViewModel.openWallet(password)
             }
         })
@@ -186,6 +191,7 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun VPNClose(eventVPNClosed: EventVPNClosed) {
+        Log.d("!!!!!", "EventVPNClosed: ")
         pirate_network_status_tv.text = getString(R.string.disconnected)
         dismissDialog()
         mViewModel.getPool()

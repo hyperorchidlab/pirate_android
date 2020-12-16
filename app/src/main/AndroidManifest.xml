@@ -29,6 +29,7 @@
         tools:ignore="LockedOrientationActivity">
         <activity
             android:name=".ui.activity.SplashActivity"
+            android:theme="@style/SplashTheme"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -73,9 +74,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.GuideActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activity.OwnPoolActivity"
             android:screenOrientation="portrait" />
 
         <service

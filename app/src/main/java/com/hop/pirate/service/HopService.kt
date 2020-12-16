@@ -104,6 +104,7 @@ class HopService : VpnService(), VpnDelegate, Handler.Callback {
             builder.addRoute("0.0.0.0", 0)
             builder.setConfigureIntent(mConfigureIntent)
             mInterface = builder.establish()
+
             val inputStream =
                 FileInputStream(mInterface?.fileDescriptor)
             mVpnOutputStream = FileOutputStream(mInterface?.fileDescriptor)
@@ -117,6 +118,7 @@ class HopService : VpnService(), VpnDelegate, Handler.Callback {
             Thread(PacketReader(inputStream)).start()
             EventBus.getDefault().post(EventVPNOpen())
         } catch (e: Exception) {
+            Log.d("!!!!!!!!!!!!!", "establishVPN: Exception")
             e.printStackTrace()
             mHandler.sendEmptyMessage(0)
             vpnClosed()
@@ -146,6 +148,7 @@ class HopService : VpnService(), VpnDelegate, Handler.Callback {
     }
 
     override fun handleMessage(msg: Message): Boolean {
+        Log.d("!!!!!!!!!!!!!", "handleMessage")
         Utils.toastTips(getString(R.string.init_service_fail))
         return false
     }
@@ -157,7 +160,6 @@ class HopService : VpnService(), VpnDelegate, Handler.Callback {
         fun stop() {
             Log.w(TAG, "stop service in android")
             AndroidLib.stopVpn()
-            EventBus.getDefault().post(EventVPNClosed())
         }
     }
 }

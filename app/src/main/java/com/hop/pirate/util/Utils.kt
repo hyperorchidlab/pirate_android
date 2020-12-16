@@ -137,7 +137,7 @@ object Utils {
     }
 
     private var toast: Toast? = null
-    fun toastTips(msg: String?) {
+    fun toastTips(msg: String) {
         val context: Context = HopApplication.instance
         try {
             if (toast != null) {

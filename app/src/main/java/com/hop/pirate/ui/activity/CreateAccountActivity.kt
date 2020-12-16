@@ -51,10 +51,8 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
             Observer { showImportDialog() })
 
         mViewModel.exitEvent.observe(this, Observer {
-            Utils.showOkAlert(
-                this@CreateAccountActivity,
-                R.string.tips,
-                R.string.blockchain_sync_error,
+            Utils.deleteDBData(this)
+            Utils.showOkAlert(this@CreateAccountActivity, R.string.tips, R.string.blockchain_sync_error,
                 object : AlertDialogOkCallBack() {
                     override fun onClickOkButton(parameter: String) {
                         AppManager.removeAllActivity()
@@ -193,8 +191,8 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-           if(dialog != null && dialog!!.isShowing){
-               dialog!!.dismiss()
+           if(dialog != null && dialog!!.isShow){
+               dialog!!.doDismiss()
                mViewModel.cancelRequest()
                return true
            }

@@ -13,7 +13,8 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import cn.pedant.SweetAlert.SweetAlertDialog
+import com.kongzue.dialog.v3.TipDialog
+import com.kongzue.dialog.v3.WaitDialog
 import com.nbs.android.lib.R
 import com.nbs.android.lib.utils.showToast
 import java.lang.reflect.ParameterizedType
@@ -27,7 +28,7 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment
     protected lateinit var mViewModel: VM
     protected lateinit var mDatabinding: DB
     lateinit var mActivity: AppCompatActivity
-    private  var dialog: SweetAlertDialog? = null
+    private  var dialog: TipDialog? = null
     private var isShown = false
 
     override fun onAttach(context: Context) {
@@ -146,30 +147,18 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment
         println("~~~~~~~~~~~~startActivity")
         startActivity(intent)
     }
-    open fun showDialog(titleId: Int = R.string.LOADING) {
+    open fun showDialog(titleId: Int = R.string.loading) {
         showDialog(getString(titleId))
     }
     fun showDialog(title:String){
-        if (dialog == null) {
-            dialog = SweetAlertDialog(mActivity, SweetAlertDialog.PROGRESS_TYPE)
-            dialog?.let {
-                it.progressHelper.barColor = resources.getColor(R.color.colorAccent, null)
-                it.titleText = title
-                it.setCancelable(false)
-                it.show()
-            }
+        dialog= WaitDialog.show(mActivity,title)
+        dialog?.cancelable = false
 
-        } else {
-            dialog?.let {
-                it.titleText = title
-                it.show()
-            }
-        }
     }
 
     open fun dismissDialog() {
-        if (dialog != null && dialog!!.isShowing) {
-            dialog?.dismiss()
+        if (dialog != null && dialog!!.isShow) {
+            dialog?.doDismiss()
         }
     }
 

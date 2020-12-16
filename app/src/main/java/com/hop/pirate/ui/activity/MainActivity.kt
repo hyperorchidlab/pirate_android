@@ -2,6 +2,7 @@ package com.hop.pirate.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
@@ -67,8 +68,8 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>(), HopDelegat
             return
         }
         AndroidLib.setDelegate(this)
+
         mViewModel.getWalletInfo(false)
-        setCurrentTab(mNavigator.currentPosition)
         main_bottom_navigator_view.setOnBottomNavigatorViewItemClickListener(object :
             OnBottomNavigatorViewItemClickListener {
             override fun onBottomNavigatorViewItemClick(position: Int, view: View?) {
@@ -79,6 +80,9 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>(), HopDelegat
             setCurrentTab(Constants.TAB_WALLET)
             get_free_coin_tv.visibility = View.GONE
         }
+
+
+        Handler().postDelayed({   setCurrentTab(Constants.TAB_HOME)  },0)
     }
 
     override fun initObserve() {

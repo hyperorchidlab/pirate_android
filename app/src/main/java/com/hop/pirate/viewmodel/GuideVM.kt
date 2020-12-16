@@ -17,5 +17,7 @@ class GuideVM : BaseViewModel() {
         R.drawable.guide_04
     )
 
-
+    override fun clickBack() {
+        finish()
+    }
 }

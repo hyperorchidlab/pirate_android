@@ -9,7 +9,7 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        minSdkVersion 25
+        minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -52,7 +52,6 @@ dependencies {
     api "androidx.fragment:fragment-ktx:1.2.5"
 //    api("io.coil-kt:coil:1.0.0")
 
-    api 'cn.pedant.sweetalert:library:1.3'
     api 'androidx.recyclerview:recyclerview:1.1.0'
     api 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
@@ -70,6 +69,8 @@ dependencies {
     api 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:4.0.0'
     api 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:4.0.0'
     api 'com.google.code.gson:gson:2.8.5'
+
+    api 'com.kongzue.dialog_v3:dialog:3.2.4'
 
 }
 

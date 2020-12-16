@@ -86,7 +86,7 @@ class SplashVM : BaseViewModel() {
     }
 
     private fun checkVersionFailure() {
-        delayLoadWalletEvent.postValue(null)
+        delayLoadWalletEvent.postValue(AppVersionBean())
     }
 
     private fun checkVersionSuccess(it: AppVersionBean?) {
