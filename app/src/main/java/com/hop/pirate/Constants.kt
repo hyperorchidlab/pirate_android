@@ -14,7 +14,7 @@ object Constants {
     const val MICROPAY_SYS_ADDRESS = "0x72d5f9f633f537f87ef7415b8bdbfa438d0a1a6c"
     const val ETH_API_URL = "https://ropsten.infura.io/v3/d64d364124684359ace20feae1f9ac20"
     const val DNS = "167.179.75.39"
-    const val TIME_OUT = 60000
+    const val TIME_OUT = 40000
     const val APP_DOWNLOAD_URL = "https://tsfr.io/6yyarz"
     const val APP_HELP_URL = "https://t.me/hopcommunity"
     const val APP_COURSE_URL = "https://docs.hyperorchid.org/"

@@ -118,7 +118,6 @@ class HopService : VpnService(), VpnDelegate, Handler.Callback {
             Thread(PacketReader(inputStream)).start()
             EventBus.getDefault().post(EventVPNOpen())
         } catch (e: Exception) {
-            Log.d("!!!!!!!!!!!!!", "establishVPN: Exception")
             e.printStackTrace()
             mHandler.sendEmptyMessage(0)
             vpnClosed()
@@ -148,7 +147,6 @@ class HopService : VpnService(), VpnDelegate, Handler.Callback {
     }
 
     override fun handleMessage(msg: Message): Boolean {
-        Log.d("!!!!!!!!!!!!!", "handleMessage")
         Utils.toastTips(getString(R.string.init_service_fail))
         return false
     }

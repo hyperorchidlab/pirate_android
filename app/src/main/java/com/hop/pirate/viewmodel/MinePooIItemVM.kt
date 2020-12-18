@@ -4,8 +4,7 @@ import android.os.Handler
 import com.hop.pirate.HopApplication
 import com.hop.pirate.R
 import com.hop.pirate.ui.activity.MineMachineListActivity.Companion.sMinerBeans
-import com.hop.pirate.event.EventReloadPoolsMarket
-import com.hop.pirate.model.OwnPoolModel
+import com.hop.pirate.event.EventReloadMinePackets
 import com.hop.pirate.model.bean.OwnPool
 import com.hop.pirate.service.HopService
 import com.hop.pirate.service.SysConf
@@ -37,7 +36,7 @@ class MinePooIItemVM(vm: MinePoolVM, var pool: OwnPool) : ItemViewModel<MinePool
                 Thread(Runnable {
                     sMinerBeans = null
                     SysConf.changeCurPool(pool.address!!, pool.name!!)
-                    EventBus.getDefault().post(EventReloadPoolsMarket())
+                    EventBus.getDefault().post(EventReloadMinePackets())
                     viewModel.dismissDialog()
                     viewModel.finishAndResultOkEvent.postValue(null)
                 }).start()

@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.net.VpnService
 import android.text.TextUtils
-import android.util.Log
 import androidLib.AndroidLib
 import androidx.lifecycle.Observer
 import com.hop.pirate.BR
@@ -70,7 +69,10 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
             Observer { changeVPNStatus() })
 
         mViewModel.getPoolSuccessEvent.observe(this,
-            Observer { showPacketsData() })
+            Observer {
+                use_flow_tv.text = Utils.convertBandWidth(SysConf.PacketsBalance)
+                uncleared_tv.text = Utils.convertBandWidth(SysConf.PacketsCredit)
+            })
 
         mViewModel.openWalletSuccessEvent.observe(this,
             Observer {
@@ -173,7 +175,7 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
     private fun showInputPasswordDialog() {
         Utils.showPassword(mActivity, object : AlertDialogOkCallBack() {
             override fun onClickOkButton(password: String) {
-                if(TextUtils.isEmpty(password)){
+                if (TextUtils.isEmpty(password)) {
                     Utils.toastTips(getString(R.string.enter_password))
                     return
                 }
@@ -191,7 +193,6 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun VPNClose(eventVPNClosed: EventVPNClosed) {
-        Log.d("!!!!!", "EventVPNClosed: ")
         pirate_network_status_tv.text = getString(R.string.disconnected)
         dismissDialog()
         mViewModel.getPool()
@@ -203,7 +204,7 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun eventReloadPoolsMarket(eventReloadPoolsMarket: EventReloadPoolsMarket) {
+    fun eventReloadPoolsMarket(eventReloadPoolsMarket: EventReloadMinePackets) {
         mViewModel.getPool()
     }
 
