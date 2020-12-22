@@ -39,7 +39,7 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
         onContentViewBefor(savedInstanceState)
         mDataBinding = DataBindingUtil.setContentView(this, getLayoutId())
         mDataBinding.lifecycleOwner = this
-
+        lifecycle.addObserver(mViewModel)
         viewModelId = initVariableId()
         mDataBinding.setVariable(viewModelId, mViewModel)
         registorUIChangeLiveDataCallBack()
@@ -129,6 +129,7 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
 
     @JvmOverloads
     open fun showDialog(title: String = getString(R.string.loading),cancelable: Boolean = true) {
+        dismissDialog()
         dialog= WaitDialog.show(this,title)
         dialog?.cancelable = cancelable
     }

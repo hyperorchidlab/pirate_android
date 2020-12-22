@@ -12,6 +12,8 @@ import com.nbs.android.lib.base.BaseViewModel
 import com.nbs.android.lib.command.BindingAction
 import com.nbs.android.lib.command.BindingCommand
 import com.nbs.android.lib.event.SingleLiveEvent
+import io.reactivex.rxjava3.core.SingleObserver
+import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.launch
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 
@@ -38,15 +40,20 @@ class TabPacketsMarketVM : BaseViewModel() {
     }
 
     fun getPoolInfo(syncAllPools: Boolean) {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                model.getPoolInfo(syncAllPools)
-            }.onSuccess {
-                onGetPoolInfoSuccess(it)
-            }.onFailure {
-                onGetPoolInfoFailure(it)
+        model.getPoolInfo(syncAllPools).subscribe(object:SingleObserver<List<MinePoolBean>>{
+            override fun onSuccess(minepool: List<MinePoolBean>) {
+                onGetPoolInfoSuccess(minepool)
             }
-        }
+
+            override fun onSubscribe(d: Disposable) {
+                addSubscribe(d)
+            }
+
+            override fun onError(e: Throwable) {
+                onGetPoolInfoFailure(e)
+            }
+
+        })
     }
 
     private fun onGetPoolInfoFailure(t: Throwable) {

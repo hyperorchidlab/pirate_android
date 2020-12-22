@@ -2,11 +2,15 @@ package com.nbs.android.lib.base
 
 import android.os.Bundle
 import androidx.databinding.ObservableField
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nbs.android.lib.command.BindingAction
 import com.nbs.android.lib.command.BindingCommand
 import com.nbs.android.lib.event.SingleLiveEvent
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.launch
@@ -19,7 +23,7 @@ import java.util.*
  * @date :   2020/11/3 8:15 AM
  */
 
-open class BaseViewModel : ViewModel() {
+abstract class BaseViewModel: ViewModel(), IBaseViewModel {
     var title = ObservableField<String>("")
     val showBackImage = ObservableField<Boolean>(false)
     val showRightImage = ObservableField<Boolean>(false)
@@ -30,7 +34,7 @@ open class BaseViewModel : ViewModel() {
 
     val clickBackCommand = BindingCommand<Any>(object : BindingAction {
         override fun call() {
-            clickBack()
+            finish()
         }
 
     })
@@ -49,10 +53,6 @@ open class BaseViewModel : ViewModel() {
 
     })
 
-    open fun clickBack() {
-
-    }
-
     open fun clickRightIv() {
 
     }
@@ -69,8 +69,8 @@ open class BaseViewModel : ViewModel() {
         uc.toastEvent.postValue(msgId)
     }
 
-    fun showErrorToast(msgId: Int,t: Throwable) {
-        if(t.message.equals("Job was cancelled")){
+    fun showErrorToast(msgId: Int, t: Throwable) {
+        if (t.message.equals("Job was cancelled")) {
             return
         }
         uc.toastEvent.postValue(msgId)
@@ -83,6 +83,7 @@ open class BaseViewModel : ViewModel() {
     open fun showDialogNotCancel(titleId: Int) {
         uc.showDialogNotCancelEvent.postValue(titleId)
     }
+
     open fun showDialogNotCancel(title: String) {
         uc.showDialogNotCancelStrEvent.postValue(title)
     }
@@ -168,17 +169,40 @@ open class BaseViewModel : ViewModel() {
     }
 
     fun cancelRequest() {
-        println("-----cancelRequest")
-        viewModelScope.launch {
-            jobs.forEach {
-                if (it.isActive) {
-                    it.cancelAndJoin()
-                }
 
-            }
+    }
 
-        }
+    override fun onAny(owner: LifecycleOwner?, event: Lifecycle.Event?) {
+    }
 
+    override fun onCreate() {
+    }
+
+    override fun onDestroy() {
+        removeAllDisposable()
+    }
+
+    override fun onStart() {
+    }
+
+    override fun onStop() {
+    }
+
+    override fun onResume() {
+    }
+
+    override fun onPause() {
+    }
+
+    val mCompositeDisposable: CompositeDisposable by lazy {
+        CompositeDisposable()
+    }
+    open fun addSubscribe(disposable: Disposable) {
+        mCompositeDisposable.add(disposable)
+    }
+
+    open fun removeAllDisposable() {
+        mCompositeDisposable.clear()
     }
 }
 

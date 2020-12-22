@@ -10,6 +10,9 @@ import com.hop.pirate.service.WalletWrapper
 import com.hop.pirate.ui.activity.CreateAccountActivity
 import com.nbs.android.lib.base.BaseViewModel
 import com.nbs.android.lib.event.SingleLiveEvent
+import io.reactivex.rxjava3.core.SingleObserver
+import io.reactivex.rxjava3.core.SingleOnSubscribe
+import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
@@ -25,7 +28,7 @@ class SplashVM : BaseViewModel() {
     fun loadWallet() {
         viewModelScope.launch {
             runCatching {
-                    model.loadWallet(HopApplication.instance.applicationContext)
+                model.loadWallet(HopApplication.instance.applicationContext)
             }.onSuccess {
                 loadWalletSuccess(it)
             }.onFailure {
@@ -37,35 +40,41 @@ class SplashVM : BaseViewModel() {
     }
 
     fun initService() {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                model.initService(HopApplication.instance.applicationContext)
-            }.onSuccess {
-                onInitServiceSuccess()
-            }.onFailure {
-                println("~~~~~~~~~~~~~~~${it.message}")
-                initServiceFailEvent.postValue(true)
-            }
-        }
+        model.initService(HopApplication.instance.applicationContext)
+            .subscribe(object : SingleObserver<Any> {
+                override fun onSuccess(t: Any) {
+                    initServiceSuccess()
+                }
 
+                override fun onSubscribe(d: Disposable) {
+                    addSubscribe(d)
+                }
+
+                override fun onError(e: Throwable) {
+                    initServiceFailure()
+                }
+            })
     }
 
-    private fun onInitServiceSuccess() {
-
+    private fun initServiceSuccess() {
         startActivity(MainActivity::class.java)
         finish()
     }
 
+    private fun initServiceFailure() {
+        initServiceFailEvent.postValue(true)
+    }
+
     private fun loadWalletFailure() {
-            startActivity(CreateAccountActivity::class.java)
-            finish()
+        startActivity(CreateAccountActivity::class.java)
+        finish()
     }
 
     private fun loadWalletSuccess(walletJson: String) {
-        if(TextUtils.isEmpty(walletJson)){
+        if (TextUtils.isEmpty(walletJson)) {
             startActivity(CreateAccountActivity::class.java)
             finish()
-        }else{
+        } else {
             WalletWrapper.MainAddress = JSONObject(walletJson).optString("mainAddress")
             initService()
         }
@@ -92,5 +101,6 @@ class SplashVM : BaseViewModel() {
     private fun checkVersionSuccess(it: AppVersionBean?) {
         delayLoadWalletEvent.postValue(it)
     }
+
 
 }

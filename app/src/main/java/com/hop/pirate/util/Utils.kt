@@ -50,8 +50,7 @@ object Utils {
     private val sharedPref = appContext.getSharedPreferences("pirateManager", Context.MODE_PRIVATE)
 
     fun convertCoin(coinV: Double): String {
-        return String.format(Locale.CHINA, "%.4f ", coinV / COIN_DECIMAL
-        )
+        return String.format(Locale.CHINA, "%.4f ", coinV / COIN_DECIMAL)
     }
 
     fun convertBandWidth(packetsV: Double): String {
@@ -75,8 +74,7 @@ object Utils {
     }
 
     fun saveData(key: String?, value: String?) {
-        val editor =
-            sharedPref.edit()
+        val editor = sharedPref.edit()
         editor.putString(key, value)
         editor.apply()
     }
@@ -86,8 +84,7 @@ object Utils {
     }
 
     fun saveBoolean(key: String?, value: Boolean?) {
-        val editor =
-            sharedPref.edit()
+        val editor = sharedPref.edit()
         editor.putBoolean(key, value!!)
         editor.apply()
     }
@@ -97,8 +94,7 @@ object Utils {
     }
 
     fun clearSharedPref() {
-        val edit =
-            sharedPref.edit()
+        val edit = sharedPref.edit()
         edit.clear()
         edit.commit()
     }
@@ -109,25 +105,29 @@ object Utils {
         clearSharedPref()
     }
 
-    fun showOkAlert(
-        context: AppCompatActivity,
+    fun showOkAlert(context: AppCompatActivity,
         tittleID: Int,
         messageId: Int,
-        callBack: AlertDialogOkCallBack?
-    ) {
-        MessageDialog.show(
-            context,
-            context.getString(tittleID),
-            context.getString(messageId),
-            context.getString(R.string.sure)
-        ).onOkButtonClickListener = OnDialogButtonClickListener { baseDialog, v ->
-            callBack?.onClickOkButton("")
-            false
-        }
+        callBack: AlertDialogOkCallBack?) {
+        MessageDialog.show(context,
+                context.getString(tittleID),
+                context.getString(messageId),
+                context.getString(R.string.sure)).onOkButtonClickListener =
+            OnDialogButtonClickListener { baseDialog, v ->
+                callBack?.onClickOkButton("")
+                false
+            }
     }
 
-    fun showOkOrCancelAlert(context: AppCompatActivity, tittleID: Int, messageId: Int, callBack: AlertDialogOkCallBack?) {
-        MessageDialog.show(context, context.getString(tittleID), context.getString(messageId), context.getString(R.string.sure), context.getString(R.string.cancel)).setOnOkButtonClickListener { baseDialog, v ->
+    fun showOkOrCancelAlert(context: AppCompatActivity,
+        tittleID: Int,
+        messageId: Int,
+        callBack: AlertDialogOkCallBack?) {
+        MessageDialog.show(context,
+                context.getString(tittleID),
+                context.getString(messageId),
+                context.getString(R.string.sure),
+                context.getString(R.string.cancel)).setOnOkButtonClickListener { baseDialog, v ->
             callBack?.onClickOkButton("")
             false
         }.onCancelButtonClickListener = OnDialogButtonClickListener { baseDialog, v ->
@@ -143,8 +143,7 @@ object Utils {
             if (toast != null) {
                 toast!!.setText(msg)
             } else {
-                toast =
-                    Toast.makeText(context, msg, Toast.LENGTH_SHORT)
+                toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT)
             }
             toast!!.show()
         } catch (e: Exception) {
@@ -155,37 +154,27 @@ object Utils {
 
     fun showPassword(context: AppCompatActivity, callBack: AlertDialogOkCallBack) {
         InputDialog.build(context) //.setButtonTextInfo(new TextInfo().setFontColor(Color.GREEN))
-            .setTitle(R.string.tips)
-            .setMessage(R.string.enter_password)
+            .setTitle(R.string.tips).setMessage(R.string.create_account_enter_password)
             .setOkButton(R.string.sure) { baseDialog, v, inputStr ->
                 callBack.onClickOkButton(inputStr)
                 false
-            }
-            .setCancelButton(R.string.cancel)
+            }.setCancelButton(R.string.cancel)
             .setHintText(context.getString(R.string.enter_ethereum_password))
-            .setInputInfo(
-                InputInfo().setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD)
-            )
-            .setCancelable(false)
-            .show()
+            .setInputInfo(InputInfo().setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD))
+            .setCancelable(false).show()
     }
 
-    fun copyToMemory(context: AppCompatActivity, src: String?) {
+    fun copyToMemory(context: Context, src: String?) {
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("pirate memory string", src)
         clipboard.setPrimaryClip(clip)
-        MessageDialog.show(context, context.getString(R.string.copy_success), src)
+        toastTips(context.getString(R.string.copy_success))
     }
 
     fun QRStr2Bitmap(data: String?): Bitmap? {
         val barcodeEncoder = BarcodeEncoder()
         try {
-            return barcodeEncoder.encodeBitmap(
-                data,
-                BarcodeFormat.QR_CODE,
-                600,
-                600
-            )
+            return barcodeEncoder.encodeBitmap(data, BarcodeFormat.QR_CODE, 600, 600)
         } catch (e: WriterException) {
             e.printStackTrace()
         }
@@ -193,45 +182,22 @@ object Utils {
     }
 
     @Throws(IOException::class, WriterException::class)
-    fun saveStringQrCode(
-        cr: ContentResolver,
-        data: String?,
-        fileName: String
-    ) {
+    fun saveStringQrCode(cr: ContentResolver, data: String?, fileName: String) {
         val barcodeEncoder = BarcodeEncoder()
-        val bitmap = barcodeEncoder.encodeBitmap(
-            data,
-            BarcodeFormat.QR_CODE,
-            400,
-            400
-        )
+        val bitmap = barcodeEncoder.encodeBitmap(data, BarcodeFormat.QR_CODE, 400, 400)
         saveImageToLocal(cr, bitmap, fileName)
     }
 
     @Throws(IOException::class)
-    private fun saveImageToLocal(
-        cr: ContentResolver,
-        bitmap: Bitmap,
-        fileName: String
-    ) {
+    private fun saveImageToLocal(cr: ContentResolver, bitmap: Bitmap, fileName: String) {
         val values = ContentValues()
         values.put(MediaStore.Images.Media.TITLE, fileName)
         values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName)
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-        values.put(
-            MediaStore.Images.Media.DATE_ADDED,
-            System.currentTimeMillis() / 1000
-        )
-        values.put(
-            MediaStore.Images.Media.DATE_MODIFIED,
-            System.currentTimeMillis() / 1000
-        )
-        values.put(
-            MediaStore.Images.Media.DATE_TAKEN,
-            System.currentTimeMillis()
-        )
-        val path =
-            cr.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+        values.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000)
+        values.put(MediaStore.Images.Media.DATE_MODIFIED, System.currentTimeMillis() / 1000)
+        values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis())
+        val path = cr.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
         path?.let {
             val imageOut = cr.openOutputStream(path)
             try {
@@ -245,28 +211,17 @@ object Utils {
 
     @Throws(Exception::class)
     fun parseQRCodeFile(uri: Uri, cr: ContentResolver): String {
-        val bitmap =
-            BitmapFactory.decodeStream(cr.openInputStream(uri))
+        val bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri))
         return parseQRcodeFromBitmap(bitmap)
     }
 
     @Throws(Exception::class)
     private fun parseQRcodeFromBitmap(bitmap: Bitmap): String {
         val intArray = IntArray(bitmap.width * bitmap.height)
-        bitmap.getPixels(
-            intArray,
-            0,
-            bitmap.width,
-            0,
-            0,
-            bitmap.width,
-            bitmap.height
-        )
-        val source: LuminanceSource =
-            RGBLuminanceSource(bitmap.width, bitmap.height, intArray)
+        bitmap.getPixels(intArray, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
+        val source: LuminanceSource = RGBLuminanceSource(bitmap.width, bitmap.height, intArray)
         val bb = BinaryBitmap(HybridBinarizer(source))
-        val hints: MutableMap<DecodeHintType, Any?> =
-            LinkedHashMap()
+        val hints: MutableMap<DecodeHintType, Any?> = LinkedHashMap()
         hints[DecodeHintType.PURE_BARCODE] = java.lang.Boolean.TRUE
         val reader: Reader = MultiFormatReader()
         val r = reader.decode(bb, hints)
@@ -274,24 +229,15 @@ object Utils {
     }
 
     fun hasStoragePermission(ctx: Context?): Boolean {
-        return EasyPermissions.hasPermissions(
-            ctx!!,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
+        return EasyPermissions.hasPermissions(ctx!!, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     }
 
     fun checkStorage(ctx: Activity): Boolean {
-        if (!EasyPermissions.hasPermissions(
-                ctx,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
-        ) {
-            EasyPermissions.requestPermissions(
-                ctx,
-                ctx.getString(R.string.rationale_extra_write),
-                RC_LOCAL_MEMORY_PERM,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
+        if (!EasyPermissions.hasPermissions(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            EasyPermissions.requestPermissions(ctx,
+                    ctx.getString(R.string.rationale_extra_write),
+                    RC_LOCAL_MEMORY_PERM,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
             return false
         }
         return true
@@ -303,12 +249,10 @@ object Utils {
 
     fun checkCamera(ctx: Activity): Boolean {
         if (!hasCameraPermission(ctx)) {
-            EasyPermissions.requestPermissions(
-                ctx,
-                ctx.getString(R.string.camera),
-                RC_CAMERA_PERM,
-                Manifest.permission.CAMERA
-            )
+            EasyPermissions.requestPermissions(ctx,
+                    ctx.getString(R.string.camera),
+                    RC_CAMERA_PERM,
+                    Manifest.permission.CAMERA)
             return false
         }
         return true
@@ -331,9 +275,7 @@ object Utils {
     fun getVersionCode(context: Context): Int {
         val packageManager = context.packageManager
         try {
-            val packageInfo = packageManager.getPackageInfo(
-                context.packageName, 0
-            )
+            val packageInfo = packageManager.getPackageInfo(context.packageName, 0)
             return packageInfo.versionCode
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
@@ -344,9 +286,7 @@ object Utils {
     fun getVersionName(context: Context): String {
         val packageManager = context.packageManager
         try {
-            val packageInfo = packageManager.getPackageInfo(
-                context.packageName, 0
-            )
+            val packageInfo = packageManager.getPackageInfo(context.packageName, 0)
             return "V" + packageInfo.versionName
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
@@ -361,8 +301,7 @@ object Utils {
         if (connectivityManager == null) {
             return false
         } else {
-            val networkInfo =
-                connectivityManager.allNetworkInfo
+            val networkInfo = connectivityManager.allNetworkInfo
             if (networkInfo != null && networkInfo.size > 0) {
                 for (i in networkInfo.indices) {
                     if (networkInfo[i].state == NetworkInfo.State.CONNECTED) {
@@ -374,15 +313,10 @@ object Utils {
         return false
     }
 
-    fun isServiceWork(
-        mContext: Context,
-        serviceName: String
-    ): Boolean {
+    fun isServiceWork(mContext: Context, serviceName: String): Boolean {
         var isWork = false
-        val myAM = mContext
-            .getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        val myList =
-            myAM.getRunningServices(100)
+        val myAM = mContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val myList = myAM.getRunningServices(100)
         if (myList.size <= 0) {
             return false
         }
@@ -397,12 +331,9 @@ object Utils {
     }
 
     fun checkVPN(): Boolean {
-        val networkList: MutableList<String> =
-            ArrayList()
+        val networkList: MutableList<String> = ArrayList()
         try {
-            for (networkInterface in Collections.list(
-                NetworkInterface.getNetworkInterfaces()
-            )) {
+            for (networkInterface in Collections.list(NetworkInterface.getNetworkInterfaces())) {
                 if (networkInterface.isUp) {
                     networkList.add(networkInterface.name)
                 }
@@ -426,10 +357,7 @@ object Utils {
         }
 
     fun openAppDownloadPage(context: Context) {
-        val it = Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse("https://tsfr.io/6yyarz")
-        )
+        val it = Intent(Intent.ACTION_VIEW, Uri.parse("https://tsfr.io/6yyarz"))
         context.startActivity(it)
     }
 
@@ -442,13 +370,7 @@ object Utils {
     }
 
     fun deleteDBData(context: Context) {
-        deleteFile(
-            File(
-                getBaseDir(
-                    context
-                ), "data"
-            )
-        )
+        deleteFile(File(getBaseDir(context), "data"))
     }
 
     fun deleteFile(file: File?) {
@@ -469,19 +391,17 @@ object Utils {
     }
 
     fun formatText(start: String, end: String): SpannableString {
-        val spannableString =
-            SpannableString(start + end)
-        val colorSpan =
-            ForegroundColorSpan(Color.parseColor("#aaffffff"))
-        val relativeSizeSpan =
-            RelativeSizeSpan(0.8f)
-        spannableString.setSpan(
-            colorSpan,
-            start.length - 1,
-            (start + end).length,
-            Spanned.SPAN_INCLUSIVE_EXCLUSIVE
-        )
-        spannableString.setSpan(relativeSizeSpan, start.length - 1, (start + end).length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+        val spannableString = SpannableString(start + end)
+        val colorSpan = ForegroundColorSpan(Color.parseColor("#aaffffff"))
+        val relativeSizeSpan = RelativeSizeSpan(0.8f)
+        spannableString.setSpan(colorSpan,
+                start.length - 1,
+                (start + end).length,
+                Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+        spannableString.setSpan(relativeSizeSpan,
+                start.length - 1,
+                (start + end).length,
+                Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
         return spannableString
     }
 }

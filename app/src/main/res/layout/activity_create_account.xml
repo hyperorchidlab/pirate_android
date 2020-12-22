@@ -63,7 +63,7 @@
             <EditText
                 android:id="@+id/confirm_password_et"
                 style="@style/CreateAccountEditText"
-                android:hint="@string/enter_password_twice_here"
+                android:hint="@string/create_account_reenter_password"
                 android:text="@={viewModel.confirmPassword}" />
         </com.google.android.material.textfield.TextInputLayout>
 

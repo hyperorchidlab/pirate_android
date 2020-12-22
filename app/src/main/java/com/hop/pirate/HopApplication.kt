@@ -5,6 +5,7 @@ import android.util.Log
 import com.kongzue.dialog.util.DialogSettings
 import com.tencent.bugly.crashreport.CrashReport
 import io.reactivex.plugins.RxJavaPlugins
+import leakcanary.LeakCanary
 import kotlin.properties.Delegates
 
 class HopApplication : Application() {

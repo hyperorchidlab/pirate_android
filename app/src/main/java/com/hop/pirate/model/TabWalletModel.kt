@@ -2,9 +2,17 @@ package com.hop.pirate.model
 
 import android.content.ContentResolver
 import androidLib.AndroidLib
+import com.google.gson.Gson
 import com.hop.pirate.Constants
+import com.hop.pirate.HopApplication
 import com.hop.pirate.base.WaitTxBaseModel
+import com.hop.pirate.model.bean.TransactionBean
+import com.hop.pirate.model.bean.UserPoolData
+import com.hop.pirate.room.AppDatabase
+import com.hop.pirate.util.CommonSchedulers
 import com.hop.pirate.util.Utils
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.core.SingleOnSubscribe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
@@ -16,39 +24,36 @@ import kotlinx.coroutines.withTimeout
  */
 class TabWalletModel : WaitTxBaseModel() {
 
-     suspend fun exportAccount(cr: ContentResolver, data: String, fileName: String) {
-       withTimeout(Constants.TIME_OUT.toLong()){
-            withContext(Dispatchers.IO){
-                Utils.saveStringQrCode(cr, data, fileName)
-            }
+    suspend fun exportAccount(cr: ContentResolver, data: String, fileName: String) {
+        withContext(Dispatchers.IO) {
+            Utils.saveStringQrCode(cr, data, fileName)
         }
 
     }
 
-     suspend fun applyFreeEth(address: String):String {
-        return withTimeout(Constants.TIME_OUT.toLong()){
-             withContext(Dispatchers.IO){
-                 AndroidLib.applyFreeEth(address)
-             }
-         }
+    fun applyFreeEth(address: String): Single<String> {
+        return Single.create(SingleOnSubscribe<String> { emitter ->
+            val tx = AndroidLib.applyFreeEth(address)
+            val transactionBean = TransactionBean(0,Constants.TRANSACTION_APPLY_FREE_ETH,tx,Constants.TRANSACTION_STATUS_PENDING)
+            AppDatabase.getInstance(HopApplication.instance).transactionDao().addTransaction(transactionBean)
+            emitter.onSuccess(tx)
+        }).compose(CommonSchedulers.io2mainAndTimeout<String>())
 
     }
 
-     suspend fun applyFreeHop(address: String) :String {
-         return withTimeout(Constants.TIME_OUT.toLong()){
-             withContext(Dispatchers.IO){
-                 AndroidLib.applyFreeToken(address)
-             }
-         }
+    fun applyFreeHop(address: String): Single<String>  {
+        return Single.create(SingleOnSubscribe<String> { emitter ->
+            val tx = AndroidLib.applyFreeToken(address)
+            val transactionBean = TransactionBean(0,Constants.TRANSACTION_APPLY_FREE_HOP,tx,Constants.TRANSACTION_STATUS_PENDING)
+            AppDatabase.getInstance(HopApplication.instance).transactionDao().addTransaction(transactionBean)
+            emitter.onSuccess(tx)
+        }).compose(CommonSchedulers.io2mainAndTimeout<String>())
     }
 
-     suspend fun queryHopBalance(address: String):String {
-         return withTimeout(Constants.TIME_OUT.toLong()){
-             withContext(Dispatchers.IO){
-                 AndroidLib.tokenBalance(address)
-             }
-         }
-
+    fun queryHopBalance(address: String): Single<String> {
+        return Single.create(SingleOnSubscribe<String> { emitter ->
+            emitter.onSuccess( AndroidLib.tokenBalance(address))
+        }).compose(CommonSchedulers.io2mainAndTimeout<String>())
     }
 
 }

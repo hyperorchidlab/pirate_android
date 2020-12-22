@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Pirate</string>
-    <string name="enter_password">Enter Password</string>
-    <string name="enter_password_twice_here">Confirm Your Password</string>
-    <string name="enter_password_here">Enter pirate Password here..</string>
+    <string name="create_account_enter_password">Enter Password</string>
+    <string name="create_account_reenter_password">Confirm Your Password</string>
+    <string name="create_account_enter_pirate_password">Enter pirate Password here..</string>
     <string name="enter_ethereum_password">Enter Ethereum Password</string>
     <string name="enter_password_again">Confirm Your Password</string>
     <string name="password">Password:</string>
@@ -97,6 +97,11 @@
     <string name="tab_account_clear_local_data">Clear local data</string>
     <string name="tab_account_clear">Cleared successfully</string>
     <string name="tab_account_token_unit">hop</string>
+    <string name="tab_account_transaction">Transaction</string>
+    <string name="transaction_pending">Pending</string>
+    <string name="transaction_completed">Completed</string>
+    <string name="transaction_error">error</string>
+    <string name="transaction_hash">Hash</string>
 
     <string name="my_pool">My pool</string>
     <string name="wallet_add_mine_pool">Add new mining pool</string>
@@ -117,6 +122,7 @@
     <string name="recharge_sync_pool_failed">Sync Pool failed</string>
     <string name="recharge_sync_pool_success">Sync Pool Success</string>
     <string name="recharge_buy_packets_error">Buy error</string>
+    <string name="recharge_pending">The transaction is being packaged, please do not repeat the operation</string>
 
     <string name="hop_address">Hop address</string>
     <string name="gtn">GTN：</string>
@@ -139,7 +145,7 @@
     <string name="transfer_token_balance">Transferable %s token</string>
     <string name="transfer_remarks">Notes optional</string>
     <string name="transfer_success">Transfer Success</string>
-    <string name="transfer_fail">Transfer failed</string>
+    <string name="export_fail">Export failed</string>
     <string name="transfer_check_address">Please check the address is correct</string>
     <string name="transfer_input_money_address">Please enter payee wallet address</string>
     <string name="transfer_input_transfer_out_money">Please enter the transfer amount</string>
@@ -161,7 +167,7 @@
     <string name="wallet_export_success">Export succeeded</string>
     <string name="packets_insufficient_need_recharge">Insufficient flow, need to recharge</string>
     <string name="synchronization_block">Sync block…</string>
-    <string name="blockchain_time_out">Block synchronization timed out,\n please refresh the wallet to see the recharge result</string>
+    <string name="blockchain_time_out">Block synchronization timed out,\n Please confirm that the last block is successfully packaged and operate again</string>
     <string name="please_create_account">Please create an account first</string>
     <string name="apply_free_token_des">When eth is less than 0.05, you can apply for eth, and when hop is less than 1,000, you can apply for token</string>
     <string name="applying">applying…</string>
@@ -175,7 +181,7 @@
     <string name="set_as_main_token">Set As main Token</string>
     <string name="get_free_coin">get free coin</string>
     <string name="get_free_hop">1000 Hop free coin</string>
-    <string name="get_free_eth">0.05 eth free coin</string>
+    <string name="get_free_eth">0.1 eth free coin</string>
     <string name="select_subscribed_mining_pool">Please select a mining pool that is already subscribed</string>
     <string name="select_miner">Please select a miner</string>
     <string name="setting_change_token">Are you sure you want to switch the token? App will restart after confirming</string>

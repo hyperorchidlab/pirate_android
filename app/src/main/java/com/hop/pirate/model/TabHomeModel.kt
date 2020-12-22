@@ -2,9 +2,14 @@ package com.hop.pirate.model
 
 import androidLib.AndroidLib
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.hop.pirate.Constants
+import com.hop.pirate.model.bean.OwnPool
 import com.hop.pirate.model.bean.UserPoolData
+import com.hop.pirate.util.CommonSchedulers
 import com.nbs.android.lib.base.BaseModel
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.core.SingleOnSubscribe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
@@ -15,21 +20,19 @@ import kotlinx.coroutines.withTimeout
  * @date :   2020/6/4 12:11 PM
  */
 class TabHomeModel : BaseModel(){
-     suspend fun getPool(user: String, pool: String):UserPoolData {
-        return withTimeout(Constants.TIME_OUT.toLong()) {
-            withContext(Dispatchers.IO) {
-                val jsonStr = AndroidLib.getUserDate(user, pool)
-                Gson().fromJson<UserPoolData>(jsonStr, UserPoolData::class.java)
-            }
-        }
+      fun getPool(user: String, pool: String): Single<UserPoolData> {
+         return Single.create(SingleOnSubscribe<UserPoolData> { emitter ->
+             val jsonStr = AndroidLib.getUserDate(user, pool)
+             val userPool = Gson().fromJson<UserPoolData>(jsonStr, UserPoolData::class.java)
+             emitter.onSuccess(userPool)
+         }).compose(CommonSchedulers.io2mainAndTimeout<UserPoolData>())
     }
 
-     suspend fun openWallet( password: String){
-         withTimeout(Constants.TIME_OUT.toLong()) {
-             withContext(Dispatchers.IO) {
-                 AndroidLib.openWallet(password)
-             }
-         }
+      fun openWallet( password: String):Single<Any>{
+          return Single.create(SingleOnSubscribe<Any> { emitter ->
+              AndroidLib.openWallet(password)
+              emitter.onSuccess("")
+          }).compose(CommonSchedulers.io2mainAndTimeout<Any>())
     }
 
 }

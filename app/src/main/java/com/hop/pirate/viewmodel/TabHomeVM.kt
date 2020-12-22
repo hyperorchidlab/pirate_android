@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.hop.pirate.HopApplication
 import com.hop.pirate.R
 import com.hop.pirate.model.TabHomeModel
+import com.hop.pirate.model.bean.UserPoolData
 import com.hop.pirate.service.SysConf
 import com.hop.pirate.service.WalletWrapper
 import com.nbs.android.lib.base.BaseViewModel
@@ -12,6 +13,8 @@ import com.nbs.android.lib.command.BindingAction
 import com.nbs.android.lib.command.BindingCommand
 import com.nbs.android.lib.command.BindingConsumer
 import com.nbs.android.lib.event.SingleLiveEvent
+import io.reactivex.rxjava3.core.SingleObserver
+import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.launch
 
 /**
@@ -53,31 +56,44 @@ class TabHomeVM : BaseViewModel() {
     })
 
     fun getPool() {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                model.getPool(WalletWrapper.MainAddress, SysConf.CurPoolAddress)
-            }.onSuccess {
-                SysConf.PacketsBalance = it.packets
-                SysConf.PacketsCredit = it.credit
-                getPoolSuccessEvent.call()
-            }.onFailure {
+        model.getPool(WalletWrapper.MainAddress, SysConf.CurPoolAddress)
+            .subscribe(object : SingleObserver<UserPoolData> {
+                override fun onSuccess(userPool: UserPoolData) {
+                    SysConf.PacketsBalance = userPool.packets
+                    SysConf.PacketsCredit = userPool.credit
+                    getPoolSuccessEvent.call()
+                }
 
-            }
-        }
+                override fun onSubscribe(d: Disposable) {
+                    addSubscribe(d)
+                }
+
+                override fun onError(e: Throwable) {
+
+                }
+
+            })
+
     }
 
-    fun openWallet(password:String) {
-        showDialog(R.string.open_wallet)
-        viewModelScope.launch {
-            kotlin.runCatching {
-                model.openWallet(password)
-            }.onSuccess {
+    fun openWallet(password: String) {
+        model.openWallet(password).subscribe(object : SingleObserver<Any> {
+            override fun onSuccess(t: Any?) {
                 openWalletSuccessEvent.call()
                 dismissDialog()
-            }.onFailure {
-                dismissDialog()
-                showErrorToast(R.string.password_error,it)
             }
-        }
+
+            override fun onSubscribe(d: Disposable) {
+                showDialog(R.string.open_wallet)
+                addSubscribe(d)
+            }
+
+            override fun onError(e: Throwable) {
+                dismissDialog()
+                showErrorToast(R.string.password_error, e)
+            }
+
+        })
     }
+
 }

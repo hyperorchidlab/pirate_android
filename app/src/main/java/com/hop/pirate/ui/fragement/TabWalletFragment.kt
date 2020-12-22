@@ -71,7 +71,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(){
                 apply_free_token_btn.isEnabled = true
                 return@Observer
             }
-            apply_free_token_btn.isEnabled = Utils.convertCoin(it.toDouble()).toDouble() <= 500
+            apply_free_token_btn.isEnabled = Utils.convertCoin(it.toDouble()).toDouble() <= FREE_HOP_MAX_VALUE
         })
 
         mViewModel.clearDBEvent.observe(this, Observer {
@@ -126,7 +126,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(){
 
         mViewModel.hopBalance()
         main_network_address_value_tv.text = WalletWrapper.MainAddress
-        apply_free_eth_btn.isEnabled = WalletWrapper.EthBalance <= 0.05
+        apply_free_eth_btn.isEnabled = WalletWrapper.EthBalance <= FREE_ETH_MAX_VALUE
         MainActivity.walletBean?.let {
             hop_number_tv.text = Utils.convertCoin(MainActivity.walletBean!!.hop)
             eth_number_tv.text = Utils.convertCoin(MainActivity.walletBean!!.eth)
@@ -211,7 +211,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(){
     }
 
     companion object {
-        const val FREE_HOP_MAX_VALUE = 1000
+        const val FREE_HOP_MAX_VALUE = 500
         const val FREE_ETH_MAX_VALUE = 0.05
     }
 }

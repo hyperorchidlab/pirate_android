@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Pirate</string>
-    <string name="enter_password">输入密码</string>
-    <string name="enter_password_twice_here">再次输入密码</string>
-    <string name="enter_password_here">输入pirate密码</string>
+    <string name="create_account_enter_password">输入密码</string>
+    <string name="create_account_reenter_password">再次输入密码</string>
+    <string name="create_account_enter_pirate_password">输入pirate密码</string>
     <string name="enter_ethereum_password">请输入以太坊钱包密码</string>
     <string name="enter_password_again">再次输入密码</string>
     <string name="password">密码:</string>
@@ -94,6 +94,11 @@
     <string name="tab_account_clear_local_data">清除本地数据</string>
     <string name="tab_account_clear">操作成功</string>
     <string name="tab_account_token_unit">hop</string>
+    <string name="tab_account_transaction">交易记录</string>
+    <string name="transaction_pending">正在打包中</string>
+    <string name="transaction_completed">已完成</string>
+    <string name="transaction_error">打包失败</string>
+    <string name="transaction_hash">Hash</string>
 
     <string name="my_pool">我的矿池</string>
     <string name="wallet_add_mine_pool">添加新矿池</string>
@@ -116,6 +121,7 @@
     <string name="recharge_sync_pool_failed">同步失败</string>
     <string name="recharge_sync_pool_success">同步成功</string>
     <string name="recharge_buy_packets_error">购买失败</string>
+    <string name="recharge_pending">交易正在打包，请勿重复操作</string>
 
     <string name="wallet_flow_unit_eth">ETH</string>
     <string name="wallet_read_failed">钱包读取失败</string>
@@ -135,7 +141,7 @@
     <string name="transfer_token_balance">可转出%stoken</string>
     <string name="transfer_remarks">备注可选</string>
     <string name="transfer_success">转账成功</string>
-    <string name="transfer_fail">转账失败</string>
+    <string name="export_fail">导出失败</string>
     <string name="transfer_check_address">请检查地址是否正确</string>
     <string name="transfer_input_money_address">请输入收款人钱包地址</string>
     <string name="transfer_input_transfer_out_money">请输入转出金额</string>
@@ -157,7 +163,7 @@
     <string name="wallet_export_success">导出成功</string>
     <string name="packets_insufficient_need_recharge">流量不足，需要充值</string>
     <string name="synchronization_block">同步区块中…</string>
-    <string name="blockchain_time_out">区块同步超时，\n请刷新钱包查看充值结果</string>
+    <string name="blockchain_time_out">区块同步超时，\n请确认上个区块打包成功后再次操作</string>
     <string name="please_create_account">请先创建账号</string>
     <string name="apply_free_token_des">当eth少于0.05个时可以申请eth,当hop少于1000个时可以申请token</string>
     <string name="applying">领取中…</string>
@@ -171,7 +177,7 @@
     <string name="set_as_main_token">Set As main Token</string>
     <string name="get_free_coin">立即领取</string>
     <string name="get_free_hop">1000 Hop测试币</string>
-    <string name="get_free_eth">0.05 eth测试币</string>
+    <string name="get_free_eth">0.1 eth测试币</string>
     <string name="select_subscribed_mining_pool">请选择已经订阅的矿池</string>
     <string name="select_miner">请选择矿池下的矿机</string>
     <string name="setting_change_token">您确定要切换token吗?确定后将重启App</string>

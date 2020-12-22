@@ -47,6 +47,17 @@ class RechargePacketsActivity : BaseActivity<RechargePacketsVM,ActivityRechargeP
         mViewModel.syncPoolSuccessEvent.observe(this, Observer {
             showSyncPoolSuccessDialog()
         })
+
+        mViewModel.timeoutEvent.observe(this, Observer {
+            MessageDialog.show(this@RechargePacketsActivity, getString(R.string.tips), getString(R.string.blockchain_time_out), getString(R.string.sure));
+        })
+        mViewModel.pendingEvent.observe(this, Observer {
+            MessageDialog.show(this@RechargePacketsActivity, getString(R.string.tips), getString(R.string.recharge_pending), getString(R.string.sure)).setOnOkButtonClickListener { baseDialog, v ->
+                startActivity(TransactionActivity::class.java)
+
+                return@setOnOkButtonClickListener false
+            }
+        })
     }
 
     private fun showSyncPoolSuccessDialog() {

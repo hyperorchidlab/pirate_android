@@ -12,6 +12,8 @@ import com.hop.pirate.R
 import com.hop.pirate.model.bean.OwnPool
 import com.hop.pirate.model.OwnPoolModel
 import com.nbs.android.lib.event.SingleLiveEvent
+import io.reactivex.rxjava3.core.SingleObserver
+import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.launch
 
 
@@ -35,22 +37,25 @@ class OwnPoolVM : BaseViewModel() {
     })
 
     fun getOwnPool() {
-        viewModelScope.launch {
-            runCatching {
-                model.getPoolDataOfUser()
-            }.onSuccess {
-                requestSuccess(it)
-            }.onFailure {
-                requestFailure(it)
-
+        model.getPoolDataOfUser().subscribe(object : SingleObserver<ArrayList<OwnPool>> {
+            override fun onSuccess(ownPools: ArrayList<OwnPool>?) {
+                requestSuccess(ownPools)
             }
 
-        }
+            override fun onSubscribe(d: Disposable) {
+                addSubscribe(d)
+            }
+
+            override fun onError(e: Throwable) {
+                requestFailure(e)
+            }
+        })
+
     }
 
     private fun requestFailure(t: Throwable) {
         finishRefreshingEvent.call()
-        showErrorToast(R.string.get_data_failed,t)
+        showErrorToast(R.string.get_data_failed, t)
         showEmptyLayoutEvent.value = items.size == 0
     }
 

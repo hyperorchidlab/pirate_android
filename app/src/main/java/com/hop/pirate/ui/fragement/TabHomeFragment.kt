@@ -176,7 +176,7 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
         Utils.showPassword(mActivity, object : AlertDialogOkCallBack() {
             override fun onClickOkButton(password: String) {
                 if (TextUtils.isEmpty(password)) {
-                    Utils.toastTips(getString(R.string.enter_password))
+                    Utils.toastTips(getString(R.string.create_account_enter_password))
                     return
                 }
                 mViewModel.openWallet(password)

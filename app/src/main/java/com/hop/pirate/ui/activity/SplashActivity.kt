@@ -42,20 +42,12 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
         if (!checkNetwork()) {
             return
         }
-        if (Utils.checkVPN() && !Utils.isServiceWork(
-                this@SplashActivity,
-                HopService::class.java.name
-            )
-        ) {
-            Utils.showOkAlert(
-                this@SplashActivity,
-                R.string.tips,
-                R.string.close_other_vpn_app,
-                object : AlertDialogOkCallBack() {
-                    override fun onClickOkButton(parameter: String) {
-                        finish()
-                    }
-                })
+        if (Utils.checkVPN() && !Utils.isServiceWork(this@SplashActivity, HopService::class.java.name)) {
+            Utils.showOkAlert(this@SplashActivity, R.string.tips, R.string.close_other_vpn_app, object : AlertDialogOkCallBack() {
+                        override fun onClickOkButton(parameter: String) {
+                            finish()
+                        }
+                    })
             return
         }
         mViewModel.checkVersion()
@@ -65,19 +57,21 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
         mViewModel.delayLoadWalletEvent.observe(this, Observer {
             if (it == null || it.newVersion < Utils.getVersionCode(this@SplashActivity)) {
                 delayLoadWallet()
-            }else{
+            } else {
                 showUpdateAppDialog(it)
             }
         })
 
         mViewModel.initServiceFailEvent.observe(this, Observer {
             Utils.deleteDBData(this)
-            Utils.showOkAlert(this@SplashActivity, R.string.tips, R.string.blockchain_sync_error,
-                object : AlertDialogOkCallBack() {
-                    override fun onClickOkButton(parameter: String) {
-                        finish()
-                    }
-                })
+            Utils.showOkAlert(this@SplashActivity,
+                    R.string.tips,
+                    R.string.blockchain_sync_error,
+                    object : AlertDialogOkCallBack() {
+                        override fun onClickOkButton(parameter: String) {
+                            finish()
+                        }
+                    })
         })
     }
 
@@ -96,12 +90,9 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
         } else {
             versionBean.updateMsgEN
         }
-        val messageDialog = MessageDialog.build(this@SplashActivity)
-            .setCancelable(false)
-            .setTitle(getString(R.string.new_version))
-            .setMessage(updateMsg)
-            .setOkButton(getString(R.string.update_version))
-            .setOnOkButtonClickListener { _, _ ->
+        val messageDialog = MessageDialog.build(this@SplashActivity).setCancelable(false)
+            .setTitle(getString(R.string.new_version)).setMessage(updateMsg)
+            .setOkButton(getString(R.string.update_version)).setOnOkButtonClickListener { _, _ ->
                 Utils.openAppDownloadPage(this@SplashActivity)
                 finish()
                 false
@@ -118,26 +109,23 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
 
     private fun checkNetwork(): Boolean {
         if (!Utils.isNetworkAvailable(this@SplashActivity)) {
-            Utils.showOkAlert(
-                this@SplashActivity,
-                R.string.tips,
-                R.string.network_unavailable,
-                object : AlertDialogOkCallBack() {
-                    override fun onClickOkButton(parameter: String) {
-                        finish()
-                    }
-                })
+            Utils.showOkAlert(this@SplashActivity,
+                    R.string.tips,
+                    R.string.network_unavailable,
+                    object : AlertDialogOkCallBack() {
+                        override fun onClickOkButton(parameter: String) {
+                            finish()
+                        }
+                    })
             return false
         }
         return true
     }
 
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
+    override fun onRequestPermissionsResult(requestCode: Int,
         permissions: Array<String>,
-        grantResults: IntArray
-    ) {
+        grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
@@ -148,11 +136,8 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
 
 
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
-        AppSettingsDialog.Builder(this)
-            .setTitle(getString(R.string.tips))
-            .setRationale(R.string.forbidden_permission_des)
-            .build()
-            .show()
+        AppSettingsDialog.Builder(this).setTitle(getString(R.string.tips))
+            .setRationale(R.string.forbidden_permission_des).build().show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

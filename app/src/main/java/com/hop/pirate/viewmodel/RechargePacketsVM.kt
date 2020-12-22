@@ -2,13 +2,20 @@ package com.hop.pirate.viewmodel
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
+import com.hop.pirate.Constants
+import com.hop.pirate.HopApplication
 import com.hop.pirate.R
 import com.hop.pirate.event.EventRechargeSuccess
 import com.hop.pirate.model.RechargeModel
+import com.hop.pirate.room.AppDatabase
 import com.hop.pirate.service.WalletWrapper
 import com.nbs.android.lib.base.BaseViewModel
 import com.nbs.android.lib.event.SingleLiveEvent
+import io.reactivex.rxjava3.core.SingleObserver
+import io.reactivex.rxjava3.disposables.Disposable
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import kotlin.math.pow
 
@@ -17,78 +24,111 @@ import kotlin.math.pow
  *Time:
  *Description:
  */
-class RechargePacketsVM:BaseViewModel() {
+class RechargePacketsVM : BaseViewModel() {
     val model = RechargeModel()
     private val AUTHORIZE_TOKEN = 4.2e8
     val poolAddress = ObservableField<String>("")
     var tokenNO = 0.0
     val bytePreTokenEvent = SingleLiveEvent<Double>()
     val syncPoolSuccessEvent = SingleLiveEvent<Boolean>()
+    val timeoutEvent = SingleLiveEvent<Boolean>()
+    val pendingEvent = SingleLiveEvent<Boolean>()
 
-     fun initFlows(){
-        viewModelScope.launch {
-            kotlin.runCatching {
-                model.getBytesPerToken()
-            }.onSuccess {
-                onInitFlowsSuccess(it)
-            }.onFailure {
-                onInitFlowsFailure(it)
+    fun initFlows() {
+        model.getBytesPerToken().subscribe(object : SingleObserver<Double> {
+            override fun onSuccess(t: Double) {
+                onInitFlowsSuccess(t)
             }
-        }
+
+            override fun onSubscribe(d: Disposable) {
+                addSubscribe(d)
+            }
+
+            override fun onError(e: Throwable) {
+                onInitFlowsFailure(e)
+            }
+
+        })
 
     }
 
     private fun onInitFlowsFailure(t: Throwable) {
-        showErrorToast(R.string.get_data_failed,t)
+        showErrorToast(R.string.get_data_failed, t)
     }
 
     private fun onInitFlowsSuccess(it: Double) {
         bytePreTokenEvent.value = it
     }
 
-    fun openWallet(password: String){
-        showDialog(R.string.open_wallet)
-        viewModelScope.launch {
-            kotlin.runCatching {
-                model.openWallet(password)
-            }.onSuccess {
-                onOpenWalletSuccess()
-            }.onFailure {
-                onOpenWalletFailure(it)
+    fun openWallet(password: String) {
+        model.openWallet(password).subscribe(object : SingleObserver<Any> {
+            override fun onSuccess(t: Any?) {
+                viewModelScope.launch {
+                    onOpenWalletSuccess()
+                }
+
             }
-        }
+
+            override fun onSubscribe(d: Disposable) {
+                showDialog(R.string.open_wallet)
+                addSubscribe(d)
+            }
+
+            override fun onError(e: Throwable) {
+                onOpenWalletFailure(e)
+            }
+
+        })
+
     }
 
     private fun onOpenWalletFailure(t: Throwable) {
         dismissDialog()
-        showErrorToast(R.string.password_error,t)
+        showErrorToast(R.string.password_error, t)
     }
 
-    private fun onOpenWalletSuccess() {
+    private suspend fun onOpenWalletSuccess() {
         dismissDialog()
-        if (WalletWrapper.Approved / 10.0.pow(18.0) >= tokenNO) {
-            buyPacket()
-        } else {
-            approve()
-        }
-    }
+        //
 
-    fun buyPacket(){
-        showDialogNotCancel(R.string.recharge_buy_packets)
-        viewModelScope.launch {
-            kotlin.runCatching {
-                model.buyPacket(WalletWrapper.MainAddress,poolAddress.get()!!,tokenNO)
-            }.onSuccess {
-                onBuyPacketSuccess(it)
-            }.onFailure {
-                onBuyPacketFailure(it)
+        if (WalletWrapper.Approved / 10.0.pow(18.0) >= tokenNO) {
+            if (model.isPending(Constants.TRANSACTION_RECHARGE)) {
+                pendingEvent.call()
+            } else {
+                buyPacket()
+            }
+
+        } else {
+            if (model.isPending(Constants.TRANSACTION_APROVE)) {
+                pendingEvent.call()
+            } else {
+                approve()
             }
         }
     }
 
+    fun buyPacket() {
+        model.buyPacket(WalletWrapper.MainAddress, poolAddress.get()!!, tokenNO)
+            .subscribe(object : SingleObserver<String> {
+                override fun onSuccess(t: String) {
+                    onBuyPacketSuccess(t)
+                }
+
+                override fun onSubscribe(d: Disposable) {
+                    showDialogNotCancel(R.string.recharge_buy_packets)
+                    addSubscribe(d)
+                }
+
+                override fun onError(e: Throwable) {
+                    onBuyPacketFailure(e)
+                }
+
+            })
+    }
+
     private fun onBuyPacketFailure(t: Throwable) {
         dismissDialog()
-        showErrorToast(R.string.recharge_buy_packets_error,t)
+        showErrorToast(R.string.recharge_buy_packets_error, t)
 
     }
 
@@ -96,45 +136,55 @@ class RechargePacketsVM:BaseViewModel() {
         queryTxStatus(tx, false)
     }
 
-    private fun approve(){
-        showDialogNotCancel(R.string.approving)
-        viewModelScope.launch {
-            kotlin.runCatching {
-                model.approve(AUTHORIZE_TOKEN)
-            }.onSuccess {
-                onApproveSuccess(it)
-            }.onFailure {
-                onApproveFailure(it)
+    private fun approve() {
+
+        model.approve(AUTHORIZE_TOKEN).subscribe(object : SingleObserver<String> {
+            override fun onSuccess(approve: String) {
+                onApproveSuccess(approve)
             }
-        }
+
+            override fun onSubscribe(d: Disposable) {
+                showDialogNotCancel(R.string.approving)
+                addSubscribe(d)
+            }
+
+            override fun onError(e: Throwable) {
+                onApproveFailure(e)
+            }
+
+        })
     }
 
     private fun onApproveFailure(t: Throwable) {
         dismissDialog()
-        showErrorToast(R.string.approve_error,t)
+        showErrorToast(R.string.approve_error, t)
     }
 
     private fun onApproveSuccess(tx: String) {
-        queryTxStatus(tx,true)
+        queryTxStatus(tx, true)
 
     }
 
-    fun queryTxStatus(tx: String, isProve: Boolean){
-        viewModelScope.launch {
-            kotlin.runCatching {
-                model.queryTxStatus(tx)
-            }.onSuccess {
+    fun queryTxStatus(tx: String, isProve: Boolean) {
+        model.queryTxStatus(tx).subscribe(object : SingleObserver<Any> {
+            override fun onSuccess(t: Any) {
                 onQueryTxStatusSuccess(isProve)
-            }.onFailure {
-                onQueryTxStatusFailure(it)
             }
-        }
+
+            override fun onSubscribe(d: Disposable) {
+                addSubscribe(d)
+            }
+
+            override fun onError(e: Throwable) {
+                onQueryTxStatusFailure(e)
+            }
+
+        })
     }
 
     private fun onQueryTxStatusFailure(t: Throwable) {
         dismissDialog()
-        showErrorToast(R.string.blockchain_time_out,t)
-        EventBus.getDefault().post(EventRechargeSuccess())
+        timeoutEvent.call()
     }
 
     private fun onQueryTxStatusSuccess(prove: Boolean) {
@@ -150,20 +200,24 @@ class RechargePacketsVM:BaseViewModel() {
     }
 
     private fun syncPool() {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                model.syncPool(poolAddress.get()!!)
-            }.onSuccess {
-                onSyncPoolSuccess(it)
-            }.onFailure {
-                onSyncPoolFailure(it)
+        model.syncPool(poolAddress.get()!!).subscribe(object : SingleObserver<Boolean> {
+            override fun onSuccess(b: Boolean) {
+                onSyncPoolSuccess(b)
             }
-        }
+
+            override fun onSubscribe(d: Disposable) {
+                addSubscribe(d)
+            }
+
+            override fun onError(e: Throwable) {
+                onSyncPoolFailure(e)
+            }
+        })
     }
 
     private fun onSyncPoolFailure(t: Throwable) {
         dismissDialog()
-        showErrorToast(R.string.recharge_sync_pool_failed,t)
+        showErrorToast(R.string.recharge_sync_pool_failed, t)
     }
 
     private fun onSyncPoolSuccess(syncSuccess: Boolean) {

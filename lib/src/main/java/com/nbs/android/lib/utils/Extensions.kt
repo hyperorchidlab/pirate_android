@@ -3,19 +3,30 @@ package com.nbs.android.lib.utils
 import android.content.Context
 import android.content.res.Resources
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.LifecycleOwner
+import io.reactivex.rxjava3.core.Observable
 
 //给float增加dp转换为px属性，Resources.getSystem()可以在任何地方进行使用，但是有一个局限，只能获取系统本身的资源，没法获取app里面的资源信息。
 val Number.dp
-get() = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this as Float,Resources.getSystem().displayMetrics)
+    get() = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+            this as Float,
+            Resources.getSystem().displayMetrics)
 
 fun Context.showToast(msgId: Int) {
     showToast(resources.getString(msgId))
 }
 
+ var toast: Toast? =null
 fun Context.showToast(msg: String) {
-    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    if (toast == null) {
+        toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT)
+    } else {
+        toast?.setText(msg)
+    }
+    toast?.show()
 }
 
 
@@ -30,7 +41,7 @@ fun <T : View> T.click(block: (T) -> Unit) = setOnClickListener {
 }
 
 
-fun <T : View> T.clickWithTrigger(time: Long = 600, block: (T) -> Unit){
+fun <T : View> T.clickWithTrigger(time: Long = 600, block: (T) -> Unit) {
     triggerDelay = time
     setOnClickListener {
         if (clickEnable()) {
@@ -72,5 +83,6 @@ interface OnLazyClickListener : View.OnClickListener {
 
     fun onLazyClick(v: View)
 }
+
 
 

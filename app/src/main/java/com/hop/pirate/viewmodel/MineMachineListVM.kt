@@ -13,6 +13,8 @@ import com.nbs.android.lib.base.BaseViewModel
 import com.nbs.android.lib.command.BindingAction
 import com.nbs.android.lib.command.BindingCommand
 import com.nbs.android.lib.event.SingleLiveEvent
+import io.reactivex.rxjava3.core.SingleObserver
+import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.launch
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 import java.text.DecimalFormat
@@ -24,10 +26,10 @@ import java.text.DecimalFormat
  */
 class MineMachineListVM : BaseViewModel() {
     val model = MineMachineListModel()
-    val finishAndResultOk :MutableLiveData<Boolean> by lazy {
+    val finishAndResultOk: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>()
     }
-    val showEmptyLayoutEvent = SingleLiveEvent<Boolean>().apply { value=false }
+    val showEmptyLayoutEvent = SingleLiveEvent<Boolean>().apply { value = false }
     val mDecimalFormat = DecimalFormat("0.00")
     val items: ObservableList<MineMachineItemVM> = ObservableArrayList()
     val itemBinding = ItemBinding.of<MineMachineItemVM>(BR.item, R.layout.item_mine_machine)
@@ -36,14 +38,11 @@ class MineMachineListVM : BaseViewModel() {
     val pinCommand = BindingCommand<Any>(object : BindingAction {
         override fun call() {
             showToast(R.string.testing_speed)
-            if(items.size!=0){
+            if (items.size != 0) {
                 viewModelScope.launch {
-                    kotlin.runCatching {
-                        for (item in items) {
-                            item.minerBean.time.set(mDecimalFormat.format(model.ping(item.minerBean.address)))
-                        }
+                    for (item in items) {
+                        item.minerBean.time.set(mDecimalFormat.format(model.ping(item.minerBean.address)))
                     }
-
                 }
 
             }
@@ -52,27 +51,33 @@ class MineMachineListVM : BaseViewModel() {
 
     val refreshCommand = BindingCommand<Any>(object : BindingAction {
         override fun call() {
-            getMachineList(SysConf.CurPoolAddress,16)
+            getMachineList(SysConf.CurPoolAddress, 16)
         }
     })
 
 
     fun getMachineList(address: String, random: Int) {
-        viewModelScope.launch {
-            runCatching {
-                model.getMineMachine(address,random)
-            }.onSuccess {
-                onGetMachineListSuccess(it)
-            }.onFailure {
-                onGetMachineListFailure(it)
+        model.getMineMachine(address, random).subscribe(object :SingleObserver<List<MinerBean>>{
+            override fun onSuccess(miners: List<MinerBean>) {
+                onGetMachineListSuccess(miners)
             }
-        }
+
+            override fun onSubscribe(d: Disposable) {
+                addSubscribe(d)
+            }
+
+            override fun onError(e: Throwable) {
+                onGetMachineListFailure(e)
+            }
+
+        })
+
     }
 
     private fun onGetMachineListFailure(t: Throwable) {
         finishRefreshingEvent.postValue(true)
-        showErrorToast(R.string.get_data_failed,t)
-        showEmptyLayoutEvent.value = items.size==0
+        showErrorToast(R.string.get_data_failed, t)
+        showEmptyLayoutEvent.value = items.size == 0
     }
 
     private fun onGetMachineListSuccess(minerBeans: List<MinerBean>) {
@@ -82,7 +87,8 @@ class MineMachineListVM : BaseViewModel() {
         for (minerBean in minerBeans) {
             items.add(MineMachineItemVM(this, minerBean))
         }
-        showEmptyLayoutEvent.value = items.size==0
+        showEmptyLayoutEvent.value = items.size == 0
     }
+
 
 }

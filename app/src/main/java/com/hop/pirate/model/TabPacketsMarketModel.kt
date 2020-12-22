@@ -1,9 +1,14 @@
 package com.hop.pirate.model
 
 import androidLib.AndroidLib
+import com.google.gson.Gson
 import com.hop.pirate.Constants
 import com.hop.pirate.model.bean.MinePoolBean
+import com.hop.pirate.model.bean.UserPoolData
+import com.hop.pirate.util.CommonSchedulers
 import com.nbs.android.lib.base.BaseModel
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.core.SingleOnSubscribe
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -16,31 +21,29 @@ import java.util.*
  * @author: mr.x
  * @date :   2020/5/26 2:59 PM
  */
-class TabPacketsMarketModel : BaseModel(){
-   suspend fun getPoolInfo(syncAllPools: Boolean):List<MinePoolBean> {
-       return withTimeout(Constants.TIME_OUT.toLong()) {
-           withContext(Dispatchers.IO){
-           if (syncAllPools) {
-               AndroidLib.syncAllPoolsData()
-           }
-           val jsonStr = AndroidLib.poolInfosInMarket()
-           val minePoolBeans: MutableList<MinePoolBean> = ArrayList()
-           val pools = JSONObject(jsonStr)
-           val it: Iterator<*> = pools.keys()
-           while (it.hasNext()) {
-               val key = it.next() as String
-               val p = pools.optJSONObject(key) ?: continue
-               val bean = MinePoolBean()
-               bean.address = key
-               bean.name = p.optString("Name")
-               bean.email = p.optString("Email")
-               bean.mortgageNumber = p.optDouble("GTN")
-               bean.websiteAddress = p.optString("Url")
-               minePoolBeans.add(bean)
-           }
-           minePoolBeans
-       }
-       }
+class TabPacketsMarketModel : BaseModel() {
+    fun getPoolInfo(syncAllPools: Boolean): Single<List<MinePoolBean>> {
+        return Single.create(SingleOnSubscribe<List<MinePoolBean>> { emitter ->
+            if (syncAllPools) {
+                AndroidLib.syncAllPoolsData()
+            }
+            val jsonStr = AndroidLib.poolInfosInMarket()
+            val minePoolBeans: MutableList<MinePoolBean> = ArrayList()
+            val pools = JSONObject(jsonStr)
+            val it: Iterator<*> = pools.keys()
+            while (it.hasNext()) {
+                val key = it.next() as String
+                val p = pools.optJSONObject(key) ?: continue
+                val bean = MinePoolBean()
+                bean.address = key
+                bean.name = p.optString("Name")
+                bean.email = p.optString("Email")
+                bean.mortgageNumber = p.optDouble("GTN")
+                bean.websiteAddress = p.optString("Url")
+                minePoolBeans.add(bean)
+            }
+            emitter.onSuccess(minePoolBeans)
+        }).compose(CommonSchedulers.io2mainAndTimeout<List<MinePoolBean>>())
 
     }
 }

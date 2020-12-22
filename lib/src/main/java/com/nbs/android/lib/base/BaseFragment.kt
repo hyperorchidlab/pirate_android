@@ -88,6 +88,9 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment
             Observer<String> { t -> showDialog(t) })
         mViewModel.uc.showDialogNotCancelEvent.observe(this,
             Observer<Int> { titleId -> showDialog(titleId) })
+
+        mViewModel.uc.showDialogNotCancelStrEvent.observe(this,
+            Observer<String> { title -> showDialog(title) })
         //加载对话框消失
         mViewModel.uc.dismissDialogEvent
             .observe(this, Observer<Long> { dismissDialog() })
@@ -151,6 +154,7 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment
         showDialog(getString(titleId))
     }
     fun showDialog(title:String){
+        dismissDialog()
         dialog= WaitDialog.show(mActivity,title)
         dialog?.cancelable = false
 

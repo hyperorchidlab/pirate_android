@@ -5,16 +5,22 @@ import android.text.TextUtils
 import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
 import com.hop.pirate.Constants
+import com.hop.pirate.HopApplication
 import com.hop.pirate.R
 import com.hop.pirate.event.EventReLoadWallet
 import com.hop.pirate.model.TabWalletModel
+import com.hop.pirate.model.bean.TransactionBean
+import com.hop.pirate.room.AppDatabase
 import com.hop.pirate.ui.fragement.TabWalletFragment
 import com.hop.pirate.service.WalletWrapper
 import com.hop.pirate.ui.activity.GuideActivity
+import com.hop.pirate.ui.activity.TransactionActivity
 import com.nbs.android.lib.base.BaseViewModel
 import com.nbs.android.lib.command.BindingAction
 import com.nbs.android.lib.command.BindingCommand
 import com.nbs.android.lib.event.SingleLiveEvent
+import io.reactivex.rxjava3.core.SingleObserver
+import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 
@@ -53,14 +59,18 @@ class TabWalletVM : BaseViewModel() {
 
     val applyFreeEthCommand = BindingCommand<Any>(object : BindingAction {
         override fun call() {
-            applyFreeEth()
+            viewModelScope.launch {
+                applyFreeEth()
+            }
         }
     })
 
 
     val applyFreeTokenCommand = BindingCommand<Any>(object : BindingAction {
         override fun call() {
-            applyFreeToken()
+            viewModelScope.launch {
+                applyFreeToken()
+            }
         }
     })
 
@@ -80,6 +90,11 @@ class TabWalletVM : BaseViewModel() {
     val dnsCommand = BindingCommand<Any>(object : BindingAction {
         override fun call() {
             dnsEvent.call()
+        }
+    })
+    val transactionCommand = BindingCommand<Any>(object : BindingAction {
+        override fun call() {
+            startActivity(TransactionActivity::class.java)
         }
     })
 
@@ -105,7 +120,7 @@ class TabWalletVM : BaseViewModel() {
         }
     })
 
-    private fun applyFreeToken() {
+    private suspend fun applyFreeToken() {
 
         if (TextUtils.isEmpty(WalletWrapper.MainAddress)) {
             showToast(R.string.please_create_account)
@@ -115,20 +130,30 @@ class TabWalletVM : BaseViewModel() {
             showToast(R.string.apply_free_token_des)
             return
         }
-        showDialog(R.string.creating_tx)
-        viewModelScope.launch {
-            kotlin.runCatching {
-                model.applyFreeHop(WalletWrapper.MainAddress)
-            }.onSuccess {
-                queryTxStatus(it, true)
-            }.onFailure {
-                dismissDialog()
-                showErrorToast(R.string.apply_fail, it)
-            }
+
+        if (model.isPending(Constants.TRANSACTION_APPLY_FREE_HOP)) {
+            showToast(R.string.recharge_pending)
+            return
         }
+
+        model.applyFreeHop(WalletWrapper.MainAddress).subscribe(object : SingleObserver<String> {
+            override fun onSuccess(tx: String) {
+                queryTxStatus(tx, true)
+            }
+
+            override fun onSubscribe(d: Disposable) {
+                showDialog(R.string.creating_tx)
+                addSubscribe(d)
+            }
+
+            override fun onError(e: Throwable) {
+                dismissDialog()
+                showErrorToast(R.string.apply_fail, e)
+            }
+        })
     }
 
-    private fun applyFreeEth() {
+    private suspend fun applyFreeEth() {
         if (TextUtils.isEmpty(WalletWrapper.MainAddress)) {
             showToast(R.string.please_create_account)
             return
@@ -137,52 +162,75 @@ class TabWalletVM : BaseViewModel() {
             showToast(R.string.apply_free_token_des)
             return
         }
-        showDialogNotCancel(R.string.creating_tx)
-        viewModelScope.launch {
-            kotlin.runCatching { model.applyFreeEth(WalletWrapper.MainAddress) }
-                .onSuccess {
-                    queryTxStatus(it, false)
-                }
-                .onFailure {
-                    dismissDialog()
-                    showErrorToast(R.string.apply_fail, it)
-                }
 
+        if (model.isPending(Constants.TRANSACTION_APPLY_FREE_ETH)) {
+            showToast(R.string.recharge_pending)
+            return
         }
+        model.applyFreeEth(WalletWrapper.MainAddress).subscribe(object : SingleObserver<String> {
+            override fun onSuccess(tx: String) {
 
+                queryTxStatus(tx, false)
+            }
+
+            override fun onSubscribe(d: Disposable) {
+                showDialogNotCancel(R.string.creating_tx)
+                addSubscribe(d)
+            }
+
+            override fun onError(e: Throwable) {
+                dismissDialog()
+                showErrorToast(R.string.apply_fail, e)
+            }
+
+        })
     }
 
+
     fun queryTxStatus(tx: String, isFreeHop: Boolean) {
-        val msg = "\nHop TX:[$tx]"
-        showDialogNotCancel(msg)
-        viewModelScope.launch {
-            kotlin.runCatching { model.queryTxStatus(tx) }
-                .onSuccess {
-                    queryTxEvent.postValue(isFreeHop)
-                    dismissDialog()
-                }
-                .onFailure {
-                    dismissDialog()
-                    showErrorToast(R.string.apply_fail, it)
+        model.queryTxStatus(tx).subscribe(object : SingleObserver<Any> {
+            override fun onSuccess(t: Any) {
+                queryTxEvent.postValue(isFreeHop)
+                dismissDialog()
+            }
+
+            override fun onSubscribe(d: Disposable) {
+                var msg = "\nETH TX:[$tx]"
+                if (isFreeHop) {
+                    msg = "\nHop TX:[$tx]"
                 }
 
-        }
+                showDialogNotCancel(msg)
+                addSubscribe(d)
+            }
+
+            override fun onError(e: Throwable) {
+                dismissDialog()
+                showErrorToast(R.string.apply_fail, e)
+            }
+
+        })
+
     }
 
     fun hopBalance() {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                model.queryHopBalance(WalletWrapper.MainAddress)
-            }.onSuccess {
-                if (it.isEmpty()||it.equals("<nil>")) {
-                    return@launch
+        model.queryHopBalance(WalletWrapper.MainAddress).subscribe(object : SingleObserver<String> {
+            override fun onSuccess(it: String) {
+                if (it.isEmpty() || it.equals("<nil>")) {
+                    return
                 }
                 hopBalanceEvent.postValue(it)
-            }.onFailure {
-
             }
 
-        }
+            override fun onSubscribe(d: Disposable) {
+                addSubscribe(d)
+            }
+
+            override fun onError(e: Throwable?) {
+            }
+
+        })
+
     }
 
     fun exportAccount(cr: ContentResolver, data: String, fileName: String) {
@@ -195,9 +243,10 @@ class TabWalletVM : BaseViewModel() {
                 showToast(R.string.wallet_export_success)
             }.onFailure {
                 dismissDialog()
-                showErrorToast(R.string.transfer_fail, it)
+                showErrorToast(R.string.export_fail, it)
             }
 
         }
     }
+
 }

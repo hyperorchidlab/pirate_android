@@ -11,6 +11,8 @@ import com.nbs.android.lib.base.BaseViewModel
 import com.nbs.android.lib.command.BindingAction
 import com.nbs.android.lib.command.BindingCommand
 import com.nbs.android.lib.event.SingleLiveEvent
+import io.reactivex.rxjava3.core.SingleObserver
+import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.launch
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 
@@ -33,36 +35,41 @@ class MinePoolVM : BaseViewModel() {
         }
     })
 
-    fun getMinePool(){
-        viewModelScope.launch {
-            runCatching {
-                    model.getPoolDataOfUser()
-            }.onSuccess {
-                requestSuccess(it)
-                finishRefreshingEvent.call()
-            }.onFailure {
-                requestFailure(it)
+    fun getMinePool() {
+        model.getPoolDataOfUser().subscribe(object : SingleObserver<ArrayList<OwnPool>> {
+            override fun onSuccess(ownPools: ArrayList<OwnPool>?) {
+                requestSuccess(ownPools)
                 finishRefreshingEvent.call()
             }
 
-        }
+            override fun onSubscribe(d: Disposable) {
+                addSubscribe(d)
+            }
+
+            override fun onError(e: Throwable) {
+                requestFailure(e)
+                finishRefreshingEvent.call()
+            }
+
+        })
     }
 
     private fun requestFailure(t: Throwable) {
-        showErrorToast(R.string.get_data_failed,t)
-        if(items.size==0){
-            showEmptyLayoutEvent.value= true
+        showErrorToast(R.string.get_data_failed, t)
+        if (items.size == 0) {
+            showEmptyLayoutEvent.value = true
         }
     }
 
     private fun requestSuccess(ownPools: List<OwnPool>?) {
         items.clear()
-        var index =0
+        var index = 0
         ownPools?.forEach {
-            items.add(MinePooIItemVM(this,it))
+            items.add(MinePooIItemVM(this, it))
             index++
         }
-        showEmptyLayoutEvent.value = items.size==0
+        showEmptyLayoutEvent.value = items.size == 0
     }
+
 
 }

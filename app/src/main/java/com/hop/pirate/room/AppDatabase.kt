@@ -1,0 +1,29 @@
+package com.hop.pirate.room
+
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import com.hop.pirate.model.bean.TransactionBean
+
+/**
+ *Author:Mr'x
+ *Time:
+ *Description:
+ */
+@Database(entities = [TransactionBean::class],version = 1)
+abstract class AppDatabase:RoomDatabase() {
+    abstract fun transactionDao():TransactionDao
+
+    companion object{
+
+        private var instance:AppDatabase? = null
+
+        fun getInstance(context: Context):AppDatabase{
+            if (instance ==null){
+                instance = Room.databaseBuilder(context,AppDatabase::class.java,"transaction.db").allowMainThreadQueries().build()
+            }
+            return instance as AppDatabase
+        }
+    }
+}
