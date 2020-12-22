@@ -41,8 +41,8 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(){
         EventBus.getDefault().register(this)
 
         val newDns = Utils.getString(Constants.NEW_DNS, Constants.DNS)
-        mViewModel.dnsObservable.set(resources.getString(R.string.tab_account_dns) + newDns)
-        val versionText = getString(R.string.current_version_name) + Utils.getVersionName(mActivity)
+        mViewModel.dnsObservable.set(resources.getString(R.string.wallet__dns) + newDns)
+        val versionText = getString(R.string.splash_current_version_name) + Utils.getVersionName(mActivity)
         mViewModel.versionObservable.set(versionText)
 
         main_network_address_value_tv.setOnLongClickListener(View.OnLongClickListener {
@@ -89,10 +89,10 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(){
     }
 
     private fun showClearLocalDataDialog() {
-        Utils.showOkOrCancelAlert(mActivity,R.string.tips , R.string.tab_account_clear_local_data, object : AlertDialogOkCallBack() {
+        Utils.showOkOrCancelAlert(mActivity,R.string.tips , R.string.wallet_clear_local_data, object : AlertDialogOkCallBack() {
             override fun onClickOkButton(parameter: String) {
                 Utils.deleteDBData(mActivity)
-                mActivity.showToast(R.string.tab_account_clear)
+                mActivity.showToast(R.string.wallet_clear_success)
             }
         })
     }
@@ -105,7 +105,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(){
             title = "Eth"
             apply_free_eth_btn.isEnabled = false
         }
-        MessageDialog.show(mActivity, title, getString(R.string.apply_success), getString(R.string.sure))
+        MessageDialog.show(mActivity, title, getString(R.string.wallet_apply_success), getString(R.string.sure))
         EventBus.getDefault().post(EventReLoadWallet(false))
     }
 
@@ -142,7 +142,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(){
     }
 
     private fun showCreateAccountAlert() {
-        Utils.showOkOrCancelAlert(mActivity, R.string.tab_account_replace_account_title, R.string.tab_account_replace_msg, object : AlertDialogOkCallBack() {
+        Utils.showOkOrCancelAlert(mActivity, R.string.wallet_replace_account_title, R.string.wallet__replace_msg, object : AlertDialogOkCallBack() {
                 override fun onClickOkButton(parameter: String) {
                     if (HopApplication.instance.isRunning) {
                         HopApplication.instance.isRunning = false
@@ -158,18 +158,18 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(){
     private fun showChangeDNSDialog() {
         InputDialog.build(mActivity)
             .setTitle(R.string.tips)
-            .setMessage(R.string.tab_account_dns_empty)
+            .setMessage(R.string.wallet_dns_empty)
             .setOkButton(R.string.sure, OnInputDialogButtonClickListener { _, _, inputStr ->
                     if (TextUtils.isEmpty(inputStr)) {
-                        Utils.toastTips(getString(R.string.tab_account_dns_empty))
+                        Utils.toastTips(getString(R.string.wallet_dns_empty))
                         return@OnInputDialogButtonClickListener true
                     }
                     if (!Utils.isIpAddress(inputStr)) {
-                        Utils.toastTips(getString(R.string.tab_account_dns_failed))
+                        Utils.toastTips(getString(R.string.wallet_dns_failed))
                         return@OnInputDialogButtonClickListener true
                     }
                     Utils.saveData(Constants.NEW_DNS, inputStr)
-                    Utils.toastTips(getString(R.string.tab_account_update_dns_success))
+                    Utils.toastTips(getString(R.string.wallet_update_dns_success))
                     mActivity.finish()
                     false
                 })
@@ -187,12 +187,12 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(){
         }
         val accountData = WalletWrapper.walletJsonData()
         if (TextUtils.isEmpty(accountData)) {
-            Utils.toastTips(getString(R.string.empty_account))
+            Utils.toastTips(getString(R.string.create_account_empty_account))
             return
         }
 
         showDialog(R.string.loading)
-        mViewModel.exportAccount(mActivity.contentResolver, accountData, getString(R.string.pirate_account))
+        mViewModel.exportAccount(mActivity.contentResolver, accountData, getString(R.string.wallet_pirate_account))
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -3,19 +3,15 @@ package com.hop.pirate.viewmodel
 import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
 import com.hop.pirate.Constants
-import com.hop.pirate.HopApplication
 import com.hop.pirate.R
 import com.hop.pirate.event.EventRechargeSuccess
 import com.hop.pirate.model.RechargeModel
-import com.hop.pirate.room.AppDatabase
 import com.hop.pirate.service.WalletWrapper
 import com.nbs.android.lib.base.BaseViewModel
 import com.nbs.android.lib.event.SingleLiveEvent
 import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.Disposable
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import kotlin.math.pow
 
@@ -157,7 +153,7 @@ class RechargePacketsVM : BaseViewModel() {
 
     private fun onApproveFailure(t: Throwable) {
         dismissDialog()
-        showErrorToast(R.string.approve_error, t)
+        showErrorToast(R.string.recharge_approve_error, t)
     }
 
     private fun onApproveSuccess(tx: String) {

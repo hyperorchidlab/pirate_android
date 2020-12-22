@@ -159,7 +159,7 @@ object Utils {
                 callBack.onClickOkButton(inputStr)
                 false
             }.setCancelButton(R.string.cancel)
-            .setHintText(context.getString(R.string.enter_ethereum_password))
+            .setHintText(context.getString(R.string.create_account_enter_ethereum_password))
             .setInputInfo(InputInfo().setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD))
             .setCancelable(false).show()
     }

@@ -76,11 +76,11 @@ class RechargePacketsActivity : BaseActivity<RechargePacketsVM,ActivityRechargeP
         this.tokenNO = tokenNO
         mViewModel.tokenNO = tokenNO
         if (WalletWrapper.EthBalance / Utils.COIN_DECIMAL < 0.0001) {
-            Utils.toastTips(getString(R.string.eth_insufficient_balance))
+            Utils.toastTips(getString(R.string.recharge_eth_insufficient_balance))
             return
         }
         if (WalletWrapper.HopBalance < tokenNO) {
-            Utils.toastTips(getString(R.string.token_insufficient_balance))
+            Utils.toastTips(getString(R.string.recharge_token_insufficient_balance))
             return
         }
         PayPasswordDialog(this, object : PasswordCallBack {

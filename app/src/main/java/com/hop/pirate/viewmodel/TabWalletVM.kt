@@ -5,12 +5,9 @@ import android.text.TextUtils
 import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
 import com.hop.pirate.Constants
-import com.hop.pirate.HopApplication
 import com.hop.pirate.R
 import com.hop.pirate.event.EventReLoadWallet
 import com.hop.pirate.model.TabWalletModel
-import com.hop.pirate.model.bean.TransactionBean
-import com.hop.pirate.room.AppDatabase
 import com.hop.pirate.ui.fragement.TabWalletFragment
 import com.hop.pirate.service.WalletWrapper
 import com.hop.pirate.ui.activity.GuideActivity
@@ -123,11 +120,11 @@ class TabWalletVM : BaseViewModel() {
     private suspend fun applyFreeToken() {
 
         if (TextUtils.isEmpty(WalletWrapper.MainAddress)) {
-            showToast(R.string.please_create_account)
+            showToast(R.string.wallet_please_create_account)
             return
         }
         if (WalletWrapper.HopBalance >= TabWalletFragment.FREE_HOP_MAX_VALUE) {
-            showToast(R.string.apply_free_token_des)
+            showToast(R.string.wallet_apply_free_token_des)
             return
         }
 
@@ -148,18 +145,18 @@ class TabWalletVM : BaseViewModel() {
 
             override fun onError(e: Throwable) {
                 dismissDialog()
-                showErrorToast(R.string.apply_fail, e)
+                showErrorToast(R.string.wallet_apply_fail, e)
             }
         })
     }
 
     private suspend fun applyFreeEth() {
         if (TextUtils.isEmpty(WalletWrapper.MainAddress)) {
-            showToast(R.string.please_create_account)
+            showToast(R.string.wallet_please_create_account)
             return
         }
         if (WalletWrapper.EthBalance > TabWalletFragment.FREE_ETH_MAX_VALUE) {
-            showToast(R.string.apply_free_token_des)
+            showToast(R.string.wallet_apply_free_token_des)
             return
         }
 
@@ -180,7 +177,7 @@ class TabWalletVM : BaseViewModel() {
 
             override fun onError(e: Throwable) {
                 dismissDialog()
-                showErrorToast(R.string.apply_fail, e)
+                showErrorToast(R.string.wallet_apply_fail, e)
             }
 
         })
@@ -206,7 +203,7 @@ class TabWalletVM : BaseViewModel() {
 
             override fun onError(e: Throwable) {
                 dismissDialog()
-                showErrorToast(R.string.apply_fail, e)
+                showErrorToast(R.string.wallet_apply_fail, e)
             }
 
         })
@@ -243,7 +240,7 @@ class TabWalletVM : BaseViewModel() {
                 showToast(R.string.wallet_export_success)
             }.onFailure {
                 dismissDialog()
-                showErrorToast(R.string.export_fail, it)
+                showErrorToast(R.string.wallet_export_fail, it)
             }
 
         }

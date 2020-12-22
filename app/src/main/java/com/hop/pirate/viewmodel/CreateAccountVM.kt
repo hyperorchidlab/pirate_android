@@ -51,7 +51,7 @@ class CreateAccountVM : BaseViewModel() {
             uc.toastEvent.value = R.string.create_account_enter_password
             return false
         } else if (!confirmPassword.get().equals(password.get())) {
-            uc.toastEvent.value = R.string.twice_password_not_same
+            uc.toastEvent.value = R.string.create_account_twice_password_not_same
             return false
         }
         return true
@@ -155,7 +155,7 @@ class CreateAccountVM : BaseViewModel() {
             showToast(R.string.create_account_success)
             EventBus.getDefault().post(EventNewAccount())
         } else {
-            showToast(R.string.import_success)
+            showToast(R.string.create_account_import_success)
             EventBus.getDefault().post(EventNewAccount())
         }
         startActivity(MainActivity::class.java)

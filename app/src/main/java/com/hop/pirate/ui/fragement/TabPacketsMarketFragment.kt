@@ -16,7 +16,7 @@ class TabPacketsMarketFragment : BaseFragment<TabPacketsMarketVM, FragmentPacket
         recyclerView.itemAnimator = null
         mViewModel.title.set(getString(R.string.tab_flow_market))
         mViewModel.showRightText.set(true)
-        mViewModel.rightText.set(getString(R.string.my_pool))
+        mViewModel.rightText.set(getString(R.string.market_my_pool))
     }
     override fun initData() {
         swipeRefreshLayout.isRefreshing = true

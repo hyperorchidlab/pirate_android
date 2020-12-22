@@ -1,7 +1,6 @@
 package com.hop.pirate.viewmodel
 
 import androidLib.AndroidLib
-import androidx.lifecycle.viewModelScope
 import com.hop.pirate.HopApplication
 import com.hop.pirate.R
 import com.hop.pirate.model.TabHomeModel
@@ -15,7 +14,6 @@ import com.nbs.android.lib.command.BindingConsumer
 import com.nbs.android.lib.event.SingleLiveEvent
 import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.Disposable
-import kotlinx.coroutines.launch
 
 /**
  *Author:Mr'x
@@ -31,7 +29,7 @@ class TabHomeVM : BaseViewModel() {
     val openWalletSuccessEvent = SingleLiveEvent<Boolean>()
     val changeModelCommand = BindingCommand(null, object : BindingConsumer<String> {
         override fun call(t: String) {
-            AndroidLib.setGlobalModel(t == HopApplication.instance.getString(R.string.globalModelTips))
+            AndroidLib.setGlobalModel(t == HopApplication.instance.getString(R.string.home_global_model))
         }
 
     })

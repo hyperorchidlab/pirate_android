@@ -43,7 +43,7 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
             return
         }
         if (Utils.checkVPN() && !Utils.isServiceWork(this@SplashActivity, HopService::class.java.name)) {
-            Utils.showOkAlert(this@SplashActivity, R.string.tips, R.string.close_other_vpn_app, object : AlertDialogOkCallBack() {
+            Utils.showOkAlert(this@SplashActivity, R.string.tips, R.string.splash_close_other_vpn_app, object : AlertDialogOkCallBack() {
                         override fun onClickOkButton(parameter: String) {
                             finish()
                         }
@@ -66,7 +66,7 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
             Utils.deleteDBData(this)
             Utils.showOkAlert(this@SplashActivity,
                     R.string.tips,
-                    R.string.blockchain_sync_error,
+                    R.string.splash_blockchain_sync_error,
                     object : AlertDialogOkCallBack() {
                         override fun onClickOkButton(parameter: String) {
                             finish()
@@ -91,8 +91,8 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
             versionBean.updateMsgEN
         }
         val messageDialog = MessageDialog.build(this@SplashActivity).setCancelable(false)
-            .setTitle(getString(R.string.new_version)).setMessage(updateMsg)
-            .setOkButton(getString(R.string.update_version)).setOnOkButtonClickListener { _, _ ->
+            .setTitle(getString(R.string.splash_new_version)).setMessage(updateMsg)
+            .setOkButton(getString(R.string.splash_update_version)).setOnOkButtonClickListener { _, _ ->
                 Utils.openAppDownloadPage(this@SplashActivity)
                 finish()
                 false
@@ -111,7 +111,7 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
         if (!Utils.isNetworkAvailable(this@SplashActivity)) {
             Utils.showOkAlert(this@SplashActivity,
                     R.string.tips,
-                    R.string.network_unavailable,
+                    R.string.splash_network_unavailable,
                     object : AlertDialogOkCallBack() {
                         override fun onClickOkButton(parameter: String) {
                             finish()
@@ -137,7 +137,7 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
 
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
         AppSettingsDialog.Builder(this).setTitle(getString(R.string.tips))
-            .setRationale(R.string.forbidden_permission_des).build().show()
+            .setRationale(R.string.splash_forbidden_permission_des).build().show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

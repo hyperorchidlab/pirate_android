@@ -17,7 +17,7 @@ class TransactionActivity:BaseActivity<TransactionVM,ActivityTransactionBinding>
     override fun getLayoutId(): Int = R.layout.activity_transaction
 
     override fun initView() {
-        mViewModel.title.set(getString(R.string.tab_account_transaction))
+        mViewModel.title.set(getString(R.string.wallet_transaction))
         mViewModel.showBackImage.set(true)
         recyclerView.itemAnimator = null
     }

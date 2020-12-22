@@ -59,7 +59,7 @@
             android:layout_marginEnd="8dp"
             android:background="@drawable/bg_buy_packet"
             android:gravity="center"
-            android:text="@string/wallet_renewal_fee"
+            android:text="@string/my_pool_renewal_fee"
             android:textColor="@color/color_6791c8"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/top_background_iv"

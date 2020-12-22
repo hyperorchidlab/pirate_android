@@ -41,9 +41,9 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
             intelligent_model_rbtn.isChecked = true
         }
         if (HopApplication.instance.isRunning) {
-            pirate_network_status_tv.setText(getString(R.string.use))
+            pirate_network_status_tv.setText(getString(R.string.home_use))
         } else {
-            pirate_network_status_tv.setText(getString(R.string.disconnected))
+            pirate_network_status_tv.setText(getString(R.string.home_disconnected))
         }
     }
 
@@ -58,7 +58,7 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
 
         mViewModel.selectMinerLiveEvent.observe(this, Observer {
             if (TextUtils.isEmpty(SysConf.CurPoolAddress)) {
-                Utils.toastTips(getString(R.string.select_subscribed_mining_pool))
+                Utils.toastTips(getString(R.string.home_select_subscribed_mining_pool))
                 return@Observer
             }
             val intent = Intent(mActivity, MineMachineListActivity::class.java)
@@ -76,7 +76,7 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
 
         mViewModel.openWalletSuccessEvent.observe(this,
             Observer {
-                showDialog(R.string.connect)
+                showDialog(R.string.home_connect)
                 mHopIntent = Intent(mActivity, HopService::class.java)
                 mActivity.startService(mHopIntent)
             })
@@ -84,12 +84,12 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
 
     private fun showPacketsData() {
         if (TextUtils.isEmpty(SysConf.CurPoolAddress)) {
-            miner_pool_tv.text = resources.getString(R.string.select_subscribed_mining_pool)
+            miner_pool_tv.text = resources.getString(R.string.home_select_subscribed_mining_pool)
         } else {
             miner_pool_tv.text = SysConf.CurPoolName
         }
         if (TextUtils.isEmpty(SysConf.CurMinerID)) {
-            miner_machin_tv.text = resources.getString(R.string.select_miner)
+            miner_machin_tv.text = resources.getString(R.string.home_select_miner)
         } else {
             miner_machin_tv.text = SysConf.CurMinerID
         }
@@ -136,18 +136,18 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
 
     private fun checkMessageForStartVpnService(): Boolean {
         if (TextUtils.isEmpty(SysConf.CurPoolAddress)) {
-            Utils.toastTips(getString(R.string.select_subscribed_mining_pool))
+            Utils.toastTips(getString(R.string.home_select_subscribed_mining_pool))
             return false
         }
         if (TextUtils.isEmpty(SysConf.CurMinerID)) {
-            Utils.toastTips(getString(R.string.select_miner))
+            Utils.toastTips(getString(R.string.home_select_miner))
             return false
         }
         return true
     }
 
     private fun startVpnService() {
-        showDialog(R.string.connect)
+        showDialog(R.string.home_connect)
         mHopIntent = Intent(mActivity, HopService::class.java)
         mActivity.startService(mHopIntent)
     }
@@ -187,13 +187,13 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun VPNOpen(eventVPNOpen: EventVPNOpen) {
-        pirate_network_status_tv.text = getString(R.string.use)
+        pirate_network_status_tv.text = getString(R.string.home_use)
         dismissDialog()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun VPNClose(eventVPNClosed: EventVPNClosed) {
-        pirate_network_status_tv.text = getString(R.string.disconnected)
+        pirate_network_status_tv.text = getString(R.string.home_disconnected)
         dismissDialog()
         mViewModel.getPool()
     }

@@ -52,7 +52,7 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
 
         mViewModel.exitEvent.observe(this, Observer {
             Utils.deleteDBData(this)
-            Utils.showOkAlert(this@CreateAccountActivity, R.string.tips, R.string.blockchain_sync_error,
+            Utils.showOkAlert(this@CreateAccountActivity, R.string.tips, R.string.splash_blockchain_sync_error,
                 object : AlertDialogOkCallBack() {
                     override fun onClickOkButton(parameter: String) {
                         AppManager.removeAllActivity()
@@ -64,8 +64,8 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
 
     private fun showImportDialog() {
         val listItems = arrayOf(
-            getString(R.string.scanning_qr_code),
-            getString(R.string.read_album),
+            getString(R.string.create_account_scanning_qr_code),
+            getString(R.string.create_account_read_album),
         )
         BottomMenu.show(this, listItems) { _, index ->
             if (index == CLICK_SCAN) {
@@ -73,7 +73,7 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
             } else if (index == CLICK_ALBUM) {
                 requestLocalMemoryPermission()
             }
-        }.title = getString(R.string.select_import_mode)
+        }.title = getString(R.string.create_account_select_import_mode)
     }
 
     @AfterPermissionGranted(Utils.RC_LOCAL_MEMORY_PERM)
@@ -96,7 +96,7 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
             val ii = IntentIntegrator(this@CreateAccountActivity)
             ii.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
             ii.captureActivity = ScanActivity::class.java
-            ii.setPrompt(getString(R.string.scan_pirate_account_qr))
+            ii.setPrompt(getString(R.string.create_account_scan_pirate_account_qr))
             ii.setCameraId(0)
             ii.setBarcodeImageEnabled(true)
             ii.initiateScan()
@@ -151,7 +151,7 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
                 val walletStr = result.contents
                 showPasswordDialog(walletStr)
             } catch (ex: Exception) {
-                Utils.toastTips(getString(R.string.import_account_failed) + ex.localizedMessage)
+                Utils.toastTips(getString(R.string.create_account_import_account_failed) + ex.localizedMessage)
             }
         }
     }
@@ -176,14 +176,14 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
 
     fun loadAccountFromUri(uri: Uri?) {
         if (null == uri) {
-            Utils.toastTips(getString(R.string.error_import_image))
+            Utils.toastTips(getString(R.string.create_account_error_import_image))
             return
         }
         try {
             val walletStr = Utils.parseQRCodeFile(uri, contentResolver)
             showPasswordDialog(walletStr)
         } catch (e: Exception) {
-            Utils.toastTips(getString(R.string.import_error) + e.localizedMessage)
+            Utils.toastTips(getString(R.string.create_account_import_error) + e.localizedMessage)
             e.printStackTrace()
         }
     }

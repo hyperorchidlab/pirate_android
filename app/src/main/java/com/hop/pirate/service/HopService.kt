@@ -147,7 +147,7 @@ class HopService : VpnService(), VpnDelegate, Handler.Callback {
     }
 
     override fun handleMessage(msg: Message): Boolean {
-        Utils.toastTips(getString(R.string.init_service_fail))
+        Utils.toastTips(getString(R.string.home_init_service_fail))
         return false
     }
 

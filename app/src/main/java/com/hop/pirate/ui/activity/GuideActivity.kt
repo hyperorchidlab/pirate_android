@@ -14,7 +14,7 @@ class GuideActivity : BaseActivity<GuideVM, ActivityGuideBinding>() {
 
     override fun initView() {
         mViewModel.showBackImage.set(true)
-        mViewModel.title.set(getString(R.string.tab_account_operation_guide))
+        mViewModel.title.set(getString(R.string.wallet_operation_guide))
     }
 
     override fun initData() {

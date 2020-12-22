@@ -53,7 +53,7 @@ class FlowSelectAdapter(private val mContext: Context, private val mBytesPerToke
             } else {
                 viewHolder.flowTv.text = flowBean.flow.toString() + "M"
             }
-            val hopText = String.format(Locale.CHINA, "%.4f ", flowBean.hop) + mContext.getString(R.string.tab_account_token_unit)
+            val hopText = String.format(Locale.CHINA, "%.4f ", flowBean.hop) + mContext.getString(R.string.wallet_token_unit)
             viewHolder.hopTv.text = hopText
         }
         if (flowBean.isSelected) {
