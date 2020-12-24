@@ -136,21 +136,6 @@ object Utils {
         }
     }
 
-    private var toast: Toast? = null
-    fun toastTips(msg: String) {
-        val context: Context = HopApplication.instance
-        try {
-            if (toast != null) {
-                toast!!.setText(msg)
-            } else {
-                toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT)
-            }
-            toast!!.show()
-        } catch (e: Exception) {
-            Looper.prepare()
-            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
-        }
-    }
 
     fun showPassword(context: AppCompatActivity, callBack: AlertDialogOkCallBack) {
         InputDialog.build(context) //.setButtonTextInfo(new TextInfo().setFontColor(Color.GREEN))
@@ -168,7 +153,6 @@ object Utils {
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("pirate memory string", src)
         clipboard.setPrimaryClip(clip)
-        toastTips(context.getString(R.string.copy_success))
     }
 
     fun QRStr2Bitmap(data: String?): Bitmap? {

@@ -28,6 +28,7 @@ class PacketsMarketItemVM(VM:TabPacketsMarketVM, var minePool:MinePoolBean, var 
         background.setColor(textColor)
         background.cornerRadius = 8f.dp
     }
+
     val rechargeCommand = BindingCommand<Any>(object :BindingAction{
         override fun call() {
             val bundle = Bundle()

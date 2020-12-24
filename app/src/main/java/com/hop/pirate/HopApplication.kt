@@ -3,12 +3,13 @@ package com.hop.pirate
 import android.app.Application
 import android.util.Log
 import com.kongzue.dialog.util.DialogSettings
+import com.nbs.android.lib.base.BaseApplication
 import com.tencent.bugly.crashreport.CrashReport
 import io.reactivex.plugins.RxJavaPlugins
 import leakcanary.LeakCanary
 import kotlin.properties.Delegates
 
-class HopApplication : Application() {
+class HopApplication : BaseApplication() {
     var isRunning = false
     override fun onCreate() {
         super.onCreate()

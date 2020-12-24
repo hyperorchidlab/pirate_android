@@ -25,10 +25,10 @@ import kotlinx.coroutines.launch
 class OwnPoolVM : BaseViewModel() {
     val model = OwnPoolModel()
     val showEmptyLayoutEvent = SingleLiveEvent<Boolean>().apply { value = false }
-
     var finishRefreshingEvent = SingleLiveEvent<Any>()
     val items: ObservableList<OwnPoolItemVM> = ObservableArrayList()
     val itemBinding = ItemBinding.of<OwnPoolItemVM>(BR.item, R.layout.item_own)
+
     val refreshCommand = BindingCommand<Any>(object : BindingAction {
         override fun call() {
             getOwnPool()

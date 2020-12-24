@@ -17,6 +17,7 @@ import com.hop.pirate.viewmodel.RechargePacketsVM
 import com.kongzue.dialog.interfaces.OnDialogButtonClickListener
 import com.kongzue.dialog.v3.MessageDialog
 import com.nbs.android.lib.base.BaseActivity
+import com.nbs.android.lib.utils.toast
 import kotlinx.android.synthetic.main.activity_recharge_packets.*
 
 class RechargePacketsActivity : BaseActivity<RechargePacketsVM,ActivityRechargePacketsBinding>(), RechargeFlowState {
@@ -76,11 +77,11 @@ class RechargePacketsActivity : BaseActivity<RechargePacketsVM,ActivityRechargeP
         this.tokenNO = tokenNO
         mViewModel.tokenNO = tokenNO
         if (WalletWrapper.EthBalance / Utils.COIN_DECIMAL < 0.0001) {
-            Utils.toastTips(getString(R.string.recharge_eth_insufficient_balance))
+            toast(getString(R.string.recharge_eth_insufficient_balance))
             return
         }
         if (WalletWrapper.HopBalance < tokenNO) {
-            Utils.toastTips(getString(R.string.recharge_token_insufficient_balance))
+            toast(getString(R.string.recharge_token_insufficient_balance))
             return
         }
         PayPasswordDialog(this, object : PasswordCallBack {

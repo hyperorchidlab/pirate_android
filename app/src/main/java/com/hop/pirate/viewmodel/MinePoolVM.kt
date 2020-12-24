@@ -28,6 +28,7 @@ class MinePoolVM : BaseViewModel() {
     var finishAndResultOkEvent = SingleLiveEvent<Any>()
     val items: ObservableList<MinePooIItemVM> = ObservableArrayList()
     val itemBinding = ItemBinding.of<MinePooIItemVM>(BR.item, R.layout.item_mine_pool)
+
     val refreshCommand = BindingCommand<Any>(object : BindingAction {
         override fun call() {
             getMinePool()

@@ -27,6 +27,7 @@ class TabHomeVM : BaseViewModel() {
     val changeVPNStatusEvent = SingleLiveEvent<Boolean>()
     val getPoolSuccessEvent = SingleLiveEvent<Boolean>()
     val openWalletSuccessEvent = SingleLiveEvent<Boolean>()
+
     val changeModelCommand = BindingCommand(null, object : BindingConsumer<String> {
         override fun call(t: String) {
             AndroidLib.setGlobalModel(t == HopApplication.instance.getString(R.string.home_global_model))
@@ -39,7 +40,6 @@ class TabHomeVM : BaseViewModel() {
             selectPoolLiveEvent.call()
         }
     })
-
 
     val slelctMinerCommand = BindingCommand<Any>(object : BindingAction {
         override fun call() {

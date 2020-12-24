@@ -42,7 +42,6 @@ class MainVM : BaseViewModel() {
         })
     }
 
-
     fun syncSubPoolsData() {
         viewModelScope.launch {
             model.syncSubPoolsData()

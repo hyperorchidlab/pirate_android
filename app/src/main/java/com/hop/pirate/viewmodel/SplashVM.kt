@@ -25,6 +25,7 @@ class SplashVM : BaseViewModel() {
     val model = SplashModel()
     val delayLoadWalletEvent = SingleLiveEvent<AppVersionBean?>()
     val initServiceFailEvent = SingleLiveEvent<Boolean>()
+
     fun loadWallet() {
         viewModelScope.launch {
             runCatching {

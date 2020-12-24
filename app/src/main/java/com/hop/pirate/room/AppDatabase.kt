@@ -5,6 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.hop.pirate.model.bean.TransactionBean
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /**
  *Author:Mr'x
@@ -24,6 +27,12 @@ abstract class AppDatabase:RoomDatabase() {
                 instance = Room.databaseBuilder(context,AppDatabase::class.java,"transaction.db").allowMainThreadQueries().build()
             }
             return instance as AppDatabase
+        }
+    }
+
+    fun delete(){
+        GlobalScope.launch(Dispatchers.IO){
+            instance?.transactionDao()?.deleteTransaction()
         }
     }
 }

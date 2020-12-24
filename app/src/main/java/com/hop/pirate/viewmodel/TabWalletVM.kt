@@ -128,7 +128,7 @@ class TabWalletVM : BaseViewModel() {
             return
         }
 
-        if (model.isPending(Constants.TRANSACTION_APPLY_FREE_HOP)) {
+        if (model.checkPendingAndUpdate(Constants.TRANSACTION_APPLY_FREE_HOP)) {
             showToast(R.string.recharge_pending)
             return
         }
@@ -160,7 +160,7 @@ class TabWalletVM : BaseViewModel() {
             return
         }
 
-        if (model.isPending(Constants.TRANSACTION_APPLY_FREE_ETH)) {
+        if (model.checkPendingAndUpdate(Constants.TRANSACTION_APPLY_FREE_ETH)) {
             showToast(R.string.recharge_pending)
             return
         }
@@ -185,8 +185,9 @@ class TabWalletVM : BaseViewModel() {
 
 
     fun queryTxStatus(tx: String, isFreeHop: Boolean) {
-        model.queryTxStatus(tx).subscribe(object : SingleObserver<Any> {
+        model.waitMinedTransactionStatus(tx).subscribe(object : SingleObserver<Any> {
             override fun onSuccess(t: Any) {
+                model.updateDBTransaction(Constants.TRANSACTION_STATUS_COMPLETED,tx)
                 queryTxEvent.postValue(isFreeHop)
                 dismissDialog()
             }

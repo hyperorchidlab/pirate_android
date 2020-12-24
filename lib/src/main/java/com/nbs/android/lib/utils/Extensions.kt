@@ -15,21 +15,6 @@ val Number.dp
             this as Float,
             Resources.getSystem().displayMetrics)
 
-fun Context.showToast(msgId: Int) {
-    showToast(resources.getString(msgId))
-}
-
- var toast: Toast? =null
-fun Context.showToast(msg: String) {
-    if (toast == null) {
-        toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT)
-    } else {
-        toast?.setText(msg)
-    }
-    toast?.show()
-}
-
-
 fun <T : View> T.withTrigger(delay: Long = 600): T {
     triggerDelay = delay
     return this

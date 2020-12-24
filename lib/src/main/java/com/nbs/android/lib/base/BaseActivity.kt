@@ -14,7 +14,7 @@ import com.kongzue.dialog.v3.TipDialog
 import com.kongzue.dialog.v3.WaitDialog
 import com.nbs.android.lib.R
 import com.nbs.android.lib.utils.AppManager
-import com.nbs.android.lib.utils.showToast
+import com.nbs.android.lib.utils.toast
 import java.lang.reflect.ParameterizedType
 
 /**
@@ -63,68 +63,43 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
     }
 
     //注册ViewModel与View的契约UI回调事件
-    protected open fun registorUIChangeLiveDataCallBack() { //加载对话框显示
-        mViewModel.uc.showDialogEvent.observe(this, object : Observer<Int> {
-            override fun onChanged(@Nullable titleId: Int) {
-                showDialog(resources.getString(titleId),true)
-            }
-        })
+    protected open fun registorUIChangeLiveDataCallBack() {
+        //加载对话框显示
+        mViewModel.uc.showDialogEvent.observe(this,
+                Observer { titleId -> showDialog(resources.getString(titleId),true) })
 
-        mViewModel.uc.showDialogNotCancelEvent.observe(this, object : Observer<Int> {
-            override fun onChanged(@Nullable titleId: Int) {
-                showDialog(resources.getString(titleId),false)
-            }
-        })
+        mViewModel.uc.showDialogNotCancelEvent.observe(this,
+                Observer { titleId -> showDialog(resources.getString(titleId),false) })
 
-        mViewModel.uc.showDialogNotCancelStrEvent.observe(this, object : Observer<String> {
-            override fun onChanged(@Nullable title: String) {
-                showDialog(title,false)
-            }
-        })
+        mViewModel.uc.showDialogNotCancelStrEvent.observe(this,
+                Observer { title -> showDialog(title,false) })
 
         //加载对话框消失
         mViewModel.uc.dismissDialogEvent
-            .observe(this, object : Observer<Long> {
-                override fun onChanged(@Nullable v: Long) {
-                    dismissDialog()
-                }
-            })
+            .observe(this, Observer { dismissDialog() })
 
-        mViewModel.uc.toastEvent.observe(this, object : Observer<Int> {
-            override fun onChanged(msgId: Int) {
-                showToast(msgId)
-            }
-
-        })
+        mViewModel.uc.toastEvent.observe(this,
+                Observer { msgId -> toast(getString(msgId)) })
         //跳入新页面
         mViewModel.uc.startActivityEvent.observe(
-            this, Observer<Map<String, Any>> { params ->
+            this, Observer { params ->
                 val clz = params[ParameterField.CLASS] as Class<*>
                 val bundle = params[ParameterField.BUNDLE] as Bundle?
                 startActivity(clz, bundle)
             })
 
-        mViewModel.uc.startWebActivityEvent.observe(this, object : Observer<String> {
-                override fun onChanged(@Nullable url: String) {
-                    val intent = Intent()
-                    intent.action = "android.intent.action.VIEW"
-                    intent.data = Uri.parse(url)
-                    startActivity(intent, null)
-                }
-            })
-        //关闭界面
-        mViewModel.uc.finishEvent.observe(this, object : Observer<Void> {
-            override fun onChanged(@Nullable v: Void?) {
-                finish()
-            }
+        mViewModel.uc.startWebActivityEvent.observe(this, Observer { url ->
+            val intent = Intent()
+            intent.action = "android.intent.action.VIEW"
+            intent.data = Uri.parse(url)
+            startActivity(intent, null)
         })
+        //关闭界面
+        mViewModel.uc.finishEvent.observe(this,
+                Observer { finish() })
         //关闭上一层
         mViewModel.uc.onBackPressedEvent
-            .observe(this, object : Observer<Void> {
-                override fun onChanged(@Nullable v: Void) {
-                    onBackPressed()
-                }
-            })
+            .observe(this, Observer { onBackPressed() })
     }
 
     @JvmOverloads
@@ -166,6 +141,7 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
 
     override fun onDestroy() {
         super.onDestroy()
+        dismissDialog()
         AppManager.removeActivity(this)
     }
 

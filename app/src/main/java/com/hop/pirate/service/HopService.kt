@@ -23,6 +23,7 @@ import com.hop.pirate.event.EventVPNClosed
 import com.hop.pirate.event.EventVPNOpen
 import com.hop.pirate.ui.activity.MainActivity
 import com.hop.pirate.util.Utils
+import com.nbs.android.lib.utils.toast
 import org.greenrobot.eventbus.EventBus
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -147,7 +148,7 @@ class HopService : VpnService(), VpnDelegate, Handler.Callback {
     }
 
     override fun handleMessage(msg: Message): Boolean {
-        Utils.toastTips(getString(R.string.home_init_service_fail))
+        toast(getString(R.string.home_init_service_fail))
         return false
     }
 

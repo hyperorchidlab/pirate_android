@@ -4,6 +4,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
 import com.hop.pirate.Constants
 import com.hop.pirate.R
+import com.hop.pirate.event.EventReLoadWallet
 import com.hop.pirate.event.EventRechargeSuccess
 import com.hop.pirate.model.RechargeModel
 import com.hop.pirate.service.WalletWrapper
@@ -84,20 +85,20 @@ class RechargePacketsVM : BaseViewModel() {
     }
 
     private suspend fun onOpenWalletSuccess() {
-        dismissDialog()
-        //
-
         if (WalletWrapper.Approved / 10.0.pow(18.0) >= tokenNO) {
-            if (model.isPending(Constants.TRANSACTION_RECHARGE)) {
+            if (model.checkPendingAndUpdate(Constants.TRANSACTION_RECHARGE)) {
+                dismissDialog()
                 pendingEvent.call()
             } else {
+                dismissDialog()
                 buyPacket()
             }
-
         } else {
-            if (model.isPending(Constants.TRANSACTION_APROVE)) {
+            if (model.checkPendingAndUpdate(Constants.TRANSACTION_APROVE)) {
+                dismissDialog()
                 pendingEvent.call()
             } else {
+                dismissDialog()
                 approve()
             }
         }
@@ -162,8 +163,10 @@ class RechargePacketsVM : BaseViewModel() {
     }
 
     fun queryTxStatus(tx: String, isProve: Boolean) {
-        model.queryTxStatus(tx).subscribe(object : SingleObserver<Any> {
+        model.waitMinedTransactionStatus(tx).subscribe(object : SingleObserver<Any> {
             override fun onSuccess(t: Any) {
+                EventBus.getDefault().post(EventReLoadWallet(false))
+                model.updateDBTransaction(Constants.TRANSACTION_STATUS_COMPLETED,tx)
                 onQueryTxStatusSuccess(isProve)
             }
 

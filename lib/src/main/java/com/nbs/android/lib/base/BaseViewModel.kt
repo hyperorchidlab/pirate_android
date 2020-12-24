@@ -194,7 +194,7 @@ abstract class BaseViewModel: ViewModel(), IBaseViewModel {
     override fun onPause() {
     }
 
-    val mCompositeDisposable: CompositeDisposable by lazy {
+    private val mCompositeDisposable: CompositeDisposable by lazy {
         CompositeDisposable()
     }
     open fun addSubscribe(disposable: Disposable) {

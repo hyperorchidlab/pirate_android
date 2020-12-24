@@ -23,7 +23,7 @@ import com.kongzue.dialog.interfaces.OnInputDialogButtonClickListener
 import com.kongzue.dialog.v3.InputDialog
 import com.kongzue.dialog.v3.MessageDialog
 import com.nbs.android.lib.base.BaseFragment
-import com.nbs.android.lib.utils.showToast
+import com.nbs.android.lib.utils.toast
 import kotlinx.android.synthetic.main.fragment_wallet.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -48,6 +48,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(){
         main_network_address_value_tv.setOnLongClickListener(View.OnLongClickListener {
             if (!TextUtils.isEmpty(main_network_address_value_tv.text.toString())) {
                 Utils.copyToMemory(mActivity, main_network_address_value_tv.text.toString())
+                toast(getString(R.string.copy_success))
             }
             return@OnLongClickListener false
         })
@@ -92,7 +93,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(){
         Utils.showOkOrCancelAlert(mActivity,R.string.tips , R.string.wallet_clear_local_data, object : AlertDialogOkCallBack() {
             override fun onClickOkButton(parameter: String) {
                 Utils.deleteDBData(mActivity)
-                mActivity.showToast(R.string.wallet_clear_success)
+               toast(getString(R.string.wallet_clear_success))
             }
         })
     }
@@ -161,15 +162,15 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(){
             .setMessage(R.string.wallet_dns_empty)
             .setOkButton(R.string.sure, OnInputDialogButtonClickListener { _, _, inputStr ->
                     if (TextUtils.isEmpty(inputStr)) {
-                        Utils.toastTips(getString(R.string.wallet_dns_empty))
+                        toast(getString(R.string.wallet_dns_empty))
                         return@OnInputDialogButtonClickListener true
                     }
                     if (!Utils.isIpAddress(inputStr)) {
-                        Utils.toastTips(getString(R.string.wallet_dns_failed))
+                        toast(getString(R.string.wallet_dns_failed))
                         return@OnInputDialogButtonClickListener true
                     }
                     Utils.saveData(Constants.NEW_DNS, inputStr)
-                    Utils.toastTips(getString(R.string.wallet_update_dns_success))
+                    toast(getString(R.string.wallet_update_dns_success))
                     mActivity.finish()
                     false
                 })
@@ -187,7 +188,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(){
         }
         val accountData = WalletWrapper.walletJsonData()
         if (TextUtils.isEmpty(accountData)) {
-            Utils.toastTips(getString(R.string.create_account_empty_account))
+            toast(getString(R.string.create_account_empty_account))
             return
         }
 

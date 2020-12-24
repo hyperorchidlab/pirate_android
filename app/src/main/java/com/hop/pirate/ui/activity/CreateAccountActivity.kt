@@ -20,6 +20,7 @@ import com.hop.pirate.viewmodel.CreateAccountVM
 import com.kongzue.dialog.v3.BottomMenu
 import com.nbs.android.lib.base.BaseActivity
 import com.nbs.android.lib.utils.AppManager
+import com.nbs.android.lib.utils.toast
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
@@ -151,7 +152,7 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
                 val walletStr = result.contents
                 showPasswordDialog(walletStr)
             } catch (ex: Exception) {
-                Utils.toastTips(getString(R.string.create_account_import_account_failed) + ex.localizedMessage)
+                toast(getString(R.string.create_account_import_account_failed) + ex.localizedMessage)
             }
         }
     }
@@ -176,14 +177,14 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
 
     fun loadAccountFromUri(uri: Uri?) {
         if (null == uri) {
-            Utils.toastTips(getString(R.string.create_account_error_import_image))
+            toast(getString(R.string.create_account_error_import_image))
             return
         }
         try {
             val walletStr = Utils.parseQRCodeFile(uri, contentResolver)
             showPasswordDialog(walletStr)
         } catch (e: Exception) {
-            Utils.toastTips(getString(R.string.create_account_import_error) + e.localizedMessage)
+            toast(getString(R.string.create_account_import_error) + e.localizedMessage)
             e.printStackTrace()
         }
     }

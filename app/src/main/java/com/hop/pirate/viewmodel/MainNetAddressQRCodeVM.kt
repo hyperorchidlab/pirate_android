@@ -13,6 +13,7 @@ import com.nbs.android.lib.event.SingleLiveEvent
  */
 class MainNetAddressQRCodeVM :BaseViewModel() {
     val finishAfterTransitionEvent = SingleLiveEvent<Boolean>()
+
     val finishCommand = BindingCommand<Any>(object : BindingAction {
         override fun call() {
             finishAfterTransitionEvent.postValue(true)

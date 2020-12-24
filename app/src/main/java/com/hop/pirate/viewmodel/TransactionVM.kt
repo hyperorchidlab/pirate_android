@@ -25,17 +25,16 @@ class TransactionVM : BaseViewModel() {
     var finishRefreshingEvent = SingleLiveEvent<Any>()
     val itemBinding = ItemBinding.of<TransactionItemVM>(BR.item, R.layout.item_transaction)
 
+    init {
+        getTransactions()
+    }
+
     val refreshCommand = BindingCommand<Any>(object : BindingAction {
         override fun call() {
             getTransactions()
 
         }
     })
-
-    init {
-        getTransactions()
-    }
-
 
      fun getTransactions() {
         viewModelScope.launch {

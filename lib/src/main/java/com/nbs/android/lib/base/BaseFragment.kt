@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.kongzue.dialog.v3.TipDialog
 import com.kongzue.dialog.v3.WaitDialog
 import com.nbs.android.lib.R
-import com.nbs.android.lib.utils.showToast
+import com.nbs.android.lib.utils.toast
 import java.lang.reflect.ParameterizedType
 
 /**
@@ -82,26 +82,26 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment
     //注册ViewModel与View的契约UI回调事件
     protected open fun registorUIChangeLiveDataCallBack() { //加载对话框显示
         mViewModel.uc.showDialogEvent.observe(this,
-            Observer<Int> { title -> showDialog(title) })
+            Observer { title -> showDialog(title) })
 
         mViewModel.uc.showDialogStrEvent.observe(this,
-            Observer<String> { t -> showDialog(t) })
+            Observer { t -> showDialog(t) })
         mViewModel.uc.showDialogNotCancelEvent.observe(this,
-            Observer<Int> { titleId -> showDialog(titleId) })
+            Observer { titleId -> showDialog(titleId) })
 
         mViewModel.uc.showDialogNotCancelStrEvent.observe(this,
-            Observer<String> { title -> showDialog(title) })
+            Observer { title -> showDialog(title) })
         //加载对话框消失
         mViewModel.uc.dismissDialogEvent
-            .observe(this, Observer<Long> { dismissDialog() })
+            .observe(this, Observer { dismissDialog() })
 
 
         mViewModel.uc.toastEvent.observe(this,
-            Observer<Int> { msgId -> context?.showToast(msgId) })
+            Observer { msgId -> toast(getString(msgId)) })
         //跳入新页面
         mViewModel.uc.startActivityEvent.observe(
             this,
-            Observer<Map<String, Any>> { params ->
+            Observer { params ->
                 val clz =
                     params[ParameterField.CLASS] as Class<*>
                 val bundle = params[ParameterField.BUNDLE] as Bundle?
@@ -109,7 +109,7 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment
             })
 
         mViewModel.uc.startWebActivityEvent.observe(
-            this, Observer<String> { url ->
+            this, Observer { url ->
                 val intent = Intent()
                 intent.action = "android.intent.action.VIEW"
                 intent.data = Uri.parse(url)
@@ -118,11 +118,11 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment
 
         //关闭界面
         mViewModel.uc.finishEvent.observe(this,
-            Observer<Void> { mActivity.finish() })
+            Observer { mActivity.finish() })
         //关闭上一层
         mViewModel.uc.onBackPressedEvent
             .observe(this,
-                Observer<Void> { mActivity.onBackPressed() })
+                Observer { mActivity.onBackPressed() })
     }
 
 
@@ -164,6 +164,11 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment
         if (dialog != null && dialog!!.isShow) {
             dialog?.doDismiss()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        dismissDialog()
     }
 
 }

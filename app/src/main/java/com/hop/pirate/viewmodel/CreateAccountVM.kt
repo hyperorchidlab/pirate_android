@@ -7,6 +7,7 @@ import com.hop.pirate.R
 import com.hop.pirate.ui.activity.MainActivity
 import com.hop.pirate.event.EventNewAccount
 import com.hop.pirate.model.CreateAccountModel
+import com.hop.pirate.room.AppDatabase
 import com.hop.pirate.service.WalletWrapper
 import com.hop.pirate.util.Utils
 import com.nbs.android.lib.base.BaseViewModel
@@ -30,13 +31,13 @@ class CreateAccountVM : BaseViewModel() {
     val showImportDialogEvent = SingleLiveEvent<Any?>()
     val exitEvent = SingleLiveEvent<Any?>()
 
-
     val finisCommand = BindingCommand<Any>(object : BindingAction {
         override fun call() {
             finish()
         }
 
     })
+
     val createCommand = BindingCommand<Any>(object : BindingAction {
         override fun call() {
             if (verifyPassword()) {
@@ -78,6 +79,7 @@ class CreateAccountVM : BaseViewModel() {
 
     private fun createSuccess(it: String) {
         WalletWrapper.MainAddress = JSONObject(it).optString("mainAddress")
+        AppDatabase.getInstance(HopApplication.instance).delete()
         initService(true)
     }
 
@@ -116,6 +118,7 @@ class CreateAccountVM : BaseViewModel() {
 
 
     private fun importWalletSuccess(walletStr: String) {
+        AppDatabase.getInstance(HopApplication.instance).delete()
         WalletWrapper.MainAddress = JSONObject(walletStr).optString("mainAddress")
         initService(false)
     }

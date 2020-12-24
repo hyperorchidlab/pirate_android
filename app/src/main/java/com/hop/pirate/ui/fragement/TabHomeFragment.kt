@@ -21,6 +21,7 @@ import com.hop.pirate.ui.activity.MinePoolListActivity
 import com.hop.pirate.util.Utils
 import com.hop.pirate.viewmodel.TabHomeVM
 import com.nbs.android.lib.base.BaseFragment
+import com.nbs.android.lib.utils.toast
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -58,7 +59,7 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
 
         mViewModel.selectMinerLiveEvent.observe(this, Observer {
             if (TextUtils.isEmpty(SysConf.CurPoolAddress)) {
-                Utils.toastTips(getString(R.string.home_select_subscribed_mining_pool))
+                toast(getString(R.string.home_select_subscribed_mining_pool))
                 return@Observer
             }
             val intent = Intent(mActivity, MineMachineListActivity::class.java)
@@ -136,11 +137,11 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
 
     private fun checkMessageForStartVpnService(): Boolean {
         if (TextUtils.isEmpty(SysConf.CurPoolAddress)) {
-            Utils.toastTips(getString(R.string.home_select_subscribed_mining_pool))
+            toast(getString(R.string.home_select_subscribed_mining_pool))
             return false
         }
         if (TextUtils.isEmpty(SysConf.CurMinerID)) {
-            Utils.toastTips(getString(R.string.home_select_miner))
+            toast(getString(R.string.home_select_miner))
             return false
         }
         return true
@@ -176,7 +177,7 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
         Utils.showPassword(mActivity, object : AlertDialogOkCallBack() {
             override fun onClickOkButton(password: String) {
                 if (TextUtils.isEmpty(password)) {
-                    Utils.toastTips(getString(R.string.create_account_enter_password))
+                    toast(getString(R.string.create_account_enter_password))
                     return
                 }
                 mViewModel.openWallet(password)
