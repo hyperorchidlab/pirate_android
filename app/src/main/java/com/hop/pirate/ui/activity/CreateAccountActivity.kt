@@ -52,7 +52,6 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
             Observer { showImportDialog() })
 
         mViewModel.exitEvent.observe(this, Observer {
-            Utils.deleteDBData(this)
             Utils.showOkAlert(this@CreateAccountActivity, R.string.tips, R.string.splash_blockchain_sync_error,
                 object : AlertDialogOkCallBack() {
                     override fun onClickOkButton(parameter: String) {

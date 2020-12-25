@@ -63,7 +63,6 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
         })
 
         mViewModel.initServiceFailEvent.observe(this, Observer {
-            Utils.deleteDBData(this)
             Utils.showOkAlert(this@SplashActivity,
                     R.string.tips,
                     R.string.splash_blockchain_sync_error,

@@ -106,8 +106,7 @@ class HopService : VpnService(), VpnDelegate, Handler.Callback {
             builder.setConfigureIntent(mConfigureIntent)
             mInterface = builder.establish()
 
-            val inputStream =
-                FileInputStream(mInterface?.fileDescriptor)
+            val inputStream = FileInputStream(mInterface?.fileDescriptor)
             mVpnOutputStream = FileOutputStream(mInterface?.fileDescriptor)
             AndroidLib.startVPN(
                 "$LOCAL_IP:41080",

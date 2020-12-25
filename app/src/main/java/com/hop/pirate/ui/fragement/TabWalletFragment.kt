@@ -92,7 +92,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(){
     private fun showClearLocalDataDialog() {
         Utils.showOkOrCancelAlert(mActivity,R.string.tips , R.string.wallet_clear_local_data, object : AlertDialogOkCallBack() {
             override fun onClickOkButton(parameter: String) {
-                Utils.deleteDBData(mActivity)
+                Utils.clearLocalData(mActivity)
                toast(getString(R.string.wallet_clear_success))
             }
         })

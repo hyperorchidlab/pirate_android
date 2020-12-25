@@ -353,7 +353,7 @@ object Utils {
         return m.matches()
     }
 
-    fun deleteDBData(context: Context) {
+    fun clearLocalData(context: Context) {
         deleteFile(File(getBaseDir(context), "data"))
     }
 
