@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.hop.pirate.BR
 import com.hop.pirate.R
-import com.hop.pirate.model.bean.MinerBean
 import com.hop.pirate.model.MineMachineListModel
+import com.hop.pirate.model.bean.MinerBean
 import com.hop.pirate.service.SysConf
 import com.nbs.android.lib.base.BaseViewModel
 import com.nbs.android.lib.command.BindingAction

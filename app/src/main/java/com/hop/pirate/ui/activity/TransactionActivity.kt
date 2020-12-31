@@ -1,8 +1,8 @@
 package com.hop.pirate.ui.activity
 
 import androidx.lifecycle.Observer
-import com.hop.pirate.R
 import com.hop.pirate.BR
+import com.hop.pirate.R
 import com.hop.pirate.databinding.ActivityTransactionBinding
 import com.hop.pirate.viewmodel.TransactionVM
 import com.nbs.android.lib.base.BaseActivity

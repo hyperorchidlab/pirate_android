@@ -2,20 +2,13 @@ package com.hop.pirate.model
 
 import androidLib.AndroidLib
 import com.hop.pirate.Constants
-import com.hop.pirate.HopApplication
 import com.hop.pirate.base.WaitTxBaseModel
-import com.hop.pirate.model.bean.OwnPool
 import com.hop.pirate.model.bean.TransactionBean
-import com.hop.pirate.room.AppDatabase
 import com.hop.pirate.room.DataBaseManager
 import com.hop.pirate.util.CommonSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.core.SingleOnSubscribe
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import kotlinx.coroutines.withTimeout
 import org.json.JSONObject
-import java.util.concurrent.TimeUnit
 
 /**
  * @description:

@@ -3,20 +3,18 @@ package com.hop.pirate.viewmodel
 import android.os.Bundle
 import android.text.SpannableString
 import androidx.databinding.ObservableField
-import androidx.lifecycle.viewModelScope
 import com.hop.pirate.IntentKey
-import com.hop.pirate.ui.activity.RechargePacketsActivity
-import com.hop.pirate.model.bean.OwnPool
 import com.hop.pirate.model.OwnPoolModel
+import com.hop.pirate.model.bean.OwnPool
 import com.hop.pirate.model.bean.UserPoolData
 import com.hop.pirate.service.WalletWrapper
+import com.hop.pirate.ui.activity.RechargePacketsActivity
 import com.hop.pirate.util.Utils
 import com.nbs.android.lib.base.ItemViewModel
 import com.nbs.android.lib.command.BindingAction
 import com.nbs.android.lib.command.BindingCommand
 import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.Disposable
-import kotlinx.coroutines.launch
 
 
 /**

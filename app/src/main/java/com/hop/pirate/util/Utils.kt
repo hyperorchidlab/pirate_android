@@ -12,14 +12,12 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
 import android.os.Environment
-import android.os.Looper
 import android.provider.MediaStore
 import android.text.InputType
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.zxing.*
 import com.google.zxing.common.HybridBinarizer
@@ -39,7 +37,6 @@ import java.io.IOException
 import java.net.NetworkInterface
 import java.util.*
 import java.util.regex.Pattern
-import kotlin.jvm.Throws
 
 object Utils {
     const val RC_LOCAL_MEMORY_PERM = 123

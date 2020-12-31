@@ -4,12 +4,11 @@ import android.text.TextUtils
 import androidx.databinding.ObservableField
 import com.hop.pirate.HopApplication
 import com.hop.pirate.R
-import com.hop.pirate.ui.activity.MainActivity
 import com.hop.pirate.event.EventNewAccount
 import com.hop.pirate.model.CreateAccountModel
-import com.hop.pirate.room.AppDatabase
 import com.hop.pirate.room.DataBaseManager
 import com.hop.pirate.service.WalletWrapper
+import com.hop.pirate.ui.activity.MainActivity
 import com.hop.pirate.util.Utils
 import com.nbs.android.lib.base.BaseViewModel
 import com.nbs.android.lib.command.BindingAction

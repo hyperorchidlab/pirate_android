@@ -6,10 +6,8 @@ import androidx.core.content.ContextCompat
 import com.hop.pirate.HopApplication
 import com.hop.pirate.IntentKey
 import com.hop.pirate.R
-import com.hop.pirate.model.TabPacketsMarketModel
 import com.hop.pirate.model.bean.MinePoolBean
 import com.hop.pirate.ui.activity.RechargePacketsActivity
-import com.nbs.android.lib.base.BaseModel
 import com.nbs.android.lib.base.ItemViewModel
 import com.nbs.android.lib.command.BindingAction
 import com.nbs.android.lib.command.BindingCommand

@@ -1,7 +1,11 @@
 package com.hop.pirate.room
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.hop.pirate.model.bean.TransactionBean
+
 @Dao
 interface TransactionDao {
     @Query("select * from transactions order by id DESC")

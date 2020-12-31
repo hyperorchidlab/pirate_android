@@ -6,12 +6,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.hop.pirate.BR
 import com.hop.pirate.IntentKey
 import com.hop.pirate.R
-import com.hop.pirate.ui.adapter.FlowSelectAdapter
-import com.hop.pirate.ui.adapter.FlowSelectAdapter.RechargeFlowState
 import com.hop.pirate.databinding.ActivityRechargePacketsBinding
 import com.hop.pirate.dialog.PayPasswordDialog
 import com.hop.pirate.dialog.PayPasswordDialog.PasswordCallBack
 import com.hop.pirate.service.WalletWrapper
+import com.hop.pirate.ui.adapter.FlowSelectAdapter
+import com.hop.pirate.ui.adapter.FlowSelectAdapter.RechargeFlowState
 import com.hop.pirate.util.Utils
 import com.hop.pirate.viewmodel.RechargePacketsVM
 import com.kongzue.dialog.interfaces.OnDialogButtonClickListener

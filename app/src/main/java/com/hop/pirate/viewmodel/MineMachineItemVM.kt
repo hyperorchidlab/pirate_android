@@ -1,9 +1,6 @@
 package com.hop.pirate.viewmodel
 
-import android.app.Activity
 import androidx.lifecycle.viewModelScope
-import com.hop.pirate.model.MainModel
-import com.hop.pirate.model.MineMachineListModel
 import com.hop.pirate.model.bean.MinerBean
 import com.hop.pirate.service.SysConf
 import com.nbs.android.lib.base.ItemViewModel

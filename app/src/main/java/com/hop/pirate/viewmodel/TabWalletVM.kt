@@ -8,10 +8,10 @@ import com.hop.pirate.Constants
 import com.hop.pirate.R
 import com.hop.pirate.event.EventReLoadWallet
 import com.hop.pirate.model.TabWalletModel
-import com.hop.pirate.ui.fragement.TabWalletFragment
 import com.hop.pirate.service.WalletWrapper
 import com.hop.pirate.ui.activity.GuideActivity
 import com.hop.pirate.ui.activity.TransactionActivity
+import com.hop.pirate.ui.fragement.TabWalletFragment
 import com.nbs.android.lib.base.BaseViewModel
 import com.nbs.android.lib.command.BindingAction
 import com.nbs.android.lib.command.BindingCommand

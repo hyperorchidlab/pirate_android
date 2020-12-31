@@ -3,11 +3,11 @@ package com.hop.pirate.viewmodel
 import android.os.Handler
 import com.hop.pirate.HopApplication
 import com.hop.pirate.R
-import com.hop.pirate.ui.activity.MineMachineListActivity.Companion.sMinerBeans
 import com.hop.pirate.event.EventReloadMinePackets
 import com.hop.pirate.model.bean.OwnPool
 import com.hop.pirate.service.HopService
 import com.hop.pirate.service.SysConf
+import com.hop.pirate.ui.activity.MineMachineListActivity.Companion.sMinerBeans
 import com.nbs.android.lib.base.ItemViewModel
 import com.nbs.android.lib.command.BindingAction
 import com.nbs.android.lib.command.BindingCommand

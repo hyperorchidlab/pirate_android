@@ -2,13 +2,9 @@ package com.hop.pirate.model
 
 import android.content.ContentResolver
 import androidLib.AndroidLib
-import com.google.gson.Gson
 import com.hop.pirate.Constants
-import com.hop.pirate.HopApplication
 import com.hop.pirate.base.WaitTxBaseModel
 import com.hop.pirate.model.bean.TransactionBean
-import com.hop.pirate.model.bean.UserPoolData
-import com.hop.pirate.room.AppDatabase
 import com.hop.pirate.room.DataBaseManager
 import com.hop.pirate.util.CommonSchedulers
 import com.hop.pirate.util.Utils
@@ -16,7 +12,6 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.core.SingleOnSubscribe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.withTimeout
 
 /**
  * @description:

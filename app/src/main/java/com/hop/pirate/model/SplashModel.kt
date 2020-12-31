@@ -1,18 +1,11 @@
 package com.hop.pirate.model
 
 import android.content.Context
-import androidLib.AndroidLib
 import com.google.gson.Gson
-import com.hop.pirate.Constants
-import com.hop.pirate.R
 import com.hop.pirate.model.bean.AppVersionBean
 import com.hop.pirate.util.AccountUtils
-import com.hop.pirate.util.Utils
-import com.nbs.android.lib.base.BaseModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.withTimeout
-import org.apache.commons.io.IOUtils
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection

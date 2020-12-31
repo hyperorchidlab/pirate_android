@@ -1,18 +1,11 @@
 package com.hop.pirate.model
 
 import androidLib.AndroidLib
-import com.google.gson.Gson
-import com.hop.pirate.Constants
 import com.hop.pirate.model.bean.MinePoolBean
-import com.hop.pirate.model.bean.UserPoolData
 import com.hop.pirate.util.CommonSchedulers
 import com.nbs.android.lib.base.BaseModel
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.core.SingleOnSubscribe
-import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import kotlinx.coroutines.withTimeout
 import org.json.JSONObject
 import java.util.*
 

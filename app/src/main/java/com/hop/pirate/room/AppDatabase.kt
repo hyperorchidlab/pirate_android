@@ -7,7 +7,6 @@ import androidx.room.RoomDatabase
 import com.hop.pirate.model.bean.TransactionBean
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 /**

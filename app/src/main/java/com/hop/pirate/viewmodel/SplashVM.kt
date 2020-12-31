@@ -3,15 +3,14 @@ package com.hop.pirate.viewmodel
 import android.text.TextUtils
 import androidx.lifecycle.viewModelScope
 import com.hop.pirate.HopApplication
-import com.hop.pirate.ui.activity.MainActivity
-import com.hop.pirate.model.bean.AppVersionBean
 import com.hop.pirate.model.SplashModel
+import com.hop.pirate.model.bean.AppVersionBean
 import com.hop.pirate.service.WalletWrapper
 import com.hop.pirate.ui.activity.CreateAccountActivity
+import com.hop.pirate.ui.activity.MainActivity
 import com.nbs.android.lib.base.BaseViewModel
 import com.nbs.android.lib.event.SingleLiveEvent
 import io.reactivex.rxjava3.core.SingleObserver
-import io.reactivex.rxjava3.core.SingleOnSubscribe
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.launch
 import org.json.JSONObject

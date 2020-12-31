@@ -2,11 +2,11 @@ package com.hop.pirate.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.hop.pirate.R
-import com.hop.pirate.ui.activity.MainActivity
 import com.hop.pirate.event.EventLoadWalletSuccess
-import com.hop.pirate.model.bean.WalletBean
 import com.hop.pirate.model.MainModel
+import com.hop.pirate.model.bean.WalletBean
 import com.hop.pirate.service.WalletWrapper
+import com.hop.pirate.ui.activity.MainActivity
 import com.nbs.android.lib.base.BaseViewModel
 import com.nbs.android.lib.event.SingleLiveEvent
 import io.reactivex.rxjava3.core.SingleObserver

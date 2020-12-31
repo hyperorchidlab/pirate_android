@@ -2,19 +2,17 @@ package com.hop.pirate.viewmodel
 
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableList
-import androidx.lifecycle.viewModelScope
+import com.hop.pirate.BR
+import com.hop.pirate.R
+import com.hop.pirate.model.OwnPoolModel
+import com.hop.pirate.model.bean.OwnPool
 import com.nbs.android.lib.base.BaseViewModel
 import com.nbs.android.lib.command.BindingAction
 import com.nbs.android.lib.command.BindingCommand
-import me.tatarka.bindingcollectionadapter2.ItemBinding
-import com.hop.pirate.BR
-import com.hop.pirate.R
-import com.hop.pirate.model.bean.OwnPool
-import com.hop.pirate.model.OwnPoolModel
 import com.nbs.android.lib.event.SingleLiveEvent
 import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.Disposable
-import kotlinx.coroutines.launch
+import me.tatarka.bindingcollectionadapter2.ItemBinding
 
 
 /**

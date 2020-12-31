@@ -8,12 +8,8 @@ import com.hop.pirate.util.CommonSchedulers
 import com.hop.pirate.util.Utils
 import com.nbs.android.lib.base.BaseModel
 import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.core.SingleOnSubscribe
-import io.reactivex.rxjava3.disposables.Disposable
 import org.apache.commons.io.IOUtils
-import kotlin.reflect.KFunction0
-import kotlin.reflect.KFunction1
 
 /**
  *Author:Mr'x

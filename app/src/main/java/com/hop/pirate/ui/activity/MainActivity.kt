@@ -13,18 +13,16 @@ import com.hop.pirate.BR
 import com.hop.pirate.Constants
 import com.hop.pirate.HopApplication
 import com.hop.pirate.R
-import com.hop.pirate.callback.AlertDialogOkCallBack
 import com.hop.pirate.databinding.ActivityMinePoolBinding
 import com.hop.pirate.event.EventReLoadWallet
 import com.hop.pirate.event.EventRechargeSuccess
 import com.hop.pirate.event.EventSkipTabPacketsMarket
-import com.hop.pirate.ui.fragement.TabHomeFragment
-import com.hop.pirate.ui.fragement.TabPacketsMarketFragment
-import com.hop.pirate.ui.fragement.TabWalletFragment
 import com.hop.pirate.model.bean.WalletBean
 import com.hop.pirate.service.HopService
 import com.hop.pirate.service.WalletWrapper
-import com.hop.pirate.util.Utils
+import com.hop.pirate.ui.fragement.TabHomeFragment
+import com.hop.pirate.ui.fragement.TabPacketsMarketFragment
+import com.hop.pirate.ui.fragement.TabWalletFragment
 import com.hop.pirate.viewmodel.MainVM
 import com.hop.pirate.widget.navigator.BottomNavigatorAdapter
 import com.hop.pirate.widget.navigator.BottomNavigatorView.OnBottomNavigatorViewItemClickListener
@@ -34,7 +32,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import java.lang.Exception
 
 class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>(), HopDelegate {
 

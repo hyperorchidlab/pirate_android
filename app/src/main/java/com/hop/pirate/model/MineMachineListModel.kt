@@ -1,11 +1,9 @@
 package com.hop.pirate.model
 
 import android.text.TextUtils
-import android.util.Log
 import androidLib.AndroidLib
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.hop.pirate.Constants
 import com.hop.pirate.model.bean.MinerBean
 import com.hop.pirate.util.CommonSchedulers
 import com.nbs.android.lib.base.BaseModel
@@ -13,7 +11,6 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.core.SingleOnSubscribe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.withTimeout
 import org.json.JSONObject
 import java.util.*
 

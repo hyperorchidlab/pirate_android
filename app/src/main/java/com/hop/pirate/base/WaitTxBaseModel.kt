@@ -2,14 +2,15 @@ package com.hop.pirate.base
 
 import androidLib.AndroidLib
 import com.hop.pirate.Constants
-import com.hop.pirate.HopApplication
-import com.hop.pirate.room.AppDatabase
 import com.hop.pirate.room.DataBaseManager
 import com.hop.pirate.util.CommonSchedulers
 import com.nbs.android.lib.base.BaseModel
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.core.SingleOnSubscribe
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * @description:
