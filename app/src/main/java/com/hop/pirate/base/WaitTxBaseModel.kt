@@ -4,6 +4,7 @@ import androidLib.AndroidLib
 import com.hop.pirate.Constants
 import com.hop.pirate.HopApplication
 import com.hop.pirate.room.AppDatabase
+import com.hop.pirate.room.DataBaseManager
 import com.hop.pirate.util.CommonSchedulers
 import com.nbs.android.lib.base.BaseModel
 import io.reactivex.rxjava3.core.Single
@@ -25,8 +26,8 @@ open class WaitTxBaseModel : BaseModel() {
     }
 
     fun updateDBTransaction(txStatus: Int,tx: String){
-        GlobalScope.launch(Dispatchers.IO) {
-            AppDatabase.getInstance(HopApplication.instance).transactionDao().updateTransaction(txStatus,tx)
+        CoroutineScope(Dispatchers.IO).launch{
+            DataBaseManager.updateTransaction(txStatus,tx)
         }
     }
 
@@ -40,7 +41,7 @@ open class WaitTxBaseModel : BaseModel() {
 
     suspend fun checkPendingAndUpdate(type: Int): Boolean {
         return withContext(Dispatchers.IO) {
-            val transactionBean = AppDatabase.getInstance(HopApplication.instance).transactionDao().getLastTransactionByType(type)
+            val transactionBean = DataBaseManager.getLastTransactionByType(type)
             if (transactionBean == null || transactionBean.status != Constants.TRANSACTION_STATUS_PENDING) {
                 false
             } else {

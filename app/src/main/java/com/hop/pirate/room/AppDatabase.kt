@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.hop.pirate.model.bean.TransactionBean
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -14,7 +15,7 @@ import kotlinx.coroutines.launch
  *Time:
  *Description:
  */
-@Database(entities = [TransactionBean::class],version = 1)
+@Database(entities = [TransactionBean::class],version = 2)
 abstract class AppDatabase:RoomDatabase() {
     abstract fun transactionDao():TransactionDao
 
@@ -31,7 +32,7 @@ abstract class AppDatabase:RoomDatabase() {
     }
 
     fun delete(){
-        GlobalScope.launch(Dispatchers.IO){
+        CoroutineScope(Dispatchers.IO).launch{
             instance?.transactionDao()?.deleteTransaction()
         }
     }

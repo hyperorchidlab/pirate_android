@@ -1,6 +1,7 @@
 package com.hop.pirate.model
 
 import android.text.TextUtils
+import android.util.Log
 import androidLib.AndroidLib
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -27,6 +28,7 @@ class MineMachineListModel : BaseModel() {
             val minersMachineStr = AndroidLib.randomMiner(address, random.toLong())
             val type = object : TypeToken<ArrayList<MinerBean>>() {}.type
             val miners  = Gson().fromJson<ArrayList<MinerBean>>(minersMachineStr, type)
+            miners.sortByDescending { miner -> miner.zone }
             emitter.onSuccess(miners)
         }).compose(CommonSchedulers.io2mainAndTimeout<List<MinerBean>>())
 

@@ -83,7 +83,6 @@ class MineMachineListVM : BaseViewModel() {
     private fun onGetMachineListSuccess(minerBeans: List<MinerBean>) {
         finishRefreshingEvent.postValue(true)
         items.clear()
-        showToast(R.string.loading_success)
         for (minerBean in minerBeans) {
             items.add(MineMachineItemVM(this, minerBean))
         }

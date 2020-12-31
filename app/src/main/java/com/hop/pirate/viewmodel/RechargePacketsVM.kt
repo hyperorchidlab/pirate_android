@@ -12,6 +12,7 @@ import com.nbs.android.lib.base.BaseViewModel
 import com.nbs.android.lib.event.SingleLiveEvent
 import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.Disposable
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import kotlin.math.pow
@@ -60,7 +61,7 @@ class RechargePacketsVM : BaseViewModel() {
     fun openWallet(password: String) {
         model.openWallet(password).subscribe(object : SingleObserver<Any> {
             override fun onSuccess(t: Any?) {
-                viewModelScope.launch {
+                viewModelScope.launch{
                     onOpenWalletSuccess()
                 }
 

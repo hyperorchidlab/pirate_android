@@ -152,4 +152,3 @@
 # Gson
 -keepattributes  *Annotation*
 -keep class com.google.gson.stream.* { *;}
--keep class com.nbs.bpassword.model.bean.* { *;}

@@ -7,6 +7,7 @@ import com.hop.pirate.base.WaitTxBaseModel
 import com.hop.pirate.model.bean.OwnPool
 import com.hop.pirate.model.bean.TransactionBean
 import com.hop.pirate.room.AppDatabase
+import com.hop.pirate.room.DataBaseManager
 import com.hop.pirate.util.CommonSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.core.SingleOnSubscribe
@@ -27,7 +28,7 @@ class RechargeModel : WaitTxBaseModel() {
 
             val tx = AndroidLib.authorizeTokenSpend(tokenNO)
             val transactionBean = TransactionBean(0,Constants.TRANSACTION_APROVE,tx,Constants.TRANSACTION_STATUS_PENDING)
-            AppDatabase.getInstance(HopApplication.instance).transactionDao().addTransaction(transactionBean)
+            DataBaseManager.addTransaction(transactionBean)
             emitter.onSuccess(tx)
         }).compose(CommonSchedulers.io2mainAndTimeout<String>())
 
@@ -37,7 +38,7 @@ class RechargeModel : WaitTxBaseModel() {
         return Single.create(SingleOnSubscribe<String> { emitter ->
            val tx =  AndroidLib.buyPacket(userAddress, pollAddress, tokenNO)
             val transactionBean = TransactionBean(0,Constants.TRANSACTION_RECHARGE,tx,Constants.TRANSACTION_STATUS_PENDING)
-            AppDatabase.getInstance(HopApplication.instance).transactionDao().addTransaction(transactionBean)
+            DataBaseManager.addTransaction(transactionBean)
             emitter.onSuccess(tx)
         }).compose(CommonSchedulers.io2mainAndTimeout<String>())
 
