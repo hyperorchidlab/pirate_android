@@ -11,7 +11,6 @@ import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
-import android.os.Environment
 import android.provider.MediaStore
 import android.text.InputType
 import android.text.SpannableString
@@ -31,12 +30,14 @@ import com.kongzue.dialog.interfaces.OnDialogButtonClickListener
 import com.kongzue.dialog.util.InputInfo
 import com.kongzue.dialog.v3.InputDialog
 import com.kongzue.dialog.v3.MessageDialog
+import com.nbs.android.lib.utils.AppManager
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.File
 import java.io.IOException
 import java.net.NetworkInterface
 import java.util.*
 import java.util.regex.Pattern
+import kotlin.jvm.Throws
 
 object Utils {
     const val RC_LOCAL_MEMORY_PERM = 123
@@ -240,17 +241,7 @@ object Utils {
     }
 
     fun getBaseDir(context: Context): String {
-        var baseDir = context.filesDir.absolutePath
-        if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
-            val path = Environment.getExternalStorageDirectory()
-                .toString() + File.separator + context.packageName
-            val dir = File(path)
-            if (!dir.exists()) {
-                dir.mkdirs()
-            }
-            baseDir = path
-        }
-        return baseDir
+        return context.filesDir.absolutePath
     }
 
     fun getVersionCode(context: Context): Int {
@@ -283,7 +274,7 @@ object Utils {
             return false
         } else {
             val networkInfo = connectivityManager.allNetworkInfo
-            if (networkInfo != null && networkInfo.size > 0) {
+            if (networkInfo.size > 0) {
                 for (i in networkInfo.indices) {
                     if (networkInfo[i].state == NetworkInfo.State.CONNECTED) {
                         return true
@@ -385,4 +376,14 @@ object Utils {
                 Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
         return spannableString
     }
+
+    fun showExitAppDialog(activity:AppCompatActivity,msgId: Int){
+        val instance = HopApplication.instance
+        MessageDialog.show(activity, instance.getString(R.string.tips), instance.getString(msgId), instance.getString(R.string.sure)).setOnOkButtonClickListener { baseDialog, v ->
+            AppManager.removeAllActivity()
+            return@setOnOkButtonClickListener false
+        }
+    }
+
+
 }

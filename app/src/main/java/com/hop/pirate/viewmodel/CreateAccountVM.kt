@@ -2,6 +2,7 @@ package com.hop.pirate.viewmodel
 
 import android.text.TextUtils
 import androidx.databinding.ObservableField
+import com.hop.pirate.Constants
 import com.hop.pirate.HopApplication
 import com.hop.pirate.R
 import com.hop.pirate.event.EventNewAccount
@@ -59,7 +60,6 @@ class CreateAccountVM : BaseViewModel() {
     }
 
     fun createAccount() {
-
         model.createAccount(password.get()!!).subscribe(object : SingleObserver<String> {
             override fun onSuccess(wallet: String) {
                 createSuccess(wallet)
@@ -80,6 +80,7 @@ class CreateAccountVM : BaseViewModel() {
     private fun createSuccess(it: String) {
         WalletWrapper.MainAddress = JSONObject(it).optString("mainAddress")
         DataBaseManager.deleteTransaction()
+        showDialog(R.string.loading)
         initService(true)
     }
 
@@ -98,7 +99,7 @@ class CreateAccountVM : BaseViewModel() {
 
     fun importWallet(password: String, walletStr: String) {
 
-        model.importWallet(walletStr, password).subscribe(object : SingleObserver<Any> {
+        model.importWallet(walletStr, password).subscribe(object : SingleObserver<Int> {
 
             override fun onSubscribe(d: Disposable) {
                 showDialog(R.string.loading)
@@ -109,8 +110,28 @@ class CreateAccountVM : BaseViewModel() {
                 importWalletFailure(e)
             }
 
-            override fun onSuccess(t: Any) {
-                importWalletSuccess(walletStr)
+            override fun onSuccess(resultCode: Int) {
+                if(resultCode==Constants.OpenWalletSuccess){
+                    WalletWrapper.MainAddress = JSONObject(walletStr).optString("mainAddress")
+                    DataBaseManager.deleteTransaction()
+                    importWalletSuccess(walletStr)
+                    return
+                }
+                dismissDialog()
+                var msgId =0
+                when(resultCode){
+                    Constants.PasswordError -> {
+                        msgId = R.string.password_error
+                    }
+                    Constants.WalletError -> {
+                        msgId =R.string.wallet_error
+                    }
+                    Constants.WalletSaveError -> {
+                        msgId = R.string.save_error
+                    }
+                }
+                showToast(msgId)
+
             }
 
         })
@@ -118,8 +139,6 @@ class CreateAccountVM : BaseViewModel() {
 
 
     private fun importWalletSuccess(walletStr: String) {
-        DataBaseManager.deleteTransaction()
-        WalletWrapper.MainAddress = JSONObject(walletStr).optString("mainAddress")
         initService(false)
     }
 
@@ -129,6 +148,7 @@ class CreateAccountVM : BaseViewModel() {
     }
 
     fun initService(isCreated: Boolean) {
+
         model.initService(HopApplication.instance.applicationContext)
             .subscribe(object : SingleObserver<Any> {
                 override fun onSuccess(any: Any) {

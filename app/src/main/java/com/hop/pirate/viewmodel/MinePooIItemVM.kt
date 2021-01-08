@@ -28,7 +28,6 @@ class MinePooIItemVM(vm: MinePoolVM, var pool: OwnPool) : ItemViewModel<MinePool
                 return
             }
             if (HopApplication.instance.isRunning) {
-                HopApplication.instance.isRunning = false
                 HopService.stop()
             }
             Handler().postDelayed({

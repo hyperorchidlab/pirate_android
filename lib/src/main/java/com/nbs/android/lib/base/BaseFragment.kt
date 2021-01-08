@@ -147,7 +147,6 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment
         if (bundle != null) {
             intent.putExtras(bundle)
         }
-        println("~~~~~~~~~~~~startActivity")
         startActivity(intent)
     }
     open fun showDialog(titleId: Int = R.string.loading) {

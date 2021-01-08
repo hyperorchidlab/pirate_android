@@ -27,6 +27,7 @@ import org.greenrobot.eventbus.EventBus
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.util.concurrent.TimeUnit
+import kotlin.jvm.Throws
 
 class HopService : VpnService(), VpnDelegate, Handler.Callback {
     private  var mInterface: ParcelFileDescriptor? = null
@@ -92,7 +93,6 @@ class HopService : VpnService(), VpnDelegate, Handler.Callback {
     override fun onDestroy() {
         super.onDestroy()
         Log.d(TAG, "onDestroy: ")
-        HopApplication.instance.isRunning = false
         stop()
     }
 
@@ -155,6 +155,7 @@ class HopService : VpnService(), VpnDelegate, Handler.Callback {
         private const val LOCAL_IP = "10.8.0.2"
         fun stop() {
             Log.w(TAG, "stop service in android")
+            HopApplication.instance.isRunning = false
             AndroidLib.stopVpn()
         }
     }

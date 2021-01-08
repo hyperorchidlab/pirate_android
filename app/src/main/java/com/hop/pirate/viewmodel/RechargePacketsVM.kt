@@ -30,6 +30,7 @@ class RechargePacketsVM : BaseViewModel() {
     val syncPoolSuccessEvent = SingleLiveEvent<Boolean>()
     val timeoutEvent = SingleLiveEvent<Boolean>()
     val pendingEvent = SingleLiveEvent<Boolean>()
+    val exitApp = SingleLiveEvent<Int>()
 
     fun initFlows() {
         model.getBytesPerToken().subscribe(object : SingleObserver<Double> {
@@ -58,10 +59,19 @@ class RechargePacketsVM : BaseViewModel() {
     }
 
     fun openWallet(password: String) {
-        model.openWallet(password).subscribe(object : SingleObserver<Any> {
-            override fun onSuccess(t: Any?) {
-                viewModelScope.launch{
-                    onOpenWalletSuccess()
+        model.openWallet(password).subscribe(object : SingleObserver<Int> {
+            override fun onSuccess(resultCode: Int) {
+                if (resultCode == Constants.OpenWalletSuccess) {
+                    viewModelScope.launch {
+                        onOpenWalletSuccess()
+                    }
+                    return
+                }
+                dismissDialog()
+                when (resultCode) {
+                    Constants.PasswordError ->  showToast(R.string.password_error)
+                    Constants.ProtocolStopped -> exitApp.postValue(R.string.protocol_topped)
+                    Constants.NoWallet -> exitApp.postValue( R.string.no_walet)
                 }
 
             }
@@ -166,7 +176,7 @@ class RechargePacketsVM : BaseViewModel() {
         model.waitMinedTransactionStatus(tx).subscribe(object : SingleObserver<Any> {
             override fun onSuccess(t: Any) {
                 EventBus.getDefault().post(EventReLoadWallet(false))
-                model.updateDBTransaction(Constants.TRANSACTION_STATUS_COMPLETED,tx)
+                model.updateDBTransaction(Constants.TRANSACTION_STATUS_COMPLETED, tx)
                 onQueryTxStatusSuccess(isProve)
             }
 
@@ -175,13 +185,13 @@ class RechargePacketsVM : BaseViewModel() {
             }
 
             override fun onError(e: Throwable) {
-                onQueryTxStatusFailure(e)
+                onQueryTxStatusFailure()
             }
 
         })
     }
 
-    private fun onQueryTxStatusFailure(t: Throwable) {
+    private fun onQueryTxStatusFailure() {
         dismissDialog()
         timeoutEvent.call()
     }

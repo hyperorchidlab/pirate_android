@@ -17,6 +17,10 @@
     <string name="loading_success">Load success</string>
     <string name="camera">Camera access required</string>
     <string name="password_error">password error</string>
+    <string name="wallet_error">Please scan the correct wallet QR code</string>
+    <string name="save_error">Wallet local storage failed</string>
+    <string name="protocol_topped">The service has stopped, kill the app and re-enter</string>
+    <string name="no_walet">Failed to read the wallet, kill the app to re-enter</string>
     <string name="approving">Blockchain \nApproving…</string>
     <string name="creating_account">Creating account…</string>
     <string name="creating_tx">Creating Blockchain Tx…</string>
@@ -34,7 +38,7 @@
     <string name="create_account_title">Create Account</string>
     <string name="create_account_import_error">Import eror</string>
     <string name="create_account_empty_account">Empty Account</string>
-    <string name="create_account_failed">Create Account Failed:</string>
+    <string name="create_account_failed">Create Account Failed</string>
     <string name="create_account_import_account">Import Account</string>
     <string name="create_account_enter_password">Enter Password</string>
     <string name="create_account_import_success">Import success</string>

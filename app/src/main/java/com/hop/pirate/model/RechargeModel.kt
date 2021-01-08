@@ -46,11 +46,11 @@ class RechargeModel : WaitTxBaseModel() {
 
     }
 
-    fun openWallet(password: String): Single<Any> {
-        return Single.create(SingleOnSubscribe<Any> { emitter ->
-            AndroidLib.openWallet(password)
-            emitter.onSuccess("")
-        }).compose(CommonSchedulers.io2mainAndTimeout<Any>())
+    fun openWallet(password: String): Single<Int> {
+        return Single.create(SingleOnSubscribe<Int> { emitter ->
+           val resultCode =  AndroidLib.openWallet(password)
+            emitter.onSuccess(resultCode)
+        }).compose(CommonSchedulers.io2mainAndTimeout<Int>())
 
 
     }

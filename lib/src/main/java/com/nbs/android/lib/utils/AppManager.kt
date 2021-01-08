@@ -37,13 +37,9 @@ object AppManager {
 
     fun hideSoftKeyBoard(activity: Activity) {
         val localView = activity.currentFocus
-        val imm =
-            activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        if (localView != null ) {
-            imm.hideSoftInputFromWindow(
-                localView.windowToken,
-                InputMethodManager.HIDE_NOT_ALWAYS
-            )
+        val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        if (localView != null) {
+            imm.hideSoftInputFromWindow(localView.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
         }
     }
 }

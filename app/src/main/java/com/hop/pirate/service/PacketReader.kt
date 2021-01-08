@@ -25,7 +25,6 @@ internal class PacketReader(private val mReader: FileInputStream) : Runnable {
         } catch (e: Exception) {
             e.printStackTrace()
             if (HopApplication.instance.isRunning) {
-                HopApplication.instance.isRunning = false
                 HopService.stop()
             }
         }

@@ -2,12 +2,9 @@ package com.hop.pirate.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import androidLib.AndroidLib
-import androidLib.HopDelegate
 import androidx.lifecycle.Observer
 import com.hop.pirate.BR
 import com.hop.pirate.Constants
@@ -18,7 +15,6 @@ import com.hop.pirate.event.EventReLoadWallet
 import com.hop.pirate.event.EventRechargeSuccess
 import com.hop.pirate.event.EventSkipTabPacketsMarket
 import com.hop.pirate.model.bean.WalletBean
-import com.hop.pirate.service.HopService
 import com.hop.pirate.service.WalletWrapper
 import com.hop.pirate.ui.fragement.TabHomeFragment
 import com.hop.pirate.ui.fragement.TabPacketsMarketFragment
@@ -33,7 +29,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>(), HopDelegate {
+class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
 
     companion object {
         var walletBean: WalletBean? = null
@@ -64,7 +60,6 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>(), HopDelegat
         if (HopApplication.instance.isRunning) {
             return
         }
-        AndroidLib.setDelegate(this)
 
         mViewModel.getWalletInfo(false)
         main_bottom_navigator_view.setOnBottomNavigatorViewItemClickListener(object :
@@ -78,8 +73,7 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>(), HopDelegat
             get_free_coin_tv.visibility = View.GONE
         }
 
-
-        Handler().postDelayed({   setCurrentTab(Constants.TAB_HOME)  },0)
+        setCurrentTab(Constants.TAB_HOME)
     }
 
     override fun initObserve() {
@@ -103,7 +97,6 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>(), HopDelegat
             return
         }
         mViewModel.getWalletInfo(false)
-        AndroidLib.setDelegate(this)
     }
 
 
@@ -188,29 +181,7 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>(), HopDelegat
         EventBus.getDefault().unregister(this)
     }
 
-    override fun serviceExit(p0: java.lang.Exception?) {
-        HopApplication.instance.isRunning = false
-        HopService.stop()
-    }
 
-    override fun actionNotify(type: Short, msg: String?) {
-        Log.w("Go", "actionNotify: type:[$type] msg:=>$msg")
-        when (type.toInt()) {
-            ATSysSettingChanged -> {
-            }
-            ATPoolsInMarketChanged -> {
-            }
-            ATNeedToRecharge -> showDialog(R.string.packets_insufficient_need_recharge)
-            ATRechargeSuccess -> EventBus.getDefault()
-                .post(EventRechargeSuccess())
-            else -> {
-            }
-        }
-    }
-
-    override fun log(str: String) {
-        Log.i("G0", str)
-    }
 
 
 }

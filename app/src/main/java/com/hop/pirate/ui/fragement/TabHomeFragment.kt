@@ -81,6 +81,10 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
                 mHopIntent = Intent(mActivity, HopService::class.java)
                 mActivity.startService(mHopIntent)
             })
+
+        mViewModel.exitApp.observe(this, Observer {msgId ->
+            Utils.showExitAppDialog(mActivity,msgId)
+        })
     }
 
     private fun showPacketsData() {
@@ -119,7 +123,6 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
             return
         }
         if (HopApplication.instance.isRunning) {
-            HopApplication.instance.isRunning = false
             HopService.stop()
         } else {
             vpnPrepare()
@@ -160,7 +163,6 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
         }
         if (requestCode == Constants.REQUEST_MINE_POOL_CODE || requestCode == Constants.REQUEST_MINE_MACHINE_CODE) {
             if (HopApplication.instance.isRunning) {
-                HopApplication.instance.isRunning = false
                 HopService.stop()
             }
             showPacketsData()

@@ -1,6 +1,7 @@
 package com.hop.pirate
 
 object Constants {
+
     const val REQUEST_MINE_POOL_CODE = 110
     const val REQUEST_MINE_MACHINE_CODE = 111
     const val IMPORT_ACCOUNT_ERR_CODE = 123
@@ -27,5 +28,12 @@ object Constants {
     const val TRANSACTION_STATUS_COMPLETED = 1
     const val TRANSACTION_STATUS_PENDING = 2
     const val TRANSACTION_STATUS_ERROR = 3
+
+    const val OpenWalletSuccess = 0
+    const val PasswordError = 1
+    const val WalletError = 2
+    const val WalletSaveError = 3
+    const val ProtocolStopped =4
+    const val NoWallet = 5
 
 }

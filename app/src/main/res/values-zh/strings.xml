@@ -14,6 +14,10 @@
     <string name="testing_speed">测速中…</string>
     <string name="copy_success">复制成功!</string>
     <string name="password_error">密码错误</string>
+    <string name="wallet_error">请扫描正确钱包二维码</string>
+    <string name="save_error">钱包本地存储失败</string>
+    <string name="protocol_topped">服务已停止，杀死app从新进入</string>
+    <string name="no_walet">钱包读取失败，杀死app从新进入</string>
     <string name="camera">需要访问您的摄像头</string>
     <string name="loading_success">加载成功</string>
     <string name="tab_flow_market">流量市场</string>

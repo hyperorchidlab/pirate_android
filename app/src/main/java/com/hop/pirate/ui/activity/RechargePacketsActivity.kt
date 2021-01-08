@@ -50,20 +50,28 @@ class RechargePacketsActivity : BaseActivity<RechargePacketsVM,ActivityRechargeP
         })
 
         mViewModel.timeoutEvent.observe(this, Observer {
-            MessageDialog.show(this@RechargePacketsActivity, getString(R.string.tips), getString(R.string.blockchain_time_out), getString(R.string.sure));
+            MessageDialog.show(this@RechargePacketsActivity, getString(R.string.tips), getString(R.string.blockchain_time_out), getString(R.string.sure)).setCancelable(false).onOkButtonClickListener = OnDialogButtonClickListener { _, _ ->
+               startActivity(TransactionActivity::class.java)
+                false
+            }
         })
         mViewModel.pendingEvent.observe(this, Observer {
-            MessageDialog.show(this@RechargePacketsActivity, getString(R.string.tips), getString(R.string.recharge_pending), getString(R.string.sure)).setOnOkButtonClickListener { baseDialog, v ->
+            MessageDialog.show(this@RechargePacketsActivity, getString(R.string.tips), getString(R.string.recharge_pending), getString(R.string.sure)).setOnOkButtonClickListener { _, _ ->
                 startActivity(TransactionActivity::class.java)
 
                 return@setOnOkButtonClickListener false
             }
         })
+
+        mViewModel.exitApp.observe(this, Observer {msgId ->
+            Utils.showExitAppDialog(this@RechargePacketsActivity,msgId)
+
+        })
     }
 
     private fun showSyncPoolSuccessDialog() {
         val content = getString(R.string.recharge_sync_pool_success)
-        MessageDialog.show(this@RechargePacketsActivity, getString(R.string.tips), content, getString(R.string.sure)).onOkButtonClickListener = OnDialogButtonClickListener { _, _ ->
+        MessageDialog.show(this@RechargePacketsActivity, getString(R.string.tips), content, getString(R.string.sure)).setCancelable(false).onOkButtonClickListener = OnDialogButtonClickListener { _, _ ->
             setResult(Activity.RESULT_OK)
             finish()
             false
@@ -73,14 +81,14 @@ class RechargePacketsActivity : BaseActivity<RechargePacketsVM,ActivityRechargeP
 
     override fun initVariableId(): Int = BR.viewModel
 
-    override fun recharge(tokenNO: Double) {
-        this.tokenNO = tokenNO
-        mViewModel.tokenNO = tokenNO
+    override fun recharge(tokenNo: Double) {
+        this.tokenNO = tokenNo
+        mViewModel.tokenNO = tokenNo
         if (WalletWrapper.EthBalance / Utils.COIN_DECIMAL < 0.0001) {
             toast(getString(R.string.recharge_eth_insufficient_balance))
             return
         }
-        if (WalletWrapper.HopBalance < tokenNO) {
+        if (WalletWrapper.HopBalance < tokenNo) {
             toast(getString(R.string.recharge_token_insufficient_balance))
             return
         }

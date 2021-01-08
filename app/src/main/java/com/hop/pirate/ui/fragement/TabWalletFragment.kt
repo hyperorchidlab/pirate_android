@@ -146,7 +146,6 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(){
         Utils.showOkOrCancelAlert(mActivity, R.string.wallet_replace_account_title, R.string.wallet__replace_msg, object : AlertDialogOkCallBack() {
                 override fun onClickOkButton(parameter: String) {
                     if (HopApplication.instance.isRunning) {
-                        HopApplication.instance.isRunning = false
                         HopService.stop()
                     }
                     val createIntent = Intent(mActivity, CreateAccountActivity::class.java)
