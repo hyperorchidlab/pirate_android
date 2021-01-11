@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.os.Handler
 import android.os.Message
+import androidLib.AndroidLib
 import androidx.lifecycle.Observer
 import com.hop.pirate.BR
 import com.hop.pirate.R
@@ -63,14 +64,7 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
         })
 
         mViewModel.initServiceFailEvent.observe(this, Observer {
-            Utils.showOkAlert(this@SplashActivity,
-                    R.string.tips,
-                    R.string.splash_blockchain_sync_error,
-                    object : AlertDialogOkCallBack() {
-                        override fun onClickOkButton(parameter: String) {
-                            finish()
-                        }
-                    })
+            Utils.showExitAppDialog(this@SplashActivity, R.string.splash_blockchain_sync_error)
         })
     }
 

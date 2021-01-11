@@ -71,6 +71,7 @@
 -keep class com.hop.pirate.util.AccountUtils {*;}
 -keep class com.hop.pirate.service.* {*;}
 -keep class com.hop.pirate.widget.navigator.* {*;}
+-keep class com.hop.pirate.Constants {*;}
 
 
 

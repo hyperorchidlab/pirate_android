@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.app.ActivityManager
 import android.content.*
+import android.content.Context.ACTIVITY_SERVICE
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -380,7 +381,7 @@ object Utils {
     fun showExitAppDialog(activity:AppCompatActivity,msgId: Int){
         val instance = HopApplication.instance
         MessageDialog.show(activity, instance.getString(R.string.tips), instance.getString(msgId), instance.getString(R.string.sure)).setOnOkButtonClickListener { baseDialog, v ->
-            AppManager.removeAllActivity()
+            AppManager.killAppProcess(activity)
             return@setOnOkButtonClickListener false
         }
     }

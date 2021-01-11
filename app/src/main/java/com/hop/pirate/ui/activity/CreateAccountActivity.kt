@@ -52,12 +52,7 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
             Observer { showImportDialog() })
 
         mViewModel.exitEvent.observe(this, Observer {
-            Utils.showOkAlert(this@CreateAccountActivity, R.string.tips, R.string.splash_blockchain_sync_error,
-                object : AlertDialogOkCallBack() {
-                    override fun onClickOkButton(parameter: String) {
-                        AppManager.removeAllActivity()
-                    }
-                })
+            Utils.showExitAppDialog(this@CreateAccountActivity,R.string.splash_blockchain_sync_error)
         })
     }
 

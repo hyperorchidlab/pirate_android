@@ -1,9 +1,12 @@
 package com.nbs.android.lib.utils
 
 import android.app.Activity
+import android.app.ActivityManager
 import android.content.Context
+import android.os.Process
 import android.view.inputmethod.InputMethodManager
 import java.util.*
+
 
 object AppManager {
     private val mActivities = Stack<Activity>()
@@ -41,5 +44,11 @@ object AppManager {
         if (localView != null) {
             imm.hideSoftInputFromWindow(localView.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
         }
+    }
+
+    fun killAppProcess(context: Context){
+        val activityManager: ActivityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        Process.killProcess(Process.myPid())
+        System.exit(0)
     }
 }
