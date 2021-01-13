@@ -20,8 +20,8 @@ import kotlinx.coroutines.withContext
  */
 class TabWalletModel : WaitTxBaseModel() {
 
-    suspend fun exportAccount(cr: ContentResolver, data: String, fileName: String) {
-        withContext(Dispatchers.IO) {
+    suspend fun exportAccount(cr: ContentResolver, data: String, fileName: String):String? {
+       return withContext(Dispatchers.IO) {
             Utils.saveStringQrCode(cr, data, fileName)
         }
 

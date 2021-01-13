@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.provider.MediaStore
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
@@ -19,7 +20,6 @@ import com.hop.pirate.util.Utils
 import com.hop.pirate.viewmodel.CreateAccountVM
 import com.kongzue.dialog.v3.BottomMenu
 import com.nbs.android.lib.base.BaseActivity
-import com.nbs.android.lib.utils.AppManager
 import com.nbs.android.lib.utils.toast
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.AppSettingsDialog
@@ -111,6 +111,7 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
         albumIntent.type = "image/*"
         albumIntent.action = Intent.ACTION_OPEN_DOCUMENT
         startActivityForResult(albumIntent, Utils.RC_SELECT_FROM_GALLERY)
+
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {

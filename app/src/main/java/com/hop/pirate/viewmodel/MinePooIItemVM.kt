@@ -1,6 +1,7 @@
 package com.hop.pirate.viewmodel
 
 import android.os.Handler
+import android.os.Looper
 import com.hop.pirate.HopApplication
 import com.hop.pirate.R
 import com.hop.pirate.event.EventReloadMinePackets
@@ -30,7 +31,7 @@ class MinePooIItemVM(vm: MinePoolVM, var pool: OwnPool) : ItemViewModel<MinePool
             if (HopApplication.instance.isRunning) {
                 HopService.stop()
             }
-            Handler().postDelayed({
+            Handler(Looper.getMainLooper()).postDelayed({
                 viewModel.showDialog(R.string.mining_pool_exchange_mine_pool)
                 Thread(Runnable {
                     sMinerBeans = null

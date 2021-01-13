@@ -69,6 +69,10 @@ abstract class BaseViewModel: ViewModel(), IBaseViewModel {
         uc.toastEvent.postValue(msgId)
     }
 
+    fun showToast(msg: String) {
+        uc.toastStrEvent.postValue(msg)
+    }
+
     fun showErrorToast(msgId: Int, t: Throwable) {
         if (t.message.equals("Job was cancelled")) {
             return
@@ -136,6 +140,10 @@ abstract class BaseViewModel: ViewModel(), IBaseViewModel {
     class UIChangeLiveData : SingleLiveEvent<Any>() {
         val toastEvent: SingleLiveEvent<Int> by lazy {
             SingleLiveEvent<Int>()
+        }
+
+        val toastStrEvent: SingleLiveEvent<String> by lazy {
+            SingleLiveEvent<String>()
         }
 
         val showDialogEvent: SingleLiveEvent<Int> by lazy {

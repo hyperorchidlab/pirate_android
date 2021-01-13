@@ -35,7 +35,7 @@ class HopService : VpnService(), VpnDelegate, Handler.Callback {
     private  var mVpnOutputStream: FileOutputStream? = null
     private lateinit var mHandler: Handler
     override fun onCreate() {
-        mHandler = Handler(this)
+        mHandler = Handler(mainLooper,this)
         mConfigureIntent = PendingIntent.getActivity(this, 0,
             Intent(this, MainActivity::class.java),
             PendingIntent.FLAG_UPDATE_CURRENT)

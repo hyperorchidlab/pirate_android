@@ -25,6 +25,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:hasFragileUserData="true"
         tools:replace="android:allowBackup, android:icon"
         android:requestLegacyExternalStorage="true"
         tools:ignore="LockedOrientationActivity">

@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
@@ -37,7 +38,7 @@ class PayPasswordDialog(context: Context, private val mRechargeFlowCallBack: Pas
         layoutParams?.height = WindowManager.LayoutParams.WRAP_CONTENT
         window?.decorView?.setPadding(0, 0, 0, 0)
         window?.attributes = layoutParams
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             mPasswordEt.isFocusable = true
             mPasswordEt.isFocusableInTouchMode = true
             mPasswordEt.requestFocus()

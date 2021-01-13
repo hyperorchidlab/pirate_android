@@ -165,14 +165,14 @@ object Utils {
     }
 
     @Throws(IOException::class, WriterException::class)
-    fun saveStringQrCode(cr: ContentResolver, data: String?, fileName: String) {
+    fun saveStringQrCode(cr: ContentResolver, data: String?, fileName: String):String? {
         val barcodeEncoder = BarcodeEncoder()
         val bitmap = barcodeEncoder.encodeBitmap(data, BarcodeFormat.QR_CODE, 400, 400)
-        saveImageToLocal(cr, bitmap, fileName)
+        return saveImageToLocal(cr, bitmap, fileName)
     }
 
     @Throws(IOException::class)
-    private fun saveImageToLocal(cr: ContentResolver, bitmap: Bitmap, fileName: String) {
+    private fun saveImageToLocal(cr: ContentResolver, bitmap: Bitmap, fileName: String):String? {
         val values = ContentValues()
         values.put(MediaStore.Images.Media.TITLE, fileName)
         values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName)
@@ -189,6 +189,8 @@ object Utils {
                 imageOut?.close()
             }
         }
+
+        return path?.toString()
 
     }
 

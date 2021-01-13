@@ -1,5 +1,6 @@
 package com.hop.pirate.viewmodel
 
+import android.util.Log
 import androidLib.AndroidLib
 import com.hop.pirate.Constants
 import com.hop.pirate.HopApplication

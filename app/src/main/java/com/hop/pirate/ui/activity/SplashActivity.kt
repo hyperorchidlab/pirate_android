@@ -38,7 +38,7 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
     override fun initVariableId(): Int = BR.viewModel
 
     override fun initData() {
-        mHandler = Handler(this)
+        mHandler = Handler(mainLooper,this)
         startTime = System.currentTimeMillis()
         if (!checkNetwork()) {
             return

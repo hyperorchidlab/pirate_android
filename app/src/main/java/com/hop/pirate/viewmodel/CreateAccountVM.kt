@@ -66,7 +66,7 @@ class CreateAccountVM : BaseViewModel() {
             }
 
             override fun onSubscribe(d: Disposable) {
-                showDialog(R.string.creating_account)
+                showDialogNotCancel(R.string.creating_account)
                 addSubscribe(d)
             }
 
@@ -80,7 +80,7 @@ class CreateAccountVM : BaseViewModel() {
     private fun createSuccess(it: String) {
         WalletWrapper.MainAddress = JSONObject(it).optString("mainAddress")
         DataBaseManager.deleteTransaction()
-        showDialog(R.string.loading)
+        showDialogNotCancel(R.string.loading)
         initService(true)
     }
 
@@ -102,7 +102,7 @@ class CreateAccountVM : BaseViewModel() {
         model.importWallet(walletStr, password).subscribe(object : SingleObserver<Int> {
 
             override fun onSubscribe(d: Disposable) {
-                showDialog(R.string.loading)
+                showDialogNotCancel(R.string.loading)
                 addSubscribe(d)
             }
 

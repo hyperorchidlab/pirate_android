@@ -98,6 +98,9 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment
 
         mViewModel.uc.toastEvent.observe(this,
             Observer { msgId -> toast(getString(msgId)) })
+
+        mViewModel.uc.toastStrEvent.observe(this,
+            Observer { msg -> toast(msg) })
         //跳入新页面
         mViewModel.uc.startActivityEvent.observe(
             this,
