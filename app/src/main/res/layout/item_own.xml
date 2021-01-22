@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.hop.pirate.util.Utils"/>
+
+        <import type="com.hop.pirate.util.Utils" />
 
         <variable
             name="item"

@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="item"
             type="com.hop.pirate.viewmodel.TransactionItemVM" />
@@ -25,7 +26,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/hash_tv"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
+
         <TextView
             android:id="@+id/hash_tv"
             android:layout_width="0dp"
@@ -53,12 +55,13 @@
             android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_height="0dp" />
+
         <View
             android:layout_width="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:background="@color/split_line"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_height="1dp"/>
+            android:layout_height="1dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -35,7 +35,7 @@ class TransactionVM : BaseViewModel() {
         }
     })
 
-     fun getTransactions() {
+    fun getTransactions() {
         viewModelScope.launch {
             items.clear()
             for (transaction in transactionModel.getTransactions()) {

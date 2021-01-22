@@ -29,8 +29,7 @@ import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
 import pub.devrel.easypermissions.EasyPermissions.RationaleCallbacks
 
 
-class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccountBinding>(),
-    PermissionCallbacks, RationaleCallbacks {
+class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccountBinding>(), PermissionCallbacks, RationaleCallbacks {
     private val CLICK_SCAN = 0
     private val CLICK_ALBUM = 1
     private val IMTOKEN_ADDRESS_LENGTH = 66
@@ -53,16 +52,13 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
         mViewModel.showImportDialogEvent.observe(this, Observer { showImportDialog() })
 
         mViewModel.exitEvent.observe(this, Observer {
-            Utils.showExitAppDialog(this@CreateAccountActivity,
-                    R.string.splash_blockchain_sync_error)
+            Utils.showExitAppDialog(this@CreateAccountActivity, R.string.splash_blockchain_sync_error)
         })
     }
 
 
     private fun showImportDialog() {
-        val listItems = arrayOf(getString(R.string.create_account_scanning_qr_code),
-                getString(R.string.create_account_read_album),
-                getString(R.string.create_account_import_private_key), )
+        val listItems = arrayOf(getString(R.string.create_account_scanning_qr_code), getString(R.string.create_account_read_album), getString(R.string.create_account_import_private_key), )
         BottomMenu.show(this, listItems) { _, index ->
             if (index == CLICK_SCAN) {
                 requestCameraPermission()
@@ -75,29 +71,24 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
     }
 
     private fun showImportImtokenPrivateKeyDialog() {
-        var  privateKey :EditText? =null
-        var password :EditText? =null
-        MessageDialog.show(this,
-                getString(R.string.tips),
-                "",
-                getString(R.string.sure),
-                getString(R.string.cancel))
-            .setCustomView(R.layout.layout_input_imtoken_private_key) { dialog, v -> //绑定布局事件，可使用v.findViewById(...)来获取子组件
-                privateKey = v.findViewById<EditText>(R.id.private_key)
-                password = v.findViewById<EditText>(R.id.password)
-            }.setOnOkButtonClickListener { baseDialog, v ->
-                var newKey = privateKey?.text.toString().trim()
-                if(newKey.length == IMTOKEN_ADDRESS_LENGTH){
-                    newKey = newKey.substring(2)
-                    newKey = "0X89"+newKey+"99"
-                }else{
-                    toast(getString(R.string.create_account_imtoken_error))
+        var privateKey: EditText? = null
+        var password: EditText? = null
+        MessageDialog.show(this, getString(R.string.tips), "", getString(R.string.sure), getString(R.string.cancel)).setCustomView(R.layout.layout_input_imtoken_private_key) { dialog, v -> //绑定布局事件，可使用v.findViewById(...)来获取子组件
+                    privateKey = v.findViewById<EditText>(R.id.private_key)
+                    password = v.findViewById<EditText>(R.id.password)
+                }.setOnOkButtonClickListener { baseDialog, v ->
+                    var newKey = privateKey?.text.toString().trim()
+                    if (newKey.length == IMTOKEN_ADDRESS_LENGTH) {
+                        newKey = newKey.substring(2)
+                        newKey = "0X89" + newKey + "99"
+                    } else {
+                        toast(getString(R.string.create_account_imtoken_error))
+                        return@setOnOkButtonClickListener false
+                    }
+                    mViewModel.importImtoken(password?.text.toString().trim(), newKey)
                     return@setOnOkButtonClickListener false
-                }
-                mViewModel.importImtoken(password?.text.toString().trim(),newKey)
-                return@setOnOkButtonClickListener false
 
-            }
+                }
     }
 
     @AfterPermissionGranted(Utils.RC_LOCAL_MEMORY_PERM)
@@ -105,10 +96,7 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
         if (Utils.hasStoragePermission(this)) {
             openAlbum()
         } else {
-            EasyPermissions.requestPermissions(this,
-                    getString(R.string.rationale_extra_write),
-                    Utils.RC_LOCAL_MEMORY_PERM,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            EasyPermissions.requestPermissions(this, getString(R.string.rationale_extra_write), Utils.RC_LOCAL_MEMORY_PERM, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
     }
 
@@ -123,10 +111,7 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
             ii.setBarcodeImageEnabled(true)
             ii.initiateScan()
         } else {
-            EasyPermissions.requestPermissions(this,
-                    getString(R.string.camera),
-                    Utils.RC_CAMERA_PERM,
-                    Manifest.permission.CAMERA)
+            EasyPermissions.requestPermissions(this, getString(R.string.camera), Utils.RC_CAMERA_PERM, Manifest.permission.CAMERA)
         }
     }
 
@@ -139,9 +124,7 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
 
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
@@ -164,8 +147,8 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
             }
             loadAccountFromUri(data.data)
         } else {
-            val result =
-                IntentIntegrator.parseActivityResult(requestCode, resultCode, data) ?: return
+            val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+                    ?: return
             if (result.contents == null) {
                 return
             }

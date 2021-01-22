@@ -33,12 +33,12 @@ class TabPacketsMarketVM : BaseViewModel() {
         }
     })
 
-   override fun clickRightTv(){
-       startActivity(OwnPoolActivity::class.java)
+    override fun clickRightTv() {
+        startActivity(OwnPoolActivity::class.java)
     }
 
     fun getPoolInfo(syncAllPools: Boolean) {
-        model.getPoolInfo(syncAllPools).subscribe(object:SingleObserver<List<MinePoolBean>>{
+        model.getPoolInfo(syncAllPools).subscribe(object : SingleObserver<List<MinePoolBean>> {
             override fun onSuccess(minepool: List<MinePoolBean>) {
                 onGetPoolInfoSuccess(minepool)
             }
@@ -56,17 +56,17 @@ class TabPacketsMarketVM : BaseViewModel() {
 
     private fun onGetPoolInfoFailure(t: Throwable) {
         finishRefreshingEvent.call()
-        showErrorToast(R.string.get_data_failed,t)
-        showEmptyLayoutEvent.value = items.size==0
+        showErrorToast(R.string.get_data_failed, t)
+        showEmptyLayoutEvent.value = items.size == 0
     }
 
     private fun onGetPoolInfoSuccess(minePoolBeans: List<MinePoolBean>) {
         finishRefreshingEvent.call()
         items.clear()
-        for ((index,minePoolBean) in minePoolBeans.withIndex()) {
-            items.add(PacketsMarketItemVM(this,minePoolBean,index))
+        for ((index, minePoolBean) in minePoolBeans.withIndex()) {
+            items.add(PacketsMarketItemVM(this, minePoolBean, index))
         }
-        showEmptyLayoutEvent.value = items.size==0
+        showEmptyLayoutEvent.value = items.size == 0
     }
 
 }

@@ -14,8 +14,8 @@ import kotlinx.coroutines.launch
  *Time:
  *Description:
  */
-class MineMachineItemVM( vm:MineMachineListVM, var minerBean: MinerBean) : ItemViewModel<MineMachineListVM>(vm) {
-    val pingCommand= BindingCommand<Any>(object : BindingAction {
+class MineMachineItemVM(vm: MineMachineListVM, var minerBean: MinerBean) : ItemViewModel<MineMachineListVM>(vm) {
+    val pingCommand = BindingCommand<Any>(object : BindingAction {
         override fun call() {
             viewModelScope.launch {
                 kotlin.runCatching { minerBean.time.set(viewModel.mDecimalFormat.format(viewModel.model.ping(minerBean.address))) }
@@ -24,10 +24,10 @@ class MineMachineItemVM( vm:MineMachineListVM, var minerBean: MinerBean) : ItemV
         }
     })
 
-    val itemClickCommand= BindingCommand<Any>(object : BindingAction {
+    val itemClickCommand = BindingCommand<Any>(object : BindingAction {
         override fun call() {
             if (minerBean.address == SysConf.CurMinerID) {
-               viewModel.finish()
+                viewModel.finish()
                 return
             }
             SysConf.setCurMiner(minerBean.address)

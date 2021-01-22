@@ -45,11 +45,7 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
 
     var netTyp = Constants.DEFAULT_MAIN_NET
 
-    private val mFragmentArray = arrayOf(
-        TabHomeFragment::class.java,
-        TabPacketsMarketFragment::class.java,
-        TabWalletFragment::class.java
-    )
+    private val mFragmentArray = arrayOf(TabHomeFragment::class.java, TabPacketsMarketFragment::class.java, TabWalletFragment::class.java)
     private lateinit var mNavigator: FragmentNavigator
 
     override fun onContentViewBefor(savedInstanceState: Bundle?) {
@@ -60,15 +56,14 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
     override fun getLayoutId(): Int = R.layout.activity_main
 
     override fun initView() {
-        netTyp = Utils.getInt(Constants.NET_TYPE,Constants.DEFAULT_MAIN_NET)
+        netTyp = Utils.getInt(Constants.NET_TYPE, Constants.DEFAULT_MAIN_NET)
         EventBus.getDefault().register(this)
         if (HopApplication.instance.isRunning) {
             return
         }
 
         mViewModel.getWalletInfo(false)
-        main_bottom_navigator_view.setOnBottomNavigatorViewItemClickListener(object :
-            OnBottomNavigatorViewItemClickListener {
+        main_bottom_navigator_view.setOnBottomNavigatorViewItemClickListener(object : OnBottomNavigatorViewItemClickListener {
             override fun onBottomNavigatorViewItemClick(position: Int, view: View?) {
                 setCurrentTab(position)
             }
@@ -79,8 +74,8 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
         }
         val currentTimeMillis = System.currentTimeMillis()
         setCurrentTab(Constants.TAB_HOME)
-        val useTime = System.currentTimeMillis()-currentTimeMillis
-        Log.d("!!!!!", "MainActivity!!!!!!!!!!!!!!!!!!!"+useTime)
+        val useTime = System.currentTimeMillis() - currentTimeMillis
+        Log.d("!!!!!", "MainActivity!!!!!!!!!!!!!!!!!!!" + useTime)
     }
 
     override fun initObserve() {
@@ -114,13 +109,7 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
     private fun initNavigator(savedInstanceState: Bundle?) {
         val bottomNavigatorAdapter = BottomNavigatorAdapter(this)
         for (fragment in mFragmentArray) {
-            bottomNavigatorAdapter.addTab(
-                BottomNavigatorAdapter.TabInfo(
-                    fragment.simpleName,
-                    fragment,
-                    null
-                )
-            )
+            bottomNavigatorAdapter.addTab(BottomNavigatorAdapter.TabInfo(fragment.simpleName, fragment, null))
         }
         mNavigator = FragmentNavigator(supportFragmentManager, bottomNavigatorAdapter, R.id.content_frame)
         mNavigator.setDefaultPosition(Constants.TAB_HOME)
@@ -187,8 +176,6 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
 
         EventBus.getDefault().unregister(this)
     }
-
-
 
 
 }

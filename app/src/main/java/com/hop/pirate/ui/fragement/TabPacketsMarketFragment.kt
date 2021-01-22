@@ -8,7 +8,7 @@ import com.hop.pirate.viewmodel.TabPacketsMarketVM
 import com.nbs.android.lib.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_packets_market.*
 
-class TabPacketsMarketFragment : BaseFragment<TabPacketsMarketVM, FragmentPacketsMarketBinding>(){
+class TabPacketsMarketFragment : BaseFragment<TabPacketsMarketVM, FragmentPacketsMarketBinding>() {
 
     override fun getLayoutId(): Int = R.layout.fragment_packets_market
 
@@ -18,10 +18,12 @@ class TabPacketsMarketFragment : BaseFragment<TabPacketsMarketVM, FragmentPacket
         mViewModel.showRightText.set(true)
         mViewModel.rightText.set(getString(R.string.market_my_pool))
     }
+
     override fun initData() {
         swipeRefreshLayout.isRefreshing = true
         mViewModel.getPoolInfo(false)
     }
+
     override fun initVariableId(): Int = BR.viewModel
 
     override fun initObserve() {

@@ -111,20 +111,20 @@ class CreateAccountVM : BaseViewModel() {
             }
 
             override fun onSuccess(resultCode: Int) {
-                if(resultCode==Constants.OPEN_WALLET_SUCCESS){
+                if (resultCode == Constants.OPEN_WALLET_SUCCESS) {
                     WalletWrapper.MainAddress = JSONObject(walletStr).optString("mainAddress")
                     DataBaseManager.deleteTransaction()
                     importWalletSuccess()
                     return
                 }
                 dismissDialog()
-                var msgId =0
-                when(resultCode){
+                var msgId = 0
+                when (resultCode) {
                     Constants.PASSWORD_ERROR -> {
                         msgId = R.string.password_error
                     }
                     Constants.WALLET_ERROR -> {
-                        msgId =R.string.wallet_error
+                        msgId = R.string.wallet_error
                     }
                     Constants.WALLET_SAVE_ERROR -> {
                         msgId = R.string.save_error
@@ -151,10 +151,10 @@ class CreateAccountVM : BaseViewModel() {
                 showErrorToast(R.string.create_account_import_imtoken_error, e)
             }
 
-            override fun onSuccess(walletStr:String) {
-                    WalletWrapper.MainAddress = JSONObject(walletStr).optString("mainAddress")
-                    DataBaseManager.deleteTransaction()
-                    importWalletSuccess()
+            override fun onSuccess(walletStr: String) {
+                WalletWrapper.MainAddress = JSONObject(walletStr).optString("mainAddress")
+                DataBaseManager.deleteTransaction()
+                importWalletSuccess()
             }
 
         })
@@ -172,21 +172,20 @@ class CreateAccountVM : BaseViewModel() {
 
     fun initService(isCreated: Boolean) {
 
-        model.initService(HopApplication.instance.applicationContext)
-            .subscribe(object : SingleObserver<Any> {
-                override fun onSuccess(any: Any) {
-                    initServiceSuccess(isCreated)
-                }
+        model.initService(HopApplication.instance.applicationContext).subscribe(object : SingleObserver<Any> {
+                    override fun onSuccess(any: Any) {
+                        initServiceSuccess(isCreated)
+                    }
 
-                override fun onSubscribe(d: Disposable) {
-                    addSubscribe(d)
-                }
+                    override fun onSubscribe(d: Disposable) {
+                        addSubscribe(d)
+                    }
 
-                override fun onError(e: Throwable) {
-                    initServiceFailure()
-                }
+                    override fun onError(e: Throwable) {
+                        initServiceFailure()
+                    }
 
-            })
+                })
 
     }
 
@@ -198,7 +197,7 @@ class CreateAccountVM : BaseViewModel() {
         dismissDialog()
         val netType = Utils.getInt(Constants.NET_TYPE, Constants.DEFAULT_MAIN_NET)
         Utils.clearAllData()
-        Utils.saveInt(Constants.NET_TYPE,netType)
+        Utils.saveInt(Constants.NET_TYPE, netType)
         if (isCreated) {
             showToast(R.string.create_account_success)
             EventBus.getDefault().post(EventNewAccount())

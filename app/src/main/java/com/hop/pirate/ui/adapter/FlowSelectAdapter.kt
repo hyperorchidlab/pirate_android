@@ -29,6 +29,7 @@ class FlowSelectAdapter(private val mContext: Context, private val mBytesPerToke
         flows.add(FlowBean(0.0, 0.0, 1))
         mRechargeFlowState = rechargeFlowState
     }
+
     interface RechargeFlowState {
         fun recharge(bytesInm: Double)
     }
@@ -57,20 +58,12 @@ class FlowSelectAdapter(private val mContext: Context, private val mBytesPerToke
             viewHolder.hopTv.text = hopText
         }
         if (flowBean.isSelected) {
-            viewHolder.flowTv.setTextColor(
-                mContext.resources.getColor(R.color.color_white)
-            )
-            viewHolder.hopTv.setTextColor(
-                mContext.resources.getColor(R.color.color_white)
-            )
+            viewHolder.flowTv.setTextColor(mContext.resources.getColor(R.color.color_white))
+            viewHolder.hopTv.setTextColor(mContext.resources.getColor(R.color.color_white))
             viewHolder.constraintlayout.setBackgroundResource(R.drawable.bg_item_recharge_flow_selected)
         } else {
-            viewHolder.flowTv.setTextColor(
-                mContext.resources.getColor(R.color.color_6791c8)
-            )
-            viewHolder.hopTv.setTextColor(
-                mContext.resources.getColor(R.color.color_6791c8)
-            )
+            viewHolder.flowTv.setTextColor(mContext.resources.getColor(R.color.color_6791c8))
+            viewHolder.hopTv.setTextColor(mContext.resources.getColor(R.color.color_6791c8))
             viewHolder.constraintlayout.setBackgroundResource(R.drawable.bg_item_recharge_flow_normal)
         }
         viewHolder.constraintlayout.setOnClickListener {
@@ -90,8 +83,7 @@ class FlowSelectAdapter(private val mContext: Context, private val mBytesPerToke
         return flows.size
     }
 
-    class ViewHolder(itemView: View) :
-        RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val constraintlayout: ConstraintLayout
         val flowTv: TextView
         val hopTv: TextView
@@ -106,22 +98,14 @@ class FlowSelectAdapter(private val mContext: Context, private val mBytesPerToke
     }
 
     private fun showCustomerBuyFlowDialog() {
-        val dialog =
-            BottomSheetDialog(mContext, R.style.BottomSheetStyle)
-        val dialogView = LayoutInflater.from(mContext)
-            .inflate(R.layout.layout_customer_buy_flow, null)
-        val backTv =
-            dialogView.findViewById<View>(R.id.back_tv) as TextView
-        val hopNumberEt =
-            dialogView.findViewById<View>(R.id.hop_bumber_et) as EditText
-        val flowNumberEt =
-            dialogView.findViewById<View>(R.id.flow_bumber_tv) as TextView
-        val submitOrderTv =
-            dialogView.findViewById<View>(R.id.submit_order_tv) as TextView
-        val exchangePriceTv =
-            dialogView.findViewById<View>(R.id.exchange_tv) as TextView
-        val price =
-            String.format(Locale.CHINA, "1HOP=%.2fM", mBytesPerToken)
+        val dialog = BottomSheetDialog(mContext, R.style.BottomSheetStyle)
+        val dialogView = LayoutInflater.from(mContext).inflate(R.layout.layout_customer_buy_flow, null)
+        val backTv = dialogView.findViewById<View>(R.id.back_tv) as TextView
+        val hopNumberEt = dialogView.findViewById<View>(R.id.hop_bumber_et) as EditText
+        val flowNumberEt = dialogView.findViewById<View>(R.id.flow_bumber_tv) as TextView
+        val submitOrderTv = dialogView.findViewById<View>(R.id.submit_order_tv) as TextView
+        val exchangePriceTv = dialogView.findViewById<View>(R.id.exchange_tv) as TextView
+        val price = String.format(Locale.CHINA, "1HOP=%.2fM", mBytesPerToken)
         exchangePriceTv.text = price
         flowNumberEt.keyListener = null
         hopNumberEt.hint = mContext.getString(R.string.recharge_hop_money)
@@ -134,7 +118,7 @@ class FlowSelectAdapter(private val mContext: Context, private val mBytesPerToke
 
             override fun afterTextChanged(s: Editable) {
                 val text = hopNumberEt.text.toString()
-                if (TextUtils.isEmpty(text)|| text ==".") {
+                if (TextUtils.isEmpty(text) || text == ".") {
                     return
                 }
                 val flow = (hopNumberEt.text.toString().toDouble() * mBytesPerToken).toString() + "M"

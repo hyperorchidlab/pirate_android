@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.hop.pirate.viewmodel.TabPacketsMarketVM" />
@@ -13,9 +14,10 @@
         android:background="@color/color_white"
         android:layout_height="match_parent">
 
-        <include layout="@layout/layout_title"
+        <include
+            layout="@layout/layout_title"
             app:viewModel="@{viewModel}"
-            android:id="@+id/title_layout"/>
+            android:id="@+id/title_layout" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
@@ -40,7 +42,8 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-        <include layout="@layout/layout_empty"
-            app:isShow="@{viewModel.showEmptyLayoutEvent}"/>
+        <include
+            layout="@layout/layout_empty"
+            app:isShow="@{viewModel.showEmptyLayoutEvent}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

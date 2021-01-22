@@ -8,8 +8,7 @@ import java.io.IOException
 object AccountUtils {
 
     fun loadWallet(context: Context): String {
-        val file =
-            File(Utils.getBaseDir(context) + "/wallet.json")
+        val file = File(Utils.getBaseDir(context) + "/wallet.json")
         if (!file.exists()) {
             return ""
         }
@@ -29,7 +28,7 @@ object AccountUtils {
             ""
         } finally {
             try {
-                if(fileInputStream!=null){
+                if (fileInputStream != null) {
                     fileInputStream!!.close()
                 }
             } catch (e: IOException) {

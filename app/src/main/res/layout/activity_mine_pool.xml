@@ -12,6 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <include
             layout="@layout/layout_title"
             app:viewModel="@{viewModel}"
@@ -40,7 +41,8 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-        <include layout="@layout/layout_empty"
-            app:isShow="@{viewModel.showEmptyLayoutEvent}"/>
+        <include
+            layout="@layout/layout_empty"
+            app:isShow="@{viewModel.showEmptyLayoutEvent}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

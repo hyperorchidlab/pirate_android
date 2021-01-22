@@ -14,24 +14,24 @@ import kotlinx.coroutines.launch
  *Time:
  *Description:
  */
-@Database(entities = [TransactionBean::class],version = 2)
-abstract class AppDatabase:RoomDatabase() {
-    abstract fun transactionDao():TransactionDao
+@Database(entities = [TransactionBean::class], version = 2)
+abstract class AppDatabase : RoomDatabase() {
+    abstract fun transactionDao(): TransactionDao
 
-    companion object{
+    companion object {
 
-        private var instance:AppDatabase? = null
+        private var instance: AppDatabase? = null
 
-        fun getInstance(context: Context):AppDatabase{
-            if (instance ==null){
-                instance = Room.databaseBuilder(context,AppDatabase::class.java,"transaction.db").allowMainThreadQueries().build()
+        fun getInstance(context: Context): AppDatabase {
+            if (instance == null) {
+                instance = Room.databaseBuilder(context, AppDatabase::class.java, "transaction.db").allowMainThreadQueries().build()
             }
             return instance as AppDatabase
         }
     }
 
-    fun delete(){
-        CoroutineScope(Dispatchers.IO).launch{
+    fun delete() {
+        CoroutineScope(Dispatchers.IO).launch {
             instance?.transactionDao()?.deleteTransaction()
         }
     }

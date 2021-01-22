@@ -40,20 +40,19 @@ class SplashVM : BaseViewModel() {
     }
 
     fun initService() {
-        model.initService(HopApplication.instance.applicationContext)
-            .subscribe(object : SingleObserver<Any> {
-                override fun onSuccess(t: Any) {
-                    initServiceSuccess()
-                }
+        model.initService(HopApplication.instance.applicationContext).subscribe(object : SingleObserver<Any> {
+            override fun onSuccess(t: Any) {
+                initServiceSuccess()
+            }
 
-                override fun onSubscribe(d: Disposable) {
-                    addSubscribe(d)
-                }
+            override fun onSubscribe(d: Disposable) {
+                addSubscribe(d)
+            }
 
-                override fun onError(e: Throwable) {
-                    initServiceFailure()
-                }
-            })
+            override fun onError(e: Throwable) {
+                initServiceFailure()
+            }
+        })
     }
 
     private fun initServiceSuccess() {

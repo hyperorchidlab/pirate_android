@@ -11,7 +11,7 @@ import com.hop.pirate.viewmodel.MainNetAddressQRCodeVM
 import com.nbs.android.lib.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_main_net_address_qr_code.*
 
-class MainNetAddressQRCodeActivity : BaseActivity<MainNetAddressQRCodeVM,ActivityMainNetAddressQrCodeBinding>() {
+class MainNetAddressQRCodeActivity : BaseActivity<MainNetAddressQRCodeVM, ActivityMainNetAddressQrCodeBinding>() {
 
 
     override fun getLayoutId(): Int = R.layout.activity_main_net_address_qr_code
@@ -25,8 +25,7 @@ class MainNetAddressQRCodeActivity : BaseActivity<MainNetAddressQRCodeVM,Activit
     }
 
     override fun initObserve() {
-        mViewModel.finishAfterTransitionEvent.observe(this,
-            Observer<Boolean> { ActivityCompat.finishAfterTransition(this@MainNetAddressQRCodeActivity) })
+        mViewModel.finishAfterTransitionEvent.observe(this, Observer<Boolean> { ActivityCompat.finishAfterTransition(this@MainNetAddressQRCodeActivity) })
 
     }
 

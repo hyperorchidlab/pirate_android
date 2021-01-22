@@ -189,7 +189,7 @@ class TabWalletVM : BaseViewModel() {
     fun queryTxStatus(tx: String, isFreeHop: Boolean) {
         model.waitMinedTransactionStatus(tx).subscribe(object : SingleObserver<Any> {
             override fun onSuccess(t: Any) {
-                model.updateDBTransaction(Constants.TRANSACTION_STATUS_COMPLETED,tx)
+                model.updateDBTransaction(Constants.TRANSACTION_STATUS_COMPLETED, tx)
                 queryTxEvent.postValue(isFreeHop)
                 dismissDialog()
             }
@@ -240,7 +240,7 @@ class TabWalletVM : BaseViewModel() {
                 model.exportAccount(cr, data, fileName)
             }.onSuccess {
                 dismissDialog()
-                showToast(HopApplication.instance.getString(R.string.wallet_export_success)+"\n"+it)
+                showToast(HopApplication.instance.getString(R.string.wallet_export_success) + "\n" + it)
                 Log.d("~~~~~~~~~~~~~~~", "exportAccount: 导出成功")
             }.onFailure {
                 dismissDialog()

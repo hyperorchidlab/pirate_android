@@ -4,7 +4,6 @@ import android.Manifest
 import android.app.Activity
 import android.app.ActivityManager
 import android.content.*
-import android.content.Context.ACTIVITY_SERVICE
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -91,6 +90,7 @@ object Utils {
         editor.putInt(key, value)
         editor.commit()
     }
+
     fun saveBoolean(key: String?, value: Boolean?) {
         val editor = sharedPref.edit()
         editor.putBoolean(key, value!!)
@@ -113,29 +113,15 @@ object Utils {
         clearSharedPref()
     }
 
-    fun showOkAlert(context: AppCompatActivity,
-        tittleID: Int,
-        messageId: Int,
-        callBack: AlertDialogOkCallBack?) {
-        MessageDialog.show(context,
-                context.getString(tittleID),
-                context.getString(messageId),
-                context.getString(R.string.sure)).onOkButtonClickListener =
-            OnDialogButtonClickListener { baseDialog, v ->
-                callBack?.onClickOkButton("")
-                false
-            }
+    fun showOkAlert(context: AppCompatActivity, tittleID: Int, messageId: Int, callBack: AlertDialogOkCallBack?) {
+        MessageDialog.show(context, context.getString(tittleID), context.getString(messageId), context.getString(R.string.sure)).onOkButtonClickListener = OnDialogButtonClickListener { baseDialog, v ->
+            callBack?.onClickOkButton("")
+            false
+        }
     }
 
-    fun showOkOrCancelAlert(context: AppCompatActivity,
-        tittleID: Int,
-        messageId: Int,
-        callBack: AlertDialogOkCallBack?) {
-        MessageDialog.show(context,
-                context.getString(tittleID),
-                context.getString(messageId),
-                context.getString(R.string.sure),
-                context.getString(R.string.cancel)).setOnOkButtonClickListener { baseDialog, v ->
+    fun showOkOrCancelAlert(context: AppCompatActivity, tittleID: Int, messageId: Int, callBack: AlertDialogOkCallBack?) {
+        MessageDialog.show(context, context.getString(tittleID), context.getString(messageId), context.getString(R.string.sure), context.getString(R.string.cancel)).setOnOkButtonClickListener { baseDialog, v ->
             callBack?.onClickOkButton("")
             false
         }.onCancelButtonClickListener = OnDialogButtonClickListener { baseDialog, v ->
@@ -147,14 +133,10 @@ object Utils {
 
     fun showPassword(context: AppCompatActivity, callBack: AlertDialogOkCallBack) {
         InputDialog.build(context) //.setButtonTextInfo(new TextInfo().setFontColor(Color.GREEN))
-            .setTitle(R.string.tips).setMessage(R.string.create_account_enter_password)
-            .setOkButton(R.string.sure) { baseDialog, v, inputStr ->
-                callBack.onClickOkButton(inputStr)
-                false
-            }.setCancelButton(R.string.cancel)
-            .setHintText(context.getString(R.string.create_account_enter_ethereum_password))
-            .setInputInfo(InputInfo().setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD))
-            .setCancelable(false).show()
+                .setTitle(R.string.tips).setMessage(R.string.create_account_enter_password).setOkButton(R.string.sure) { baseDialog, v, inputStr ->
+                    callBack.onClickOkButton(inputStr)
+                    false
+                }.setCancelButton(R.string.cancel).setHintText(context.getString(R.string.create_account_enter_ethereum_password)).setInputInfo(InputInfo().setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD)).setCancelable(false).show()
     }
 
     fun copyToMemory(context: Context, src: String?) {
@@ -174,14 +156,14 @@ object Utils {
     }
 
     @Throws(IOException::class, WriterException::class)
-    fun saveStringQrCode(cr: ContentResolver, data: String?, fileName: String):String? {
+    fun saveStringQrCode(cr: ContentResolver, data: String?, fileName: String): String? {
         val barcodeEncoder = BarcodeEncoder()
         val bitmap = barcodeEncoder.encodeBitmap(data, BarcodeFormat.QR_CODE, 400, 400)
         return saveImageToLocal(cr, bitmap, fileName)
     }
 
     @Throws(IOException::class)
-    private fun saveImageToLocal(cr: ContentResolver, bitmap: Bitmap, fileName: String):String? {
+    private fun saveImageToLocal(cr: ContentResolver, bitmap: Bitmap, fileName: String): String? {
         val values = ContentValues()
         values.put(MediaStore.Images.Media.TITLE, fileName)
         values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName)
@@ -228,10 +210,7 @@ object Utils {
 
     fun checkStorage(ctx: Activity): Boolean {
         if (!EasyPermissions.hasPermissions(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            EasyPermissions.requestPermissions(ctx,
-                    ctx.getString(R.string.rationale_extra_write),
-                    RC_LOCAL_MEMORY_PERM,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            EasyPermissions.requestPermissions(ctx, ctx.getString(R.string.rationale_extra_write), RC_LOCAL_MEMORY_PERM, Manifest.permission.WRITE_EXTERNAL_STORAGE)
             return false
         }
         return true
@@ -243,10 +222,7 @@ object Utils {
 
     fun checkCamera(ctx: Activity): Boolean {
         if (!hasCameraPermission(ctx)) {
-            EasyPermissions.requestPermissions(ctx,
-                    ctx.getString(R.string.camera),
-                    RC_CAMERA_PERM,
-                    Manifest.permission.CAMERA)
+            EasyPermissions.requestPermissions(ctx, ctx.getString(R.string.camera), RC_CAMERA_PERM, Manifest.permission.CAMERA)
             return false
         }
         return true
@@ -280,8 +256,7 @@ object Utils {
 
     fun isNetworkAvailable(activity: AppCompatActivity): Boolean {
         val context = activity.applicationContext
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (connectivityManager == null) {
             return false
         } else {
@@ -346,8 +321,7 @@ object Utils {
     }
 
     fun isIpAddress(address: String?): Boolean {
-        val regex =
-            "^([1-9]|([1-9][0-9])|(1[0-9][0-9])|(2[0-4][0-9])|(25[0-5]))(\\.([0-9]|([1-9][0-9])|(1[0-9][0-9])|(2[0-4][0-9])|(25[0-5]))){3}$"
+        val regex = "^([1-9]|([1-9][0-9])|(1[0-9][0-9])|(2[0-4][0-9])|(25[0-5]))(\\.([0-9]|([1-9][0-9])|(1[0-9][0-9])|(2[0-4][0-9])|(25[0-5]))){3}$"
         val p = Pattern.compile(regex)
         val m = p.matcher(address)
         return m.matches()
@@ -378,18 +352,12 @@ object Utils {
         val spannableString = SpannableString(start + end)
         val colorSpan = ForegroundColorSpan(Color.parseColor("#aaffffff"))
         val relativeSizeSpan = RelativeSizeSpan(0.8f)
-        spannableString.setSpan(colorSpan,
-                start.length - 1,
-                (start + end).length,
-                Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
-        spannableString.setSpan(relativeSizeSpan,
-                start.length - 1,
-                (start + end).length,
-                Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+        spannableString.setSpan(colorSpan, start.length - 1, (start + end).length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+        spannableString.setSpan(relativeSizeSpan, start.length - 1, (start + end).length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
         return spannableString
     }
 
-    fun showExitAppDialog(activity:AppCompatActivity,msgId: Int){
+    fun showExitAppDialog(activity: AppCompatActivity, msgId: Int) {
         val instance = HopApplication.instance
         MessageDialog.show(activity, instance.getString(R.string.tips), instance.getString(msgId), instance.getString(R.string.sure)).setOnOkButtonClickListener { baseDialog, v ->
             AppManager.removeAllActivity()

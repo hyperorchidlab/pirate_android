@@ -19,7 +19,7 @@ import org.apache.commons.io.IOUtils
  */
 open class InitServiceModel : BaseModel() {
     fun initService(context: Context): Single<Any> {
-        val netType = Utils.getInt(Constants.NET_TYPE,Constants.DEFAULT_MAIN_NET)
+        val netType = Utils.getInt(Constants.NET_TYPE, Constants.DEFAULT_MAIN_NET)
         val tokenAddress: String
         val micropayAddress: String
         val ethUrl: String
@@ -37,13 +37,7 @@ open class InitServiceModel : BaseModel() {
             val bypassIPs = IOUtils.toString(ipInput)
             val newDns = Utils.getString(Constants.NEW_DNS, Constants.DNS)
             AndroidLib.stopProtocol()
-            AndroidLib.initSystem(bypassIPs,
-                    Utils.getBaseDir(context),
-                    tokenAddress,
-                    micropayAddress,
-                    ethUrl,
-                    newDns,
-                    GoDelegate())
+            AndroidLib.initSystem(bypassIPs, Utils.getBaseDir(context), tokenAddress, micropayAddress, ethUrl, newDns, GoDelegate())
             AndroidLib.initProtocol()
             AndroidLib.startProtocol()
             emitter.onSuccess("")

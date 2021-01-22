@@ -18,7 +18,7 @@ import kotlinx.coroutines.withContext
 class MainModel : BaseModel() {
 
 
-    fun getWalletInfo():Single<WalletBean> {
+    fun getWalletInfo(): Single<WalletBean> {
         return Single.create(SingleOnSubscribe<WalletBean> { emitter ->
             val walletInfo = AndroidLib.walletInfo()
             val wallet = Gson().fromJson(walletInfo, WalletBean::class.java)

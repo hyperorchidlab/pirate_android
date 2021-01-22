@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="com.hop.pirate.util.Utils"/>
+
+        <import type="com.hop.pirate.util.Utils" />
+
         <variable
             name="item"
             type="com.hop.pirate.viewmodel.PacketsMarketItemVM" />

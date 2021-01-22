@@ -9,11 +9,6 @@ import com.nbs.android.lib.base.BaseViewModel
  *Description:
  */
 class GuideVM : BaseViewModel() {
-    val images = intArrayOf(
-        R.drawable.guide_01,
-        R.drawable.guide_02,
-        R.drawable.guide_03,
-        R.drawable.guide_04
-    )
+    val images = intArrayOf(R.drawable.guide_01, R.drawable.guide_02, R.drawable.guide_03, R.drawable.guide_04)
 
 }

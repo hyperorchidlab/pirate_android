@@ -6,7 +6,10 @@ import android.net.VpnService
 import android.text.TextUtils
 import androidLib.AndroidLib
 import androidx.lifecycle.Observer
-import com.hop.pirate.*
+import com.hop.pirate.BR
+import com.hop.pirate.Constants
+import com.hop.pirate.HopApplication
+import com.hop.pirate.R
 import com.hop.pirate.callback.AlertDialogOkCallBack
 import com.hop.pirate.databinding.FragmentHomeBinding
 import com.hop.pirate.event.*
@@ -108,16 +111,16 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
             msgId = R.string.home_switch_testnet_message
         }
         Utils.showOkOrCancelAlert(mActivity, titleId, msgId, object : AlertDialogOkCallBack() {
-                    override fun onClickOkButton(parameter: String) {
-                        if (netType == Constants.TEST_NET) {
-                            Utils.saveInt(Constants.NET_TYPE, Constants.MAIN_NET)
-                        }else{
-                            Utils.saveInt(Constants.NET_TYPE, Constants.TEST_NET)
-                        }
-                        AppManager.removeAllActivity()
-                        AppManager.killAppProcess(mActivity)
-                    }
-                })
+            override fun onClickOkButton(parameter: String) {
+                if (netType == Constants.TEST_NET) {
+                    Utils.saveInt(Constants.NET_TYPE, Constants.MAIN_NET)
+                } else {
+                    Utils.saveInt(Constants.NET_TYPE, Constants.TEST_NET)
+                }
+                AppManager.removeAllActivity()
+                AppManager.killAppProcess(mActivity)
+            }
+        })
     }
 
     private fun showPacketsData() {

@@ -10,7 +10,7 @@ import com.hop.pirate.viewmodel.MinePoolVM
 import com.nbs.android.lib.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_own_pool.*
 
-class MinePoolListActivity : BaseActivity<MinePoolVM,ActivityMinePoolBinding>() {
+class MinePoolListActivity : BaseActivity<MinePoolVM, ActivityMinePoolBinding>() {
 
     companion object {
         var mCurrentMinePoolBean: MinePoolBean? = null
@@ -30,7 +30,7 @@ class MinePoolListActivity : BaseActivity<MinePoolVM,ActivityMinePoolBinding>() 
     }
 
     override fun initObserve() {
-        mViewModel.finishRefreshingEvent.observe(this,  Observer {
+        mViewModel.finishRefreshingEvent.observe(this, Observer {
             swipeRefreshLayout.isRefreshing = false
         })
 

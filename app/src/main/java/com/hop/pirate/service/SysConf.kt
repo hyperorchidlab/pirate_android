@@ -33,8 +33,7 @@ object SysConf {
 
         }
 
-        val mKey =
-            String.format(KEY_CACHED_MINER_ID_IN_USE, CurPoolAddress)
+        val mKey = String.format(KEY_CACHED_MINER_ID_IN_USE, CurPoolAddress)
         CurMinerID = Utils.getString(mKey, "")
     }
 
@@ -43,8 +42,7 @@ object SysConf {
             return
         }
         CurMinerID = newMiner
-        val mKey =
-            String.format(KEY_CACHED_MINER_ID_IN_USE, CurPoolAddress)
+        val mKey = String.format(KEY_CACHED_MINER_ID_IN_USE, CurPoolAddress)
         Utils.saveData(mKey, newMiner)
     }
 }

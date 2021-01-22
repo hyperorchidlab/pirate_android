@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Intent
 import android.os.Handler
 import android.os.Message
-import androidLib.AndroidLib
 import androidx.lifecycle.Observer
 import com.hop.pirate.BR
 import com.hop.pirate.R
@@ -26,8 +25,7 @@ import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
  * @author: mr.x
  * @date :   2020/5/26 10:37 AM
  */
-class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), PermissionCallbacks,
-    Handler.Callback {
+class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), PermissionCallbacks, Handler.Callback {
     private lateinit var mHandler: Handler
 
     override fun getLayoutId(): Int = R.layout.activity_splash
@@ -38,19 +36,20 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
 
     override fun initData() {
         mHandler = Handler(mainLooper, this)
-        if (!checkNetwork()) {
+        if (!Utils.isNetworkAvailable(this@SplashActivity)) {
+            Utils.showOkAlert(this@SplashActivity, R.string.tips, R.string.splash_network_unavailable, object : AlertDialogOkCallBack() {
+                override fun onClickOkButton(parameter: String) {
+                    finish()
+                }
+            })
             return
         }
-        if (Utils.checkVPN() && !Utils.isServiceWork(this@SplashActivity,
-                    HopService::class.java.name)) {
-            Utils.showOkAlert(this@SplashActivity,
-                    R.string.tips,
-                    R.string.splash_close_other_vpn_app,
-                    object : AlertDialogOkCallBack() {
-                        override fun onClickOkButton(parameter: String) {
-                            finish()
-                        }
-                    })
+        if (Utils.checkVPN() && !Utils.isServiceWork(this@SplashActivity, HopService::class.java.name)) {
+            Utils.showOkAlert(this@SplashActivity, R.string.tips, R.string.splash_close_other_vpn_app, object : AlertDialogOkCallBack() {
+                override fun onClickOkButton(parameter: String) {
+                    finish()
+                }
+            })
             return
         }
         mViewModel.checkVersion()
@@ -59,7 +58,7 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
     override fun initObserve() {
         mViewModel.delayLoadWalletEvent.observe(this, Observer {
             if (it == null || it.newVersion < Utils.getVersionCode(this@SplashActivity)) {
-                delayLoadWallet()
+                mViewModel.loadWallet()
             } else {
                 showUpdateAppDialog(it)
             }
@@ -71,10 +70,6 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
     }
 
 
-    private fun delayLoadWallet() {
-        mViewModel.loadWallet()
-    }
-
     private fun showUpdateAppDialog(versionBean: AppVersionBean) {
         val updateMsg: String?
         val able = resources.configuration.locale.country
@@ -83,43 +78,22 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
         } else {
             versionBean.updateMsgEN
         }
-        val messageDialog = MessageDialog.build(this@SplashActivity).setCancelable(false)
-            .setTitle(getString(R.string.splash_new_version)).setMessage(updateMsg)
-            .setOkButton(getString(R.string.splash_update_version))
-            .setOnOkButtonClickListener { _, _ ->
-                Utils.openAppDownloadPage(this@SplashActivity)
-                finish()
-                false
-            }
-        if (Utils.getVersionCode(this@SplashActivity) > versionBean.minversion) {
-            messageDialog.setCancelButton(getString(R.string.cancel)).onCancelButtonClickListener =
-                OnDialogButtonClickListener { _, _ ->
-                    delayLoadWallet()
+        val messageDialog = MessageDialog.build(this@SplashActivity).setCancelable(false).setTitle(getString(R.string.splash_new_version)).setMessage(updateMsg).setOkButton(getString(R.string.splash_update_version)).setOnOkButtonClickListener { _, _ ->
+                    Utils.openAppDownloadPage(this@SplashActivity)
+                    finish()
                     false
                 }
+        if (Utils.getVersionCode(this@SplashActivity) > versionBean.minversion) {
+            messageDialog.setCancelButton(getString(R.string.cancel)).onCancelButtonClickListener = OnDialogButtonClickListener { _, _ ->
+                mViewModel.loadWallet()
+                false
+            }
         }
         messageDialog.show()
     }
 
-    private fun checkNetwork(): Boolean {
-        if (!Utils.isNetworkAvailable(this@SplashActivity)) {
-            Utils.showOkAlert(this@SplashActivity,
-                    R.string.tips,
-                    R.string.splash_network_unavailable,
-                    object : AlertDialogOkCallBack() {
-                        override fun onClickOkButton(parameter: String) {
-                            finish()
-                        }
-                    })
-            return false
-        }
-        return true
-    }
 
-
-    override fun onRequestPermissionsResult(requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
@@ -130,8 +104,7 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
 
 
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
-        AppSettingsDialog.Builder(this).setTitle(getString(R.string.tips))
-            .setRationale(R.string.splash_forbidden_permission_des).build().show()
+        AppSettingsDialog.Builder(this).setTitle(getString(R.string.tips)).setRationale(R.string.splash_forbidden_permission_des).build().show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

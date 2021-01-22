@@ -42,9 +42,7 @@ class PayPasswordDialog(context: Context, private val mRechargeFlowCallBack: Pas
             mPasswordEt.isFocusable = true
             mPasswordEt.isFocusableInTouchMode = true
             mPasswordEt.requestFocus()
-            val inputManager =
-                mPasswordEt.context
-                    .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val inputManager = mPasswordEt.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputManager.showSoftInput(mPasswordEt, 0)
         }, 200)
     }

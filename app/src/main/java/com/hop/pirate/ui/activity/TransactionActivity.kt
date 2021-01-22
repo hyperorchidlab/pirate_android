@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_own_pool.*
  *Time:
  *Description:
  */
-class TransactionActivity:BaseActivity<TransactionVM,ActivityTransactionBinding>() {
+class TransactionActivity : BaseActivity<TransactionVM, ActivityTransactionBinding>() {
     override fun getLayoutId(): Int = R.layout.activity_transaction
 
     override fun initView() {
@@ -26,7 +26,7 @@ class TransactionActivity:BaseActivity<TransactionVM,ActivityTransactionBinding>
     }
 
     override fun initObserve() {
-        mViewModel.finishRefreshingEvent.observe(this,  Observer() {
+        mViewModel.finishRefreshingEvent.observe(this, Observer() {
             swipeRefreshLayout.isRefreshing = false
         })
     }

@@ -7,5 +7,4 @@ import com.nbs.android.lib.base.BaseViewModel
  *Time:
  *Description:
  */
-class WebVM : BaseViewModel() {
-}
+class WebVM : BaseViewModel() {}

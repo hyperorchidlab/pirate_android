@@ -20,15 +20,16 @@ class CreateAccountModel : InitServiceModel() {
     }
 
 
-    fun importWallet(walletStr: String, password: String ):Single<Int> {
-       return  Single.create(SingleOnSubscribe<Int> { emitter ->
-           val result = AndroidLib.importWallet(walletStr, password)
+    fun importWallet(walletStr: String, password: String): Single<Int> {
+        return Single.create(SingleOnSubscribe<Int> { emitter ->
+            val result = AndroidLib.importWallet(walletStr, password)
             emitter.onSuccess(result)
         }).compose(CommonSchedulers.io2mainAndTimeout<Int>())
 
     }
-    fun importImtokenPrivateKey(password: String, privateKey: String ):Single<String> {
-        return  Single.create(SingleOnSubscribe<String> { emitter ->
+
+    fun importImtokenPrivateKey(password: String, privateKey: String): Single<String> {
+        return Single.create(SingleOnSubscribe<String> { emitter ->
             val wallet = AndroidLib.importWalletPrivate(privateKey, password)
             emitter.onSuccess(wallet)
         }).compose(CommonSchedulers.io2mainAndTimeout<String>())

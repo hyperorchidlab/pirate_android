@@ -5,9 +5,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-            <variable
-                name="viewModel"
-                type="com.hop.pirate.viewmodel.TabWalletVM" />
+
+        <variable
+            name="viewModel"
+            type="com.hop.pirate.viewmodel.TabWalletVM" />
 
     </data>
 
@@ -16,9 +17,10 @@
         android:background="@color/color_white"
         android:layout_height="match_parent">
 
-        <include layout="@layout/layout_title"
+        <include
+            layout="@layout/layout_title"
             app:viewModel="@{viewModel}"
-            android:id="@+id/title_layout"/>
+            android:id="@+id/title_layout" />
 
         <ScrollView
             android:layout_width="0dp"
@@ -93,14 +95,13 @@
                     style="@style/TokenTitle"
                     android:text="@string/hop"
                     app:layout_constraintTop_toBottomOf="@+id/line1"
-                    app:drawableStartCompat="@drawable/hop_img"/>
+                    app:drawableStartCompat="@drawable/hop_img" />
 
                 <TextView
                     android:id="@+id/hop_unit_tv"
                     style="@style/TokenUnit"
                     android:text="@string/wallet_flow_unit_hop"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/hop_number_tv"
-                     />
+                    app:layout_constraintBaseline_toBaselineOf="@+id/hop_number_tv" />
 
                 <TextView
                     android:id="@+id/hop_number_tv"
@@ -126,15 +127,13 @@
                     style="@style/TokenTitle"
                     android:text="@string/ethLabel"
                     app:layout_constraintTop_toBottomOf="@+id/line3"
-                    app:drawableStartCompat="@drawable/eth_img"
-                    />
+                    app:drawableStartCompat="@drawable/eth_img" />
 
                 <TextView
                     android:id="@+id/eth_unit_tv"
                     style="@style/TokenUnit"
                     android:text="@string/wallet_flow_unit_eth"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/eth_number_tv"
-                     />
+                    app:layout_constraintBaseline_toBaselineOf="@+id/eth_number_tv" />
 
                 <TextView
                     android:id="@+id/eth_number_tv"
@@ -269,7 +268,7 @@
                     style="@style/WalletLab"
                     onClickCommand="@{viewModel.createAccountCommand}"
                     app:layout_constraintTop_toBottomOf="@+id/line5"
-                    android:text="@string/wallet_create"/>
+                    android:text="@string/wallet_create" />
 
                 <TextView
                     android:id="@+id/export_tv"
@@ -297,6 +296,7 @@
                     android:layout_marginEnd="40dp"
                     android:text="@string/wallet_new_version"
                     android:layout_height="wrap_content" />
+
                 <TextView
                     android:id="@+id/transaction_tv"
                     style="@style/WalletLab"
@@ -316,7 +316,7 @@
                     style="@style/WalletLab"
                     onClickCommand="@{viewModel.guideCommand}"
                     app:layout_constraintTop_toBottomOf="@+id/dns_tv"
-                    android:text="@string/wallet_operation_guide"/>
+                    android:text="@string/wallet_operation_guide" />
 
                 <TextView
                     android:id="@+id/help_tv"

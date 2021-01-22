@@ -20,7 +20,7 @@ class RechargeModel : WaitTxBaseModel() {
         return Single.create(SingleOnSubscribe<String> { emitter ->
 
             val tx = AndroidLib.authorizeTokenSpend(tokenNO)
-            val transactionBean = TransactionBean(0,Constants.TRANSACTION_APROVE,tx,Constants.TRANSACTION_STATUS_PENDING)
+            val transactionBean = TransactionBean(0, Constants.TRANSACTION_APROVE, tx, Constants.TRANSACTION_STATUS_PENDING)
             DataBaseManager.addTransaction(transactionBean)
             emitter.onSuccess(tx)
         }).compose(CommonSchedulers.io2mainAndTimeout<String>())
@@ -29,8 +29,8 @@ class RechargeModel : WaitTxBaseModel() {
 
     fun buyPacket(userAddress: String, pollAddress: String, tokenNO: Double): Single<String> {
         return Single.create(SingleOnSubscribe<String> { emitter ->
-           val tx =  AndroidLib.buyPacket(userAddress, pollAddress, tokenNO)
-            val transactionBean = TransactionBean(0,Constants.TRANSACTION_RECHARGE,tx,Constants.TRANSACTION_STATUS_PENDING)
+            val tx = AndroidLib.buyPacket(userAddress, pollAddress, tokenNO)
+            val transactionBean = TransactionBean(0, Constants.TRANSACTION_RECHARGE, tx, Constants.TRANSACTION_STATUS_PENDING)
             DataBaseManager.addTransaction(transactionBean)
             emitter.onSuccess(tx)
         }).compose(CommonSchedulers.io2mainAndTimeout<String>())
@@ -48,7 +48,7 @@ class RechargeModel : WaitTxBaseModel() {
 
     fun openWallet(password: String): Single<Int> {
         return Single.create(SingleOnSubscribe<Int> { emitter ->
-           val resultCode =  AndroidLib.openWallet(password)
+            val resultCode = AndroidLib.openWallet(password)
             emitter.onSuccess(resultCode)
         }).compose(CommonSchedulers.io2mainAndTimeout<Int>())
 

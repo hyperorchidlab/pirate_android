@@ -20,11 +20,11 @@ import java.util.*
  * @date :   2020/5/30 2:10 PM
  */
 class MineMachineListModel : BaseModel() {
-     fun getMineMachine(address: String, random: Int): Single<List<MinerBean>> {
+    fun getMineMachine(address: String, random: Int): Single<List<MinerBean>> {
         return Single.create(SingleOnSubscribe<List<MinerBean>> { emitter ->
             val minersMachineStr = AndroidLib.randomMiner(address, random.toLong())
             val type = object : TypeToken<ArrayList<MinerBean>>() {}.type
-            val miners  = Gson().fromJson<ArrayList<MinerBean>>(minersMachineStr, type)
+            val miners = Gson().fromJson<ArrayList<MinerBean>>(minersMachineStr, type)
             miners.sortByDescending { miner -> miner.zone }
             emitter.onSuccess(miners)
         }).compose(CommonSchedulers.io2mainAndTimeout<List<MinerBean>>())

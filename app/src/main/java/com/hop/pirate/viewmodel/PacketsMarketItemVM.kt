@@ -18,20 +18,21 @@ import com.nbs.android.lib.utils.dp
  *Time:
  *Description:
  */
-class PacketsMarketItemVM(VM:TabPacketsMarketVM, var minePool:MinePoolBean, var index: Int):ItemViewModel<TabPacketsMarketVM>(VM) {
+class PacketsMarketItemVM(VM: TabPacketsMarketVM, var minePool: MinePoolBean, var index: Int) : ItemViewModel<TabPacketsMarketVM>(VM) {
     private val colorIds = intArrayOf(R.color.color_6d97ce, R.color.color_f7aa6e, R.color.color_4cc2d0)
-    var background = ContextCompat.getDrawable(HopApplication.instance.applicationContext,R.drawable.bg_rectangle_round3_ffffff) as GradientDrawable
-    var textColor = ContextCompat.getColor(HopApplication.instance.applicationContext, colorIds[index%3])
-    init{
+    var background = ContextCompat.getDrawable(HopApplication.instance.applicationContext, R.drawable.bg_rectangle_round3_ffffff) as GradientDrawable
+    var textColor = ContextCompat.getColor(HopApplication.instance.applicationContext, colorIds[index % 3])
+
+    init {
         background.setColor(textColor)
         background.cornerRadius = 8f.dp
     }
 
-    val rechargeCommand = BindingCommand<Any>(object :BindingAction{
+    val rechargeCommand = BindingCommand<Any>(object : BindingAction {
         override fun call() {
             val bundle = Bundle()
-            bundle.putString(IntentKey.PoolKey,minePool.address)
-            viewModel.startActivity(RechargePacketsActivity::class.java,bundle)
+            bundle.putString(IntentKey.PoolKey, minePool.address)
+            viewModel.startActivity(RechargePacketsActivity::class.java, bundle)
         }
 
     })

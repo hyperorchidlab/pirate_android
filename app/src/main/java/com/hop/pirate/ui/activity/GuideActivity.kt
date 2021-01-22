@@ -27,5 +27,5 @@ class GuideActivity : BaseActivity<GuideVM, ActivityGuideBinding>() {
     override fun initObserve() {
     }
 
-    override fun initVariableId(): Int =BR.viewModel
+    override fun initVariableId(): Int = BR.viewModel
 }

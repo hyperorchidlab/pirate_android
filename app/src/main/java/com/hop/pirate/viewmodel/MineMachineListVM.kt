@@ -57,7 +57,7 @@ class MineMachineListVM : BaseViewModel() {
 
 
     fun getMachineList(address: String, random: Int) {
-        model.getMineMachine(address, random).subscribe(object :SingleObserver<List<MinerBean>>{
+        model.getMineMachine(address, random).subscribe(object : SingleObserver<List<MinerBean>> {
             override fun onSuccess(miners: List<MinerBean>) {
                 onGetMachineListSuccess(miners)
             }

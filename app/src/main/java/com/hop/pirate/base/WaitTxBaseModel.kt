@@ -18,7 +18,7 @@ import kotlinx.coroutines.withContext
  * @date :   2020/7/10 7:58 AM
  */
 open class WaitTxBaseModel : BaseModel() {
-     fun waitMinedTransactionStatus(tx: String): Single<Any> {
+    fun waitMinedTransactionStatus(tx: String): Single<Any> {
         return Single.create(SingleOnSubscribe<Any> { emitter ->
             AndroidLib.waitMined(tx)
             emitter.onSuccess("")
@@ -26,15 +26,15 @@ open class WaitTxBaseModel : BaseModel() {
 
     }
 
-    fun updateDBTransaction(txStatus: Int,tx: String){
-        CoroutineScope(Dispatchers.IO).launch{
-            DataBaseManager.updateTransaction(txStatus,tx)
+    fun updateDBTransaction(txStatus: Int, tx: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            DataBaseManager.updateTransaction(txStatus, tx)
         }
     }
 
 
-    suspend fun getTransactionStatus(tx: String):Int {
-       return withContext(Dispatchers.IO) {
+    suspend fun getTransactionStatus(tx: String): Int {
+        return withContext(Dispatchers.IO) {
             AndroidLib.checkTransactionStatus(tx)
         }
     }
@@ -48,8 +48,8 @@ open class WaitTxBaseModel : BaseModel() {
             } else {
                 val txStatus = getTransactionStatus(transactionBean.hash)
                 transactionBean.status = txStatus
-                updateDBTransaction(txStatus,transactionBean.hash)
-                txStatus==Constants.TRANSACTION_STATUS_PENDING
+                updateDBTransaction(txStatus, transactionBean.hash)
+                txStatus == Constants.TRANSACTION_STATUS_PENDING
             }
         }
     }

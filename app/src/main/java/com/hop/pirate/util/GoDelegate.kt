@@ -31,9 +31,7 @@ class GoDelegate : HopDelegate {
             }
             MainActivity.ATNeedToRecharge -> {
                 MainScope().launch {
-                    Toast.makeText(HopApplication.instance,
-                            HopApplication.instance.getText(R.string.packets_insufficient_need_recharge),
-                            Toast.LENGTH_SHORT).show()
+                    Toast.makeText(HopApplication.instance, HopApplication.instance.getText(R.string.packets_insufficient_need_recharge), Toast.LENGTH_SHORT).show()
                 }
                 HopService.stop()
             }

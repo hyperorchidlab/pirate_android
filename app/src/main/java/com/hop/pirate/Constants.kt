@@ -37,13 +37,13 @@ object Constants {
     const val PASSWORD_ERROR = 1
     const val WALLET_ERROR = 2
     const val WALLET_SAVE_ERROR = 3
-    const val PROTOCOL_STOPPED =4
+    const val PROTOCOL_STOPPED = 4
     const val NO_WALLET = 5
 
 
-    const val NET_TYPE="net_type"
-    const val DEFAULT_MAIN_NET=0
-    const val TEST_NET=1
-    const val MAIN_NET=2
+    const val NET_TYPE = "net_type"
+    const val DEFAULT_MAIN_NET = 0
+    const val TEST_NET = 1
+    const val MAIN_NET = 2
 
 }

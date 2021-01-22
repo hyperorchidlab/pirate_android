@@ -30,15 +30,13 @@ import java.util.concurrent.TimeUnit
 import kotlin.jvm.Throws
 
 class HopService : VpnService(), VpnDelegate, Handler.Callback {
-    private  var mInterface: ParcelFileDescriptor? = null
+    private var mInterface: ParcelFileDescriptor? = null
     private lateinit var mConfigureIntent: PendingIntent
-    private  var mVpnOutputStream: FileOutputStream? = null
+    private var mVpnOutputStream: FileOutputStream? = null
     private lateinit var mHandler: Handler
     override fun onCreate() {
-        mHandler = Handler(mainLooper,this)
-        mConfigureIntent = PendingIntent.getActivity(this, 0,
-            Intent(this, MainActivity::class.java),
-            PendingIntent.FLAG_UPDATE_CURRENT)
+        mHandler = Handler(mainLooper, this)
+        mConfigureIntent = PendingIntent.getActivity(this, 0, Intent(this, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
         super.onCreate()
     }
 
@@ -59,12 +57,7 @@ class HopService : VpnService(), VpnDelegate, Handler.Callback {
 
     fun startNotification() {
         val builder = Notification.Builder(this.applicationContext)
-        builder.setContentIntent(mConfigureIntent)
-            .setLargeIcon(BitmapFactory.decodeResource(this.resources, R.drawable.notification_icon))
-            .setContentTitle(getString(R.string.notification_title))
-            .setSmallIcon(R.drawable.notification_icon)
-            .setContentText(getString(R.string.notification_title))
-            .setWhen(System.currentTimeMillis())
+        builder.setContentIntent(mConfigureIntent).setLargeIcon(BitmapFactory.decodeResource(this.resources, R.drawable.notification_icon)).setContentTitle(getString(R.string.notification_title)).setSmallIcon(R.drawable.notification_icon).setContentText(getString(R.string.notification_title)).setWhen(System.currentTimeMillis())
         val channelId = "com.hop.pirate.hop.service.channel"
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotificationChannel(channelId)
@@ -106,12 +99,7 @@ class HopService : VpnService(), VpnDelegate, Handler.Callback {
 
             val inputStream = FileInputStream(mInterface?.fileDescriptor)
             mVpnOutputStream = FileOutputStream(mInterface?.fileDescriptor)
-            AndroidLib.startVPN(
-                "$LOCAL_IP:41080",
-                SysConf.CurPoolAddress,
-                SysConf.CurMinerID,
-                this
-            )
+            AndroidLib.startVPN("$LOCAL_IP:41080", SysConf.CurPoolAddress, SysConf.CurMinerID, this)
             HopApplication.instance.isRunning = true
             Thread(PacketReader(inputStream)).start()
             EventBus.getDefault().post(EventVPNOpen())

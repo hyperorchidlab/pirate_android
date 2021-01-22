@@ -32,7 +32,7 @@ class OwnPoolActivity : BaseActivity<OwnPoolVM, ActivityOwnPoolBinding>() {
     }
 
     override fun initObserve() {
-        mViewModel.finishRefreshingEvent.observe(this,  Observer() {
+        mViewModel.finishRefreshingEvent.observe(this, Observer() {
             swipeRefreshLayout.isRefreshing = false
         })
     }

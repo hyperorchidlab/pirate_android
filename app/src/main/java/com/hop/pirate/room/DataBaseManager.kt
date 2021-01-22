@@ -12,22 +12,25 @@ import kotlinx.coroutines.launch
  *Description:
  */
 object DataBaseManager {
-   val  transactionDao  = AppDatabase.getInstance(HopApplication.instance).transactionDao()
-    fun addTransaction(transactionBean: TransactionBean){
+    val transactionDao = AppDatabase.getInstance(HopApplication.instance).transactionDao()
+    fun addTransaction(transactionBean: TransactionBean) {
         transactionDao.addTransaction(transactionBean)
     }
-    fun updateTransaction(transactioStatus: Int, transactioHash: String){
-        transactionDao.updateTransaction(transactioStatus,transactioHash)
+
+    fun updateTransaction(transactioStatus: Int, transactioHash: String) {
+        transactionDao.updateTransaction(transactioStatus, transactioHash)
     }
-    fun getLastTransactionByType(t: Int): TransactionBean?{
+
+    fun getLastTransactionByType(t: Int): TransactionBean? {
         return transactionDao.getLastTransactionByType(t)
     }
 
-    fun getTransactions(): List<TransactionBean>{
+    fun getTransactions(): List<TransactionBean> {
         return transactionDao.getTransactions()
     }
-    fun deleteTransaction(){
-        CoroutineScope(Dispatchers.IO).launch{
+
+    fun deleteTransaction() {
+        CoroutineScope(Dispatchers.IO).launch {
             transactionDao.deleteTransaction()
         }
     }

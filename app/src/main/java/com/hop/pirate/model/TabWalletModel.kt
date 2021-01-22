@@ -20,8 +20,8 @@ import kotlinx.coroutines.withContext
  */
 class TabWalletModel : WaitTxBaseModel() {
 
-    suspend fun exportAccount(cr: ContentResolver, data: String, fileName: String):String? {
-       return withContext(Dispatchers.IO) {
+    suspend fun exportAccount(cr: ContentResolver, data: String, fileName: String): String? {
+        return withContext(Dispatchers.IO) {
             Utils.saveStringQrCode(cr, data, fileName)
         }
 
@@ -30,17 +30,17 @@ class TabWalletModel : WaitTxBaseModel() {
     fun applyFreeEth(address: String): Single<String> {
         return Single.create(SingleOnSubscribe<String> { emitter ->
             val tx = AndroidLib.applyFreeEth(address)
-            val transactionBean = TransactionBean(0,Constants.TRANSACTION_APPLY_FREE_ETH,tx,Constants.TRANSACTION_STATUS_PENDING)
+            val transactionBean = TransactionBean(0, Constants.TRANSACTION_APPLY_FREE_ETH, tx, Constants.TRANSACTION_STATUS_PENDING)
             DataBaseManager.addTransaction(transactionBean)
             emitter.onSuccess(tx)
         }).compose(CommonSchedulers.io2mainAndTimeout<String>())
 
     }
 
-    fun applyFreeHop(address: String): Single<String>  {
+    fun applyFreeHop(address: String): Single<String> {
         return Single.create(SingleOnSubscribe<String> { emitter ->
             val tx = AndroidLib.applyFreeToken(address)
-            val transactionBean = TransactionBean(0,Constants.TRANSACTION_APPLY_FREE_HOP,tx,Constants.TRANSACTION_STATUS_PENDING)
+            val transactionBean = TransactionBean(0, Constants.TRANSACTION_APPLY_FREE_HOP, tx, Constants.TRANSACTION_STATUS_PENDING)
             DataBaseManager.addTransaction(transactionBean)
             emitter.onSuccess(tx)
         }).compose(CommonSchedulers.io2mainAndTimeout<String>())
@@ -48,7 +48,7 @@ class TabWalletModel : WaitTxBaseModel() {
 
     fun queryHopBalance(address: String): Single<String> {
         return Single.create(SingleOnSubscribe<String> { emitter ->
-            emitter.onSuccess( AndroidLib.tokenBalance(address))
+            emitter.onSuccess(AndroidLib.tokenBalance(address))
         }).compose(CommonSchedulers.io2mainAndTimeout<String>())
     }
 

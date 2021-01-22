@@ -61,23 +61,22 @@ class TabHomeVM : BaseViewModel() {
     })
 
     fun getPool() {
-        model.getPool(WalletWrapper.MainAddress, SysConf.CurPoolAddress)
-            .subscribe(object : SingleObserver<UserPoolData> {
-                override fun onSuccess(userPool: UserPoolData) {
-                    SysConf.PacketsBalance = userPool.packets
-                    SysConf.PacketsCredit = userPool.credit
-                    getPoolSuccessEvent.call()
-                }
+        model.getPool(WalletWrapper.MainAddress, SysConf.CurPoolAddress).subscribe(object : SingleObserver<UserPoolData> {
+                    override fun onSuccess(userPool: UserPoolData) {
+                        SysConf.PacketsBalance = userPool.packets
+                        SysConf.PacketsCredit = userPool.credit
+                        getPoolSuccessEvent.call()
+                    }
 
-                override fun onSubscribe(d: Disposable) {
-                    addSubscribe(d)
-                }
+                    override fun onSubscribe(d: Disposable) {
+                        addSubscribe(d)
+                    }
 
-                override fun onError(e: Throwable) {
+                    override fun onError(e: Throwable) {
 
-                }
+                    }
 
-            })
+                })
 
     }
 
@@ -85,15 +84,15 @@ class TabHomeVM : BaseViewModel() {
         model.openWallet(password).subscribe(object : SingleObserver<Int> {
             override fun onSuccess(resultCode: Int) {
                 if (resultCode == Constants.OPEN_WALLET_SUCCESS) {
-                        openWalletSuccessEvent.call()
+                    openWalletSuccessEvent.call()
                     return
                 }
                 dismissDialog()
                 dismissDialog()
                 when (resultCode) {
-                    Constants.PASSWORD_ERROR ->  showToast(R.string.password_error)
+                    Constants.PASSWORD_ERROR -> showToast(R.string.password_error)
                     Constants.PROTOCOL_STOPPED -> exitApp.postValue(R.string.protocol_topped)
-                    Constants.NO_WALLET -> exitApp.postValue( R.string.no_walet)
+                    Constants.NO_WALLET -> exitApp.postValue(R.string.no_walet)
                 }
             }
 

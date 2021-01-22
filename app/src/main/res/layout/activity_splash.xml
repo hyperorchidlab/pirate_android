@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.hop.pirate.viewmodel.SplashVM" />
@@ -13,7 +14,6 @@
         android:layout_height="match_parent">
 
 
-
         <ProgressBar
             android:layout_width="40dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -22,6 +22,6 @@
             android:indeterminateTintMode="src_atop"
             android:layout_marginBottom="60dp"
             android:indeterminateTint="@color/color_979797"
-            android:layout_height="40dp"/>
+            android:layout_height="40dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

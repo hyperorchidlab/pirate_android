@@ -26,8 +26,7 @@ class SplashModel : InitServiceModel() {
 
     suspend fun checkVersion(): AppVersionBean? {
         return withContext(Dispatchers.IO) {
-            val url =
-                URL("https://www.fastmock.site/mock/c30676a124bcbd7bfa4d0722a374f899/pirate/api/check_new_version")
+            val url = URL("https://www.fastmock.site/mock/c30676a124bcbd7bfa4d0722a374f899/pirate/api/check_new_version")
             val urlConnection = url.openConnection() as HttpURLConnection
             urlConnection.requestMethod = "GET"
             urlConnection.connectTimeout = 2000
@@ -41,8 +40,7 @@ class SplashModel : InitServiceModel() {
                 while (bufferedReader.readLine().also { sTempOneLine = it } != null) {
                     stringBuilder.append(sTempOneLine)
                 }
-                val versionBean =
-                    Gson().fromJson(stringBuilder.toString(), AppVersionBean::class.java)
+                val versionBean = Gson().fromJson(stringBuilder.toString(), AppVersionBean::class.java)
                 versionBean
             } else {
                 null

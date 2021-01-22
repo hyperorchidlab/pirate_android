@@ -29,7 +29,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(){
+class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>() {
     private var mTabSettingModel: TabWalletModel? = null
 
     override fun getLayoutId(): Int = R.layout.fragment_wallet
@@ -39,8 +39,8 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(){
         mViewModel.showRightImage.set(true)
         mTabSettingModel = TabWalletModel()
         EventBus.getDefault().register(this)
-       val netType = Utils.getInt(Constants.NET_TYPE, Constants.DEFAULT_MAIN_NET)
-        if(netType != Constants.TEST_NET){
+        val netType = Utils.getInt(Constants.NET_TYPE, Constants.DEFAULT_MAIN_NET)
+        if (netType != Constants.TEST_NET) {
             hineGetFreeCoin()
 
         }
@@ -69,7 +69,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(){
         line5.visibility = View.GONE
     }
 
-    override fun initVariableId(): Int =BR.viewModel
+    override fun initVariableId(): Int = BR.viewModel
 
     override fun initObserve() {
         mViewModel.showqrImageEvent.observe(this, Observer {
@@ -84,7 +84,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(){
         })
 
         mViewModel.hopBalanceEvent.observe(this, Observer {
-            if (it == "0" || it ==null) {
+            if (it == "0" || it == null) {
                 apply_free_token_btn.isEnabled = true
                 return@Observer
             }
@@ -106,17 +106,18 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(){
     }
 
     private fun showClearLocalDataDialog() {
-        Utils.showOkOrCancelAlert(mActivity,R.string.tips , R.string.wallet_clear_local_data, object : AlertDialogOkCallBack() {
+        Utils.showOkOrCancelAlert(mActivity, R.string.tips, R.string.wallet_clear_local_data, object : AlertDialogOkCallBack() {
             override fun onClickOkButton(parameter: String) {
                 Utils.clearLocalData(mActivity)
-               toast(getString(R.string.wallet_clear_success))
+                toast(getString(R.string.wallet_clear_success))
             }
         })
     }
 
     private fun showQueryTxDialog(isFreeHop: Boolean) {
         val title: String
-        if (isFreeHop) { title = "Hop"
+        if (isFreeHop) {
+            title = "Hop"
             apply_free_token_btn.isEnabled = false
         } else {
             title = "Eth"
@@ -136,7 +137,6 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(){
         super.onShow()
         initData()
     }
-
 
 
     override fun initData() {
@@ -160,22 +160,19 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(){
 
     private fun showCreateAccountAlert() {
         Utils.showOkOrCancelAlert(mActivity, R.string.wallet_replace_account_title, R.string.wallet__replace_msg, object : AlertDialogOkCallBack() {
-                override fun onClickOkButton(parameter: String) {
-                    if (HopApplication.instance.isRunning) {
-                        HopService.stop()
-                    }
-                    val createIntent = Intent(mActivity, CreateAccountActivity::class.java)
-                    createIntent.putExtra(IntentKey.SHOW_BACK_BUTTON, true)
-                    startActivity(createIntent)
+            override fun onClickOkButton(parameter: String) {
+                if (HopApplication.instance.isRunning) {
+                    HopService.stop()
                 }
-            })
+                val createIntent = Intent(mActivity, CreateAccountActivity::class.java)
+                createIntent.putExtra(IntentKey.SHOW_BACK_BUTTON, true)
+                startActivity(createIntent)
+            }
+        })
     }
 
     private fun showChangeDNSDialog() {
-        InputDialog.build(mActivity)
-            .setTitle(R.string.tips)
-            .setMessage(R.string.wallet_dns_empty)
-            .setOkButton(R.string.sure, OnInputDialogButtonClickListener { _, _, inputStr ->
+        InputDialog.build(mActivity).setTitle(R.string.tips).setMessage(R.string.wallet_dns_empty).setOkButton(R.string.sure, OnInputDialogButtonClickListener { _, _, inputStr ->
                     if (TextUtils.isEmpty(inputStr)) {
                         toast(getString(R.string.wallet_dns_empty))
                         return@OnInputDialogButtonClickListener true
@@ -188,9 +185,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(){
                     toast(getString(R.string.wallet_update_dns_success))
                     mActivity.finish()
                     false
-                })
-            .setCancelButton(R.string.cancel)
-            .show()
+                }).setCancelButton(R.string.cancel).show()
     }
 
 

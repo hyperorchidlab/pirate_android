@@ -22,8 +22,7 @@ import io.reactivex.rxjava3.disposables.Disposable
  *Time:
  *Description:
  */
-class OwnPoolItemVM(var vm: OwnPoolVM, var own: OwnPool, var index: Int) :
-    ItemViewModel<OwnPoolVM>(vm) {
+class OwnPoolItemVM(var vm: OwnPoolVM, var own: OwnPool, var index: Int) : ItemViewModel<OwnPoolVM>(vm) {
     private val model = OwnPoolModel()
     val packets = ObservableField<SpannableString>()
     val token = ObservableField<SpannableString>()
@@ -35,21 +34,20 @@ class OwnPoolItemVM(var vm: OwnPoolVM, var own: OwnPool, var index: Int) :
 
     private fun getItemPacket() {
         own.address?.let {
-            model.getPacketsByPool(WalletWrapper.MainAddress, it)
-                .subscribe(object : SingleObserver<UserPoolData> {
-                    override fun onSuccess(userPool: UserPoolData) {
-                        packets.set(Utils.formatText(Utils.convertBandWidth(userPool.packets), "\nPackets"))
-                        token.set(Utils.formatText(Utils.convertCoin(userPool.token), " HOP\nToken"))
-                        credit.set(Utils.formatText(Utils.convertBandWidth(userPool.credit), "\nCredit"))
-                    }
+            model.getPacketsByPool(WalletWrapper.MainAddress, it).subscribe(object : SingleObserver<UserPoolData> {
+                        override fun onSuccess(userPool: UserPoolData) {
+                            packets.set(Utils.formatText(Utils.convertBandWidth(userPool.packets), "\nPackets"))
+                            token.set(Utils.formatText(Utils.convertCoin(userPool.token), " HOP\nToken"))
+                            credit.set(Utils.formatText(Utils.convertBandWidth(userPool.credit), "\nCredit"))
+                        }
 
-                    override fun onSubscribe(d: Disposable) {
-                    }
+                        override fun onSubscribe(d: Disposable) {
+                        }
 
-                    override fun onError(e: Throwable) {
-                        println(e.message)
-                    }
-                })
+                        override fun onError(e: Throwable) {
+                            println(e.message)
+                        }
+                    })
         }
 
     }

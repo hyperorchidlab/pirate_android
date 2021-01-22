@@ -9,9 +9,7 @@ import java.util.concurrent.TimeUnit
 object CommonSchedulers {
     fun <T> io2mainAndTimeout(): SingleTransformer<T, T> {
         return SingleTransformer { upstream ->
-            upstream.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .timeout(Constants.TIME_OUT, TimeUnit.SECONDS,AndroidSchedulers.mainThread())
+            upstream.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).timeout(Constants.TIME_OUT, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
         }
     }
 }

@@ -11,7 +11,7 @@ import com.hop.pirate.viewmodel.MineMachineListVM
 import com.nbs.android.lib.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_mine_machine.*
 
-class MineMachineListActivity : BaseActivity<MineMachineListVM, ActivityMineMachineBinding>(){
+class MineMachineListActivity : BaseActivity<MineMachineListVM, ActivityMineMachineBinding>() {
     override fun getLayoutId(): Int = R.layout.activity_mine_machine
 
     override fun initView() {
@@ -22,12 +22,12 @@ class MineMachineListActivity : BaseActivity<MineMachineListVM, ActivityMineMach
     }
 
     override fun initObserve() {
-        mViewModel.finishRefreshingEvent.observe(this,  Observer() {
+        mViewModel.finishRefreshingEvent.observe(this, Observer() {
             swipeRefreshLayout.setRefreshing(false)
         });
 
-        mViewModel.finishAndResultOk.observe(this,  Observer() {
-            setResult(Activity.RESULT_OK,null)
+        mViewModel.finishAndResultOk.observe(this, Observer() {
+            setResult(Activity.RESULT_OK, null)
             finish()
         });
     }
@@ -36,13 +36,13 @@ class MineMachineListActivity : BaseActivity<MineMachineListVM, ActivityMineMach
 
 
     override fun initData() {
-       mViewModel.getMachineList(SysConf.CurPoolAddress,16)
+        mViewModel.getMachineList(SysConf.CurPoolAddress, 16)
     }
 
 
     companion object {
         @JvmStatic
-       var sMinerBeans: List<MinerBean>? = null
+        var sMinerBeans: List<MinerBean>? = null
     }
 
 }

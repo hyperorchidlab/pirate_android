@@ -10,7 +10,7 @@ import com.nbs.android.lib.event.SingleLiveEvent
  *Time:
  *Description:
  */
-class MainNetAddressQRCodeVM :BaseViewModel() {
+class MainNetAddressQRCodeVM : BaseViewModel() {
     val finishAfterTransitionEvent = SingleLiveEvent<Boolean>()
 
     val finishCommand = BindingCommand<Any>(object : BindingAction {

@@ -69,9 +69,9 @@ class RechargePacketsVM : BaseViewModel() {
                 }
                 dismissDialog()
                 when (resultCode) {
-                    Constants.PASSWORD_ERROR ->  showToast(R.string.password_error)
+                    Constants.PASSWORD_ERROR -> showToast(R.string.password_error)
                     Constants.PROTOCOL_STOPPED -> exitApp.postValue(R.string.protocol_topped)
-                    Constants.NO_WALLET -> exitApp.postValue( R.string.no_walet)
+                    Constants.NO_WALLET -> exitApp.postValue(R.string.no_walet)
                 }
 
             }
@@ -115,22 +115,21 @@ class RechargePacketsVM : BaseViewModel() {
     }
 
     fun buyPacket() {
-        model.buyPacket(WalletWrapper.MainAddress, poolAddress.get()!!, tokenNO)
-            .subscribe(object : SingleObserver<String> {
-                override fun onSuccess(t: String) {
-                    onBuyPacketSuccess(t)
-                }
+        model.buyPacket(WalletWrapper.MainAddress, poolAddress.get()!!, tokenNO).subscribe(object : SingleObserver<String> {
+                    override fun onSuccess(t: String) {
+                        onBuyPacketSuccess(t)
+                    }
 
-                override fun onSubscribe(d: Disposable) {
-                    showDialogNotCancel(R.string.recharge_buy_packets)
-                    addSubscribe(d)
-                }
+                    override fun onSubscribe(d: Disposable) {
+                        showDialogNotCancel(R.string.recharge_buy_packets)
+                        addSubscribe(d)
+                    }
 
-                override fun onError(e: Throwable) {
-                    onBuyPacketFailure(e)
-                }
+                    override fun onError(e: Throwable) {
+                        onBuyPacketFailure(e)
+                    }
 
-            })
+                })
     }
 
     private fun onBuyPacketFailure(t: Throwable) {

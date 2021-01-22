@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-    <variable
-        name="vewiModel"
-        type="com.hop.pirate.viewmodel.WebVM" />
+
+        <variable
+            name="vewiModel"
+            type="com.hop.pirate.viewmodel.WebVM" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -55,7 +56,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line"/>
+            app:layout_constraintTop_toBottomOf="@+id/line" />
 
         <ProgressBar
             android:id="@+id/loading_pb"

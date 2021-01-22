@@ -17,7 +17,7 @@ import com.hop.pirate.viewmodel.WebVM
 import com.nbs.android.lib.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_web.*
 
-class WebActivity : BaseActivity<WebVM,ActivityWebBinding>() {
+class WebActivity : BaseActivity<WebVM, ActivityWebBinding>() {
     override fun getLayoutId(): Int = R.layout.activity_web
 
     override fun initView() {
@@ -40,9 +40,7 @@ class WebActivity : BaseActivity<WebVM,ActivityWebBinding>() {
             }
         }
         webView.setDownloadListener { url, _, _, _, _ ->
-            startBrowserDownload(
-                url
-            )
+            startBrowserDownload(url)
         }
         webView.setOnLongClickListener { false }
     }
@@ -50,7 +48,7 @@ class WebActivity : BaseActivity<WebVM,ActivityWebBinding>() {
     override fun initObserve() {
     }
 
-    override fun initVariableId(): Int  = BR.viewModel
+    override fun initVariableId(): Int = BR.viewModel
 
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -66,8 +64,7 @@ class WebActivity : BaseActivity<WebVM,ActivityWebBinding>() {
     }
 
     private fun startBrowserDownload(url: String) {
-        val intent1 =
-            Intent(Intent.ACTION_VIEW)
+        val intent1 = Intent(Intent.ACTION_VIEW)
         intent1.data = Uri.parse(url)
         startActivity(intent1)
     }

@@ -20,7 +20,7 @@ import com.nbs.android.lib.base.BaseActivity
 import com.nbs.android.lib.utils.toast
 import kotlinx.android.synthetic.main.activity_recharge_packets.*
 
-class RechargePacketsActivity : BaseActivity<RechargePacketsVM,ActivityRechargePacketsBinding>(), RechargeFlowState {
+class RechargePacketsActivity : BaseActivity<RechargePacketsVM, ActivityRechargePacketsBinding>(), RechargeFlowState {
     private var mPoolAddress: String? = null
     private var tokenNO = 0.0
 
@@ -51,7 +51,7 @@ class RechargePacketsActivity : BaseActivity<RechargePacketsVM,ActivityRechargeP
 
         mViewModel.timeoutEvent.observe(this, Observer {
             MessageDialog.show(this@RechargePacketsActivity, getString(R.string.tips), getString(R.string.blockchain_time_out), getString(R.string.sure)).setCancelable(false).onOkButtonClickListener = OnDialogButtonClickListener { _, _ ->
-               startActivity(TransactionActivity::class.java)
+                startActivity(TransactionActivity::class.java)
                 false
             }
         })
@@ -63,8 +63,8 @@ class RechargePacketsActivity : BaseActivity<RechargePacketsVM,ActivityRechargeP
             }
         })
 
-        mViewModel.exitApp.observe(this, Observer {msgId ->
-            Utils.showExitAppDialog(this@RechargePacketsActivity,msgId)
+        mViewModel.exitApp.observe(this, Observer { msgId ->
+            Utils.showExitAppDialog(this@RechargePacketsActivity, msgId)
 
         })
     }
@@ -98,10 +98,6 @@ class RechargePacketsActivity : BaseActivity<RechargePacketsVM,ActivityRechargeP
             }
         }).show()
     }
-
-
-
-
 
 
 }

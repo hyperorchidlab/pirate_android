@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.hop.pirate.viewmodel.OwnPoolVM" />
@@ -40,7 +41,8 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-        <include layout="@layout/layout_empty"
-            app:isShow="@{viewModel.showEmptyLayoutEvent}"/>
+        <include
+            layout="@layout/layout_empty"
+            app:isShow="@{viewModel.showEmptyLayoutEvent}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
