@@ -61,7 +61,7 @@ class RechargePacketsVM : BaseViewModel() {
     fun openWallet(password: String) {
         model.openWallet(password).subscribe(object : SingleObserver<Int> {
             override fun onSuccess(resultCode: Int) {
-                if (resultCode == Constants.OpenWalletSuccess) {
+                if (resultCode == Constants.OPEN_WALLET_SUCCESS) {
                     viewModelScope.launch {
                         onOpenWalletSuccess()
                     }
@@ -69,9 +69,9 @@ class RechargePacketsVM : BaseViewModel() {
                 }
                 dismissDialog()
                 when (resultCode) {
-                    Constants.PasswordError ->  showToast(R.string.password_error)
-                    Constants.ProtocolStopped -> exitApp.postValue(R.string.protocol_topped)
-                    Constants.NoWallet -> exitApp.postValue( R.string.no_walet)
+                    Constants.PASSWORD_ERROR ->  showToast(R.string.password_error)
+                    Constants.PROTOCOL_STOPPED -> exitApp.postValue(R.string.protocol_topped)
+                    Constants.NO_WALLET -> exitApp.postValue( R.string.no_walet)
                 }
 
             }

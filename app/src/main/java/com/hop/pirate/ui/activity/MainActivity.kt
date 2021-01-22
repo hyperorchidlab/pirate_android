@@ -2,6 +2,7 @@ package com.hop.pirate.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import androidLib.AndroidLib
@@ -19,6 +20,7 @@ import com.hop.pirate.service.WalletWrapper
 import com.hop.pirate.ui.fragement.TabHomeFragment
 import com.hop.pirate.ui.fragement.TabPacketsMarketFragment
 import com.hop.pirate.ui.fragement.TabWalletFragment
+import com.hop.pirate.util.Utils
 import com.hop.pirate.viewmodel.MainVM
 import com.hop.pirate.widget.navigator.BottomNavigatorAdapter
 import com.hop.pirate.widget.navigator.BottomNavigatorView.OnBottomNavigatorViewItemClickListener
@@ -41,6 +43,8 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
         const val ATRechargeSuccess = 5
     }
 
+    var netTyp = Constants.DEFAULT_MAIN_NET
+
     private val mFragmentArray = arrayOf(
         TabHomeFragment::class.java,
         TabPacketsMarketFragment::class.java,
@@ -56,6 +60,7 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
     override fun getLayoutId(): Int = R.layout.activity_main
 
     override fun initView() {
+        netTyp = Utils.getInt(Constants.NET_TYPE,Constants.DEFAULT_MAIN_NET)
         EventBus.getDefault().register(this)
         if (HopApplication.instance.isRunning) {
             return
@@ -72,8 +77,10 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
             setCurrentTab(Constants.TAB_WALLET)
             get_free_coin_tv.visibility = View.GONE
         }
-
+        val currentTimeMillis = System.currentTimeMillis()
         setCurrentTab(Constants.TAB_HOME)
+        val useTime = System.currentTimeMillis()-currentTimeMillis
+        Log.d("!!!!!", "MainActivity!!!!!!!!!!!!!!!!!!!"+useTime)
     }
 
     override fun initObserve() {
@@ -130,7 +137,7 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
     }
 
     private fun setFreeCoinStatus(position: Int) {
-        if (position != Constants.TAB_WALLET && WalletWrapper.EthBalance == 0.0) {
+        if (position != Constants.TAB_WALLET && WalletWrapper.EthBalance == 0.0 && netTyp == Constants.TEST_NET) {
             get_free_coin_tv.visibility = View.VISIBLE
         } else {
             get_free_coin_tv.visibility = View.GONE

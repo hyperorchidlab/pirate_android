@@ -1,10 +1,11 @@
 package com.hop.pirate.service
 
+import com.hop.pirate.Constants
 import com.hop.pirate.util.Utils
 
 object SysConf {
-    const val KEY_CACHED_POOL_IN_USE = "KEY_CACHED_POOL_IN_USE"
-    const val KEY_CACHED_POOL_NAME_IN_USE = "KEY_CACHED_POOL_NAME_IN_USE"
+    const val KEY_CACHED_POOL_IN_USE = "KEY_CACHED_POOL_IN_USE_OF_NET_TYPE_%s"
+    const val KEY_CACHED_POOL_NAME_IN_USE = "KEY_CACHED_POOL_NAME_IN_USE_OF_NET_TYPE_%s"
     const val KEY_CACHED_MINER_ID_IN_USE = "KEY_CACHED_MINER_ID_IN_USE_OF_%s"
     var CurPoolAddress = ""
     var CurPoolName = ""
@@ -17,8 +18,21 @@ object SysConf {
             return
         }
         CurPoolAddress = address
-        Utils.saveData(KEY_CACHED_POOL_IN_USE, address)
-        Utils.saveData(KEY_CACHED_POOL_NAME_IN_USE, CurPoolName)
+        val netType = Utils.getInt(Constants.NET_TYPE, Constants.DEFAULT_MAIN_NET)
+        if (netType == Constants.DEFAULT_MAIN_NET) {
+            val keyCachedPool = String.format(SysConf.KEY_CACHED_POOL_IN_USE, Constants.MAIN_TOKEN_ADDRESS)
+            val keyCachedPoolName = String.format(SysConf.KEY_CACHED_POOL_NAME_IN_USE, Constants.MAIN_TOKEN_ADDRESS)
+            Utils.saveData(keyCachedPool, address)
+            Utils.saveData(keyCachedPoolName, CurPoolName)
+
+        } else if (netType == Constants.TEST_NET) {
+            val keyCachedPool = String.format(SysConf.KEY_CACHED_POOL_IN_USE, Constants.TOKEN_ADDRESS)
+            val keyCachedPoolName = String.format(SysConf.KEY_CACHED_POOL_NAME_IN_USE, Constants.TOKEN_ADDRESS)
+            Utils.saveData(keyCachedPool, address)
+            Utils.saveData(keyCachedPoolName, CurPoolName)
+
+        }
+
         val mKey =
             String.format(KEY_CACHED_MINER_ID_IN_USE, CurPoolAddress)
         CurMinerID = Utils.getString(mKey, "")

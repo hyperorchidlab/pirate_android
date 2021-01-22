@@ -43,6 +43,8 @@
     <string name="create_account_enter_password">Enter Password</string>
     <string name="create_account_import_success">Import success</string>
     <string name="create_account_read_album">Read from the media</string>
+    <string name="create_account_import_private_key">Import imtoken private key</string>
+    <string name="create_account_input_private_key">Input imtoken private key</string>
     <string name="create_account_scanning_qr_code">Scanning QR code</string>
     <string name="create_account_success">Create an account successfully</string>
     <string name="create_account_error_import_image">Error: import image</string>
@@ -52,7 +54,8 @@
     <string name="create_account_select_import_mode">Please select the import mode.</string>
     <string name="create_account_twice_password_not_same">Inconsistent password input twice</string>
     <string name="create_account_scan_pirate_account_qr">Please scan the pirate account QR code</string>
-
+    <string name="create_account_import_imtoken_error">Failed to import imtoken</string>
+    <string name="create_account_imtoken_error">imtoken private key error</string>
 
     <!--    home-->
     <string name="home_use">Connected</string>
@@ -65,6 +68,10 @@
     <string name="home_select_miner">Please select a miner</string>
     <string name="home_init_service_fail">Service failed to start, please start again</string>
     <string name="home_select_subscribed_mining_pool">Please select a mining pool that is already subscribed</string>
+    <string name="home_switch_testnet">Switch testnet</string>
+    <string name="home_switch_mainnet">Switch mainnet</string>
+    <string name="home_switch_testnet_message">Exit the app, switch to the test network, and you can receive coins on the wallet interface to test the app for free</string>
+    <string name="home_switch_mainnet_message">Are you sure you want to switch to the mainnet ? After switching the official network, you cannot switch to the test network again.</string>
 
     <!--    wallet-->
     <string name="wallet__dns">DNS:</string>

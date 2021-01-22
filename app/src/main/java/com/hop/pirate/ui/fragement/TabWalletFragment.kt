@@ -39,7 +39,11 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(){
         mViewModel.showRightImage.set(true)
         mTabSettingModel = TabWalletModel()
         EventBus.getDefault().register(this)
+       val netType = Utils.getInt(Constants.NET_TYPE, Constants.DEFAULT_MAIN_NET)
+        if(netType != Constants.TEST_NET){
+            hineGetFreeCoin()
 
+        }
         val newDns = Utils.getString(Constants.NEW_DNS, Constants.DNS)
         mViewModel.dnsObservable.set(resources.getString(R.string.wallet__dns) + newDns)
         val versionText = getString(R.string.splash_current_version_name) + Utils.getVersionName(mActivity)
@@ -53,6 +57,18 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>(){
             return@OnLongClickListener false
         })
     }
+
+    private fun hineGetFreeCoin() {
+        title_get_free_coin.visibility = View.GONE
+        bg_get_free_hop_coin.visibility = View.GONE
+        bg_get_free_eth_coin.visibility = View.GONE
+        apply_free_token_btn.visibility = View.GONE
+        get_free_hop_title.visibility = View.GONE
+        get_free_eth_title.visibility = View.GONE
+        apply_free_eth_btn.visibility = View.GONE
+        line5.visibility = View.GONE
+    }
+
     override fun initVariableId(): Int =BR.viewModel
 
     override fun initObserve() {

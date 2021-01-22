@@ -82,6 +82,15 @@ object Utils {
         return sharedPref.getString(key, defaultVal).toString()
     }
 
+    fun getInt(key: String, defaultVal: Int): Int {
+        return sharedPref.getInt(key, defaultVal)
+    }
+
+    fun saveInt(key: String, value: Int) {
+        val editor = sharedPref.edit()
+        editor.putInt(key, value)
+        editor.apply()
+    }
     fun saveBoolean(key: String?, value: Boolean?) {
         val editor = sharedPref.edit()
         editor.putBoolean(key, value!!)
@@ -383,6 +392,7 @@ object Utils {
     fun showExitAppDialog(activity:AppCompatActivity,msgId: Int){
         val instance = HopApplication.instance
         MessageDialog.show(activity, instance.getString(R.string.tips), instance.getString(msgId), instance.getString(R.string.sure)).setOnOkButtonClickListener { baseDialog, v ->
+            AppManager.removeAllActivity()
             AppManager.killAppProcess(activity)
             return@setOnOkButtonClickListener false
         }

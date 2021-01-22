@@ -191,6 +191,7 @@
                     android:layout_height="125dp" />
 
                 <TextView
+                    android:id="@+id/get_free_hop_title"
                     android:layout_width="wrap_content"
                     android:text="@string/wallet_get_free_hop"
                     android:textColor="@color/color_131517"
@@ -221,6 +222,7 @@
                     android:layout_height="36dp" />
 
                 <TextView
+                    android:id="@+id/get_free_eth_title"
                     android:layout_width="wrap_content"
                     android:text="@string/wallet_get_free_eth"
                     android:textColor="@color/color_131517"

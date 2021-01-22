@@ -3,6 +3,7 @@ package com.nbs.android.lib.base
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -24,6 +25,7 @@ import java.lang.reflect.ParameterizedType
  */
 abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompatActivity() {
     val TAG = this.javaClass.name
+    var startTime:Long = 0
     protected val mViewModel: VM by lazy {
         val types = (this.javaClass.genericSuperclass as ParameterizedType).actualTypeArguments
         ViewModelProvider(this).get<VM>(types[0] as Class<VM>)
@@ -35,6 +37,7 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        startTime = System.currentTimeMillis()
         AppManager.addActivity(this)
         onContentViewBefor(savedInstanceState)
         mDataBinding = DataBindingUtil.setContentView(this, getLayoutId())
@@ -46,6 +49,7 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
         initView()
         initData()
         initObserve()
+        Log.d("!!!!!", "!!!!!!!!!!!!!!!!!!!"+(System.currentTimeMillis()-startTime))
     }
 
     abstract fun getLayoutId(): Int

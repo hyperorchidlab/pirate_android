@@ -21,7 +21,7 @@ class OwnPoolModel : BaseModel() {
          return Single.create(SingleOnSubscribe<ArrayList<OwnPool>> { emitter ->
              val poolsStr = AndroidLib.getSubPools()
              if(poolsStr == "null"){
-                 val ownPools = ArrayList<com.hop.pirate.model.bean.OwnPool>()
+                 val ownPools = ArrayList<OwnPool>()
                  emitter.onSuccess(ownPools)
                  return@SingleOnSubscribe
              }

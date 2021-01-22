@@ -40,7 +40,7 @@ class OwnPoolItemVM(var vm: OwnPoolVM, var own: OwnPool, var index: Int) :
                     override fun onSuccess(userPool: UserPoolData) {
                         packets.set(Utils.formatText(Utils.convertBandWidth(userPool.packets), "\nPackets"))
                         token.set(Utils.formatText(Utils.convertCoin(userPool.token), " HOP\nToken"))
-                        credit.set(Utils.formatText(userPool.credit.toString(), "\nCredit"))
+                        credit.set(Utils.formatText(Utils.convertBandWidth(userPool.credit), "\nCredit"))
                     }
 
                     override fun onSubscribe(d: Disposable) {

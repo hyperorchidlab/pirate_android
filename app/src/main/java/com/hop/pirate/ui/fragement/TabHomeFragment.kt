@@ -6,10 +6,7 @@ import android.net.VpnService
 import android.text.TextUtils
 import androidLib.AndroidLib
 import androidx.lifecycle.Observer
-import com.hop.pirate.BR
-import com.hop.pirate.Constants
-import com.hop.pirate.HopApplication
-import com.hop.pirate.R
+import com.hop.pirate.*
 import com.hop.pirate.callback.AlertDialogOkCallBack
 import com.hop.pirate.databinding.FragmentHomeBinding
 import com.hop.pirate.event.*
@@ -21,6 +18,7 @@ import com.hop.pirate.ui.activity.MinePoolListActivity
 import com.hop.pirate.util.Utils
 import com.hop.pirate.viewmodel.TabHomeVM
 import com.nbs.android.lib.base.BaseFragment
+import com.nbs.android.lib.utils.AppManager
 import com.nbs.android.lib.utils.toast
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.greenrobot.eventbus.EventBus
@@ -30,11 +28,22 @@ import org.greenrobot.eventbus.ThreadMode
 class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
     private var mHopIntent: Intent? = null
     override fun getLayoutId(): Int = R.layout.fragment_home
+    var netType = Constants.DEFAULT_MAIN_NET
+
     override fun initView() {
         mViewModel.title.set(getString(R.string.app_name))
-        EventBus.getDefault().register(this)
+        netType = Utils.getInt(Constants.NET_TYPE, Constants.DEFAULT_MAIN_NET)
+        if (this.netType == Constants.DEFAULT_MAIN_NET) {
+            mViewModel.showRightText.set(true)
+            mViewModel.rightText.set(getString(R.string.home_switch_testnet))
+        } else if (this.netType == Constants.TEST_NET) {
+            mViewModel.showRightText.set(true)
+            mViewModel.rightText.set(getString(R.string.home_switch_mainnet))
+        }
+
         loadLocalConf()
         showPacketsData()
+        EventBus.getDefault().register(this)
 
         if (AndroidLib.isGlobalMode()) {
             global_model_rbtn.isChecked = true
@@ -66,25 +75,49 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
             startActivityForResult(intent, Constants.REQUEST_MINE_MACHINE_CODE)
         })
 
-        mViewModel.changeVPNStatusEvent.observe(this,
-            Observer { changeVPNStatus() })
+        mViewModel.changeVPNStatusEvent.observe(this, Observer { changeVPNStatus() })
 
-        mViewModel.getPoolSuccessEvent.observe(this,
-            Observer {
-                use_flow_tv.text = Utils.convertBandWidth(SysConf.PacketsBalance)
-                uncleared_tv.text = Utils.convertBandWidth(SysConf.PacketsCredit)
-            })
-
-        mViewModel.openWalletSuccessEvent.observe(this,
-            Observer {
-                showDialog(R.string.home_connect)
-                mHopIntent = Intent(mActivity, HopService::class.java)
-                mActivity.startService(mHopIntent)
-            })
-
-        mViewModel.exitApp.observe(this, Observer {msgId ->
-            Utils.showExitAppDialog(mActivity,msgId)
+        mViewModel.getPoolSuccessEvent.observe(this, Observer {
+            use_flow_tv.text = Utils.convertBandWidth(SysConf.PacketsBalance)
+            uncleared_tv.text = Utils.convertBandWidth(SysConf.PacketsCredit)
         })
+
+        mViewModel.openWalletSuccessEvent.observe(this, Observer {
+            showDialog(R.string.home_connect)
+            mHopIntent = Intent(mActivity, HopService::class.java)
+            mActivity.startService(mHopIntent)
+        })
+
+        mViewModel.exitApp.observe(this, Observer { msgId ->
+            Utils.showExitAppDialog(mActivity, msgId)
+        })
+
+        mViewModel.showSwitchNetEvent.observe(this, Observer { msgId ->
+            showSwitchNetEvent()
+        })
+    }
+
+    private fun showSwitchNetEvent() {
+        val titleId: Int
+        val msgId: Int
+        if (netType == Constants.TEST_NET) {
+            titleId = R.string.home_switch_mainnet
+            msgId = R.string.home_switch_mainnet_message
+        } else {
+            titleId = R.string.home_switch_testnet
+            msgId = R.string.home_switch_testnet_message
+        }
+        Utils.showOkOrCancelAlert(mActivity, titleId, msgId, object : AlertDialogOkCallBack() {
+                    override fun onClickOkButton(parameter: String) {
+                        if (netType == Constants.TEST_NET) {
+                            Utils.saveInt(Constants.NET_TYPE, Constants.MAIN_NET)
+                        }else{
+                            Utils.saveInt(Constants.NET_TYPE, Constants.TEST_NET)
+                        }
+                        AppManager.removeAllActivity()
+                        AppManager.killAppProcess(mActivity)
+                    }
+                })
     }
 
     private fun showPacketsData() {
@@ -103,10 +136,22 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
     }
 
     private fun loadLocalConf() {
-        SysConf.CurPoolAddress = Utils.getString(SysConf.KEY_CACHED_POOL_IN_USE, "")
-        SysConf.CurPoolName = Utils.getString(SysConf.KEY_CACHED_POOL_NAME_IN_USE, "")
+        if (this.netType == Constants.DEFAULT_MAIN_NET) {
+            val keyCachedPool = String.format(SysConf.KEY_CACHED_POOL_IN_USE, Constants.MAIN_TOKEN_ADDRESS)
+            val keyCachedPoolName = String.format(SysConf.KEY_CACHED_POOL_NAME_IN_USE, Constants.MAIN_TOKEN_ADDRESS)
+            SysConf.CurPoolAddress = Utils.getString(keyCachedPool, "")
+            SysConf.CurPoolName = Utils.getString(keyCachedPoolName, "")
+
+        } else if (this.netType == Constants.TEST_NET) {
+            val keyCachedPool = String.format(SysConf.KEY_CACHED_POOL_IN_USE, Constants.TOKEN_ADDRESS)
+            val keyCachedPoolName = String.format(SysConf.KEY_CACHED_POOL_NAME_IN_USE, Constants.TOKEN_ADDRESS)
+            SysConf.CurPoolAddress = Utils.getString(keyCachedPool, "")
+            SysConf.CurPoolName = Utils.getString(keyCachedPoolName, "")
+
+        }
         val mKey = String.format(SysConf.KEY_CACHED_MINER_ID_IN_USE, SysConf.CurPoolAddress)
         SysConf.CurMinerID = Utils.getString(mKey, "")
+
         if (TextUtils.isEmpty(SysConf.CurPoolAddress) || TextUtils.isEmpty(WalletWrapper.MainAddress)) {
             SysConf.PacketsBalance = 0.0
             SysConf.PacketsCredit = 0.0

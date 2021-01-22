@@ -4,10 +4,10 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import android.provider.MediaStore
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import android.widget.EditText
 import androidLib.AndroidLib
 import androidx.lifecycle.Observer
 import com.google.zxing.integration.android.IntentIntegrator
@@ -19,6 +19,7 @@ import com.hop.pirate.databinding.ActivityCreateAccountBinding
 import com.hop.pirate.util.Utils
 import com.hop.pirate.viewmodel.CreateAccountVM
 import com.kongzue.dialog.v3.BottomMenu
+import com.kongzue.dialog.v3.MessageDialog
 import com.nbs.android.lib.base.BaseActivity
 import com.nbs.android.lib.utils.toast
 import pub.devrel.easypermissions.AfterPermissionGranted
@@ -32,6 +33,7 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
     PermissionCallbacks, RationaleCallbacks {
     private val CLICK_SCAN = 0
     private val CLICK_ALBUM = 1
+    private val IMTOKEN_ADDRESS_LENGTH = 66
     override fun getLayoutId(): Int = R.layout.activity_create_account
 
     override fun initView() {
@@ -48,27 +50,54 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
     override fun initData() {}
 
     override fun initObserve() {
-        mViewModel.showImportDialogEvent.observe(this,
-            Observer { showImportDialog() })
+        mViewModel.showImportDialogEvent.observe(this, Observer { showImportDialog() })
 
         mViewModel.exitEvent.observe(this, Observer {
-            Utils.showExitAppDialog(this@CreateAccountActivity,R.string.splash_blockchain_sync_error)
+            Utils.showExitAppDialog(this@CreateAccountActivity,
+                    R.string.splash_blockchain_sync_error)
         })
     }
 
 
     private fun showImportDialog() {
-        val listItems = arrayOf(
-            getString(R.string.create_account_scanning_qr_code),
-            getString(R.string.create_account_read_album),
-        )
+        val listItems = arrayOf(getString(R.string.create_account_scanning_qr_code),
+                getString(R.string.create_account_read_album),
+                getString(R.string.create_account_import_private_key), )
         BottomMenu.show(this, listItems) { _, index ->
             if (index == CLICK_SCAN) {
                 requestCameraPermission()
             } else if (index == CLICK_ALBUM) {
                 requestLocalMemoryPermission()
+            } else {
+                showImportImtokenPrivateKeyDialog()
             }
         }.title = getString(R.string.create_account_select_import_mode)
+    }
+
+    private fun showImportImtokenPrivateKeyDialog() {
+        var  privateKey :EditText? =null
+        var password :EditText? =null
+        MessageDialog.show(this,
+                getString(R.string.tips),
+                "",
+                getString(R.string.sure),
+                getString(R.string.cancel))
+            .setCustomView(R.layout.layout_input_imtoken_private_key) { dialog, v -> //绑定布局事件，可使用v.findViewById(...)来获取子组件
+                privateKey = v.findViewById<EditText>(R.id.private_key)
+                password = v.findViewById<EditText>(R.id.password)
+            }.setOnOkButtonClickListener { baseDialog, v ->
+                var newKey = privateKey?.text.toString().trim()
+                if(newKey.length == IMTOKEN_ADDRESS_LENGTH){
+                    newKey = newKey.substring(2)
+                    newKey = "0X89"+newKey+"99"
+                }else{
+                    toast(getString(R.string.create_account_imtoken_error))
+                    return@setOnOkButtonClickListener false
+                }
+                mViewModel.importImtoken(password?.text.toString().trim(),newKey)
+                return@setOnOkButtonClickListener false
+
+            }
     }
 
     @AfterPermissionGranted(Utils.RC_LOCAL_MEMORY_PERM)
@@ -76,12 +105,10 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
         if (Utils.hasStoragePermission(this)) {
             openAlbum()
         } else {
-            EasyPermissions.requestPermissions(
-                this,
-                getString(R.string.rationale_extra_write),
-                Utils.RC_LOCAL_MEMORY_PERM,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
+            EasyPermissions.requestPermissions(this,
+                    getString(R.string.rationale_extra_write),
+                    Utils.RC_LOCAL_MEMORY_PERM,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
     }
 
@@ -96,12 +123,10 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
             ii.setBarcodeImageEnabled(true)
             ii.initiateScan()
         } else {
-            EasyPermissions.requestPermissions(
-                this,
-                getString(R.string.camera),
-                Utils.RC_CAMERA_PERM,
-                Manifest.permission.CAMERA
-            )
+            EasyPermissions.requestPermissions(this,
+                    getString(R.string.camera),
+                    Utils.RC_CAMERA_PERM,
+                    Manifest.permission.CAMERA)
         }
     }
 
@@ -114,7 +139,9 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
 
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
@@ -138,8 +165,7 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
             loadAccountFromUri(data.data)
         } else {
             val result =
-                IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-                    ?: return
+                IntentIntegrator.parseActivityResult(requestCode, resultCode, data) ?: return
             if (result.contents == null) {
                 return
             }
@@ -187,11 +213,11 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-           if(dialog != null && dialog!!.isShow){
-               dialog!!.doDismiss()
-               mViewModel.cancelRequest()
-               return true
-           }
+            if (dialog != null && dialog!!.isShow) {
+                dialog!!.doDismiss()
+                mViewModel.cancelRequest()
+                return true
+            }
         }
         return super.onKeyDown(keyCode, event)
     }

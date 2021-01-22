@@ -39,6 +39,8 @@
     <string name="create_account_title">创建账号</string>
     <string name="create_account_success">创建账号成功</string>
     <string name="create_account_read_album">从相册读取</string>
+    <string name="create_account_import_private_key">导入imtoken私钥</string>
+    <string name="create_account_input_private_key">输入imtoken私钥</string>
     <string name="create_account_empty_account">空账号</string>
     <string name="create_account_enter_password">输入密码</string>
     <string name="create_account_import_success">导入成功</string>
@@ -52,6 +54,8 @@
     <string name="create_account_twice_password_not_same">两次密码输入不一致</string>
     <string name="create_account_enter_ethereum_password">请输入以太坊钱包密码</string>
     <string name="create_account_scan_pirate_account_qr">请扫描pirate账号二维码</string>
+    <string name="create_account_import_imtoken_error">导入imtoken失败</string>
+    <string name="create_account_imtoken_error">imtoken私钥错误</string>
 
     <!--   首页 -->
     <string name="home_use">已连接</string>
@@ -64,6 +68,10 @@
     <string name="home_select_miner">请选择矿池下的矿机</string>
     <string name="home_init_service_fail">服务启动失败，请再次开启</string>
     <string name="home_select_subscribed_mining_pool">请选择已经订阅的矿池</string>
+    <string name="home_switch_testnet">切换测试网</string>
+    <string name="home_switch_mainnet">切换正式网</string>
+    <string name="home_switch_testnet_message">退出app,切换为测试网络，可以在钱包界面领取币免费测试币体验App</string>
+    <string name="home_switch_mainnet_message">退出app,切换为正式网，切换正式网之后将无法再次切换为测试网。</string>
 
     <!--   流量市场 -->
     <string name="market_gtn">GTN：</string>

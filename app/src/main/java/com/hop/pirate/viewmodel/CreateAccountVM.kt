@@ -111,22 +111,22 @@ class CreateAccountVM : BaseViewModel() {
             }
 
             override fun onSuccess(resultCode: Int) {
-                if(resultCode==Constants.OpenWalletSuccess){
+                if(resultCode==Constants.OPEN_WALLET_SUCCESS){
                     WalletWrapper.MainAddress = JSONObject(walletStr).optString("mainAddress")
                     DataBaseManager.deleteTransaction()
-                    importWalletSuccess(walletStr)
+                    importWalletSuccess()
                     return
                 }
                 dismissDialog()
                 var msgId =0
                 when(resultCode){
-                    Constants.PasswordError -> {
+                    Constants.PASSWORD_ERROR -> {
                         msgId = R.string.password_error
                     }
-                    Constants.WalletError -> {
+                    Constants.WALLET_ERROR -> {
                         msgId =R.string.wallet_error
                     }
-                    Constants.WalletSaveError -> {
+                    Constants.WALLET_SAVE_ERROR -> {
                         msgId = R.string.save_error
                     }
                 }
@@ -137,8 +137,31 @@ class CreateAccountVM : BaseViewModel() {
         })
     }
 
+    fun importImtoken(password: String, privateKey: String) {
 
-    private fun importWalletSuccess(walletStr: String) {
+        model.importImtokenPrivateKey(password, privateKey).subscribe(object : SingleObserver<String> {
+
+            override fun onSubscribe(d: Disposable) {
+                showDialogNotCancel(R.string.loading)
+                addSubscribe(d)
+            }
+
+            override fun onError(e: Throwable) {
+                dismissDialog()
+                showErrorToast(R.string.create_account_import_imtoken_error, e)
+            }
+
+            override fun onSuccess(walletStr:String) {
+                    WalletWrapper.MainAddress = JSONObject(walletStr).optString("mainAddress")
+                    DataBaseManager.deleteTransaction()
+                    importWalletSuccess()
+            }
+
+        })
+    }
+
+
+    private fun importWalletSuccess() {
         initService(false)
     }
 
@@ -173,7 +196,9 @@ class CreateAccountVM : BaseViewModel() {
 
     private fun initServiceSuccess(isCreated: Boolean) {
         dismissDialog()
+        val netType = Utils.getInt(Constants.NET_TYPE, Constants.DEFAULT_MAIN_NET)
         Utils.clearAllData()
+        Utils.saveInt(Constants.NET_TYPE,netType)
         if (isCreated) {
             showToast(R.string.create_account_success)
             EventBus.getDefault().post(EventNewAccount())

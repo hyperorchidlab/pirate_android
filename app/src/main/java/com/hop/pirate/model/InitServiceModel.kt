@@ -19,6 +19,19 @@ import org.apache.commons.io.IOUtils
  */
 open class InitServiceModel : BaseModel() {
     fun initService(context: Context): Single<Any> {
+        val netType = Utils.getInt(Constants.NET_TYPE,Constants.DEFAULT_MAIN_NET)
+        val tokenAddress: String
+        val micropayAddress: String
+        val ethUrl: String
+        if (netType == Constants.TEST_NET) {
+            tokenAddress = Constants.TOKEN_ADDRESS
+            micropayAddress = Constants.MICROPAY_SYS_ADDRESS
+            ethUrl = Constants.ETH_API_URL
+        } else {
+            tokenAddress = Constants.MAIN_TOKEN_ADDRESS
+            micropayAddress = Constants.MAIN_MICROPAY_SYS_ADDRESS
+            ethUrl = Constants.MAIN_ETH_API_URL
+        }
         return Single.create(SingleOnSubscribe<Any> { emitter ->
             val ipInput = context.resources.openRawResource(R.raw.bypass)
             val bypassIPs = IOUtils.toString(ipInput)
@@ -26,9 +39,9 @@ open class InitServiceModel : BaseModel() {
             AndroidLib.stopProtocol()
             AndroidLib.initSystem(bypassIPs,
                     Utils.getBaseDir(context),
-                    Constants.TOKEN_ADDRESS,
-                    Constants.MICROPAY_SYS_ADDRESS,
-                    Constants.ETH_API_URL,
+                    tokenAddress,
+                    micropayAddress,
+                    ethUrl,
                     newDns,
                     GoDelegate())
             AndroidLib.initProtocol()

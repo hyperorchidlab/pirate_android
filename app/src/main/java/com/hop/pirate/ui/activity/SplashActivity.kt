@@ -29,7 +29,6 @@ import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
 class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), PermissionCallbacks,
     Handler.Callback {
     private lateinit var mHandler: Handler
-    private var startTime: Long = 0
 
     override fun getLayoutId(): Int = R.layout.activity_splash
 
@@ -39,7 +38,6 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
 
     override fun initData() {
         mHandler = Handler(mainLooper,this)
-        startTime = System.currentTimeMillis()
         if (!checkNetwork()) {
             return
         }

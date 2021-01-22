@@ -1,6 +1,5 @@
 package com.hop.pirate.viewmodel
 
-import android.util.Log
 import androidLib.AndroidLib
 import com.hop.pirate.Constants
 import com.hop.pirate.HopApplication
@@ -29,6 +28,7 @@ class TabHomeVM : BaseViewModel() {
     val changeVPNStatusEvent = SingleLiveEvent<Boolean>()
     val getPoolSuccessEvent = SingleLiveEvent<Boolean>()
     val openWalletSuccessEvent = SingleLiveEvent<Boolean>()
+    val showSwitchNetEvent = SingleLiveEvent<Boolean>()
     val exitApp = SingleLiveEvent<Int>()
     val changeModelCommand = BindingCommand(null, object : BindingConsumer<String> {
         override fun call(t: String) {
@@ -36,6 +36,11 @@ class TabHomeVM : BaseViewModel() {
         }
 
     })
+
+    override fun clickRightTv() {
+        super.clickRightTv()
+        showSwitchNetEvent.call()
+    }
 
     val slelctPoolCommand = BindingCommand<Any>(object : BindingAction {
         override fun call() {
@@ -79,16 +84,16 @@ class TabHomeVM : BaseViewModel() {
     fun openWallet(password: String) {
         model.openWallet(password).subscribe(object : SingleObserver<Int> {
             override fun onSuccess(resultCode: Int) {
-                if (resultCode == Constants.OpenWalletSuccess) {
+                if (resultCode == Constants.OPEN_WALLET_SUCCESS) {
                         openWalletSuccessEvent.call()
                     return
                 }
                 dismissDialog()
                 dismissDialog()
                 when (resultCode) {
-                    Constants.PasswordError ->  showToast(R.string.password_error)
-                    Constants.ProtocolStopped -> exitApp.postValue(R.string.protocol_topped)
-                    Constants.NoWallet -> exitApp.postValue( R.string.no_walet)
+                    Constants.PASSWORD_ERROR ->  showToast(R.string.password_error)
+                    Constants.PROTOCOL_STOPPED -> exitApp.postValue(R.string.protocol_topped)
+                    Constants.NO_WALLET -> exitApp.postValue( R.string.no_walet)
                 }
             }
 
