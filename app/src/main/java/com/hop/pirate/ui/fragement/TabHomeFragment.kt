@@ -114,7 +114,6 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
                         }else{
                             Utils.saveInt(Constants.NET_TYPE, Constants.TEST_NET)
                         }
-                        Thread.sleep(100)
                         AppManager.removeAllActivity()
                         AppManager.killAppProcess(mActivity)
                     }

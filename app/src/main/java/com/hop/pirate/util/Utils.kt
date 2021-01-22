@@ -75,7 +75,7 @@ object Utils {
     fun saveData(key: String?, value: String?) {
         val editor = sharedPref.edit()
         editor.putString(key, value)
-        editor.apply()
+        editor.commit()
     }
 
     fun getString(key: String, defaultVal: String): String {
@@ -89,12 +89,12 @@ object Utils {
     fun saveInt(key: String, value: Int) {
         val editor = sharedPref.edit()
         editor.putInt(key, value)
-        editor.apply()
+        editor.commit()
     }
     fun saveBoolean(key: String?, value: Boolean?) {
         val editor = sharedPref.edit()
         editor.putBoolean(key, value!!)
-        editor.apply()
+        editor.commit()
     }
 
     fun getBoolean(key: String?, defaultVal: Boolean?): Boolean {
