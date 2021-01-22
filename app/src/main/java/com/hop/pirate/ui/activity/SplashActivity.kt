@@ -37,12 +37,16 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
     override fun initVariableId(): Int = BR.viewModel
 
     override fun initData() {
-        mHandler = Handler(mainLooper,this)
+        mHandler = Handler(mainLooper, this)
         if (!checkNetwork()) {
             return
         }
-        if (Utils.checkVPN() && !Utils.isServiceWork(this@SplashActivity, HopService::class.java.name)) {
-            Utils.showOkAlert(this@SplashActivity, R.string.tips, R.string.splash_close_other_vpn_app, object : AlertDialogOkCallBack() {
+        if (Utils.checkVPN() && !Utils.isServiceWork(this@SplashActivity,
+                    HopService::class.java.name)) {
+            Utils.showOkAlert(this@SplashActivity,
+                    R.string.tips,
+                    R.string.splash_close_other_vpn_app,
+                    object : AlertDialogOkCallBack() {
                         override fun onClickOkButton(parameter: String) {
                             finish()
                         }
@@ -68,9 +72,7 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
 
 
     private fun delayLoadWallet() {
-        if (Utils.checkStorage(this@SplashActivity)) {
-            mViewModel.loadWallet()
-        }
+        mViewModel.loadWallet()
     }
 
     private fun showUpdateAppDialog(versionBean: AppVersionBean) {
@@ -83,7 +85,8 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
         }
         val messageDialog = MessageDialog.build(this@SplashActivity).setCancelable(false)
             .setTitle(getString(R.string.splash_new_version)).setMessage(updateMsg)
-            .setOkButton(getString(R.string.splash_update_version)).setOnOkButtonClickListener { _, _ ->
+            .setOkButton(getString(R.string.splash_update_version))
+            .setOnOkButtonClickListener { _, _ ->
                 Utils.openAppDownloadPage(this@SplashActivity)
                 finish()
                 false
