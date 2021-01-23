@@ -31,11 +31,9 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment
     lateinit var mActivity: AppCompatActivity
     private  var dialog: TipDialog? = null
     private var isShown = false
-    var startTime:Long = 0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-         startTime = System.currentTimeMillis()
         mActivity = context as AppCompatActivity
     }
 
@@ -53,7 +51,6 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment
         initView()
         initData()
         initObserve()
-        Log.d("!!!!!", "BaseFragment!!!!!!!!!!!!!!!!!!!"+(System.currentTimeMillis()-startTime))
     }
 
     abstract fun getLayoutId(): Int

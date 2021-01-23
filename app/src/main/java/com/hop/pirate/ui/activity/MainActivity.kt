@@ -75,7 +75,6 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
         val currentTimeMillis = System.currentTimeMillis()
         setCurrentTab(Constants.TAB_HOME)
         val useTime = System.currentTimeMillis() - currentTimeMillis
-        Log.d("!!!!!", "MainActivity!!!!!!!!!!!!!!!!!!!" + useTime)
     }
 
     override fun initObserve() {

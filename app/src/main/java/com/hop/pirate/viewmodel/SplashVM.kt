@@ -1,6 +1,7 @@
 package com.hop.pirate.viewmodel
 
 import android.text.TextUtils
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.hop.pirate.HopApplication
 import com.hop.pirate.model.SplashModel
@@ -21,6 +22,7 @@ import org.json.JSONObject
  *Description:
  */
 class SplashVM : BaseViewModel() {
+    val TAG = "SplashVM"
     val model = SplashModel()
     val delayLoadWalletEvent = SingleLiveEvent<AppVersionBean?>()
     val initServiceFailEvent = SingleLiveEvent<Boolean>()
@@ -50,6 +52,7 @@ class SplashVM : BaseViewModel() {
             }
 
             override fun onError(e: Throwable) {
+                Log.d(TAG, "onError: "+e.message)
                 initServiceFailure()
             }
         })

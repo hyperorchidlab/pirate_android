@@ -3,8 +3,6 @@ package com.nbs.android.lib.base
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -25,7 +23,6 @@ import java.lang.reflect.ParameterizedType
  */
 abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompatActivity() {
     val TAG = this.javaClass.name
-    var startTime:Long = 0
     protected val mViewModel: VM by lazy {
         val types = (this.javaClass.genericSuperclass as ParameterizedType).actualTypeArguments
         ViewModelProvider(this).get<VM>(types[0] as Class<VM>)
@@ -33,11 +30,10 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
 
     protected lateinit var mDataBinding: DB
     private var viewModelId = 0
-    protected  var dialog: TipDialog? =null
+    protected var dialog: TipDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        startTime = System.currentTimeMillis()
         AppManager.addActivity(this)
         onContentViewBefor(savedInstanceState)
         mDataBinding = DataBindingUtil.setContentView(this, getLayoutId())
@@ -49,7 +45,6 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
         initView()
         initData()
         initObserve()
-        Log.d("!!!!!", "!!!!!!!!!!!!!!!!!!!"+(System.currentTimeMillis()-startTime))
     }
 
     abstract fun getLayoutId(): Int
@@ -69,31 +64,24 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
     //注册ViewModel与View的契约UI回调事件
     protected open fun registorUIChangeLiveDataCallBack() {
         //加载对话框显示
-        mViewModel.uc.showDialogEvent.observe(this,
-                Observer { titleId -> showDialog(resources.getString(titleId),true) })
+        mViewModel.uc.showDialogEvent.observe(this, Observer { titleId -> showDialog(resources.getString(titleId), true) })
 
-        mViewModel.uc.showDialogNotCancelEvent.observe(this,
-                Observer { titleId -> showDialog(resources.getString(titleId),false) })
+        mViewModel.uc.showDialogNotCancelEvent.observe(this, Observer { titleId -> showDialog(resources.getString(titleId), false) })
 
-        mViewModel.uc.showDialogNotCancelStrEvent.observe(this,
-                Observer { title -> showDialog(title,false) })
+        mViewModel.uc.showDialogNotCancelStrEvent.observe(this, Observer { title -> showDialog(title, false) })
 
         //加载对话框消失
-        mViewModel.uc.dismissDialogEvent
-            .observe(this, Observer { dismissDialog() })
+        mViewModel.uc.dismissDialogEvent.observe(this, Observer { dismissDialog() })
 
-        mViewModel.uc.toastEvent.observe(this,
-                Observer { msgId -> toast(getString(msgId)) })
+        mViewModel.uc.toastEvent.observe(this, Observer { msgId -> toast(getString(msgId)) })
 
-        mViewModel.uc.toastStrEvent.observe(this,
-                Observer { msg -> toast(msg) })
+        mViewModel.uc.toastStrEvent.observe(this, Observer { msg -> toast(msg) })
         //跳入新页面
-        mViewModel.uc.startActivityEvent.observe(
-            this, Observer { params ->
-                val clz = params[ParameterField.CLASS] as Class<*>
-                val bundle = params[ParameterField.BUNDLE] as Bundle?
-                startActivity(clz, bundle)
-            })
+        mViewModel.uc.startActivityEvent.observe(this, Observer { params ->
+            val clz = params[ParameterField.CLASS] as Class<*>
+            val bundle = params[ParameterField.BUNDLE] as Bundle?
+            startActivity(clz, bundle)
+        })
 
         mViewModel.uc.startWebActivityEvent.observe(this, Observer { url ->
             val intent = Intent()
@@ -102,17 +90,15 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
             startActivity(intent, null)
         })
         //关闭界面
-        mViewModel.uc.finishEvent.observe(this,
-                Observer { finish() })
+        mViewModel.uc.finishEvent.observe(this, Observer { finish() })
         //关闭上一层
-        mViewModel.uc.onBackPressedEvent
-            .observe(this, Observer { onBackPressed() })
+        mViewModel.uc.onBackPressedEvent.observe(this, Observer { onBackPressed() })
     }
 
     @JvmOverloads
-    open fun showDialog(title: String = getString(R.string.loading),cancelable: Boolean = true) {
+    open fun showDialog(title: String = getString(R.string.loading), cancelable: Boolean = true) {
         dismissDialog()
-        dialog= WaitDialog.show(this,title)
+        dialog = WaitDialog.show(this, title)
         dialog?.cancelable = cancelable
     }
 
@@ -144,7 +130,6 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
         }
         startActivity(intent)
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
