@@ -203,7 +203,7 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>() {
         }
 
         showDialog(R.string.loading)
-        mViewModel.exportAccount(mActivity.contentResolver, accountData, getString(R.string.wallet_pirate_account))
+        mViewModel.exportAccount(mActivity, accountData, getString(R.string.wallet_pirate_account))
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

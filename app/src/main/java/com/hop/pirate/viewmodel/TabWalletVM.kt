@@ -1,6 +1,7 @@
 package com.hop.pirate.viewmodel
 
 import android.content.ContentResolver
+import android.content.Context
 import android.text.TextUtils
 import android.util.Log
 import androidx.databinding.ObservableField
@@ -233,15 +234,19 @@ class TabWalletVM : BaseViewModel() {
 
     }
 
-    fun exportAccount(cr: ContentResolver, data: String, fileName: String) {
+    fun exportAccount(cr: Context, data: String, fileName: String) {
         showDialog(R.string.loading)
         viewModelScope.launch {
             kotlin.runCatching {
                 model.exportAccount(cr, data, fileName)
             }.onSuccess {
                 dismissDialog()
-                showToast(HopApplication.instance.getString(R.string.wallet_export_success) + "\n" + it)
-                Log.d("~~~~~~~~~~~~~~~", "exportAccount: 导出成功")
+                if(it){
+                    showToast(HopApplication.instance.getString(R.string.wallet_export_success))
+                }else{
+                    showToast(R.string.wallet_export_fail)
+                }
+
             }.onFailure {
                 dismissDialog()
                 showErrorToast(R.string.wallet_export_fail, it)

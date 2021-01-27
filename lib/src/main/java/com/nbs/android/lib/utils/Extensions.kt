@@ -12,7 +12,7 @@ import io.reactivex.rxjava3.core.Observable
 //给float增加dp转换为px属性，Resources.getSystem()可以在任何地方进行使用，但是有一个局限，只能获取系统本身的资源，没法获取app里面的资源信息。
 val Number.dp
     get() = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-            this as Float,
+            this.toFloat(),
             Resources.getSystem().displayMetrics)
 
 fun <T : View> T.withTrigger(delay: Long = 600): T {

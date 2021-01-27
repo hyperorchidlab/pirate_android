@@ -87,7 +87,7 @@
     <string name="wallet_export_fail">Export failed</string>
     <string name="wallet_get_free_coin">get free coin</string>
     <string name="wallet_apply_success">apply success</string>
-    <string name="wallet_pirate_account">pirate Account</string>
+    <string name="wallet_pirate_account">pirate Account.jpg</string>
     <string name="wallet_get_free_eth">0.1 eth free coin</string>
     <string name="wallet_export_success">Export succeeded</string>
     <string name="wallet_get_free_hop">1000 Hop free coin</string>

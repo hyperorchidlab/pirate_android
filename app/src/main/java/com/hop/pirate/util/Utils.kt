@@ -155,36 +155,6 @@ object Utils {
         return null
     }
 
-    @Throws(IOException::class, WriterException::class)
-    fun saveStringQrCode(cr: ContentResolver, data: String?, fileName: String): String? {
-        val barcodeEncoder = BarcodeEncoder()
-        val bitmap = barcodeEncoder.encodeBitmap(data, BarcodeFormat.QR_CODE, 400, 400)
-        return saveImageToLocal(cr, bitmap, fileName)
-    }
-
-    @Throws(IOException::class)
-    private fun saveImageToLocal(cr: ContentResolver, bitmap: Bitmap, fileName: String): String? {
-        val values = ContentValues()
-        values.put(MediaStore.Images.Media.TITLE, fileName)
-        values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName)
-        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-        values.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000)
-        values.put(MediaStore.Images.Media.DATE_MODIFIED, System.currentTimeMillis() / 1000)
-        values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis())
-        val path = cr.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
-        path?.let {
-            val imageOut = cr.openOutputStream(path)
-            try {
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, imageOut)
-            } finally {
-                imageOut?.close()
-            }
-        }
-
-        return path?.toString()
-
-    }
-
     @Throws(Exception::class)
     fun parseQRCodeFile(uri: Uri, cr: ContentResolver): String {
         val bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri))

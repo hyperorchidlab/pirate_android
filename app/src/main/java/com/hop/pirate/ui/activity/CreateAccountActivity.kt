@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.provider.MediaStore
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
@@ -116,12 +117,8 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
     }
 
     private fun openAlbum() {
-        val albumIntent = Intent()
-        albumIntent.addCategory(Intent.CATEGORY_OPENABLE)
-        albumIntent.type = "image/*"
-        albumIntent.action = Intent.ACTION_OPEN_DOCUMENT
-        startActivityForResult(albumIntent, Utils.RC_SELECT_FROM_GALLERY)
-
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, Utils.RC_SELECT_FROM_GALLERY)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {

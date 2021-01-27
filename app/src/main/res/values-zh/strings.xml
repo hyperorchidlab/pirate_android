@@ -100,7 +100,7 @@
     <string name="wallet__replace_msg">替换当前账号?</string>
     <string name="wallet_dns_empty">请输入新的DNS地址</string>
     <string name="wallet_get_free_eth">0.1 eth测试币</string>
-    <string name="wallet_pirate_account">pirate 账号</string>
+    <string name="wallet_pirate_account">pirate 账号.jpg</string>
     <string name="wallet_get_free_hop">1000 Hop测试币</string>
     <string name="wallet_clear_local_data">清除本地数据</string>
     <string name="wallet_main_network_address">主网地址</string>
