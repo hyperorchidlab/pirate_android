@@ -14,7 +14,7 @@ object AccountUtils {
         }
         var fileInputStream: FileInputStream? = null
         val bytes = ByteArray(1024)
-        return try {
+        return try{
             fileInputStream = FileInputStream(file)
             val stringBuffer = StringBuffer()
             var read = -1
@@ -29,7 +29,7 @@ object AccountUtils {
         } finally {
             try {
                 if (fileInputStream != null) {
-                    fileInputStream!!.close()
+                    fileInputStream.close()
                 }
             } catch (e: IOException) {
                 e.printStackTrace()

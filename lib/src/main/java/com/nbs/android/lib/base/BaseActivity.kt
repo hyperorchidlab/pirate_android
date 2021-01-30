@@ -80,7 +80,11 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
         mViewModel.uc.startActivityEvent.observe(this, Observer { params ->
             val clz = params[ParameterField.CLASS] as Class<*>
             val bundle = params[ParameterField.BUNDLE] as Bundle?
+            val finishActivity = params[ParameterField.FINISH] as Boolean
             startActivity(clz, bundle)
+            if(finishActivity){
+                finish()
+            }
         })
 
         mViewModel.uc.startWebActivityEvent.observe(this, Observer { url ->

@@ -205,8 +205,7 @@ class CreateAccountVM : BaseViewModel() {
             showToast(R.string.create_account_import_success)
             EventBus.getDefault().post(EventNewAccount())
         }
-        startActivity(MainActivity::class.java)
-        finish()
+        startActivityAndFinish(MainActivity::class.java)
     }
 
 }

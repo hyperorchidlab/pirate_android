@@ -59,8 +59,7 @@ class SplashVM : BaseViewModel() {
     }
 
     private fun initServiceSuccess() {
-        startActivity(MainActivity::class.java)
-        finish()
+        startActivityAndFinish(MainActivity::class.java)
     }
 
     private fun initServiceFailure() {
@@ -68,14 +67,12 @@ class SplashVM : BaseViewModel() {
     }
 
     private fun loadWalletFailure() {
-        startActivity(CreateAccountActivity::class.java)
-        finish()
+        startActivityAndFinish(CreateAccountActivity::class.java)
     }
 
     private fun loadWalletSuccess(walletJson: String) {
         if (TextUtils.isEmpty(walletJson)) {
-            startActivity(CreateAccountActivity::class.java)
-            finish()
+            startActivityAndFinish(CreateAccountActivity::class.java)
         } else {
             WalletWrapper.MainAddress = JSONObject(walletJson).optString("mainAddress")
             initService()

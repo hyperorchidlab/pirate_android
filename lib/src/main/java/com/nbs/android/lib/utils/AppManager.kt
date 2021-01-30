@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Process
 import android.view.inputmethod.InputMethodManager
 import java.util.*
+import kotlin.system.exitProcess
 
 
 object AppManager {
@@ -17,7 +18,6 @@ object AppManager {
 
     fun removeActivity(activity: Activity) {
         hideSoftKeyBoard(activity)
-        activity.finish()
         mActivities.remove(activity)
     }
 
@@ -55,6 +55,6 @@ object AppManager {
             }
         }
         Process.killProcess(Process.myPid())
-        System.exit(0)
+        exitProcess(0)
     }
 }

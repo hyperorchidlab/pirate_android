@@ -30,6 +30,7 @@ class SplashModel : InitServiceModel() {
             val urlConnection = url.openConnection() as HttpURLConnection
             urlConnection.requestMethod = "GET"
             urlConnection.connectTimeout = 2000
+            urlConnection.readTimeout = 2000
             urlConnection.connect()
             val responseCode = urlConnection.responseCode
             if (responseCode == HttpURLConnection.HTTP_OK) {
