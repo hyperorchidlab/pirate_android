@@ -1,16 +1,13 @@
 package com.hop.pirate.model
 
-import android.content.ContentResolver
 import android.content.Context
 import androidLib.AndroidLib
 import com.hop.pirate.Constants
-import com.hop.pirate.HopApplication
 import com.hop.pirate.base.WaitTxBaseModel
 import com.hop.pirate.model.bean.TransactionBean
 import com.hop.pirate.room.DataBaseManager
 import com.hop.pirate.util.BitmapUtils
 import com.hop.pirate.util.CommonSchedulers
-import com.hop.pirate.util.Utils
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.core.SingleOnSubscribe
 import kotlinx.coroutines.Dispatchers
@@ -23,10 +20,10 @@ import kotlinx.coroutines.withContext
  */
 class TabWalletModel : WaitTxBaseModel() {
 
-    suspend fun exportAccount(context: Context, data: String, fileName: String):Boolean {
-       return withContext(Dispatchers.IO) {
+    suspend fun exportAccount(context: Context, data: String, fileName: String): Boolean {
+        return withContext(Dispatchers.IO) {
             val accountQR = BitmapUtils.stringToQRBitmap(data)
-            BitmapUtils.saveBitmapToAlbum(context,accountQR,fileName)
+            BitmapUtils.saveBitmapToAlbum(context, accountQR, fileName)
         }
 
     }

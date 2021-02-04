@@ -10,8 +10,8 @@ android {
         applicationId 'com.hop.pirate'
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 200004
-        versionName '2.0.04'
+        versionCode 200005
+        versionName '2.0.05'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         renderscriptTargetApi 19
         renderscriptSupportModeEnabled true
@@ -48,7 +48,7 @@ android {
         }
     }
 
-    dataBinding{
+    dataBinding {
         enabled = true
     }
     lintOptions {
@@ -90,7 +90,9 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     testImplementation 'junit:junit:4.13-beta-2'
-    implementation "androidx.room:room-runtime:2.2.5"
+    implementation 'androidx.room:room-runtime:2.2.5'
+    implementation 'com.isanwenyu.highlight:highlight:1.8.0'
+    implementation 'com.isanwenyu.highlight:highlight:1.8.0'
     kapt "androidx.room:room-compiler:2.2.5"
 
 

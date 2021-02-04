@@ -155,4 +155,15 @@
     <string name="splash_blockchain_sync_error">区块同步异常，请退出重新打开app</string>
     <string name="splash_forbidden_permission_des">权限拒绝无法使用app,重新申请。</string>
 
+    <string name="guide1">1.选择钱包</string>
+    <string name="guide2">2.获取ETH测试币</string>
+    <string name="guide3">3.获取Hop测试币</string>
+    <string name="guide4">4.选择流量市场</string>
+    <string name="guide5">5.矿池购买流量</string>
+    <string name="guide6">6.选择购买流量大小</string>
+    <string name="guide7">7.选择已购矿池</string>
+    <string name="guide8">8.选择矿机</string>
+    <string name="guide9">9.开启vpn</string>
+
+
 </resources>

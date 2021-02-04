@@ -18,7 +18,9 @@ class MineMachineItemVM(vm: MineMachineListVM, var minerBean: MinerBean) : ItemV
     val pingCommand = BindingCommand<Any>(object : BindingAction {
         override fun call() {
             viewModelScope.launch {
-                kotlin.runCatching { minerBean.time.set(viewModel.mDecimalFormat.format(viewModel.model.ping(minerBean.address))) }
+                kotlin.runCatching {
+                    minerBean.time.set(viewModel.mDecimalFormat.format(viewModel.model.ping(minerBean.address)))
+                }
 
             }
         }

@@ -79,10 +79,10 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(), Permissi
             versionBean.updateMsgEN
         }
         val messageDialog = MessageDialog.build(this@SplashActivity).setCancelable(false).setTitle(getString(R.string.splash_new_version)).setMessage(updateMsg).setOkButton(getString(R.string.splash_update_version)).setOnOkButtonClickListener { _, _ ->
-                    Utils.openAppDownloadPage(this@SplashActivity)
-                    finish()
-                    false
-                }
+            Utils.openAppDownloadPage(this@SplashActivity)
+            finish()
+            false
+        }
         if (Utils.getVersionCode(this@SplashActivity) > versionBean.minversion) {
             messageDialog.setCancelButton(getString(R.string.cancel)).onCancelButtonClickListener = OnDialogButtonClickListener { _, _ ->
                 mViewModel.loadWallet()

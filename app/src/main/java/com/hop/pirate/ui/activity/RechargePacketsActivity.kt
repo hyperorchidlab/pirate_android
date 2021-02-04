@@ -9,6 +9,8 @@ import com.hop.pirate.R
 import com.hop.pirate.databinding.ActivityRechargePacketsBinding
 import com.hop.pirate.dialog.PayPasswordDialog
 import com.hop.pirate.dialog.PayPasswordDialog.PasswordCallBack
+import com.hop.pirate.event.EventShowHomeTip
+import com.hop.pirate.guide.PirateOnBottomPosCallback
 import com.hop.pirate.service.WalletWrapper
 import com.hop.pirate.ui.adapter.FlowSelectAdapter
 import com.hop.pirate.ui.adapter.FlowSelectAdapter.RechargeFlowState
@@ -19,10 +21,14 @@ import com.kongzue.dialog.v3.MessageDialog
 import com.nbs.android.lib.base.BaseActivity
 import com.nbs.android.lib.utils.toast
 import kotlinx.android.synthetic.main.activity_recharge_packets.*
+import org.greenrobot.eventbus.EventBus
+import zhy.com.highlight.HighLight
+import zhy.com.highlight.shape.RectLightShape
 
 class RechargePacketsActivity : BaseActivity<RechargePacketsVM, ActivityRechargePacketsBinding>(), RechargeFlowState {
     private var mPoolAddress: String? = null
     private var tokenNO = 0.0
+    lateinit var higghtLight: HighLight
 
     override fun getLayoutId(): Int = R.layout.activity_recharge_packets
     override fun initView() {
@@ -32,12 +38,16 @@ class RechargePacketsActivity : BaseActivity<RechargePacketsVM, ActivityRecharge
         hop_coin_number_tv.text = Utils.convertCoin(WalletWrapper.HopBalance)
         flow_recyclerview.layoutManager = GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false)
         mViewModel.initFlows()
+
     }
 
     override fun initData() {
         mPoolAddress = intent.getStringExtra(IntentKey.PoolKey)
         mViewModel.poolAddress.set(mPoolAddress)
         hop_coin_tv.text = getString(R.string.recharge_hop_coin)
+        if (MainActivity.firstCreateAccountActivity) {
+            showGuide()
+        }
     }
 
     override fun initObserve() {
@@ -99,5 +109,14 @@ class RechargePacketsActivity : BaseActivity<RechargePacketsVM, ActivityRecharge
         }).show()
     }
 
+    private fun showGuide() {
+        higghtLight = HighLight(this).autoRemove(true).intercept(true).setClickCallback {
+            EventBus.getDefault().postSticky(EventShowHomeTip())
+            finish()
+        }.setOnLayoutCallback {
+            higghtLight.addHighLight(flow_recyclerview.getChildAt(0), R.layout.guide6, PirateOnBottomPosCallback(), RectLightShape()).show()
+        }
+
+    }
 
 }

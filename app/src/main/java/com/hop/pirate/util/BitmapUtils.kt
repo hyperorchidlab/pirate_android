@@ -12,7 +12,11 @@ import android.util.Log
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import com.nbs.android.lib.utils.dp
-import java.io.*
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.OutputStream
 
 
 /**
@@ -46,7 +50,7 @@ object BitmapUtils {
 
         if (!file.exists()) {
             val mkdirs = file.mkdirs()
-            if(!mkdirs){
+            if (!mkdirs) {
                 Log.e("makeFire", "file.mkdirs error")
                 return false
             }

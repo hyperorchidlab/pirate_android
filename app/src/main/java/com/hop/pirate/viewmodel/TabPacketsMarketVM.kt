@@ -61,12 +61,12 @@ class TabPacketsMarketVM : BaseViewModel() {
     }
 
     private fun onGetPoolInfoSuccess(minePoolBeans: List<MinePoolBean>) {
-        finishRefreshingEvent.call()
         items.clear()
         for ((index, minePoolBean) in minePoolBeans.withIndex()) {
             items.add(PacketsMarketItemVM(this, minePoolBean, index))
         }
         showEmptyLayoutEvent.value = items.size == 0
+        finishRefreshingEvent.call()
     }
 
 }

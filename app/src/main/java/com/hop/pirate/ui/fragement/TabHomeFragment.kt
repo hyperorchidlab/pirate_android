@@ -12,10 +12,16 @@ import com.hop.pirate.HopApplication
 import com.hop.pirate.R
 import com.hop.pirate.callback.AlertDialogOkCallBack
 import com.hop.pirate.databinding.FragmentHomeBinding
-import com.hop.pirate.event.*
+import com.hop.pirate.event.EventLoadWalletSuccess
+import com.hop.pirate.event.EventRechargeSuccess
+import com.hop.pirate.event.EventReloadMinePackets
+import com.hop.pirate.event.EventShowHomeTip
+import com.hop.pirate.event.EventVPNClosed
+import com.hop.pirate.event.EventVPNOpen
 import com.hop.pirate.service.HopService
 import com.hop.pirate.service.SysConf
 import com.hop.pirate.service.WalletWrapper
+import com.hop.pirate.ui.activity.MainActivity
 import com.hop.pirate.ui.activity.MineMachineListActivity
 import com.hop.pirate.ui.activity.MinePoolListActivity
 import com.hop.pirate.util.Utils
@@ -27,8 +33,14 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import zhy.com.highlight.HighLight
+import zhy.com.highlight.position.OnBottomPosCallback
+import zhy.com.highlight.position.OnTopPosCallback
+import zhy.com.highlight.shape.RectLightShape
 
 class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
+
+    lateinit var higghtLight: HighLight
     private var mHopIntent: Intent? = null
     override fun getLayoutId(): Int = R.layout.fragment_home
     var netType = Constants.DEFAULT_MAIN_NET
@@ -36,13 +48,6 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
     override fun initView() {
         mViewModel.title.set(getString(R.string.app_name))
         netType = Utils.getInt(Constants.NET_TYPE, Constants.DEFAULT_MAIN_NET)
-        if (this.netType == Constants.DEFAULT_MAIN_NET) {
-            mViewModel.showRightText.set(true)
-            mViewModel.rightText.set(getString(R.string.home_switch_testnet))
-        } else if (this.netType == Constants.TEST_NET) {
-            mViewModel.showRightText.set(true)
-            mViewModel.rightText.set(getString(R.string.home_switch_mainnet))
-        }
 
         loadLocalConf()
         showPacketsData()
@@ -265,6 +270,12 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
         mViewModel.getPool()
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    fun showGuide(eventShowHomeTip: EventShowHomeTip) {
+        showGuide()
+
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         EventBus.getDefault().unregister(this)
@@ -272,5 +283,15 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
 
     companion object {
         private const val RC_VPN_RIGHT = 126
+    }
+
+    private fun showGuide() {
+        higghtLight = HighLight(mActivity).autoRemove(false).intercept(true).setClickCallback {
+            higghtLight.next()
+            MainActivity.firstCreateAccountActivity = false
+        }.enableNext().setOnLayoutCallback {
+            higghtLight.addHighLight(home_mining_pool_iv, R.layout.guide7, OnTopPosCallback(10F), RectLightShape()).addHighLight(home_miner_machin_iv, R.layout.guide8, OnTopPosCallback(10F), RectLightShape()).addHighLight(service_switch_tv, R.layout.guide9, OnBottomPosCallback(10F), RectLightShape()).show()
+        }
+
     }
 }

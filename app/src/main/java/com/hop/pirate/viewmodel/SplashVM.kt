@@ -52,7 +52,7 @@ class SplashVM : BaseViewModel() {
             }
 
             override fun onError(e: Throwable) {
-                Log.d(TAG, "onError: "+e.message)
+                Log.d(TAG, "onError: " + e.message)
                 initServiceFailure()
             }
         })

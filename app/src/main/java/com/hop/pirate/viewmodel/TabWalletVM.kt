@@ -1,9 +1,7 @@
 package com.hop.pirate.viewmodel
 
-import android.content.ContentResolver
 import android.content.Context
 import android.text.TextUtils
-import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
 import com.hop.pirate.Constants
@@ -241,9 +239,9 @@ class TabWalletVM : BaseViewModel() {
                 model.exportAccount(cr, data, fileName)
             }.onSuccess {
                 dismissDialog()
-                if(it){
+                if (it) {
                     showToast(HopApplication.instance.getString(R.string.wallet_export_success))
-                }else{
+                } else {
                     showToast(R.string.wallet_export_fail)
                 }
 

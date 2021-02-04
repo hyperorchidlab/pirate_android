@@ -141,23 +141,23 @@ class CreateAccountVM : BaseViewModel() {
 
         model.importImtokenPrivateKey(password, privateKey).subscribe(object : SingleObserver<String> {
 
-            override fun onSubscribe(d: Disposable) {
-                showDialogNotCancel(R.string.loading)
-                addSubscribe(d)
-            }
+                    override fun onSubscribe(d: Disposable) {
+                        showDialogNotCancel(R.string.loading)
+                        addSubscribe(d)
+                    }
 
-            override fun onError(e: Throwable) {
-                dismissDialog()
-                showErrorToast(R.string.create_account_import_imtoken_error, e)
-            }
+                    override fun onError(e: Throwable) {
+                        dismissDialog()
+                        showErrorToast(R.string.create_account_import_imtoken_error, e)
+                    }
 
-            override fun onSuccess(walletStr: String) {
-                WalletWrapper.MainAddress = JSONObject(walletStr).optString("mainAddress")
-                DataBaseManager.deleteTransaction()
-                importWalletSuccess()
-            }
+                    override fun onSuccess(walletStr: String) {
+                        WalletWrapper.MainAddress = JSONObject(walletStr).optString("mainAddress")
+                        DataBaseManager.deleteTransaction()
+                        importWalletSuccess()
+                    }
 
-        })
+                })
     }
 
 

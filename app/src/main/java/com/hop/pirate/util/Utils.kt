@@ -3,7 +3,11 @@ package com.hop.pirate.util
 import android.Manifest
 import android.app.Activity
 import android.app.ActivityManager
-import android.content.*
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.ContentResolver
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -11,14 +15,20 @@ import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
-import android.provider.MediaStore
 import android.text.InputType
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
 import androidx.appcompat.app.AppCompatActivity
-import com.google.zxing.*
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.BinaryBitmap
+import com.google.zxing.DecodeHintType
+import com.google.zxing.LuminanceSource
+import com.google.zxing.MultiFormatReader
+import com.google.zxing.RGBLuminanceSource
+import com.google.zxing.Reader
+import com.google.zxing.WriterException
 import com.google.zxing.common.HybridBinarizer
 import com.hop.pirate.HopApplication
 import com.hop.pirate.R
@@ -33,11 +43,9 @@ import com.kongzue.dialog.v3.MessageDialog
 import com.nbs.android.lib.utils.AppManager
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.File
-import java.io.IOException
 import java.net.NetworkInterface
 import java.util.*
 import java.util.regex.Pattern
-import kotlin.jvm.Throws
 
 object Utils {
     const val RC_LOCAL_MEMORY_PERM = 123

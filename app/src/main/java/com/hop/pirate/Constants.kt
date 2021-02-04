@@ -42,8 +42,10 @@ object Constants {
 
 
     const val NET_TYPE = "net_type"
-    const val DEFAULT_MAIN_NET = 0
     const val TEST_NET = 1
+    const val DEFAULT_MAIN_NET = TEST_NET
     const val MAIN_NET = 2
 
+
+    const val FIST_CREATE_ACCOUNT = "fist_create_account"
 }

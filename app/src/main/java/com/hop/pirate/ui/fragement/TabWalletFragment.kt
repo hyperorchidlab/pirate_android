@@ -5,12 +5,19 @@ import android.text.TextUtils
 import android.view.View
 import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.Observer
-import com.hop.pirate.*
+import com.hop.pirate.BR
+import com.hop.pirate.Constants
+import com.hop.pirate.HopApplication
+import com.hop.pirate.IntentKey
+import com.hop.pirate.R
 import com.hop.pirate.callback.AlertDialogOkCallBack
 import com.hop.pirate.databinding.FragmentWalletBinding
 import com.hop.pirate.event.EventLoadWalletSuccess
 import com.hop.pirate.event.EventReLoadWallet
 import com.hop.pirate.event.EventRechargeSuccess
+import com.hop.pirate.event.EventShowPacketMarketTip
+import com.hop.pirate.event.EventSkipTabPacketsMarket
+import com.hop.pirate.guide.PirateOnTopPosCallback
 import com.hop.pirate.model.TabWalletModel
 import com.hop.pirate.service.HopService
 import com.hop.pirate.service.WalletWrapper
@@ -28,11 +35,23 @@ import kotlinx.android.synthetic.main.fragment_wallet.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import zhy.com.highlight.HighLight
+import zhy.com.highlight.position.OnBottomPosCallback
+import zhy.com.highlight.shape.RectLightShape
 
 class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>() {
+
+    companion object {
+        const val FREE_HOP_MAX_VALUE = 500
+        const val FREE_ETH_MAX_VALUE = 0.05
+    }
+
+    lateinit var higghtLight: HighLight
+
     private var mTabSettingModel: TabWalletModel? = null
 
     override fun getLayoutId(): Int = R.layout.fragment_wallet
+
 
     override fun initView() {
         mViewModel.title.set(getString(R.string.tab_wallet))
@@ -56,6 +75,10 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>() {
             }
             return@OnLongClickListener false
         })
+
+        if (MainActivity.firstCreateAccountActivity) {
+            showGuide()
+        }
     }
 
     private fun hineGetFreeCoin() {
@@ -221,8 +244,18 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>() {
         EventBus.getDefault().unregister(this)
     }
 
-    companion object {
-        const val FREE_HOP_MAX_VALUE = 500
-        const val FREE_ETH_MAX_VALUE = 0.05
+    fun showGuide() {
+        higghtLight = HighLight(mActivity).autoRemove(false).intercept(true).setClickCallback {
+            higghtLight.next()
+            if (!higghtLight.isShowing) {
+                EventBus.getDefault().post(EventSkipTabPacketsMarket())
+                EventBus.getDefault().post(EventShowPacketMarketTip())
+            }
+        }.setOnLayoutCallback {
+            higghtLight.addHighLight(R.id.apply_free_eth_btn, R.layout.guide2, OnBottomPosCallback(10F), RectLightShape()).addHighLight(R.id.apply_free_token_btn, R.layout.guide3, OnBottomPosCallback(10F), RectLightShape()).addHighLight(R.id.bottom_navigator_pool, R.layout.guide4, PirateOnTopPosCallback(), RectLightShape()).show()
+        }.enableNext()
+
+
     }
+
 }

@@ -2,7 +2,6 @@ package com.hop.pirate.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import androidLib.AndroidLib
@@ -14,7 +13,9 @@ import com.hop.pirate.R
 import com.hop.pirate.databinding.ActivityMinePoolBinding
 import com.hop.pirate.event.EventReLoadWallet
 import com.hop.pirate.event.EventRechargeSuccess
+import com.hop.pirate.event.EventShowHomeTip
 import com.hop.pirate.event.EventSkipTabPacketsMarket
+import com.hop.pirate.guide.PirateOnTopPosCallback
 import com.hop.pirate.model.bean.WalletBean
 import com.hop.pirate.service.WalletWrapper
 import com.hop.pirate.ui.fragement.TabHomeFragment
@@ -30,6 +31,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import zhy.com.highlight.HighLight
+import zhy.com.highlight.shape.RectLightShape
 
 class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
 
@@ -41,8 +44,11 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
         const val ATCounterDataRead = 3
         const val ATNeedToRecharge = 4
         const val ATRechargeSuccess = 5
+
+        var firstCreateAccountActivity: Boolean = true
     }
 
+    lateinit var higghtLight: HighLight
     var netTyp = Constants.DEFAULT_MAIN_NET
 
     private val mFragmentArray = arrayOf(TabHomeFragment::class.java, TabPacketsMarketFragment::class.java, TabWalletFragment::class.java)
@@ -72,9 +78,12 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
             setCurrentTab(Constants.TAB_WALLET)
             get_free_coin_tv.visibility = View.GONE
         }
-        val currentTimeMillis = System.currentTimeMillis()
+        firstCreateAccountActivity = Utils.getBoolean(Constants.FIST_CREATE_ACCOUNT, true)
         setCurrentTab(Constants.TAB_HOME)
-        val useTime = System.currentTimeMillis() - currentTimeMillis
+        if (firstCreateAccountActivity) {
+            showGuide()
+            Utils.saveBoolean(Constants.FIST_CREATE_ACCOUNT, false)
+        }
     }
 
     override fun initObserve() {
@@ -88,6 +97,7 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
 
 
     }
+
 
     override fun initVariableId(): Int = BR.viewModel
 
@@ -155,6 +165,11 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
         loadWallet(event.showDialog)
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun showGuide(eventShowHomeTip: EventShowHomeTip) {
+        setCurrentTab(Constants.TAB_HOME)
+    }
+
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             val intent = Intent(Intent.ACTION_MAIN)
@@ -176,5 +191,12 @@ class MainActivity : BaseActivity<MainVM, ActivityMinePoolBinding>() {
         EventBus.getDefault().unregister(this)
     }
 
+    fun showGuide() {
+        higghtLight = HighLight(this).autoRemove(true).intercept(true).setClickCallback {
+            setCurrentTab(Constants.TAB_WALLET)
+        }.setOnLayoutCallback {
+            higghtLight.addHighLight(R.id.bottom_navigator_wallet, R.layout.guide1, PirateOnTopPosCallback(), RectLightShape()).show()
+        }.enableNext()
+    }
 
 }
