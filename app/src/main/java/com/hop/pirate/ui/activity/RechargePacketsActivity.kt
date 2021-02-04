@@ -1,6 +1,7 @@
 package com.hop.pirate.ui.activity
 
 import android.app.Activity
+import android.os.Handler
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hop.pirate.BR
@@ -45,14 +46,16 @@ class RechargePacketsActivity : BaseActivity<RechargePacketsVM, ActivityRecharge
         mPoolAddress = intent.getStringExtra(IntentKey.PoolKey)
         mViewModel.poolAddress.set(mPoolAddress)
         hop_coin_tv.text = getString(R.string.recharge_hop_coin)
-        if (MainActivity.firstCreateAccountActivity) {
-            showGuide()
-        }
+
     }
 
     override fun initObserve() {
         mViewModel.bytePreTokenEvent.observe(this, Observer {
             flow_recyclerview.adapter = FlowSelectAdapter(this@RechargePacketsActivity, it, this@RechargePacketsActivity)
+            if (MainActivity.firstCreateAccountActivity) {
+                showGuide()
+
+            }
         })
 
         mViewModel.syncPoolSuccessEvent.observe(this, Observer {

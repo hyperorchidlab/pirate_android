@@ -1,5 +1,6 @@
 package com.hop.pirate.ui.fragement
 
+import android.os.Handler
 import androidx.lifecycle.Observer
 import com.hop.pirate.BR
 import com.hop.pirate.R
@@ -39,7 +40,10 @@ class TabPacketsMarketFragment : BaseFragment<TabPacketsMarketVM, FragmentPacket
             swipeRefreshLayout.isRefreshing = false
             if (MainActivity.firstCreateAccountActivity && isFirstCreate) {
                 isFirstCreate = false
-                showGuide()
+                if (MainActivity.firstCreateAccountActivity) {
+                    showGuide()
+
+                }
             }
         })
     }
