@@ -46,6 +46,7 @@ import java.io.File
 import java.net.NetworkInterface
 import java.util.*
 import java.util.regex.Pattern
+import kotlin.jvm.Throws
 
 object Utils {
     const val RC_LOCAL_MEMORY_PERM = 123

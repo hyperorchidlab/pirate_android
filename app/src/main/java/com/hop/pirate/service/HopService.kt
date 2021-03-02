@@ -27,6 +27,7 @@ import org.greenrobot.eventbus.EventBus
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.util.concurrent.TimeUnit
+import kotlin.jvm.Throws
 
 class HopService : VpnService(), VpnDelegate, Handler.Callback {
     private var mInterface: ParcelFileDescriptor? = null
