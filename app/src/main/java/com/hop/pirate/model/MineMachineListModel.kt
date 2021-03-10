@@ -13,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * @description:
@@ -23,6 +24,10 @@ class MineMachineListModel : BaseModel() {
     fun getMineMachine(address: String, random: Int): Single<List<MinerBean>> {
         return Single.create(SingleOnSubscribe<List<MinerBean>> { emitter ->
             val minersMachineStr = AndroidLib.randomMiner(address, random.toLong())
+            if(TextUtils.isEmpty(minersMachineStr)|| minersMachineStr == "null"){
+                emitter.onSuccess(ArrayList<MinerBean>())
+                return@SingleOnSubscribe
+            }
             val type = object : TypeToken<ArrayList<MinerBean>>() {}.type
             val miners = Gson().fromJson<ArrayList<MinerBean>>(minersMachineStr, type)
             miners.sortByDescending { miner -> miner.zone }
