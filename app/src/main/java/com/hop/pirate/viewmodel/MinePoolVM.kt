@@ -29,13 +29,13 @@ class MinePoolVM : BaseViewModel() {
 
     val refreshCommand = BindingCommand<Any>(object : BindingAction {
         override fun call() {
-            getMinePool()
+            getMinePool(true)
 
         }
     })
 
-    fun getMinePool() {
-        model.getPoolDataOfUser().subscribe(object : SingleObserver<ArrayList<OwnPool>> {
+    fun getMinePool(refresh: Boolean) {
+        model.getPoolDataOfUser(refresh).subscribe(object : SingleObserver<ArrayList<OwnPool>> {
             override fun onSuccess(ownPools: ArrayList<OwnPool>?) {
                 requestSuccess(ownPools)
                 finishRefreshingEvent.call()

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.hop.pirate.Constants
 import com.hop.pirate.HopApplication
 import com.hop.pirate.R
+import com.hop.pirate.event.EventReLoadWallet
 import com.hop.pirate.model.bean.TransactionBean
 import com.hop.pirate.util.Utils
 import com.nbs.android.lib.base.ItemViewModel
@@ -12,6 +13,7 @@ import com.nbs.android.lib.command.BindingAction
 import com.nbs.android.lib.command.BindingCommand
 import com.nbs.android.lib.utils.toast
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
 
 /**
  *Author:Mr'x
@@ -41,6 +43,9 @@ class TransactionItemVM(VM: TransactionVM, var transaction: TransactionBean) : I
         viewModelScope.launch {
             val transactionStatus = viewModel.transactionModel.getTransactionStatus(transaction.hash)
             transaction.status = transactionStatus
+            if(transaction.status == Constants.TRANSACTION_STATUS_COMPLETED){
+                EventBus.getDefault().post(EventReLoadWallet(false))
+            }
             viewModel.transactionModel.updateDBTransaction(transactionStatus, transaction.hash)
             status.set(getStatusStr())
         }

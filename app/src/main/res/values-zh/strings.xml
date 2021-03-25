@@ -31,6 +31,7 @@
     <string name="rationale_extra_write">需要申请读写内存权限</string>
     <string name="packets_insufficient_need_recharge">流量不足，需要充值</string>
     <string name="blockchain_time_out">区块同步超时，\n请确认上个区块打包成功后再次操作</string>
+    <string name="apply_free_coin_blockchain_time_out">区块同步超时，\n查看区块是否同步成功</string>
 
     <!--    创建账号-->
     <string name="create_account_or">or</string>
@@ -117,6 +118,7 @@
     <string name="transaction_error">打包失败</string>
     <string name="transaction_completed">已完成</string>
     <string name="transaction_pending">正在打包中</string>
+    <string name="pull_down_refresh">下拉刷新区块链打包状态</string>
 
     <!-- 我的矿池   -->
     <string name="recharge_hop_address">Hop地址</string>

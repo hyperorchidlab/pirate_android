@@ -36,7 +36,7 @@ class TabPacketsMarketFragment : BaseFragment<TabPacketsMarketVM, FragmentPacket
     override fun initVariableId(): Int = BR.viewModel
 
     override fun initObserve() {
-        mViewModel.finishRefreshingEvent.observe(this, Observer {
+        mViewModel.finishRefreshingEvent.observe(this, {
             swipeRefreshLayout.isRefreshing = false
             if (MainActivity.firstCreateAccountActivity && isFirstCreate) {
                 isFirstCreate = false

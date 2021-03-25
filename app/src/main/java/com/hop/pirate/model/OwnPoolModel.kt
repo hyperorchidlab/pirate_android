@@ -17,8 +17,11 @@ import io.reactivex.rxjava3.core.SingleOnSubscribe
  * @date :   2020/5/26 4:07 PM
  */
 class OwnPoolModel : BaseModel() {
-    fun getPoolDataOfUser(): Single<ArrayList<OwnPool>> {
+    fun getPoolDataOfUser(refresh: Boolean): Single<ArrayList<OwnPool>> {
         return Single.create(SingleOnSubscribe<ArrayList<OwnPool>> { emitter ->
+            if (refresh) {
+                AndroidLib.syncSubPoolsData()
+            }
             val poolsStr = AndroidLib.getSubPools()
             if (poolsStr == "null") {
                 val ownPools = ArrayList<OwnPool>()

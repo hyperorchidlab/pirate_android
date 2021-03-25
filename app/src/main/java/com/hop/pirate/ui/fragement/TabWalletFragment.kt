@@ -4,7 +4,6 @@ import android.content.Intent
 import android.text.TextUtils
 import android.view.View
 import androidx.core.app.ActivityOptionsCompat
-import androidx.lifecycle.Observer
 import com.hop.pirate.BR
 import com.hop.pirate.Constants
 import com.hop.pirate.HopApplication
@@ -24,8 +23,10 @@ import com.hop.pirate.service.WalletWrapper
 import com.hop.pirate.ui.activity.CreateAccountActivity
 import com.hop.pirate.ui.activity.MainActivity
 import com.hop.pirate.ui.activity.MainNetAddressQRCodeActivity
+import com.hop.pirate.ui.activity.TransactionActivity
 import com.hop.pirate.util.Utils
 import com.hop.pirate.viewmodel.TabWalletVM
+import com.kongzue.dialog.interfaces.OnDialogButtonClickListener
 import com.kongzue.dialog.interfaces.OnInputDialogButtonClickListener
 import com.kongzue.dialog.v3.InputDialog
 import com.kongzue.dialog.v3.MessageDialog
@@ -95,36 +96,44 @@ class TabWalletFragment : BaseFragment<TabWalletVM, FragmentWalletBinding>() {
     override fun initVariableId(): Int = BR.viewModel
 
     override fun initObserve() {
-        mViewModel.showqrImageEvent.observe(this, Observer {
+        mViewModel.showqrImageEvent.observe(this, {
             showAddressImage()
         })
-        mViewModel.exportEvent.observe(this, Observer {
+        mViewModel.exportEvent.observe(this, {
             exportWallet()
         })
 
-        mViewModel.queryTxEvent.observe(this, Observer {
+        mViewModel.queryTxEvent.observe(this, {
             showQueryTxDialog(it)
         })
 
-        mViewModel.hopBalanceEvent.observe(this, Observer {
+        mViewModel.hopBalanceEvent.observe(this, {
             if (it == "0" || it == null) {
                 apply_free_token_btn.isEnabled = true
-                return@Observer
+
+            }else{
+                apply_free_token_btn.isEnabled = Utils.convertCoin(it.toDouble()).toDouble() <= FREE_HOP_MAX_VALUE
             }
-            apply_free_token_btn.isEnabled = Utils.convertCoin(it.toDouble()).toDouble() <= FREE_HOP_MAX_VALUE
         })
 
-        mViewModel.clearDBEvent.observe(this, Observer {
+        mViewModel.clearDBEvent.observe(this, {
             showClearLocalDataDialog()
 
         })
 
-        mViewModel.dnsEvent.observe(this, Observer {
+        mViewModel.dnsEvent.observe(this, {
             showChangeDNSDialog()
         })
 
-        mViewModel.createAccountEvent.observe(this, Observer {
+        mViewModel.createAccountEvent.observe(this, {
             showCreateAccountAlert()
+        })
+        
+        mViewModel.applyTimeoutEvent.observe(this, {
+            MessageDialog.show(mActivity, getString(R.string.tips), getString(R.string.apply_free_coin_blockchain_time_out), getString(R.string.sure)).setCancelable(false).onOkButtonClickListener = OnDialogButtonClickListener { _, _ ->
+                startActivity(TransactionActivity::class.java)
+                false
+            }
         })
     }
 

@@ -69,7 +69,7 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
     override fun initVariableId(): Int = BR.viewModel
 
     override fun initObserve() {
-        mViewModel.selectPoolLiveEvent.observe(this, Observer {
+        mViewModel.selectPoolLiveEvent.observe(this, {
             val intent = Intent(mActivity, MinePoolListActivity::class.java)
             startActivityForResult(intent, Constants.REQUEST_MINE_POOL_CODE)
         })
@@ -83,24 +83,24 @@ class TabHomeFragment : BaseFragment<TabHomeVM, FragmentHomeBinding>() {
             startActivityForResult(intent, Constants.REQUEST_MINE_MACHINE_CODE)
         })
 
-        mViewModel.changeVPNStatusEvent.observe(this, Observer { changeVPNStatus() })
+        mViewModel.changeVPNStatusEvent.observe(this, { changeVPNStatus() })
 
-        mViewModel.getPoolSuccessEvent.observe(this, Observer {
+        mViewModel.getPoolSuccessEvent.observe(this, {
             use_flow_tv.text = Utils.convertBandWidth(SysConf.PacketsBalance)
             uncleared_tv.text = Utils.convertBandWidth(SysConf.PacketsCredit)
         })
 
-        mViewModel.openWalletSuccessEvent.observe(this, Observer {
+        mViewModel.openWalletSuccessEvent.observe(this, {
             showDialog(R.string.home_connect)
             mHopIntent = Intent(mActivity, HopService::class.java)
             mActivity.startService(mHopIntent)
         })
 
-        mViewModel.exitApp.observe(this, Observer { msgId ->
+        mViewModel.exitApp.observe(this, { msgId ->
             Utils.showExitAppDialog(mActivity, msgId)
         })
 
-        mViewModel.showSwitchNetEvent.observe(this, Observer { msgId ->
+        mViewModel.showSwitchNetEvent.observe(this, { msgId ->
             showSwitchNetEvent()
         })
     }

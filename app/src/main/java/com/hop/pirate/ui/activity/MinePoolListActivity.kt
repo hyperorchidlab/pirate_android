@@ -26,7 +26,7 @@ class MinePoolListActivity : BaseActivity<MinePoolVM, ActivityMinePoolBinding>()
     }
 
     override fun initData() {
-        mViewModel.getMinePool()
+        mViewModel.getMinePool(false)
     }
 
     override fun initObserve() {

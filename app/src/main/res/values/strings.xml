@@ -31,6 +31,7 @@
     <string name="packets_insufficient_need_recharge">Insufficient flow, need to recharge</string>
     <string name="rationale_extra_write">Need to apply for read and write memory permissions</string>
     <string name="blockchain_time_out">Block synchronization timed out,\n Please confirm that the last block is successfully packaged and operate again</string>
+    <string name="apply_free_coin_blockchain_time_out">Block synchronization timed out,\nCheck if the block synchronization is successful</string>
 
     <!--    create account-->
     <string name="create_account_or">or</string>
@@ -112,7 +113,7 @@
     <string name="transaction_error">error</string>
     <string name="transaction_pending">Pending</string>
     <string name="transaction_completed">Completed</string>
-
+    <string name="pull_down_refresh">Pull down to refresh the package status</string>
 
     <!--    recharge-->
     <string name="recharge_recharge">Buy</string>

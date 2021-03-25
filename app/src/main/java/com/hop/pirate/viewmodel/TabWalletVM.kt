@@ -13,6 +13,7 @@ import com.hop.pirate.service.WalletWrapper
 import com.hop.pirate.ui.activity.GuideActivity
 import com.hop.pirate.ui.activity.TransactionActivity
 import com.hop.pirate.ui.fragement.TabWalletFragment
+import com.kongzue.dialog.v3.MessageDialog
 import com.nbs.android.lib.base.BaseViewModel
 import com.nbs.android.lib.command.BindingAction
 import com.nbs.android.lib.command.BindingCommand
@@ -21,6 +22,7 @@ import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
+import java.util.concurrent.TimeoutException
 
 /**
  *Author:Mr'x
@@ -38,6 +40,7 @@ class TabWalletVM : BaseViewModel() {
     val clearDBEvent = SingleLiveEvent<Boolean>()
     val dnsEvent = SingleLiveEvent<Boolean>()
     val createAccountEvent = SingleLiveEvent<Boolean>()
+    val applyTimeoutEvent = SingleLiveEvent<Boolean>()
 
     override fun clickRightIv() {
         EventBus.getDefault().post(EventReLoadWallet(true))
@@ -205,7 +208,12 @@ class TabWalletVM : BaseViewModel() {
 
             override fun onError(e: Throwable) {
                 dismissDialog()
-                showErrorToast(R.string.wallet_apply_fail, e)
+                if(e is TimeoutException){
+                    applyTimeoutEvent.call()
+                }else{
+                    showErrorToast(R.string.wallet_apply_fail, e)
+                }
+
             }
 
         })

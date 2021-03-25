@@ -29,13 +29,13 @@ class OwnPoolVM : BaseViewModel() {
 
     val refreshCommand = BindingCommand<Any>(object : BindingAction {
         override fun call() {
-            getOwnPool()
+            getOwnPool(true)
 
         }
     })
 
-    fun getOwnPool() {
-        model.getPoolDataOfUser().subscribe(object : SingleObserver<ArrayList<OwnPool>> {
+    fun getOwnPool(refresh: Boolean) {
+        model.getPoolDataOfUser(refresh).subscribe(object : SingleObserver<ArrayList<OwnPool>> {
             override fun onSuccess(ownPools: ArrayList<OwnPool>?) {
                 requestSuccess(ownPools)
             }

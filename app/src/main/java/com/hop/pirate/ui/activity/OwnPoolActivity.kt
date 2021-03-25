@@ -28,7 +28,7 @@ class OwnPoolActivity : BaseActivity<OwnPoolVM, ActivityOwnPoolBinding>() {
 
     override fun initData() {
         swipeRefreshLayout.isRefreshing = true
-        mViewModel.getOwnPool()
+        mViewModel.getOwnPool(false)
     }
 
     override fun initObserve() {
@@ -42,7 +42,7 @@ class OwnPoolActivity : BaseActivity<OwnPoolVM, ActivityOwnPoolBinding>() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Constants.REQUEST_BUY_PACKET && resultCode == Activity.RESULT_OK) {
-            mViewModel.getOwnPool()
+            mViewModel.getOwnPool(true)
         }
     }
 }
