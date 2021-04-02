@@ -2,6 +2,7 @@ package com.hop.pirate.model
 
 import androidLib.AndroidLib
 import com.hop.pirate.model.bean.MinePoolBean
+import com.hop.pirate.model.bean.PoolStat
 import com.hop.pirate.util.CommonSchedulers
 import com.nbs.android.lib.base.BaseModel
 import io.reactivex.rxjava3.core.Single
@@ -33,8 +34,17 @@ class TabPacketsMarketModel : BaseModel() {
                 bean.email = p.optString("Email")
                 bean.mortgageNumber = p.optDouble("GTN")
                 bean.websiteAddress = p.optString("Url")
+                val poolStat = p.optJSONObject("pool_stat")
+                if(poolStat != null){
+                    bean.pool_stat=PoolStat()
+                    bean.pool_stat!!.total_used_g_bytes = poolStat.optDouble("total_used_g_bytes")
+                    bean.pool_stat!!.total_charged_user_cnt = poolStat.optInt("total_charged_user_cnt")
+                    bean.pool_stat!!.last_day_used_m_bytes = poolStat.optDouble("last_day_used_m_bytes")
+                    bean.pool_stat!!.last_month_used_g_bytes = poolStat.optDouble("last_month_used_g_bytes")
+                }
                 minePoolBeans.add(bean)
             }
+            minePoolBeans.sortByDescending { it.pool_stat?.total_used_g_bytes }
             emitter.onSuccess(minePoolBeans)
         }).compose(CommonSchedulers.io2mainAndTimeout<List<MinePoolBean>>())
 

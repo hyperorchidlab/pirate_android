@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Pirate</string>
+
     <string name="sure">OK</string>
     <string name="hop">HOP</string>
     <string name="tips">Tips</string>
@@ -146,8 +147,11 @@
     <string name="splash_blockchain_sync_error">Block synchronization is abnormal, please exit and reopen the app</string>
 
     <!--    market-->
-    <string name="market_gtn">GTN：</string>
-    <string name="market_email">Email：</string>
+    <string name="bytes_g">G</string>
+    <string name="total_bytes_g">Used:</string>
+    <string name="total_recharge">Total recharge times :</string>
+    <string name="last_month_used_bytes">last month used bytes：</string>
+    <string name="last_day_used_bytes">last day used bytes：</string>
     <string name="market_my_pool">My pool</string>
     <string name="market_websiteAddress">URL：</string>
 

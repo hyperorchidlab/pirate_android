@@ -75,8 +75,11 @@
     <string name="home_switch_mainnet_message">退出app,切换为正式网，切换正式网之后将无法再次切换为测试网。</string>
 
     <!--   流量市场 -->
-    <string name="market_gtn">GTN：</string>
-    <string name="market_email">Email：</string>
+    <string name="bytes_g">G</string>
+    <string name="total_bytes_g">总使用流量:</string>
+    <string name="total_recharge">总充值次数:</string>
+    <string name="last_month_used_bytes">上个月使用流量：</string>
+    <string name="last_day_used_bytes">昨天使用流量：</string>
     <string name="market_my_pool">我的矿池</string>
     <string name="market_websiteAddress">URL：</string>
 

@@ -44,6 +44,7 @@ import com.nbs.android.lib.utils.AppManager
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.File
 import java.net.NetworkInterface
+import java.text.DecimalFormat
 import java.util.*
 import java.util.regex.Pattern
 import kotlin.jvm.Throws
@@ -343,6 +344,10 @@ object Utils {
             AppManager.killAppProcess(activity)
             return@setOnOkButtonClickListener false
         }
+    }
+
+    fun format(number:Double):String{
+        return DecimalFormat("0.00").format(number)
     }
 
 
