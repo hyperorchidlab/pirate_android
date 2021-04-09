@@ -22,7 +22,7 @@ object Constants {
     const val TIME_OUT = 40L
     const val APP_DOWNLOAD_URL = "https://tsfr.io/6yyarz"
     const val APP_HELP_URL = "https://t.me/hopcommunity"
-    const val APP_COURSE_URL = "https://docs.hyperorchid.org/"
+    const val APP_COURSE_URL = "https://docs.hopchain.org/"
 
     const val TRANSACTION_APPLY_FREE_HOP = 0
     const val TRANSACTION_APPLY_FREE_ETH = 1
