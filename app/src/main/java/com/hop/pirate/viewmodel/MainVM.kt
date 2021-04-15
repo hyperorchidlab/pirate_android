@@ -37,6 +37,9 @@ class MainVM : BaseViewModel() {
             }
 
             override fun onError(e: Throwable) {
+                if (isShowLoading) {
+                    dismissDialog()
+                }
                 walletInfoFailure(e)
             }
         })

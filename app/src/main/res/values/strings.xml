@@ -152,7 +152,7 @@
     <string name="total_recharge">Total recharge times :</string>
     <string name="last_month_used_bytes">last month used bytes：</string>
     <string name="last_day_used_bytes">last day used bytes：</string>
-    <string name="market_my_pool">My pool</string>
+    <string name="market_my_pool">My pools</string>
     <string name="market_websiteAddress">URL：</string>
 
     <!--    mine machine-->

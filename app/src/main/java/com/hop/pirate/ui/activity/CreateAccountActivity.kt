@@ -33,6 +33,7 @@ import pub.devrel.easypermissions.EasyPermissions.RationaleCallbacks
 class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccountBinding>(), PermissionCallbacks, RationaleCallbacks {
     private val CLICK_SCAN = 0
     private val CLICK_ALBUM = 1
+    private val CLICK_PRIVATE_KEY = 2
     private val IMTOKEN_ADDRESS_LENGTH = 66
     override fun getLayoutId(): Int = R.layout.activity_create_account
 
@@ -59,16 +60,18 @@ class CreateAccountActivity : BaseActivity<CreateAccountVM, ActivityCreateAccoun
 
 
     private fun showImportDialog() {
-        val listItems = arrayOf(getString(R.string.create_account_scanning_qr_code), getString(R.string.create_account_read_album), getString(R.string.create_account_import_private_key), )
-        BottomMenu.show(this, listItems) { _, index ->
+        val listItems = arrayOf(getString(R.string.create_account_scanning_qr_code), getString(R.string.create_account_read_album), getString(R.string.create_account_import_private_key),getString(R.string.cancel))
+        BottomMenu.show(this,getString(R.string.create_account_select_import_mode), listItems) { _, index ->
             if (index == CLICK_SCAN) {
                 requestCameraPermission()
             } else if (index == CLICK_ALBUM) {
                 requestLocalMemoryPermission()
-            } else {
+            } else  if (index == CLICK_PRIVATE_KEY) {
                 showImportImtokenPrivateKeyDialog()
+            }else{
+                dismissDialog()
             }
-        }.title = getString(R.string.create_account_select_import_mode)
+        }.setShowCancelButton(false)
     }
 
     private fun showImportImtokenPrivateKeyDialog() {
