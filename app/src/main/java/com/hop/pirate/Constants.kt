@@ -20,7 +20,7 @@ object Constants {
     const val MAIN_ETH_API_URL = "https://mainnet.infura.io/v3/d64d364124684359ace20feae1f9ac20"
     const val DNS = "167.179.75.39"
     const val TIME_OUT = 40L
-    const val APP_DOWNLOAD_URL = "https://tsfr.io/6yyarz"
+    const val APP_DOWNLOAD_URL = "http://d.firim.top/zy7s"
     const val APP_HELP_URL = "https://t.me/hopcommunity"
     const val APP_COURSE_URL = "https://docs.hopchain.org/"
 
